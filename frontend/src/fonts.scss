@@ -1,0 +1,21 @@
+@mixin create-font-face($postfixName, $fontWeight, $fontStyle) {
+  font-family: 'Roboto', monospace;
+  src: url('/assets/fonts/roboto/Roboto-#{$postfixName}.ttf') format('truetype');
+  font-weight: #{$fontWeight};
+  font-style: #{$fontStyle};
+}
+
+$fonts: (
+    //(Black, 900, normal),
+    //(BlackItalic, 900, italic),
+    //(Bold, 700, bold),
+    //(BoldItalic, 700, italic),
+    (Regular, 500, normal),
+    //(Thin, 100, normal),
+);
+
+@each $f in $fonts {
+  @font-face {
+    @include create-font-face(nth($f, 1), nth($f, 2), nth($f, 3))
+  }
+}
