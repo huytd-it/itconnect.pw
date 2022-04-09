@@ -7,7 +7,7 @@ apt install nginx -y
 
 # add simple page
 rm -rf /etc/nginx/conf.d
-cp /root/simple-conf.d /etc/nginx/conf.d
+cp -a /root/simple-conf.d /etc/nginx/conf.d
 mkdir /var/simple
 echo 'Update SSL' > /var/simple/index.html
 
@@ -24,7 +24,7 @@ cronJob = "0 5 * * 6 certbot renew --dry-run >> /root/certbot.log 2>&1" # auto 5
 
 # apply conf.d ssl
 rm -rf /etc/nginx/conf.d
-cp /root/conf.d /etc/nginx/conf.d
+cp -a /root/conf.d /etc/nginx/conf.d
 
 # start nginx no daemon
 service nginx stop

@@ -10,4 +10,4 @@ services:
     volumes:
       - "./config/simple-conf.d:/root/simple-conf.d"
       - "./config/conf.d:/root/conf.d"
-      - "../frontend/dist:/etc/frontend"
+      - "../frontend/dist/frontend:/etc/frontend"
