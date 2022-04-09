@@ -48,6 +48,6 @@ jobs:
 
       # deploy on self
       - name: Deploy
-        run: 
-          cd ${{ github.workspace }}/frontend
+        run: |
+          cd /root/itconnect.pw/frontend
           sh /root/itconnect.pw/frontend/run.sh
