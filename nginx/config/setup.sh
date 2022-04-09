@@ -13,9 +13,9 @@ echo 'Update SSL' > /var/simple/index.html
 
 # SSL with certbot
 apt install certbot python3-certbot-nginx -y
-certbot --nginx -d zayuh.me -d www.zayuh.me -d api.zayuh.me --agree-tos -m "nguyengiahuy16@gmail.com" -n
-mkdir -pv /etc/nginx/ssl/zayuh.me/
-openssl dhparam -out /etc/nginx/ssl/zayuh.me/dhparams.pem -dsaparam 4096
+certbot --nginx -d zayuh.online -d www.zayuh.online -d api.zayuh.online --agree-tos -m "nguyengiahuy16@gmail.com" -n
+mkdir -pv /etc/nginx/ssl/zayuh.online/
+openssl dhparam -out /etc/nginx/ssl/zayuh.online/dhparams.pem -dsaparam 4096
 
 # auto renew certbot
 apt install cron -y

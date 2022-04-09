@@ -10,6 +10,8 @@ services:
     volumes:
       - "./config/simple-conf.d:/root/simple-conf.d"
       - "./config/conf.d:/root/conf.d"
+      - "./certs/link:/etc/letsencrypt/live/"
+      - "./certs/real:/etc/letsencrypt/archive/"
 
 networks:
   default:
