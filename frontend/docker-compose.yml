@@ -1,0 +1,10 @@
+version: "3.7"
+services:
+  itconnect_frontend:
+    image: wawahuy/itconnect_frontend:latest
+    restart: always
+
+networks:
+  default:
+    external:
+      name: 'itconnect_nginx'

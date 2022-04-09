@@ -1,0 +1,19 @@
+version: "3.7"
+services:
+  itconnect_nginx:
+    image: itconnect/nginx
+    ports:
+      - "443:443"
+      - "80:80"
+    restart: always
+    build: .
+    volumes:
+      - "./config/simple-conf.d:/root/simple-conf.d"
+      - "./config/conf.d:/root/conf.d"
+      - "./certs/link:/etc/letsencrypt/live/"
+      - "./certs/real:/etc/letsencrypt/archive/"
+
+networks:
+  default:
+    external:
+      name: 'itconnect_nginx'
