@@ -28,7 +28,7 @@ jobs:
         id: docker_build
         with:
           context: ./frontend
-          file: ./Dockerfile
+          file: ./frontend/Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ secrets. DOCKERHUB_USERNAME }}/itconnect_frontend
