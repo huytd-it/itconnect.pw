@@ -6,11 +6,11 @@ on:
     paths:
       - 'frontend/**'
 
-  jobs:
-    docker:
-      runs-on: ubuntu-lasted
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v2
+jobs:
+  docker:
+    runs-on: ubuntu-lasted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
 
   
