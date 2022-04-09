@@ -26,7 +26,7 @@ jobs:
       - name: Cache Docker Image Layers
         uses: actions/cache@v2
         with:
-          path: /tmp/.buildx-cache
+          path: /tmp/.buildx-cache-be
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
@@ -40,13 +40,13 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ secrets. DOCKERHUB_USERNAME }}/itconnect_backend
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
+          cache-from: type=local,src=/tmp/.buildx-cache-be
+          cache-to: type=local,dest=/tmp/.buildx-cache-be-new
 
       - name: Move cache
         run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+          rm -rf /tmp/.buildx-cache-be
+          mv /tmp/.buildx-cache-be-new /tmp/.buildx-cache-be
 
       - name: Verify
         run: echo ${{ steps.docker_build.outputs.digest }}
