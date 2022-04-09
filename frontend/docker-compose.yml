@@ -2,6 +2,9 @@ version: "3.7"
 services:
   itconnect_frontend:
     image: wawahuy/itconnect_frontend:latest
-    ports:
-      - "3000:80"
     restart: always
+
+networks:
+  default:
+    external:
+      name: 'itconnect_nginx'
