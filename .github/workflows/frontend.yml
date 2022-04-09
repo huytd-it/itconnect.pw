@@ -34,4 +34,4 @@ jobs:
           tags: ${{ secrets. DOCKERHUB_USERNAME }}/itconnect_frontend
 
       - name: Verify
-          run: echo ${{ steps.docker_build.outputs.digest }}
+        run: echo ${{ steps.docker_build.outputs.digest }}
