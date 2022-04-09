@@ -1,0 +1,14 @@
+name: itconnect_frontend
+on:
+  push:
+    branches: [ main ],
+    paths: 'frontend/**'
+
+  jobs:
+    docker:
+      runs-on: ubuntu-lasted
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+          
+  
