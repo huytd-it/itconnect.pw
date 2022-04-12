@@ -13,11 +13,14 @@
   --primary: #3F51B5;
   --secondary: #986557;
   --text: #555555;
+  --background: #F3F2EF;
 }
 
 body {
   font-family: 'Roboto', monospace;
   color: var(--text);
+  padding: 0;
+  margin: 0;
 }
 
 mat-button {

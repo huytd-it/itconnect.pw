@@ -2,18 +2,26 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button'
 import {MatInputModule} from "@angular/material/input";
+import { LogoComponent } from './logo/logo.component';
+import {RouterModule} from "@angular/router";
+import {MatCardModule} from "@angular/material/card";
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    LogoComponent
+  ],
   imports: [
     CommonModule,
     MatButtonModule,
-    MatInputModule
+    MatInputModule,
+    RouterModule,
+    MatCardModule,
   ],
   exports: [
     MatButtonModule,
-    MatInputModule
+    MatInputModule,
+    LogoComponent,
   ]
 })
 export class ComponentsModule { }
