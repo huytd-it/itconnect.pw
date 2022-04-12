@@ -1,3 +1,5 @@
 module.exports = {
-  primaryColor: '#3F51B5'
+  primaryColor: 'var(--primary)',
+  secondaryColor: 'var(--secondary)',
+  textColor: 'var(--text)',
 }

@@ -11,7 +11,7 @@ $fonts: (
     //(Bold, 700, bold),
     //(BoldItalic, 700, italic),
     (Regular, 500, normal),
-    //(Thin, 100, normal),
+    (Thin, 100, normal),
 );
 
 @each $f in $fonts {

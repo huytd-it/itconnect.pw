@@ -1,0 +1,29 @@
+<section class="header">
+  <div class="tw-flex tw-justify-between tw-items-center tw-mt-4 tw-px-4 xl:tw-px-[200px] tw-mb-20">
+    <div class="logo">
+      <span class="tw-text-primaryColor tw-font-bold tw-text-2xl">IT</span>
+      <span class="tw-text-textColor tw-font-bold tw-text-2xl">Connect</span>
+      <span class="tw-text-textColor">.pw</span>
+    </div>
+    <div class="actions">
+      <button mat-button class="!tw-mr-1 !tw-text-textColor">Join now</button>
+      <button mat-stroked-button color="primary" class="!tw-rounded-2xl">Sign in</button>
+    </div>
+  </div>
+  <div class="tw-mt-4 tw-px-4 md:tw-flex md:tw-justify-between xl:tw-pl-[200px]">
+    <div class="tw-m-auto tw-w-full tw-text-center tw-max-w-[414px] md:tw-m-[unset] md:tw-max-w-[unset] md:tw-text-left md:tw-w-[unset] md:tw-pr-10">
+      <span class="tw-text-secondaryColor tw-text-3xl tw-font-thin md:tw-text-4xl lg:tw-text-5xl">
+        Social Network for IT
+      </span>
+      <mat-tab-group class="tw-mt-10 tw-w-full">
+        <mat-tab label="People">
+          <app-tab-find-people></app-tab-find-people>
+        </mat-tab>
+        <mat-tab label="Jobs">
+          <app-tab-find-job></app-tab-find-job>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+    <img class="tw-w-full tw-mt-10 md:tw-w-[55%] md:tw-mt-0" src="/assets/images/home.svg" alt="home page" />
+  </div>
+</section>
