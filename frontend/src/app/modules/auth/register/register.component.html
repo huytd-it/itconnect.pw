@@ -1,0 +1,50 @@
+<div class="tw-bg-backgroundColor tw-min-w-[100vw] tw-min-h-[100vh] tw-pt-10">
+  <div class="tw-text-center">
+    <app-logo></app-logo>
+    <h2 class="!tw-font-thin !tw-mt-12 !tw-mb-5">Stay updated on your professional world</h2>
+  </div>
+  <div class="tw-flex tw-justify-center">
+    <mat-card class="!tw-shadow-none tw-w-full md:tw-w-[500px]">
+      <mat-card-subtitle></mat-card-subtitle>
+      <mat-card-content>
+        <mat-form-field appearance="outline" class="tw-w-full">
+          <mat-label>Email or username</mat-label>
+          <input matInput type="text">
+        </mat-form-field>
+        <br />
+        <mat-form-field appearance="outline" class="tw-w-full">
+          <mat-label>Enter your password</mat-label>
+          <input matInput [type]="hidePwd ? 'password' : 'text'">
+          <button mat-icon-button matSuffix (click)="hidePwd = !hidePwd" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePwd">
+            <mat-icon>{{hidePwd ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="tw-w-full">
+          <mat-label>Enter your re-password</mat-label>
+          <input matInput [type]="hideRePwd ? 'password' : 'text'">
+          <button mat-icon-button matSuffix (click)="hideRePwd = !hideRePwd" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideRePwd">
+            <mat-icon>{{hideRePwd ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+        </mat-form-field>
+        <div class="tw-text-center">
+          <button mat-flat-button color="primary" class="!tw-rounded-2xl">Join Now</button>
+        </div>
+      </mat-card-content>
+      <div class="tw-flex tw-items-center">
+        <mat-divider inset></mat-divider>
+        <span class="tw-m-5">or</span>
+        <mat-divider inset></mat-divider>
+      </div>
+      <mat-card-actions>
+        <div class="tw-text-center">
+          Already on ITConnect?
+          <button mat-button color="primary" routerLink="/auth/login">Login</button>
+        </div>
+      </mat-card-actions>
+      <mat-card-footer>
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </mat-card-footer>
+    </mat-card>
+  </div>
+</div>
+
