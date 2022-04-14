@@ -36,8 +36,8 @@ jobs:
         uses: docker/build-push-action@v2
         id: docker_build
         with:
-          context: ./packages/frontend
-          file: ./packages/frontend/Dockerfile
+          context: ./packages/itconnect-frontend
+          file: ./packages/itconnect-frontend/Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ secrets. DOCKERHUB_USERNAME }}/itconnect_frontend
@@ -55,5 +55,5 @@ jobs:
       # deploy on self
       - name: Deploy
         run: |
-          cd /root/itconnect.pw/packages/frontend
-          sh /root/itconnect.pw/packages/frontend/run.sh
+          cd /root/itconnect.pw/packages/itconnect-frontend
+          sh /root/itconnect.pw/packages/itconnect-frontend/run.sh

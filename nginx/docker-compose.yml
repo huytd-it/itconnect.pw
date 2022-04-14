@@ -12,8 +12,13 @@ services:
       - "./config/conf.d:/root/conf.d"
       - "./certs/link:/etc/letsencrypt/live/"
       - "./certs/real:/etc/letsencrypt/archive/"
+      - "itconnect_fe_built:/var/frontend"
 
 networks:
   default:
     external:
       name: 'itconnect_nginx'
+
+volumes:
+  itconnect_fe_built:
+    external: true
