@@ -9,4 +9,4 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-CMD rm -rf /var/frontend ; cp /src/frontend/dist/frontend/** /var/frontend 
+CMD rm -rf /var/frontend ; cp -R /src/frontend/dist/frontend /var/frontend
