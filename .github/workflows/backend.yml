@@ -5,6 +5,7 @@ on:
       - main
     paths:
       - 'packages/itconnect-backend/**'
+      - '.github/workflows/backend.yml'
 
 jobs:
   docker:
@@ -35,8 +36,8 @@ jobs:
         uses: docker/build-push-action@v2
         id: docker_build
         with:
-          context: ./backend
-          file: ./backend/Dockerfile
+          context: ./packages/backend
+          file: ./packages/backend/Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ secrets. DOCKERHUB_USERNAME }}/itconnect_backend
@@ -54,5 +55,5 @@ jobs:
       # deploy on self
       - name: Deploy
         run: |
-          cd /root/itconnect.pw/backend
-          sh /root/itconnect.pw/backend/run.sh
+          cd /root/itconnect.pw/packages/backend
+          sh /root/itconnect.pw/packages/backend/run.sh

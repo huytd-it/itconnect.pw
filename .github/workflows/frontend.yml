@@ -5,6 +5,7 @@ on:
       - main
     paths:
       - 'packages/itconnect-frontend/**'
+      - '.github/workflows/frontend.yml'
 
 jobs:
   docker:
@@ -35,8 +36,8 @@ jobs:
         uses: docker/build-push-action@v2
         id: docker_build
         with:
-          context: ./frontend
-          file: ./frontend/Dockerfile
+          context: ./packages/frontend
+          file: ./packages/frontend/Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ secrets. DOCKERHUB_USERNAME }}/itconnect_frontend
@@ -54,5 +55,5 @@ jobs:
       # deploy on self
       - name: Deploy
         run: |
-          cd /root/itconnect.pw/frontend
-          sh /root/itconnect.pw/frontend/run.sh
+          cd /root/itconnect.pw/packages/frontend
+          sh /root/itconnect.pw/packages/frontend/run.sh
