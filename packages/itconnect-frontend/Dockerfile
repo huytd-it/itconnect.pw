@@ -1,5 +1,4 @@
-# FROM ubuntu:16.04 AS build
-FROM node:14.17.6 AS build
+FROM node:15.12.0-alpine3.13
 
 WORKDIR /src/frontend
 
@@ -9,4 +8,9 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-CMD rm -rf /var/frontend ; cp -R /src/frontend/dist/frontend /var/frontend
+# remove folder pj and copy dist
+RUN cp -r /src/frontend/dist/frontend /var/dist
+RUN rm -rf /src/frontend
+
+# clear volume & copy dist to volume
+CMD rm -rf /var/frontend/* ; cp -r /var/dist /var/frontend
