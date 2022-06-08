@@ -1,0 +1,27 @@
+.app-main-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+  width: 100%;
+  box-shadow: 0 0.5px 0.5px #ddd;
+}
+
+$icons: (
+  home: '/assets/images/icon-home',
+  friend: '/assets/images/icon-friend',
+  notify: '/assets/images/icon-notify',
+  message: '/assets/images/icon-message',
+);
+
+@each $name, $url in $icons {
+  .icon-#{$name} {
+    background-image: url($url + '.svg');
+  }
+
+  .is-active {
+    .icon-#{$name} {
+      background-image: url($url + '-active.svg');
+    }
+  }
+}
