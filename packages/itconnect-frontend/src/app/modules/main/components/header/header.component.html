@@ -1,0 +1,23 @@
+<div class="app-main-header tw-flex tw-items-center tw-px-4 tw-py-3 tw-bg-white tw-justify-between">
+  <div class="tw-flex tw-items-center">
+    <app-logo [onlyLogo]="true"></app-logo>
+    <div class="tw-ml-2">
+      <app-search></app-search>
+    </div>
+  </div>
+  <div class="tw-flex tw-justify-around tw-flex-1">
+    <a
+      *ngFor="let item of menu"
+      [routerLink]="item.link"
+      routerLinkActive="is-active"
+      class="tw-mr-7"
+    >
+      <i
+        [class]="'tw-w-[28px] tw-h-[28px] tw-bg-[length:28px_28px] tw-inline-block ' + item.class"
+      ></i>
+    </a>
+  </div>
+  <div>
+
+  </div>
+</div>
