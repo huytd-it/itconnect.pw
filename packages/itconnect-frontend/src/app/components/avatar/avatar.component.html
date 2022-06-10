@@ -1,0 +1,11 @@
+<div
+  class="tw-inline-block tw-rounded-full tw-flex tw-items-center tw-justify-center tw-overflow-hidden"
+  [style.width.px]="radius"
+  [style.height.px]="radius"
+  [style.background-color]="color && color.outputHSL"
+>
+  <span *ngIf="!hasShowImg" [style.color]="color && color.contrastRGB">{{prefixName}}</span>
+  <ng-container *ngIf="hasShowImg">
+    <img [src]="src" (error)="onImageError()" class="tw-w-full tw-h-full tw-rounded-full tw-object-cover" [alt]="name" />
+  </ng-container>
+</div>

@@ -1,6 +1,21 @@
 /* Init material theme */
 @use '@angular/material' as mat;
-@include mat.core();
+
+:root {
+  --primary: #3F51B5;
+  --secondary: #986557;
+  --text: #555555;
+  --background: #F3F2EF;
+  --anti-flash-white: #EEF3F8;
+  --button-hover: #efefed;
+}
+
+$my-custom-level: mat.define-typography-level(
+  $font-family: Roboto,
+  $font-weight: 400,
+  $font-size: 1rem,
+);
+@include mat.core($my-custom-level);
 
 /* You can add global styles to this file, and also import other style files */
 @tailwind base;
@@ -9,26 +24,75 @@
 @tailwind variants;
 @import "fonts";
 
-:root {
-  --primary: #3F51B5;
-  --secondary: #986557;
-  --text: #555555;
-  --background: #F3F2EF;
-  --anti-flash-white: #EEF3F8;
-}
-
+/**
+ * without material
+ */
 body {
   font-family: 'Roboto', monospace;
+  font-weight: 400;
+  font-size: 1rem;
   color: var(--text);
   padding: 0;
   margin: 0;
 }
 
-mat-button {
-
+.main-module {
+  background-color: var(--background);
 }
 
 
-.main-module {
-  background-color: var(--background);
+$icons: (
+  home: '/assets/images/icon-home',
+  friend: '/assets/images/icon-friend',
+  notify: '/assets/images/icon-notify',
+  message: '/assets/images/icon-message',
+  more: '/assets/images/icon-more',
+  new-message: '/assets/images/icon-new-message',
+  more-2: '/assets/images/icon-more-2',
+  search: '/assets/images/icon-search',
+  send: '/assets/images/icon-send'
+);
+
+.c-icon {
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  &.c-btn {
+    border-radius: 0.75rem;
+
+    &:hover {
+      background-color: var(--button-hover);
+    }
+  }
+}
+
+@each $name, $url in $icons {
+  .icon-#{$name} {
+    background-image: url($url + '.svg');
+  }
+
+  .is-active {
+    .icon-#{$name} {
+      background-image: url($url + '-active.svg');
+    }
+  }
+}
+
+
+.c-scrollbar {
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border: 2px solid rgba(0, 0, 0, 0);
+    background-clip: padding-box;
+    border-radius: 9999px;
+    background-color: #aaa;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #888;
+  }
 }

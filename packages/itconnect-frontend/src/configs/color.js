@@ -4,4 +4,5 @@ module.exports = {
   textColor: 'var(--text)',
   backgroundColor: 'var(--background)',
   antiFlashWhite: 'var(--anti-flash-white)',
+  buttonHover: 'var(--button-hover)',
 }

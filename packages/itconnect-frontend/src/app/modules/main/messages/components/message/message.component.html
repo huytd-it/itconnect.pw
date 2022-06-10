@@ -1,0 +1,30 @@
+<mat-drawer-container autosize class="tw-h-full">
+  <div class="tw-h-full tw-flex tw-flex-col">
+    <div class="tw-flex tw-justify-between tw-p-3 tw-border-b tw-h-[70px]">
+      <div class="tw-flex tw-items-center">
+        <app-avatar name="Nguyễn Gia Huy" [radius]="40"></app-avatar>
+        <div class="tw-flex-1 tw-flex tw-flex-col tw-justify-center tw-ml-4">
+          <span class="tw-mb-0.5 tw-font-medium tw-text-[14px]">Nguyễn Gia Huy</span>
+          <span class="tw-text-[12px]">Trực tuyến 1 phút trước</span>
+        </div>
+      </div>
+      <div>
+        <button
+          class="c-icon tw-w-[40px] tw-h-[40px] tw-bg-[length:20px_20px] c-btn icon-more-2"
+          [matTooltip]="'Thêm'"
+          (click)="drawer.toggle()"
+        ></button>
+      </div>
+    </div>
+
+    <div class="tw-flex-1 tw-p-3">
+      Content
+    </div>
+
+    <app-message-editor></app-message-editor>
+  </div>
+
+  <mat-drawer #drawer mode="side" position="end" class="tw-w-[300px]">
+    <app-room-detail></app-room-detail>
+  </mat-drawer>
+</mat-drawer-container>

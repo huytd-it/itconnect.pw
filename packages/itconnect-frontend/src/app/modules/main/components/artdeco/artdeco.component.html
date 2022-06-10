@@ -1,0 +1,28 @@
+<div class="tw-relative tw-inline-block">
+  <button class="tw-flex tw-items-center" (click)="isOpenDropdown = !isOpenDropdown">
+    <app-avatar [name]="'Huy'"></app-avatar>
+    <fa-icon [icon]="faCaretDown" class="tw-mx-2"></fa-icon>
+  </button>
+
+  <ng-container *ngIf="isOpenDropdown">
+    <!-- backdrop-->
+    <div class="tw-fixed tw-z-[999998] tw-top-0 tw-left-0 tw-w-full tw-h-full" (click)="isOpenDropdown = false"></div>
+
+    <!-- dropdown-->
+    <div
+      class="tw-absolute tw-z-[999999] tw-right-0 tw-mt-4 tw-rounded tw-shadow tw-bg-white tw-w-[260px]"
+    >
+      <a class="tw-flex tw-justify-start tw-items-center tw-p-3" routerLink="/me">
+        <app-avatar [name]="'Huy'" [radius]="45"></app-avatar>
+        <span class="tw-p-3">Nguyen Gia Huy</span>
+      </a>
+      <div class="tw-border-t tw-p-3">
+        <a routerLink="/logout">
+          Đăng xuất
+        </a>
+      </div>
+
+    </div>
+  </ng-container>
+
+</div>
