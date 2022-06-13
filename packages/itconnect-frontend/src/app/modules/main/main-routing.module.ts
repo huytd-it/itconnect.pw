@@ -11,7 +11,8 @@ const routes: Routes = [
       { path: 'messages', loadChildren: () => import('./messages/messages.module').then(m => m.MessagesModule) },
       { path: 'friends', loadChildren: () => import('./friends/friends.module').then(m => m.FriendsModule) },
       { path: 'notifications', loadChildren: () => import('./notifications/notifications.module').then(m => m.NotificationsModule) },
-      { path: '**', redirectTo: 'home' }
+      { path: 'complete-profile', loadChildren: () => import('./complete-profile/complete-profile.module').then(m => m.CompleteProfileModule) },
+      { path: '**', redirectTo: 'home' },
     ]
   },
 ];

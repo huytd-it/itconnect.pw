@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TabFindJobComponent } from './tab-find-job/tab-find-job.component';
 import { TabFindPeopleComponent } from './tab-find-people/tab-find-people.component';
-import {ComponentsModule} from "../../../components/components.module";
+import {CommonComponentsModule} from "../../../components/common-components.module";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 
@@ -18,7 +18,7 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
   ],
   imports: [
     CommonModule,
-    ComponentsModule,
+    CommonComponentsModule,
     MatAutocompleteModule
   ]
 })

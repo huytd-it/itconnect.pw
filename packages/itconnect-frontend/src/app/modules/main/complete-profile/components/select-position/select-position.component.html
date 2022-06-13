@@ -1,0 +1,17 @@
+<div class="tw-text-center tw-mt-[80px]">
+  <div class="tw-mb-8 tw-font-thin">
+    (<span class="tw-text-red-500">*</span>)
+    Vui lòng chọn 1 vị trí
+  </div>
+  <div class="tw-text-left tw-inline-block">
+    <div
+      *ngFor="let item of list"
+      class="tw-mb-4 tw-flex tw-items-center"
+      [matTooltip]="item.tooltip"
+      matTooltipPosition="right"
+    >
+      <mat-radio-button></mat-radio-button>
+      <span class="tw-font-medium">{{item.name}}</span>
+    </div>
+  </div>
+</div>

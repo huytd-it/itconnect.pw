@@ -8,12 +8,14 @@ import {MatCardModule} from "@angular/material/card";
 import { AvatarComponent } from './avatar/avatar.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {MainContentComponent} from "./main-content/main-content.component";
+import { LineTextComponent } from './line-text/line-text.component';
 
 @NgModule({
   declarations: [
     LogoComponent,
     AvatarComponent,
-    MainContentComponent
+    MainContentComponent,
+    LineTextComponent
   ],
   imports: [
     CommonModule,
@@ -29,7 +31,8 @@ import {MainContentComponent} from "./main-content/main-content.component";
     LogoComponent,
     AvatarComponent,
     FontAwesomeModule,
-    MainContentComponent
+    MainContentComponent,
+    LineTextComponent
   ]
 })
-export class ComponentsModule { }
+export class CommonComponentsModule { }

@@ -1,0 +1,23 @@
+<app-main-content>
+  <div class="tw-bg-white">
+    <h2 class="tw-text-center tw-pt-[30px] tw-px-3 tw-text-primaryColor">
+      Bắt Đầu
+    </h2>
+    <mat-stepper [linear]="true" #stepper>
+      <mat-step label="Hồ sơ" completed="false">
+        <div class="tw-h-[80px]"></div>
+        <app-profile-staff></app-profile-staff>
+      </mat-step>
+      <mat-step label="Chọn danh mục" completed="false">
+        <app-select-position></app-select-position>
+      </mat-step>
+      <mat-step label="Hoàn thành" completed="false">
+        <app-preview></app-preview>
+      </mat-step>
+    </mat-stepper>
+    <div class="tw-mt-6 tw-flex tw-justify-center tw-pb-6">
+      <button mat-stroked-button class="!tw-mr-2">Back</button>
+      <button mat-stroked-button color="primary">Tiếp tục</button>
+    </div>
+  </div>
+</app-main-content>

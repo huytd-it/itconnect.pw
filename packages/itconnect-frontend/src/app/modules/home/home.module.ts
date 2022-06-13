@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
-import { ComponentsModule } from "../../components/components.module";
+import { CommonComponentsModule } from "../../components/common-components.module";
 import {MatTabsModule} from "@angular/material/tabs";
 import {HomeComponentsModule} from "./components/components.module";
 
@@ -14,7 +14,7 @@ import {HomeComponentsModule} from "./components/components.module";
   ],
   imports: [
     CommonModule,
-    ComponentsModule,
+    CommonComponentsModule,
     HomeRoutingModule,
     MatTabsModule,
     HomeComponentsModule
