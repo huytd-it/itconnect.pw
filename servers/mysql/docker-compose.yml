@@ -1,0 +1,25 @@
+version: "3.7"
+services:
+  itconnect_db_mysql:
+    image: mysql:8.0.29
+    # command: mysql -u root -Bse "GRANT ALL ON *.* TO 'root'@'%';"
+    ports:
+      - "127.0.0.1:3306:3306"
+    expose:
+      - "3306"
+    restart: always
+    volumes:
+      - "itconnect_mysql_data:/var/lib/mysql"
+      - "./my.cnf:/etc/mysql/my.cnf"
+    environment:
+      - MYSQL_DATABASE=itconnect
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+
+networks:
+  default:
+    external:
+      name: 'itconnect_nginx'
+
+volumes:
+  itconnect_mysql_data:
+    external: true
