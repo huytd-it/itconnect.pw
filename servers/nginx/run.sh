@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ../scripts/docker_first.sh
+source ../../scripts/docker_first.sh
 
 docker rmi $(docker images -f "dangling=true" -q)
 docker-compose stop
