@@ -2,10 +2,15 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import {ConfigService} from "@nestjs/config";
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
+import {Logger} from "@nestjs/common";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  /**
+   * Config CORS
+   *
+   */
   const whitelist = [
     'https://itconnect.pw',
     'https://api.itconnect.pw',
@@ -25,6 +30,10 @@ async function bootstrap() {
     credentials: true,
   });
 
+  /**
+   * Config swagger
+   *
+   */
   const config = new DocumentBuilder()
       .setTitle('ITConnect')
       .setDescription('ITConnect description')
@@ -35,7 +44,13 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
+  /**
+   * Listen
+   *
+   */
   const configService = app.get(ConfigService);
   await app.listen(configService.get<number>('APP_PORT'));
+  const logger = new Logger('app');
+  logger.log('Server stated!');
 }
 bootstrap();
