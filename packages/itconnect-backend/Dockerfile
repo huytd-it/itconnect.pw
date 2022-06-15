@@ -9,8 +9,7 @@ RUN npm install
 COPY . .
 
 RUN npm run build
-RUN npm run seq:prod db:migrate
 
 EXPOSE 80
 
-CMD "npm" "run" "start:prod"
+CMD "sh" "./start.sh"
