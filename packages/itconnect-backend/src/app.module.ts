@@ -2,19 +2,18 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import {ConfigModule, ConfigService} from '@nestjs/config'
-import {TypeOrmModule} from "@nestjs/typeorm";
-import {TypeOrmConfigService} from "./configs/typorm.config";
-import {reportTranspileErrors} from "ts-loader/dist/instances";
+import {DatabaseConfigService} from "./configs/database.config";
+import {SequelizeModule} from "@nestjs/sequelize";
 
 @Module({
   imports: [
       ConfigModule.forRoot({
           isGlobal: true
       }),
-      TypeOrmModule.forRootAsync({
+      SequelizeModule.forRootAsync({
           imports: [ConfigModule],
           inject: [ConfigService],
-          useClass: TypeOrmConfigService,
+          useClass: DatabaseConfigService,
       }),
   ],
   controllers: [AppController],
