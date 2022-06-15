@@ -19,8 +19,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "torm:dev": "env-cmd -f ./env/development.env typeorm-ts-node-commonjs migration:create a -d ./src/configs/ormconfig.ts",
-    "torm:prod": "env-cmd -f ./env/production.env typeorm-ts-node-commonjs"
+    "seq:dev": "env-cmd -f ./env/development.env sequelize-cli",
+    "seq:prod": "env-cmd -f ./env/production.env sequelize-cli"
   },
   "dependencies": {
     "@nestjs/common": "^8.4.7",
@@ -34,6 +34,7 @@
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
     "sequelize": "^6.20.1",
+    "sequelize-cli": "^6.4.1",
     "sequelize-typescript": "^2.1.3",
     "swagger-ui-express": "^4.4.0"
   },

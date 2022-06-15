@@ -12,4 +12,4 @@ RUN npm run build
 
 EXPOSE 80
 
-CMD "npm" "run" "start:prod"
+CMD "npm run seq:dev db:migrate && npm run start:prod"
