@@ -2,10 +2,11 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import {ConfigService} from "@nestjs/config";
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
-import {Logger} from "@nestjs/common";
+import {Logger, ValidationPipe} from "@nestjs/common";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.useGlobalPipes(new ValidationPipe())
 
   /**
    * Config CORS
@@ -40,6 +41,7 @@ async function bootstrap() {
       .setVersion('1.0')
       .addBearerAuth()
       .addTag('auth')
+      .addTag('profile')
       .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
@@ -48,9 +50,9 @@ async function bootstrap() {
    * Listen
    *
    */
+  const logger = new Logger('app');
   const configService = app.get(ConfigService);
   await app.listen(configService.get<number>('APP_PORT'));
-  const logger = new Logger('app');
   logger.log('Server stated!');
 }
 bootstrap();

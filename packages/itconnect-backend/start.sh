@@ -1,3 +1,3 @@
 #!/bin/bash
-npm run seq:prod db:migrate
+npm run typeorm:run:prod
 npm run start:prod
