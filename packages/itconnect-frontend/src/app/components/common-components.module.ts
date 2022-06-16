@@ -11,6 +11,7 @@ import {MainContentComponent} from "./main-content/main-content.component";
 import { LineTextComponent } from './line-text/line-text.component';
 import { FsLoadingComponent } from './fs-loading/fs-loading.component';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import { NotifyComponent } from './notify/notify.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
     AvatarComponent,
     MainContentComponent,
     LineTextComponent,
-    FsLoadingComponent
+    FsLoadingComponent,
+    NotifyComponent
   ],
   imports: [
     CommonModule,
@@ -37,7 +39,8 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
         FontAwesomeModule,
         MainContentComponent,
         LineTextComponent,
-        FsLoadingComponent
+        FsLoadingComponent,
+        NotifyComponent
     ]
 })
 export class CommonComponentsModule { }

@@ -1,5 +1,3 @@
-import {User} from "./user.model";
-
 export class AuthLoginOutput {
   email: string;
   password: string;
@@ -8,7 +6,6 @@ export class AuthLoginOutput {
 
 export class AuthLoginInput {
   token: string;
-  user: User;
 }
 
 
@@ -20,5 +17,4 @@ export class AuthRegisterOutput {
 
 export class AuthRegisterInput {
   token: string;
-  user: User;
 }

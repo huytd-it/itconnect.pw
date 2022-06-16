@@ -17,3 +17,10 @@ export class BaseTable {
   updatedAt: Date;
   deletedAt: Date;
 }
+
+
+export class NotifyItem {
+  type: 'success' | 'warning' | 'error';
+  title: string;
+  description: string;
+}

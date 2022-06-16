@@ -5,13 +5,14 @@ import {httpOptions} from "../utils/common";
 import {BehaviorSubject, map, Observable} from "rxjs";
 import {User} from "../models/user.model";
 import {ProfileService} from "./profile.service";
+import {ProfileDataBoostrap} from "../models/profile.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private userSubject: BehaviorSubject<User | undefined>;
-  readonly user$: Observable<User | undefined>;
+  private dataSubject: BehaviorSubject<ProfileDataBoostrap | undefined>;
+  readonly data$: Observable<ProfileDataBoostrap | undefined>;
 
   private readonly TOKEN_NAME = 'token';
 
@@ -23,8 +24,8 @@ export class AuthService {
     private httpClient: HttpClient,
     private profileService: ProfileService
   ) {
-    this.userSubject = new BehaviorSubject<User | undefined>(undefined);
-    this.user$ = this.userSubject.asObservable();
+    this.dataSubject = new BehaviorSubject<ProfileDataBoostrap | undefined>(undefined);
+    this.data$ = this.dataSubject.asObservable();
     setTimeout(() => {
       this.preLoadUser();
     })
@@ -50,20 +51,20 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem(this.TOKEN_NAME);
-    this.userSubject.next(undefined);
+    this.dataSubject.next(undefined);
   }
 
   private setUserLogin(user: AuthLoginInput) {
     localStorage.setItem(this.TOKEN_NAME, user.token);
-    this.userSubject.next(user.user);
+    this.preLoadUser();
   }
 
   private preLoadUser() {
     if (!this.token) {
       return;
     }
-    this.profileService.profile().subscribe((data) => {
-      this.userSubject.next(data);
+    this.profileService.dataBoostrap().subscribe((data) => {
+      this.dataSubject.next(data);
     })
   }
 }
