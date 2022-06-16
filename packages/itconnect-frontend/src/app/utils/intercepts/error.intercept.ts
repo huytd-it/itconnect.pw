@@ -5,7 +5,7 @@ import {Router} from "@angular/router";
 import {Injectable} from "@angular/core";
 
 @Injectable()
-export class Error401Intercept implements HttpInterceptor {
+export class ErrorIntercept implements HttpInterceptor {
   constructor(
     private authService: AuthService,
     private router: Router
@@ -13,7 +13,6 @@ export class Error401Intercept implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log('error 401 intercept!');
     return next.handle(req).pipe(catchError(err => {
       if(err.status === 401) {
         this.authService.logout();

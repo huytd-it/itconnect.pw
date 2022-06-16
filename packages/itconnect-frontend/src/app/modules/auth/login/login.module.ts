@@ -1,30 +1,30 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { RegisterRoutingModule } from './register-routing.module';
-import { RegisterComponent } from './register.component';
+import { LoginRoutingModule } from './login-routing.module';
+import { LoginComponent } from './login.component';
 import {CommonComponentsModule} from "../../../components/common-components.module";
 import {MatCardModule} from "@angular/material/card";
-import {MatIconModule} from "@angular/material/icon";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {MatIconModule} from "@angular/material/icon";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
   declarations: [
-    RegisterComponent,
+    LoginComponent
   ],
   imports: [
     CommonModule,
-    RegisterRoutingModule,
+    LoginRoutingModule,
     CommonComponentsModule,
     MatCardModule,
-    MatIconModule,
     MatDividerModule,
     MatProgressBarModule,
+    MatIconModule,
     FormsModule,
     ReactiveFormsModule
   ]
 })
-export class RegisterModule { }
+export class LoginModule { }

@@ -4,6 +4,9 @@ import { CommonModule } from '@angular/common';
 import { MainRoutingModule } from './main-routing.module';
 import { MainComponent } from './main.component';
 import {MainComponentsModule} from "./components/components.module";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {JwtIntercept} from "../../utils/intercepts/jwt.intercept";
+import {ErrorIntercept} from "../../utils/intercepts/error.intercept";
 
 
 @NgModule({
@@ -13,7 +16,9 @@ import {MainComponentsModule} from "./components/components.module";
   imports: [
     CommonModule,
     MainRoutingModule,
-    MainComponentsModule
+    MainComponentsModule,
+  ],
+  providers: [
   ]
 })
 export class MainModule { }
