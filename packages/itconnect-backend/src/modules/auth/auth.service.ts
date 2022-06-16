@@ -39,10 +39,8 @@ export class AuthService {
             throw new UnauthorizedException('Email or password not correct');
         }
 
-        const {password, ...userOutput} = user;
         return {
             token: this.signUser(user.id),
-            user: userOutput
         }
     }
 
@@ -61,10 +59,8 @@ export class AuthService {
             password: bcrypt.hashSync(dto.password, 12)
         });
         if (user) {
-            const {password, ...userOutput} = user;
             return {
                 token: this.signUser(user.id),
-                user: userOutput
             }
         }
 
