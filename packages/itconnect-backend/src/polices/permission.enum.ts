@@ -6,7 +6,9 @@ export enum AppRole {
 }
 
 export enum AppPermission {
-    COMPLETE_PROFILE
+    COMPLETE_PROFILE,
+
+    PROFILE_READ
 }
 
 export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
@@ -15,7 +17,8 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
      *
      */
     [AppRole.Begin]: [
-        AppPermission.COMPLETE_PROFILE
+        AppPermission.COMPLETE_PROFILE,
+        AppPermission.PROFILE_READ
     ],
 
     /**
