@@ -2,6 +2,7 @@ version: "3.7"
 services:
   itconnect_frontend:
     image: wawahuy/itconnect_frontend:latest
+    restart: on-failure
     volumes:
       - "itconnect_fe_built:/var/frontend"
 
