@@ -13,7 +13,7 @@ const routes: Routes = [
       { path: 'notifications', loadChildren: () => import('./notifications/notifications.module').then(m => m.NotificationsModule) },
       { path: 'complete-profile', loadChildren: () => import('./complete-profile/complete-profile.module').then(m => m.CompleteProfileModule) },
       { path: '**', redirectTo: 'home' },
-    ]
+    ],
   },
 ];
 

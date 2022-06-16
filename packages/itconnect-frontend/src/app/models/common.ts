@@ -11,3 +11,9 @@ export interface OptionItem<T = any> {
   name: string;
   data?: T;
 }
+
+export class BaseTable {
+  createdAt: Date;
+  updatedAt: Date;
+  deletedAt: Date;
+}

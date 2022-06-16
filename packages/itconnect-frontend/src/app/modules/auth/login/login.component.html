@@ -1,26 +1,47 @@
 <div class="tw-bg-backgroundColor tw-min-w-[100vw] tw-min-h-[100vh] tw-pt-10">
   <div class="tw-text-center">
     <app-logo></app-logo>
-    <h2 class="!tw-font-thin !tw-mt-12 !tw-mb-5">Stay updated on your professional world</h2>
+    <h2 class="!tw-font-thin !tw-mt-12 !tw-mb-5">Luôn cập nhật về thế giới nghệ nghiệp của bạn</h2>
   </div>
-  <div class="tw-flex tw-justify-center">
+  <form [formGroup]="form" class="tw-flex tw-justify-center">
     <mat-card class="!tw-shadow-none tw-w-full md:tw-w-[500px]">
       <mat-card-subtitle></mat-card-subtitle>
       <mat-card-content>
         <mat-form-field appearance="outline" class="tw-w-full">
-          <mat-label>Email or username</mat-label>
-          <input matInput type="text">
+          <mat-label>Nhập email</mat-label>
+          <input matInput type="email" [formControlName]="LoginField.email">
+          <mat-error *ngIf="isControlError(LoginField.email, 'required')">
+            Email bắt buộc
+          </mat-error>
+          <mat-error *ngIf="isControlError(LoginField.email, 'email')">
+            Email không hợp lệ
+          </mat-error>
         </mat-form-field>
         <br />
         <mat-form-field appearance="outline" class="tw-w-full">
-          <mat-label>Enter your password</mat-label>
-          <input matInput [type]="hide ? 'password' : 'text'">
-          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          <mat-label>Nhập mật khẩu</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'" [formControlName]="LoginField.password">
+          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
+          <mat-error *ngIf="isControlError(LoginField.password, 'required')">
+            Mật khẩu bắt buộc
+          </mat-error>
+          <mat-error *ngIf="isControlError(LoginField.password, 'minlength', 'maxlength')">
+            Mật khẩu phải có độ dài từ 6 đến 32 ký tự
+          </mat-error>
         </mat-form-field>
+        {{isControlError(LoginField.password, 'minLength', 'maxLength') && 'oke' || '-'}}
         <div class="tw-text-center">
-          <button mat-flat-button color="primary" class="!tw-rounded-2xl">Login</button>
+          <button
+            mat-flat-button
+            color="primary"
+            class="!tw-rounded-2xl"
+            [disabled]="submitting || form.invalid"
+            (click)="onSubmit()"
+          >
+            Đăng nhập
+          </button>
         </div>
       </mat-card-content>
       <div class="tw-flex tw-items-center">
@@ -35,9 +56,9 @@
         </div>
       </mat-card-actions>
       <mat-card-footer>
-        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        <mat-progress-bar mode="indeterminate" *ngIf="submitting"></mat-progress-bar>
       </mat-card-footer>
     </mat-card>
-  </div>
+  </form>
 </div>
 

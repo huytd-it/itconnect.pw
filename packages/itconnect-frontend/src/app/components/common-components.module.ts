@@ -9,13 +9,16 @@ import { AvatarComponent } from './avatar/avatar.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {MainContentComponent} from "./main-content/main-content.component";
 import { LineTextComponent } from './line-text/line-text.component';
+import { FsLoadingComponent } from './fs-loading/fs-loading.component';
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 @NgModule({
   declarations: [
     LogoComponent,
     AvatarComponent,
     MainContentComponent,
-    LineTextComponent
+    LineTextComponent,
+    FsLoadingComponent
   ],
   imports: [
     CommonModule,
@@ -23,16 +26,18 @@ import { LineTextComponent } from './line-text/line-text.component';
     MatInputModule,
     RouterModule,
     MatCardModule,
-    FontAwesomeModule
-  ],
-  exports: [
-    MatButtonModule,
-    MatInputModule,
-    LogoComponent,
-    AvatarComponent,
     FontAwesomeModule,
-    MainContentComponent,
-    LineTextComponent
-  ]
+    MatProgressBarModule
+  ],
+    exports: [
+        MatButtonModule,
+        MatInputModule,
+        LogoComponent,
+        AvatarComponent,
+        FontAwesomeModule,
+        MainContentComponent,
+        LineTextComponent,
+        FsLoadingComponent
+    ]
 })
 export class CommonComponentsModule { }
