@@ -25,6 +25,7 @@
     "syncdb": "npm run typeorm:gen:dev && npm run typeorm:run:dev"
   },
   "dependencies": {
+    "@casl/ability": "^5.4.4",
     "@nestjs/common": "^8.4.7",
     "@nestjs/config": "^2.1.0",
     "@nestjs/core": "^8.4.7",

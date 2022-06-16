@@ -4,9 +4,10 @@ import { AppService } from './app.service';
 import {ConfigModule, ConfigService} from '@nestjs/config'
 import {DatabaseConfigService} from "./configs/database.config";
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ServicesModule } from './services/services.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ProfileModule } from './modules/profile/profile.module';
+import { PolicesModule } from './polices/polices.module';
+import { PermissionModule } from './modules/permission/permission.module';
 
 @Module({
   imports: [
@@ -20,6 +21,8 @@ import { ProfileModule } from './modules/profile/profile.module';
       }),
       AuthModule,
       ProfileModule,
+      PolicesModule,
+      PermissionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
