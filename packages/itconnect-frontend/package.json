@@ -25,6 +25,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.15.4",
     "@fortawesome/free-regular-svg-icons": "^5.15.4",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
+    "@ng-select/ng-select": "^8.3.0",
     "lodash": "^4.17.21",
     "ngx-autosize": "^1.8.7",
     "rxjs": "~7.5.0",

@@ -3,15 +3,9 @@
     <mat-label>Số nhà, (Đường/Ấp)</mat-label>
     <input matInput placeholder="Ex. 123" value="">
   </mat-form-field>
-  <mat-form-field appearance="outline" class="tw-flex-1">
-    <mat-label>Phường/Xã</mat-label>
-    <input type="text" matInput [matAutocomplete]="auto" required>
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let option of test" [value]="option">
-        {{option}}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
+  <div class="tw-flex-1 tw-min-w-[200px]">
+    <app-easy-select [label]="'Phường/Xã'"></app-easy-select>
+  </div>
   <mat-form-field appearance="outline" class="tw-flex-1">
     <mat-label>Quận/Huyện</mat-label>
     <input type="text" matInput [matAutocomplete]="auto" required>

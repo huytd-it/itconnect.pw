@@ -45,7 +45,7 @@ export class PermissionGuard implements CanActivate {
             default:
               routeTo = 'home';
           }
-          this.router.navigate(['/main/' + routeTo]).then(() => {});
+          this.router.navigate(['/u/' + routeTo]).then(() => {});
         }
         obs.next(true);
       })

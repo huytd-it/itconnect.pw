@@ -10,37 +10,37 @@ export enum AppPermission {
   /**
    * Getting started
    */
-  COMPLETE_PROFILE,
+  COMPLETE_PROFILE = 'complete_profile',
 
   /**
    * Profile
    */
-  PROFILE,
-  PROFILE_READ,
+  PROFILE = 'profile',
+  PROFILE_READ = 'profile_read',
 
   /**
    * Post feed
    *
    */
-  POST_FEED,
+  POST_FEED = 'post_feed',
 
   /**
    * Friend
    *
    */
-  FRIEND,
+  FRIEND = 'friend',
 
   /**
    * Notifications
    *
    */
-  NOTIFICATION,
+  NOTIFICATION = 'notification',
 
   /**
    * Message
    *
    */
-  MESSAGE
+  MESSAGE = 'message'
 }
 
 

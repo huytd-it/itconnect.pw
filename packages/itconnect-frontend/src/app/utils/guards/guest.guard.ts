@@ -21,7 +21,7 @@ export class GuestGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const token = this.authService.token;
     if (!!token) {
-      this.router.navigate(['/main']).then(r => {});
+      this.router.navigate(['/u']).then(r => {});
       return false;
     }
     return true;

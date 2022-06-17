@@ -25,6 +25,35 @@ $my-custom-level: mat.define-typography-level(
 @import "fonts";
 
 /**
+ * ng-select
+ */
+@import "~@ng-select/ng-select/themes/material.theme.css";
+
+ng-select {
+  margin-top: -4px;
+
+  &:not(.ng-select-opened) {
+    .ng-select-container:not(.ng-has-value) {
+      .ng-placeholder {
+        margin-top: 6px;
+      }
+    }
+    .ng-arrow-wrapper {
+      margin-top: 6px;
+    }
+  }
+
+  .ng-value {
+    margin-top: 6px;
+  }
+
+  .ng-input {
+    padding-left: 16px;
+    top: 24px
+  }
+}
+
+/**
  * without material
  */
 body {

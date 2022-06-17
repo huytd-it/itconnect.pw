@@ -13,6 +13,9 @@ import { FsLoadingComponent } from './fs-loading/fs-loading.component';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import { NotifyComponent } from './notify/notify.component';
 import {UtilsModule} from "../utils/utils.module";
+import { EasySelectComponent } from './easy-select/easy-select.component';
+import {NgSelectModule} from "@ng-select/ng-select";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -21,7 +24,8 @@ import {UtilsModule} from "../utils/utils.module";
     MainContentComponent,
     LineTextComponent,
     FsLoadingComponent,
-    NotifyComponent
+    NotifyComponent,
+    EasySelectComponent,
   ],
   imports: [
     CommonModule,
@@ -32,6 +36,9 @@ import {UtilsModule} from "../utils/utils.module";
     MatCardModule,
     FontAwesomeModule,
     MatProgressBarModule,
+    NgSelectModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     MatButtonModule,
@@ -43,7 +50,8 @@ import {UtilsModule} from "../utils/utils.module";
     LineTextComponent,
     FsLoadingComponent,
     NotifyComponent,
-    UtilsModule
+    UtilsModule,
+    EasySelectComponent,
   ]
 })
 export class CommonComponentsModule { }

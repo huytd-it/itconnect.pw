@@ -1,0 +1,10 @@
+<ng-select
+  appearance="outline"
+  [items]="cities"
+  bindLabel="name"
+  addTagText="Create New"
+  [addTag]="CreateNew"
+  [placeholder]="label"
+  [multiple]="multiple"
+  [(ngModel)]="selectedCity" required="true" #model="ngModel"
+></ng-select>

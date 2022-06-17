@@ -27,3 +27,24 @@ export class NotifyItem {
   title: string;
   description: string;
 }
+
+
+export class PageInput<T> {
+  data: T[];
+  meta: {
+    page: number,
+    take: number,
+    itemCount: number,
+    pageCount: number
+    hasPreviousPage: boolean,
+    hasNextPage: boolean
+  }
+}
+
+
+export class PageOutput {
+  page: number;
+  take: number;
+  order: 'asc' | 'desc';
+  order_field: string;
+}
