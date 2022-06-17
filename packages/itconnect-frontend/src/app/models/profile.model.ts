@@ -1,7 +1,8 @@
 import {User} from "./user.model";
+import {AppPermission} from "./permission.model";
 
 
 export class ProfileDataBoostrap {
-  permission: number[];
+  permissions: AppPermission[];
   user: User;
 }

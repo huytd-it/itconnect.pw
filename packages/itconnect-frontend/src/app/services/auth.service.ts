@@ -6,6 +6,8 @@ import {BehaviorSubject, map, Observable} from "rxjs";
 import {User} from "../models/user.model";
 import {ProfileService} from "./profile.service";
 import {ProfileDataBoostrap} from "../models/profile.model";
+import {AppPermission, AppPermissionHashMap, AppRole} from "../models/permission.model";
+import {PermissionService} from "./permission.service";
 
 @Injectable({
   providedIn: 'root'
@@ -20,9 +22,14 @@ export class AuthService {
     return localStorage.getItem(this.TOKEN_NAME);
   }
 
+  get data() {
+    return this.dataSubject.value;
+  }
+
   constructor(
     private httpClient: HttpClient,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private permissionService: PermissionService
   ) {
     this.dataSubject = new BehaviorSubject<ProfileDataBoostrap | undefined>(undefined);
     this.data$ = this.dataSubject.asObservable();
@@ -54,6 +61,10 @@ export class AuthService {
     this.dataSubject.next(undefined);
   }
 
+  isRole(role: AppRole) {
+    return this.data?.user.role === role;
+  }
+
   private setUserLogin(user: AuthLoginInput) {
     localStorage.setItem(this.TOKEN_NAME, user.token);
     this.preLoadUser();
@@ -64,6 +75,7 @@ export class AuthService {
       return;
     }
     this.profileService.dataBoostrap().subscribe((data) => {
+      this.permissionService.createPermissionHashMap(data.permissions);
       this.dataSubject.next(data);
     })
   }

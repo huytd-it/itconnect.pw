@@ -1,5 +1,7 @@
 import {AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import {MenuItem} from "../../../../models/common";
+import {PermissionService} from "../../../../services/permission.service";
+import {AppPermission} from "../../../../models/permission.model";
 
 @Component({
   selector: 'app-header',
@@ -13,7 +15,9 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   isDropdownMoreMenu: boolean;
   hasMoreMenu: boolean;
 
-  constructor() { }
+  constructor(
+    public permission: PermissionService
+  ) { }
 
   ngOnInit(): void {
     this.menu = this.getMenu();
@@ -30,22 +34,26 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       {
         name: "Trang chủ",
         class: 'icon-home',
-        link: 'home'
+        link: 'home',
+        permission: AppPermission.POST_FEED
       },
       {
         name: "Bạn bè",
         class: 'icon-friend',
-        link: 'friends'
+        link: 'friends',
+        permission: AppPermission.FRIEND
       },
       {
         name: "Thông báo",
         class: 'icon-notify',
-        link: 'notifications'
+        link: 'notifications',
+        permission: AppPermission.NOTIFICATION
       },
       {
         name: "Tin nhắn",
         class: 'icon-message',
-        link: 'messages'
+        link: 'messages',
+        permission: AppPermission.MESSAGE
       }
     ]
   }

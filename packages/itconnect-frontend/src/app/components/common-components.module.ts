@@ -12,6 +12,7 @@ import { LineTextComponent } from './line-text/line-text.component';
 import { FsLoadingComponent } from './fs-loading/fs-loading.component';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import { NotifyComponent } from './notify/notify.component';
+import {UtilsModule} from "../utils/utils.module";
 
 @NgModule({
   declarations: [
@@ -24,23 +25,25 @@ import { NotifyComponent } from './notify/notify.component';
   ],
   imports: [
     CommonModule,
+    UtilsModule,
     MatButtonModule,
     MatInputModule,
     RouterModule,
     MatCardModule,
     FontAwesomeModule,
-    MatProgressBarModule
+    MatProgressBarModule,
   ],
-    exports: [
-        MatButtonModule,
-        MatInputModule,
-        LogoComponent,
-        AvatarComponent,
-        FontAwesomeModule,
-        MainContentComponent,
-        LineTextComponent,
-        FsLoadingComponent,
-        NotifyComponent
-    ]
+  exports: [
+    MatButtonModule,
+    MatInputModule,
+    LogoComponent,
+    AvatarComponent,
+    FontAwesomeModule,
+    MainContentComponent,
+    LineTextComponent,
+    FsLoadingComponent,
+    NotifyComponent,
+    UtilsModule
+  ]
 })
 export class CommonComponentsModule { }

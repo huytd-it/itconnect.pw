@@ -1,7 +1,10 @@
+import {AppPermission} from "./permission.model";
+
 export interface MenuItem {
   name: string;
   class: string;
   link: string;
+  permission: AppPermission;
   visible?: boolean;
 }
 

@@ -1,4 +1,4 @@
-<div class="app-main-header tw-flex tw-items-center tw-px-4 tw-py-1 tw-bg-white tw-justify-between">
+<div class="app-main-header tw-flex tw-items-center tw-px-4 tw-py-1 tw-bg-white tw-justify-between tw-h-[55px]">
   <div class="tw-flex tw-items-center tw-mr-3 lg:tw-mr-7">
     <app-logo [onlyLogo]="!isFullLogo"></app-logo>
     <div class="tw-ml-4">
@@ -16,7 +16,7 @@
       [routerLink]="item.link"
       routerLinkActive="is-active"
       class="tw-mr-3 lg:tw-mr-[70px] tw-py-2 tw-px-4 hover:tw-bg-[#efeded] tw-rounded-xl"
-      [hidden]="item.visible"
+      [hidden]="item.visible || !(item.permission | permission)"
       [matTooltip]="item.name"
     >
       <i

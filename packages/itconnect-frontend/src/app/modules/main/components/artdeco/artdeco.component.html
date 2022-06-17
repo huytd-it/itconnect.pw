@@ -1,6 +1,6 @@
 <div class="tw-relative tw-inline-block">
   <button class="tw-flex tw-items-center" (click)="isOpenDropdown = !isOpenDropdown">
-    <app-avatar [name]="'Huy'"></app-avatar>
+    <app-avatar [name]="name"></app-avatar>
     <fa-icon [icon]="faCaretDown" class="tw-mx-2"></fa-icon>
   </button>
 
@@ -12,10 +12,14 @@
     <div
       class="tw-absolute tw-z-[999999] tw-right-0 tw-mt-4 tw-rounded tw-shadow tw-bg-white tw-w-[260px]"
     >
-      <a class="tw-flex tw-justify-start tw-items-center tw-p-3" routerLink="/me">
-        <app-avatar [name]="'Huy'" [radius]="45"></app-avatar>
-        <span class="tw-p-3">Nguyen Gia Huy</span>
-      </a>
+      <button
+        class="tw-flex tw-justify-start tw-items-center tw-p-3"
+        routerLink="/me"
+        [disabled]="!(permission.all.PROFILE | permission)"
+      >
+        <app-avatar [name]="name" [radius]="45"></app-avatar>
+        <span class="tw-p-3">{{name}}</span>
+      </button>
       <div class="tw-border-t tw-p-3">
         <button (click)="logout()">
           Đăng xuất

@@ -1,3 +1,6 @@
-<app-header></app-header>
-<div class="tw-mt-[58px]"></div>
-<router-outlet></router-outlet>
+<ng-container *ngIf="isLoaded">
+  <app-header></app-header>
+  <div class="tw-mt-[58px]"></div>
+  <router-outlet></router-outlet>
+</ng-container>
+

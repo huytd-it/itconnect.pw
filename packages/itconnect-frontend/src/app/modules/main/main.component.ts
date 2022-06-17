@@ -11,6 +11,7 @@ import * as _ from "lodash";
 })
 export class MainComponent implements OnInit, OnDestroy {
   userSubscription: Subscription;
+  isLoaded: boolean;
 
   constructor(
     private renderer: Renderer2,
@@ -19,11 +20,14 @@ export class MainComponent implements OnInit, OnDestroy {
   ) {
     this.renderer.addClass(document.body, 'main-module');
     this.appService.setFsLoading(true);
-    this.userSubscription = this.authService.data$.subscribe(_.debounce(user => {
+    this.userSubscription = this.authService.data$.subscribe((val) => {
       if (this.authService.token) {
-        this.appService.setFsLoading(!user);
+        this.isLoaded = !!val;
+        _.debounce(user => {
+          this.appService.setFsLoading(!user);
+        }, 1000)(val);
       }
-    }, 1000))
+    })
   }
 
   ngOnDestroy(): void {
