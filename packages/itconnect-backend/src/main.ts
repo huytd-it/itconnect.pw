@@ -43,9 +43,10 @@ async function bootstrap() {
       .addTag('auth')
       .addTag('profile')
       .addTag('permission')
+      .addTag('address')
       .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('documentation', app, document);
 
   /**
    * Listen

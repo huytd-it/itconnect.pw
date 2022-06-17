@@ -21,7 +21,7 @@ export class UserEntity {
     @Column()
     password: string;
 
-    @Column({ default: AppRole.Begin })
+    @Column({ default: AppRole.begin })
     @Index()
     role: AppRole;
 

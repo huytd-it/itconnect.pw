@@ -8,6 +8,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { ProfileModule } from './modules/profile/profile.module';
 import { PolicesModule } from './polices/polices.module';
 import { PermissionModule } from './modules/permission/permission.module';
+import { AddressModule } from './modules/address/address.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { PermissionModule } from './modules/permission/permission.module';
       ProfileModule,
       PolicesModule,
       PermissionModule,
+      AddressModule,
   ],
   controllers: [AppController],
   providers: [AppService],

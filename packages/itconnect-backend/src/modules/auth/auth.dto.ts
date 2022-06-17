@@ -29,9 +29,21 @@ export class LoginInputDTO {
 
     @ApiProperty({
         description: 'Password',
-        type: String
+        type: String,
+        minLength: 6,
+        maxLength: 32
     })
     @MinLength(6)
     @MaxLength(32)
     password: string;
+}
+
+export class LoginOutputDTO {
+    @ApiProperty()
+    token: string;
+}
+
+export class RegisterOutputDTO {
+    @ApiProperty()
+    token: string;
 }

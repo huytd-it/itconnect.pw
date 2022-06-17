@@ -1,14 +1,45 @@
 export enum AppRole {
-    Begin = 'begin',
-    User = 'user',
-    Company = 'company',
-    Moder = 'moder'
+    begin = 'begin',
+    user = 'user',
+    company = 'company',
+    moder = 'moder'
 }
 
 export enum AppPermission {
-    COMPLETE_PROFILE,
+    /**
+     * Getting started
+     */
+    COMPLETE_PROFILE = 'complete_profile',
 
-    PROFILE_READ
+    /**
+     * Profile
+     */
+    PROFILE = 'profile',
+    PROFILE_READ = 'profile_read',
+
+    /**
+     * Post feed
+     *
+     */
+    POST_FEED = 'post_feed',
+
+    /**
+     * Friend
+     *
+     */
+    FRIEND = 'friend',
+
+    /**
+     * Notifications
+     *
+     */
+    NOTIFICATION = 'notification',
+
+    /**
+     * Message
+     *
+     */
+    MESSAGE = 'message'
 }
 
 export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
@@ -16,30 +47,34 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
      * User not complete register
      *
      */
-    [AppRole.Begin]: [
-        AppPermission.COMPLETE_PROFILE,
-        AppPermission.PROFILE_READ
+    [AppRole.begin]: [
+        AppPermission.COMPLETE_PROFILE
     ],
 
     /**
      * User
      *
      */
-    [AppRole.User]: [
+    [AppRole.user]: [
+        AppPermission.POST_FEED,
+        AppPermission.FRIEND,
+        AppPermission.NOTIFICATION,
+        AppPermission.PROFILE,
+        AppPermission.MESSAGE
     ],
 
     /***
      * Company
      *
      */
-    [AppRole.Company]: [
+    [AppRole.company]: [
     ],
 
     /**
      * Moder
      *
      */
-    [AppRole.Moder]: [
+    [AppRole.moder]: [
     ]
 }
 

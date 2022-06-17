@@ -1,9 +1,6 @@
-import {Body, ConflictException, Controller, Post, Res} from '@nestjs/common';
-import {ApiTags} from "@nestjs/swagger";
-import { Response } from 'express';
-import {UserService} from "../../services/user.service";
-import {LoginInputDTO, RegisterInputDTO} from "./auth.dto";
-import {RuntimeException} from "@nestjs/core/errors/exceptions/runtime.exception";
+import {Body, Controller, Post, Res} from '@nestjs/common';
+import {ApiOkResponse, ApiResponse, ApiResponseProperty, ApiTags} from "@nestjs/swagger";
+import {LoginInputDTO, LoginOutputDTO, RegisterInputDTO, RegisterOutputDTO} from "./auth.dto";
 import {AuthService} from "./auth.service";
 
 @ApiTags('auth')
@@ -16,16 +13,18 @@ export class AuthController {
     }
 
     @Post('login')
+    @ApiOkResponse({ type: LoginOutputDTO })
     async login(
         @Body() dto: LoginInputDTO
-    ) {
+    ): Promise<LoginOutputDTO> {
         return this.authService.signIn(dto);
     }
 
     @Post('register')
+    @ApiOkResponse({ type: RegisterOutputDTO })
     async register(
         @Body() dto: RegisterInputDTO
-    ) {
+    ): Promise<RegisterOutputDTO> {
         return this.authService.register(dto);
     }
 }
