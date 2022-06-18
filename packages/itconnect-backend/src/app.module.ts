@@ -11,6 +11,7 @@ import { PermissionModule } from './modules/permission/permission.module';
 import { AddressModule } from './modules/address/address.module';
 import { SkillModule } from './modules/skill/skill.module';
 import { PositionModule } from './modules/position/position.module';
+import { WorkFromModule } from './modules/work-from/work-from.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { PositionModule } from './modules/position/position.module';
       AddressModule,
       SkillModule,
       PositionModule,
+      WorkFromModule,
   ],
   controllers: [AppController],
   providers: [AppService],

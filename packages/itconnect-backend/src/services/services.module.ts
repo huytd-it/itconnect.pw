@@ -12,6 +12,8 @@ import {UserPositionEntity} from "../entities/userPosition.entity";
 import { SkillService } from './skill.service';
 import { PositionService } from './position.service';
 import {CompanyInfoEntity} from "../entities/companyInfo.entity";
+import {WorkFromEntity} from "../entities/workFrom.entity";
+import {WorkFromService} from "./workFrom.service";
 
 @Module({
   imports: [
@@ -23,15 +25,17 @@ import {CompanyInfoEntity} from "../entities/companyInfo.entity";
         AddressEntity,
         PositionEntity,
         SkillEntity,
-        CompanyInfoEntity
+        CompanyInfoEntity,
+        WorkFromEntity
     ])
   ],
-  providers: [UserService, AddressService, SkillService, PositionService],
+  providers: [UserService, AddressService, SkillService, PositionService, WorkFromService],
   exports: [
       UserService,
       AddressService,
       SkillService,
-      PositionService
+      PositionService,
+      WorkFromService
   ]
 })
 export class ServicesModule {}

@@ -48,7 +48,17 @@ export enum AppPermission {
      *
      */
     JOB = 'job',
-    JOB_CREATE = 'job_create'
+    JOB_CREATE = 'job_create',
+
+
+    /**
+     * Common
+     *
+     */
+
+    ADDRESS_SEARCH = "address_search",
+    SKILL_SEARCH = "skill_search",
+    // add more
 }
 
 export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
@@ -82,6 +92,7 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.NOTIFICATION,
         AppPermission.PROFILE,
         AppPermission.MESSAGE,
+        AppPermission.JOB,
         AppPermission.JOB_CREATE
     ],
 
