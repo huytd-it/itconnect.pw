@@ -39,7 +39,16 @@ export enum AppPermission {
      * Message
      *
      */
-    MESSAGE = 'message'
+    MESSAGE = 'message',
+
+
+    /**
+     * Jobs
+     *
+     *
+     */
+    JOB = 'job',
+    JOB_CREATE = 'job_create'
 }
 
 export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
@@ -60,7 +69,8 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.FRIEND,
         AppPermission.NOTIFICATION,
         AppPermission.PROFILE,
-        AppPermission.MESSAGE
+        AppPermission.MESSAGE,
+        AppPermission.JOB
     ],
 
     /***
@@ -68,6 +78,11 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
      *
      */
     [AppRole.company]: [
+        AppPermission.POST_FEED,
+        AppPermission.NOTIFICATION,
+        AppPermission.PROFILE,
+        AppPermission.MESSAGE,
+        AppPermission.JOB_CREATE
     ],
 
     /**
@@ -77,8 +92,6 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
     [AppRole.moder]: [
     ]
 }
-
-export const appPermissionKey2Name = Object.values(AppPermission);
 
 export const appRolesConfigHashMap = (function () {
     const result = {...appRolesConfig};

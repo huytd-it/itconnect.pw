@@ -2,7 +2,7 @@ import {CanActivate, ExecutionContext, ForbiddenException, Injectable} from "@ne
 import {Observable} from "rxjs";
 import {PERMISSIONS_KEY, ROLES_KEY} from "./polices.decorator";
 import {Reflector} from "@nestjs/core";
-import {appPermissionKey2Name, appRolesConfig, appRolesConfigHashMap} from "./permission.enum";
+import {AppPermission, appRolesConfig, appRolesConfigHashMap} from "./permission.enum";
 
 @Injectable()
 export class PermissionsGuard implements CanActivate {
@@ -31,7 +31,7 @@ export class PermissionsGuard implements CanActivate {
             return permissionsHashMap[p];
         })
         if (!result) {
-            throw new ForbiddenException(`Require permission '${appPermissionKey2Name[permissionCheck]}'`);
+            throw new ForbiddenException(`Require permission '${AppPermission[permissionCheck]}'`);
         }
 
         return true;
