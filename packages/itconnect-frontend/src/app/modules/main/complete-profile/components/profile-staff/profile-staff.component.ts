@@ -16,33 +16,6 @@ export class ProfileStaffComponent implements OnInit {
   faInfoCircle = faInfoCircle;
   faConnectDevelop = faConnectdevelop;
 
-  configsField: ConfigFieldItem[] = [
-    {
-      id: 999,
-      name: 'Vị trí',
-      require: true
-    },
-    {
-      id: 1,
-      name: 'Framework/Language Program'
-    },
-    {
-      id: 2,
-      name: 'OS'
-    },
-    {
-      id: 3,
-      name: 'Công cụ'
-    },
-    {
-      id: 4,
-      name: 'Network'
-    },
-    {
-      id: 5,
-      name: 'Ngôn ngữ'
-    }
-  ]
 
   constructor() { }
 

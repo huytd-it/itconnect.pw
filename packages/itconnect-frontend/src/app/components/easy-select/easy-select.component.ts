@@ -1,10 +1,22 @@
-import {Component, forwardRef, Input, OnInit} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  forwardRef, HostListener,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import {OptionItem, PageOutput, SearchPageOutput} from "../../models/common";
 import {ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR} from "@angular/forms";
 import * as _ from "lodash";
 import {PageInput} from '../../models/common';
 import {finalize, Observable} from "rxjs";
 import {toNonAccentVietnamese} from "../../utils/common";
+import {NgSelectComponent} from "@ng-select/ng-select";
 
 @Component({
   selector: 'app-easy-select',
@@ -18,12 +30,17 @@ import {toNonAccentVietnamese} from "../../utils/common";
     }
   ]
 })
-export class EasySelectComponent implements OnInit, ControlValueAccessor {
+export class EasySelectComponent implements OnInit, ControlValueAccessor, OnChanges, AfterViewInit {
+  @ViewChild('ngSelect') ngSelect: NgSelectComponent;
   @Input() label: string;
   @Input() multiple: boolean
   @Input() required: boolean;
   @Input() fDisabled: boolean;
+  @Input() autoFocus: boolean;
+  @Input() addTagText: string = "Thêm mới"
   @Input() loadMoreFn: (query: SearchPageOutput) => Observable<PageInput<any>>;
+  @Output() addTag = new EventEmitter<string>();
+  @Output() onBlur = new EventEmitter();
 
   itemSelected: OptionItem | OptionItem[];
 
@@ -42,6 +59,21 @@ export class EasySelectComponent implements OnInit, ControlValueAccessor {
   ngOnInit(): void {
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    const { autoFocus } = changes;
+    if (autoFocus && autoFocus.currentValue &&  autoFocus.previousValue != autoFocus.currentValue) {
+      setTimeout(() => this.focusInput());
+    }
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.ngSelect.element.getElementsByTagName('input')[0].onblur = () => {
+        this.onBlur.emit();
+      }
+    })
+  }
+
   registerOnChange(fn: any): void {
     this.onNgModelItemChange = fn;
   }
@@ -51,6 +83,15 @@ export class EasySelectComponent implements OnInit, ControlValueAccessor {
 
   writeValue(obj: OptionItem | OptionItem[]): void {
     this.itemSelected = obj;
+  }
+
+  funcAddTag = () => {
+    if (!this.addTag) {
+      return false;
+    }
+    return (tag: string) => {
+      this.addTag.emit(tag);
+    }
   }
 
   onChange(data: OptionItem | OptionItem[]) {
@@ -83,7 +124,7 @@ export class EasySelectComponent implements OnInit, ControlValueAccessor {
 
   }
 
-  fetchMore() {
+  private fetchMore() {
     const query: SearchPageOutput = {
       page: 1,
       take: 10,
@@ -133,9 +174,14 @@ export class EasySelectComponent implements OnInit, ControlValueAccessor {
     this.resetLoad();
   }
 
-  resetLoad() {
+  private resetLoad() {
     this.searchText = '';
     this.pageData = undefined;
     this.fetchMore();
+  }
+
+  private focusInput() {
+    this.ngSelect.focus();
+    this.ngSelect.open();
   }
 }

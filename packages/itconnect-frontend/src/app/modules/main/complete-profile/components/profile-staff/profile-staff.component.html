@@ -25,19 +25,21 @@
         <fa-icon [icon]="faConnectDevelop"></fa-icon>
         <span class="tw-ml-2 tw-text-[10px]">Kỹ năng</span>
       </app-line-text>
-      <mat-form-field
-        appearance="outline"
-        class="tw-w-full"
-        *ngFor="let item of configsField"
-      >
-        <mat-label>{{item.name}}</mat-label>
-        <input type="text" matInput [matAutocomplete]="auto" [required]="!!item?.require">
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let option of [1,2,3,4,5]" [value]="option">
-            {{option}}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
+
+      <div class="tw-text-left">
+        <div class="">
+          Chọn một số vị trí bạn mong muốn (<span class="tw-text-red-500">*</span>):
+        </div>
+        <app-input-skill></app-input-skill>
+      </div>
+
+
+      <div class="tw-text-left tw-mt-4">
+        <div class="">
+          Chọn một số kỹ năng của bạn (<span class="tw-text-red-500">*</span>):
+        </div>
+        <app-input-skill></app-input-skill>
+      </div>
     </div>
   </form>
 </div>

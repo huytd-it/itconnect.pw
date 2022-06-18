@@ -14,6 +14,7 @@ import {MatIconModule} from "@angular/material/icon";
 import { AddLifeTimelineComponent } from './add-life-timeline/add-life-timeline.component';
 import { AddLifeTimelineModalComponent } from './add-life-timeline-modal/add-life-timeline-modal.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import { InputSkillComponent } from './input-skill/input-skill.component';
 
 
 
@@ -25,6 +26,7 @@ import {ReactiveFormsModule} from "@angular/forms";
     InputAddressComponent,
     AddLifeTimelineComponent,
     AddLifeTimelineModalComponent,
+    InputSkillComponent,
   ],
   imports: [
     CommonModule,
@@ -37,10 +39,11 @@ import {ReactiveFormsModule} from "@angular/forms";
     MatIconModule,
     ReactiveFormsModule,
   ],
-  exports: [
-    HeaderComponent,
-    SearchComponent,
-    InputAddressComponent,
-  ]
+    exports: [
+        HeaderComponent,
+        SearchComponent,
+        InputAddressComponent,
+        InputSkillComponent,
+    ]
 })
 export class MainComponentsModule { }
