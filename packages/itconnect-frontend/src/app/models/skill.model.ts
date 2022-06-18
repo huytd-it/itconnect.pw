@@ -1,22 +1,13 @@
 import {PageInput, PageOutput, SearchPageOutput} from "./common";
 
-
-export enum EAddressType {
-  province = 1,
-  district = 2,
-  village = 3
-}
-
-export class Address {
+export class Skill {
   id: number;
   name: string;
-  type: EAddressType;
-  parentId: number;
+
+  // add more
 }
 
-export class AddressSearchInput extends PageInput<Address> {}
+export class SkillSearchInput extends PageInput<Skill> {}
 
-export class AddressSearchOutput extends SearchPageOutput {
-  parentId?: number;
-  type?: EAddressType;
+export class SkillSearchOutput extends SearchPageOutput {
 }

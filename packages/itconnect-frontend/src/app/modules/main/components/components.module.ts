@@ -15,6 +15,7 @@ import { AddLifeTimelineComponent } from './add-life-timeline/add-life-timeline.
 import { AddLifeTimelineModalComponent } from './add-life-timeline-modal/add-life-timeline-modal.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import { InputSkillComponent } from './input-skill/input-skill.component';
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 
 
@@ -28,17 +29,18 @@ import { InputSkillComponent } from './input-skill/input-skill.component';
     AddLifeTimelineModalComponent,
     InputSkillComponent,
   ],
-  imports: [
-    CommonModule,
-    CommonComponentsModule,
-    RouterModule,
-    MatTooltipModule,
-    MatAutocompleteModule,
-    MatInputModule,
-    MatChipsModule,
-    MatIconModule,
-    ReactiveFormsModule,
-  ],
+    imports: [
+        CommonModule,
+        CommonComponentsModule,
+        RouterModule,
+        MatTooltipModule,
+        MatAutocompleteModule,
+        MatInputModule,
+        MatChipsModule,
+        MatIconModule,
+        ReactiveFormsModule,
+        MatProgressBarModule,
+    ],
     exports: [
         HeaderComponent,
         SearchComponent,

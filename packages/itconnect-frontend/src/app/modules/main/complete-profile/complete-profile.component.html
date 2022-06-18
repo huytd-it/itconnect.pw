@@ -1,23 +1,23 @@
 <app-main-content>
-  <div class="tw-bg-white">
-    <h2 class="tw-text-center tw-pt-[30px] tw-px-3 tw-text-primaryColor">
-      Bắt Đầu
-    </h2>
+  <div class="tw-bg-white xl:tw-mx-[100px] md:tw-p-[20px]">
+    <h1 class="tw-text-center tw-pt-[40px] tw-pb-[40px] tw-text-primaryColor tw-font-bold">
+        BẮT ĐẦU
+    </h1>
     <mat-stepper [linear]="true" #stepper>
-      <mat-step label="Hồ sơ" completed="false">
+      <mat-step label="Chọn danh mục" [completed]="stepCompleted > 0">
+        <app-select-position (onNextPosition)="onNextPosition($event)"></app-select-position>
+      </mat-step>
+      <mat-step label="Hồ sơ" [completed]="stepCompleted > 1">
         <div class="tw-h-[80px]"></div>
-        <app-profile-staff></app-profile-staff>
+        <app-profile-staff
+          *ngIf="positionSelected === EPosition.User"
+          (onCompleteProfile)="onCompleteProfile()"
+          (onBack)="stepper.previous()"
+        ></app-profile-staff>
       </mat-step>
-      <mat-step label="Chọn danh mục" completed="false">
-        <app-select-position></app-select-position>
-      </mat-step>
-      <mat-step label="Hoàn thành" completed="false">
+      <mat-step label="Hoàn thành" [completed]="stepCompleted > 2">
         <app-preview></app-preview>
       </mat-step>
     </mat-stepper>
-    <div class="tw-mt-6 tw-flex tw-justify-center tw-pb-6">
-      <button mat-stroked-button class="!tw-mr-2">Back</button>
-      <button mat-stroked-button color="primary">Tiếp tục</button>
-    </div>
   </div>
 </app-main-content>

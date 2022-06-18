@@ -9,7 +9,7 @@ import { Directive, ElementRef, Input, HostListener } from '@angular/core';
 })
 export class NumberOnlyDirective {
   // Allow decimal numbers. The \. is only allowed once to occur
-  private regex: RegExp = new RegExp(/^[0-9]+(\.[0-9]*){0,1}$/g);
+  private regex: RegExp = new RegExp(/^[0-9]+$/g);
 
   // Allow key codes for special events. Reflect :
   // Backspace, tab, end, home
@@ -41,7 +41,7 @@ export class NumberOnlyDirective {
     }
   }
 
-  @HostListener('paste', ['$event']) onPaste(event) {
+  @HostListener('paste', ['$event']) onPaste(event: any) {
     // Don't allow pasted text that contains non-numerics
     const pastedText = (event.originalEvent || event).clipboardData.getData('text/plain');
 

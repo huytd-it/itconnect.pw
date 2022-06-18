@@ -12,4 +12,7 @@ export class PreviewComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  onSubmit() {
+    location.reload();
+  }
 }

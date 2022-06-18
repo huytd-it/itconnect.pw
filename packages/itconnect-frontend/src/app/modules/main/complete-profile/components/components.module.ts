@@ -10,7 +10,9 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatInputModule} from "@angular/material/input";
 import {MainComponentsModule} from "../../components/components.module";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
-
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from "@angular/material/core";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -33,7 +35,11 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
     MatTooltipModule,
     MatInputModule,
     MainComponentsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class CompleteProfileComponentsModule { }

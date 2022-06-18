@@ -1,5 +1,5 @@
 <div class="tw-justify-center tw-flex">
-  <form class="tw-text-center tw-block tw-flex tw-flex-wrap xl:tw-gap-10 tw-gap-3">
+  <form [formGroup]="form" class="tw-text-center tw-block tw-flex tw-flex-wrap xl:tw-gap-10 tw-gap-3">
     <div class="tw-flex-1 md:tw-min-w-[500px]">
       <app-line-text>
         <fa-icon [icon]="faInfoCircle"></fa-icon>
@@ -7,17 +7,43 @@
       </app-line-text>
       <mat-form-field appearance="outline" class="tw-w-full">
         <mat-label>Họ và tên</mat-label>
-        <input matInput placeholder="Ex. YUH" value="" required>
+        <input matInput placeholder="Ex. YUH" value="" [formControlName]="FormField.fullName">
+        <mat-error *ngIf="isControlError(FormField.fullName, 'required')">
+          Họ và tên là bắt buộc
+        </mat-error>
+        <mat-error *ngIf="isControlError(FormField.fullName, 'maxlength', 'minlength')">
+          Họ và tên phải có ít nhất 3, tối đa 255 ký tự
+        </mat-error>
       </mat-form-field>
       <mat-form-field appearance="outline" class="tw-w-full">
         <mat-label>Số điện thoại</mat-label>
-        <input matInput placeholder="Ex. 090123456" value="" required>
+        <input matInput placeholder="Ex. 090123456" value="" [formControlName]="FormField.phone" appNumberOnly>
+        <mat-error *ngIf="isControlError(FormField.phone, 'required')">
+          Số điện thoại là bắt buộc
+        </mat-error>
+        <mat-error *ngIf="isControlError(FormField.phone, 'pattern')">
+          Số điện thoại không hợp lệ
+        </mat-error>
       </mat-form-field>
-      <mat-form-field appearance="outline" class="tw-w-full">
-        <mat-label>Email</mat-label>
-        <input matInput placeholder="Ex. abc@gmail.com" value="" required>
+      <mat-form-field appearance="outline" class="tw-w-full tw-mb-3">
+        <mat-label>Ngày sinh</mat-label>
+        <input matInput [matDatepicker]="picker" [formControlName]="FormField.birthday">
+        <mat-hint>DD/MM/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="isControlError(FormField.birthday, 'required')">
+          Ngày sinh là bắt buộc
+        </mat-error>
       </mat-form-field>
-      <app-input-address></app-input-address>
+      <div>
+        <app-input-address [formControlName]="FormField.address"></app-input-address>
+        <div class="tw-text-left tw-text-[11px]">
+          <mat-error *ngIf="isControlError(FormField.address, 'required')">
+            Địa chỉ là bắt buộc
+          </mat-error>
+        </div>
+      </div>
+      <div class="tw-w-full md:tw-h-[200px]"></div>
     </div>
 
     <div class="tw-flex-1 md:tw-min-w-[500px]">
@@ -30,7 +56,7 @@
         <div class="">
           Chọn một số vị trí bạn mong muốn (<span class="tw-text-red-500">*</span>):
         </div>
-        <app-input-skill></app-input-skill>
+        <app-input-skill [loadMoreFn]="fetchDataPosition" [formControlName]="FormField.positions"></app-input-skill>
       </div>
 
 
@@ -38,7 +64,27 @@
         <div class="">
           Chọn một số kỹ năng của bạn (<span class="tw-text-red-500">*</span>):
         </div>
-        <app-input-skill></app-input-skill>
+        <app-input-skill [loadMoreFn]="fetchDataSkill" [formControlName]="FormField.skills"></app-input-skill>
+      </div>
+
+      <div class="tw-mt-[50px] tw-flex tw-justify-center tw-pb-6">
+        <button
+          mat-stroked-button
+          class="!tw-mr-2"
+          type="button"
+          (click)="onBack.emit()"
+        >
+          Back
+        </button>
+        <button
+          mat-stroked-button
+          color="primary"
+          type="button"
+          [disabled]="form.invalid"
+          (click)="onSubmit()"
+        >
+          Tiếp tục
+        </button>
       </div>
     </div>
   </form>

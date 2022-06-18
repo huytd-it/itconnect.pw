@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {EPosition} from "../../model";
+
 
 @Component({
   selector: 'app-select-position',
@@ -6,14 +8,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./select-position.component.scss']
 })
 export class SelectPositionComponent implements OnInit {
+  @Output() onNextPosition = new EventEmitter<EPosition>();
+  positionSelected: EPosition;
   list = [
     {
-      id: 1,
+      id: EPosition.Company,
       name: 'Nhà tuyển dụng',
       tooltip: 'Doanh nghiệp, tổ chức,...'
     },
     {
-      id: 2,
+      id: EPosition.User,
       name: 'Người tìm việc',
       tooltip: ''
     },
@@ -24,4 +28,7 @@ export class SelectPositionComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  onSubmit() {
+    this.onNextPosition.emit(this.positionSelected)
+  }
 }

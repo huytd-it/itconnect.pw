@@ -1,17 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {PermissionPipe} from "./pipes/permission.pipe";
+import {NumberOnlyDirective} from "./directives/number-only.directive";
 
 
 @NgModule({
   declarations: [
-    PermissionPipe
+    PermissionPipe,
+    NumberOnlyDirective
   ],
   imports: [
     CommonModule
   ],
   exports: [
-    PermissionPipe
+    PermissionPipe,
+    NumberOnlyDirective
   ]
 })
 export class UtilsModule { }

@@ -2,7 +2,11 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {User} from "../models/user.model";
 import {httpOptions} from "../utils/common";
-import {ProfileDataBoostrap} from "../models/profile.model";
+import {
+  CompleteUserProfileInput,
+  CompleteUserProfileOutput,
+  ProfileDataBoostrap
+} from "../models/profile.model";
 
 @Injectable({
   providedIn: 'root'
@@ -22,5 +26,10 @@ export class ProfileService {
   dataBoostrap() {
     const uri = 'profile/data-boostrap'
     return this.httpClient.get<ProfileDataBoostrap>(uri, httpOptions);
+  }
+
+  completeUser(data: CompleteUserProfileOutput) {
+    const uri = 'profile/complete-user'
+    return this.httpClient.post<CompleteUserProfileInput>(uri, data, httpOptions);
   }
 }

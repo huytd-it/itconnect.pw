@@ -38,9 +38,12 @@ export class EasySelectComponent implements OnInit, ControlValueAccessor, OnChan
   @Input() fDisabled: boolean;
   @Input() autoFocus: boolean;
   @Input() addTagText: string = "Thêm mới"
+  @Input() appendTo: string;
+  @Input() dropdownPosition: 'top' | 'right' | 'bottom' | 'left' | 'auto' = 'auto';
   @Input() loadMoreFn: (query: SearchPageOutput) => Observable<PageInput<any>>;
   @Output() addTag = new EventEmitter<string>();
   @Output() onBlur = new EventEmitter();
+  @Output() onChangeE = new EventEmitter<OptionItem | OptionItem[]>();
 
   itemSelected: OptionItem | OptionItem[];
 
@@ -97,6 +100,7 @@ export class EasySelectComponent implements OnInit, ControlValueAccessor, OnChan
   onChange(data: OptionItem | OptionItem[]) {
     this.itemSelected = data;
     this.onNgModelItemChange?.(data);
+    this.onChangeE.emit(data);
   }
 
   onSearchFn(term: string, item: OptionItem) {

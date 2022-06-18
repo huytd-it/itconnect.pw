@@ -2,7 +2,15 @@ import {Component, forwardRef, OnDestroy, OnInit} from '@angular/core';
 import {AddressService} from "../../../../services/address.service";
 import {OptionItem, SearchPageOutput} from "../../../../models/common";
 import {AddressSearchOutput, EAddressType} from "../../../../models/address.model";
-import {ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, Validators} from "@angular/forms";
+import {
+  ControlValueAccessor,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  NG_VALIDATORS,
+  NG_VALUE_ACCESSOR,
+  Validators
+} from "@angular/forms";
 import {Subscription} from "rxjs";
 
 enum FormField {
@@ -10,6 +18,23 @@ enum FormField {
   province = 'provinceId',
   district = 'districtId',
   village = 'villageId',
+}
+
+export function validateInputAddressRequired(c: FormControl) {
+  const value = c.value;
+  if (
+    value &&
+    value[FormField.street] &&
+    value[FormField.province]?.id &&
+    value[FormField.district]?.id &&
+    value[FormField.village]?.id
+  ) {
+    console.log('het')
+    return null;
+  }
+  return {
+    required: true
+  }
 }
 
 @Component({
@@ -21,6 +46,11 @@ enum FormField {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => InputAddressComponent),
       multi: true
+    },
+    {
+      provide: NG_VALIDATORS,
+      useValue: validateInputAddressRequired,
+      multi: true
     }
   ]
 })
@@ -29,6 +59,7 @@ export class InputAddressComponent implements OnInit, OnDestroy, ControlValueAcc
 
   private formChangeSubscription: Subscription;
   private funChangeValueControl: (data: any) => void;
+  private funTouchedValueControl: () => void;
 
   readonly FormField = FormField;
 
@@ -121,7 +152,10 @@ export class InputAddressComponent implements OnInit, OnDestroy, ControlValueAcc
   }
 
   writeValue(obj: any): void {
-    this.form.setValue(obj);
+    if (obj) {
+      console.log(obj);
+      this.form.setValue(obj);
+    }
   }
 
   registerOnChange(fn: any): void {

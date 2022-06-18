@@ -1,26 +1,39 @@
-import {AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MenuItem} from "../../../../models/common";
 import {PermissionService} from "../../../../services/permission.service";
 import {AppPermission} from "../../../../models/permission.model";
+import {AppService} from "../../../../services/app.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit, AfterViewInit {
+export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('menuEl') menuEl: ElementRef;
   menu: MenuItem[];
   isFullLogo: boolean;
   isDropdownMoreMenu: boolean;
   hasMoreMenu: boolean;
+  isLoading: boolean;
+  subscriptionLoading: Subscription;
 
   constructor(
-    public permission: PermissionService
-  ) { }
+    public permission: PermissionService,
+    public app: AppService
+  ) {
+    this.subscriptionLoading = this.app.headLoading$.subscribe((val) => {
+      this.isLoading = val;
+    })
+  }
 
   ngOnInit(): void {
     this.menu = this.getMenu();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptionLoading.unsubscribe();
   }
 
   ngAfterViewInit(): void {

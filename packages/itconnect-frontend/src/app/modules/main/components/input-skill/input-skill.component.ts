@@ -1,6 +1,6 @@
 import {Component, forwardRef, Input, OnInit} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
-import {PageInput, SearchPageOutput} from "../../../../models/common";
+import {OptionItem, PageInput, SearchPageOutput} from "../../../../models/common";
 import {Observable} from "rxjs";
 
 @Component({
@@ -48,6 +48,10 @@ export class InputSkillComponent implements OnInit, ControlValueAccessor {
   }
 
   writeValue(obj: any): void {
-    this.tags = obj;
+    this.tags = obj || [];
+  }
+
+  onSelect(e: OptionItem | OptionItem[]) {
+    this.addTag((<OptionItem>e).name);
   }
 }
