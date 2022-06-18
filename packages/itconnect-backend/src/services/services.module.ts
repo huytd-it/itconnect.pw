@@ -9,6 +9,8 @@ import {PositionEntity} from "../entities/position.entity";
 import {SkillEntity} from "../entities/skill.entity";
 import {UserSkillEntity} from "../entities/userSkill.entity";
 import {UserPositionEntity} from "../entities/userPosition.entity";
+import { SkillService } from './skill.service';
+import { PositionService } from './position.service';
 
 @Module({
   imports: [
@@ -22,10 +24,12 @@ import {UserPositionEntity} from "../entities/userPosition.entity";
         SkillEntity
     ])
   ],
-  providers: [UserService, AddressService],
+  providers: [UserService, AddressService, SkillService, PositionService],
   exports: [
       UserService,
-      AddressService
+      AddressService,
+      SkillService,
+      PositionService
   ]
 })
 export class ServicesModule {}

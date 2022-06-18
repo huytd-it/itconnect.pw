@@ -9,6 +9,8 @@ import { ProfileModule } from './modules/profile/profile.module';
 import { PolicesModule } from './polices/polices.module';
 import { PermissionModule } from './modules/permission/permission.module';
 import { AddressModule } from './modules/address/address.module';
+import { SkillModule } from './modules/skill/skill.module';
+import { PositionModule } from './modules/position/position.module';
 
 @Module({
   imports: [
@@ -25,6 +27,8 @@ import { AddressModule } from './modules/address/address.module';
       PolicesModule,
       PermissionModule,
       AddressModule,
+      SkillModule,
+      PositionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

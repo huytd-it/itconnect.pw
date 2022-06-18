@@ -44,6 +44,10 @@ async function bootstrap() {
       .addTag('profile')
       .addTag('permission')
       .addTag('address')
+      .addTag('skill')
+      .addTag('user-skill')
+      .addTag('position')
+      .addTag('user-position')
       .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('documentation', app, document);

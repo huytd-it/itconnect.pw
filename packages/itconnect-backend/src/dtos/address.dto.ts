@@ -16,6 +16,8 @@ export class AddressDto {
     })
     @IsEnum(EAddressType)
     type: EAddressType;
+
+    /// add more field
 }
 
 export class AddressSearchInputDto {
