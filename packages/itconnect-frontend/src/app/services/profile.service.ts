@@ -3,6 +3,8 @@ import {HttpClient} from "@angular/common/http";
 import {User} from "../models/user.model";
 import {httpOptions} from "../utils/common";
 import {
+  CompleteCompanyProfileInput,
+  CompleteCompanyProfileOutput,
   CompleteUserProfileInput,
   CompleteUserProfileOutput,
   ProfileDataBoostrap
@@ -31,5 +33,10 @@ export class ProfileService {
   completeUser(data: CompleteUserProfileOutput) {
     const uri = 'profile/complete-user'
     return this.httpClient.post<CompleteUserProfileInput>(uri, data, httpOptions);
+  }
+
+  completeCompany(data: CompleteCompanyProfileOutput) {
+    const uri = 'profile/complete-company'
+    return this.httpClient.post<CompleteCompanyProfileInput>(uri, data, httpOptions);
   }
 }

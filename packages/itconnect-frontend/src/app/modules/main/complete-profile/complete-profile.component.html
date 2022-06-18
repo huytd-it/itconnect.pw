@@ -9,6 +9,11 @@
       </mat-step>
       <mat-step label="Hồ sơ" [completed]="stepCompleted > 1">
         <div class="tw-h-[80px]"></div>
+        <app-profile-company
+          *ngIf="positionSelected === EPosition.Company"
+          (onCompleteProfile)="onCompleteProfile()"
+          (onBack)="stepper.previous()"
+        ></app-profile-company>
         <app-profile-staff
           *ngIf="positionSelected === EPosition.User"
           (onCompleteProfile)="onCompleteProfile()"

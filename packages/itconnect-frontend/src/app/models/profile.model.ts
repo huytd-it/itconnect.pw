@@ -8,7 +8,6 @@ export class ProfileDataBoostrap {
   user: User;
 }
 
-
 export class CompleteUserProfileOutput {
   fullName: string;
   phone: string;
@@ -22,5 +21,19 @@ export class CompleteUserProfileOutput {
 }
 
 export class CompleteUserProfileInput {
+  status: boolean
+}
+
+export class CompleteCompanyProfileOutput {
+  companyName: string;
+  phone: string;
+  dayEstablish: Date;
+  addressProvince: EAddressType;
+  addressDistrict: number;
+  addressVillage: number;
+  addressStreet: string;
+}
+
+export class CompleteCompanyProfileInput {
   status: boolean
 }
