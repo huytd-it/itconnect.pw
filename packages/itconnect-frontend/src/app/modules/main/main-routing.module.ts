@@ -49,6 +49,14 @@ const routes: Routes = [
           permission: AppPermission.NOTIFICATION
         }
       },
+      {
+        path: 'jobs',
+        loadChildren: () => import('./jobs/jobs.module').then(m => m.JobsModule),
+        canActivate: [PermissionGuard],
+        data: {
+          permission: AppPermission.JOB
+        }
+      },
       { path: '**', redirectTo: 'home' },
     ],
   },

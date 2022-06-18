@@ -40,7 +40,15 @@ export enum AppPermission {
    * Message
    *
    */
-  MESSAGE = 'message'
+  MESSAGE = 'message',
+
+  /**
+   * Jobs
+   *
+   *
+   */
+  JOB = 'job',
+  JOB_CREATE = 'job_create'
 }
 
 

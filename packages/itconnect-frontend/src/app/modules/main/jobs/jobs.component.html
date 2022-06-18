@@ -1,0 +1,22 @@
+<app-main-content>
+  <div class="tw-flex tw-flex-wrap tw-gap-4 xl:tw-px-[100px]">
+    <div class="md:tw-w-[20vw]">
+      <div class="tw-bg-white tw-rounded tw-shadow tw-p-3">
+        <ng-container *ngFor="let item of menu">
+          <a
+            class="tw-block tw-font-medium tw-text-[16px] tw-flex tw-items-center tw-mb-2"
+            routerLinkActive="tw-text-primaryColor"
+            [routerLink]="item.link"
+            *ngIf="item.permission | permission"
+          >
+            <i [class]="'c-icon tw-w-[40px] tw-h-[40px] tw-bg-[length:25px_25px] ' + item.class"></i>
+            <span class="tw-ml-2">{{item.name}}</span>
+          </a>
+        </ng-container>
+      </div>
+    </div>
+    <div class="tw-flex-1 tw-bg-white tw-rounded tw-shadow tw-min-h-[calc(100vh-100px)]">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</app-main-content>

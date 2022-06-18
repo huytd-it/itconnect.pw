@@ -1,0 +1,49 @@
+<form class="tw-p-5" [formGroup]="form">
+  <h2>Tạo Việc Làm</h2>
+
+  <div class="tw-flex-wrap tw-flex tw-gap-10 tw-mt-[60px]">
+    <div class="tw-text-left tw-flex-1">
+      <div class="">
+        Chọn một số vị trí (<span class="tw-text-red-500">*</span>):
+      </div>
+      <app-input-skill [loadMoreFn]="fetchDataPosition" [formControlName]="FormField.positions"></app-input-skill>
+    </div>
+
+    <div class="tw-text-left tw-flex-1">
+      <div class="">
+        Hình thức làm việc (<span class="tw-text-red-500">*</span>):
+      </div>
+      <app-input-skill [loadMoreFn]="fetchDataSkill" [formControlName]="FormField.skills"></app-input-skill>
+    </div>
+  </div>
+
+
+  <div class="tw-text-left tw-mt-10">
+    <div class="">
+      Chọn một số kỹ năng (<span class="tw-text-red-500">*</span>):
+    </div>
+    <app-input-skill [loadMoreFn]="fetchDataSkill" [formControlName]="FormField.skills"></app-input-skill>
+  </div>
+
+  <div class="tw-text-left tw-mt-10">
+    <div class="tw-mb-2">
+      Mức lương:
+    </div>
+    <div class="tw-flex tw-flex-wrap tw-gap-[20px] tw-items-center">
+      <mat-form-field appearance="outline" class="tw-ml-1">
+        <mat-label>Amount</mat-label>
+        <input matInput type="number" class="example-right-align" placeholder="0">
+        <span matSuffix>VND</span>
+      </mat-form-field>
+      <div class="tw-mt-[-15px]">
+        Đến
+      </div>
+      <mat-form-field appearance="outline" class="tw-ml-1">
+        <mat-label>Amount</mat-label>
+        <input matInput type="number" class="example-right-align" placeholder="0">
+        <span matSuffix>VND</span>
+      </mat-form-field>
+    </div>
+
+  </div>
+</form>

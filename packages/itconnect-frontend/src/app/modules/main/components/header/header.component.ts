@@ -51,6 +51,12 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
         permission: AppPermission.POST_FEED
       },
       {
+        name: "Việc làm",
+        class: 'icon-job',
+        link: 'jobs',
+        permission: AppPermission.JOB
+      },
+      {
         name: "Bạn bè",
         class: 'icon-friend',
         link: 'friends',
