@@ -121,6 +121,7 @@ export class UserService {
              */
             const userInfoEntity = new UserInfoEntity();
             userInfoEntity.user = user;
+            userInfoEntity.fullName = dto.fullName;
             userInfoEntity.phone = dto.phone;
             userInfoEntity.birthday = dto.birthday;
             userInfoEntity.addressStreet = dto.addressStreet;
@@ -168,6 +169,7 @@ export class UserService {
              */
             const companyInfoEntity = new CompanyInfoEntity();
             companyInfoEntity.user = user;
+            companyInfoEntity.companyName = dto.companyName;
             companyInfoEntity.phone = dto.phone;
             companyInfoEntity.dayEstablish = dto.dayEstablish;
             companyInfoEntity.addressStreet = dto.addressStreet;
