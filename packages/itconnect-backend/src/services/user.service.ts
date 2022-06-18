@@ -148,6 +148,7 @@ export class UserService {
                 status: true
             }
         } catch (err) {
+            console.log(err);
             await queryRunner.rollbackTransaction();
             throw new RuntimeException();
         } finally {
@@ -194,6 +195,7 @@ export class UserService {
                 status: true
             }
         } catch (err) {
+            console.log(err);
             await queryRunner.rollbackTransaction();
             throw new RuntimeException();
         } finally {
