@@ -14,12 +14,14 @@ import {MAX_USER_SKILL, MIN_USER_SKILL} from "../entities/userSkill.entity";
 import {MAX_POSITION_SKILL, MIN_POSITION_SKILL} from "../entities/userPosition.entity";
 import {MAX_SKILL_NAME_LENGTH, MIN_SKILL_NAME_LENGTH} from "../entities/skill.entity";
 import {MAX_POSITION_NAME_LENGTH, MIN_POSITION_NAME_LENGTH} from "../entities/position.entity";
-import {Unique} from "typeorm";
-import {EAddressType} from "../entities/address.entity";
-import {ApiEnumValue} from "../utils/decorators/api-enum-value.decorator";
+
+const MAX_LENGTH_FULL_NAME = 255;
+const MIN_LENGTH_FULL_NAME = 3;
 
 export class CompleteUserProfileInputDto {
     @ApiProperty()
+    @MaxLength(MAX_LENGTH_FULL_NAME)
+    @MinLength(MIN_LENGTH_FULL_NAME)
     fullName: string;
 
     @ApiPropertyOptional()
@@ -32,31 +34,13 @@ export class CompleteUserProfileInputDto {
     @IsDate()
     birthday: Date;
 
-    @ApiEnumValue(
-        ApiProperty,
-        {
-            enum: EAddressType
-        }
-    )
-    @IsEnum(EAddressType)
-    addressProvince: EAddressType;
+    @ApiProperty()
+    addressProvince: number;
 
-    @ApiEnumValue(
-        ApiProperty,
-        {
-            enum: EAddressType
-        }
-    )
-    @IsEnum(EAddressType)
+    @ApiProperty()
     addressDistrict: number;
 
-    @ApiEnumValue(
-        ApiProperty,
-        {
-            enum: EAddressType
-        }
-    )
-    @IsEnum(EAddressType)
+    @ApiProperty()
     addressVillage: number;
 
     @ApiProperty()
