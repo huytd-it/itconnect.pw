@@ -16,6 +16,8 @@ import {UtilsModule} from "../utils/utils.module";
 import { EasySelectComponent } from './easy-select/easy-select.component';
 import {NgSelectModule} from "@ng-select/ng-select";
 import {FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule} from "@angular/forms";
+import { EditorC1Component } from './editor-c1/editor-c1.component';
+import {QuillModule} from "ngx-quill";
 
 @NgModule({
   declarations: [
@@ -26,6 +28,7 @@ import {FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule} from "@angular/form
     FsLoadingComponent,
     NotifyComponent,
     EasySelectComponent,
+    EditorC1Component,
   ],
   imports: [
     CommonModule,
@@ -38,7 +41,8 @@ import {FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule} from "@angular/form
     MatProgressBarModule,
     NgSelectModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    QuillModule.forRoot()
   ],
   exports: [
     MatButtonModule,
@@ -52,6 +56,7 @@ import {FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule} from "@angular/form
     NotifyComponent,
     UtilsModule,
     EasySelectComponent,
+    EditorC1Component
   ],
   providers: []
 })

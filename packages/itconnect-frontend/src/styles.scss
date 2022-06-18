@@ -24,6 +24,10 @@ $my-custom-level: mat.define-typography-level(
 @tailwind variants;
 @import "fonts";
 
+@import '~quill/dist/quill.core.css';
+@import '~quill/dist/quill.snow.css';
+@import '~quill/dist/quill.bubble.css';
+
 /**
  * ng-select
  */

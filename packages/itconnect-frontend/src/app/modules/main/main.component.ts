@@ -38,6 +38,6 @@ export class MainComponent implements OnInit, OnDestroy {
 
   private setLoadingDebounce = _.debounce((status: boolean) => {
     this.appService.setFsLoading(status);
-  }, 0);
+  }, 500);
 }
 

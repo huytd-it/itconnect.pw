@@ -8,6 +8,8 @@ import {validateInputAddressRequired} from "../../components/input-address/input
 import {SearchPageOutput} from "../../../../models/common";
 import {PositionSearchOutput} from "../../../../models/position.model";
 import {SkillSearchOutput} from "../../../../models/skill.model";
+import {WorkFromService} from "../../../../services/work-from.service";
+import {WorkFromSearchOutput} from "../../../../models/work-from.model";
 
 export enum FormField {
   skills = "skills",
@@ -28,6 +30,7 @@ export class CreateComponent implements OnInit {
     private formBuilder: FormBuilder,
     private positionService: PositionService,
     private skillService: SkillService,
+    private workFromService: WorkFromService,
     private appService: AppService
   ) {
     this.form = this.formBuilder.group({
@@ -55,5 +58,10 @@ export class CreateComponent implements OnInit {
   fetchDataSkill = (query: SearchPageOutput) => {
     const qr: SkillSearchOutput = query;
     return this.skillService.search(qr);
+  }
+
+  fetchDataWorkFrom = (query: SearchPageOutput) => {
+    const qr: WorkFromSearchOutput = query;
+    return this.workFromService.search(qr);
   }
 }
