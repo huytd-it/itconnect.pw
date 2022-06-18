@@ -73,3 +73,37 @@ export class CompleteUserProfileOutputDto {
     @ApiProperty()
     status: boolean
 }
+
+export class CompleteCompanyProfileInputDto {
+    @ApiProperty()
+    @MaxLength(MAX_LENGTH_FULL_NAME)
+    @MinLength(MIN_LENGTH_FULL_NAME)
+    companyName: string;
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    @Matches(/([\+84|84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\b/)
+    phone: string;
+
+    @ApiProperty()
+    @Type(() => Date)
+    @IsDate()
+    dayEstablish: Date;
+
+    @ApiProperty()
+    addressProvince: number;
+
+    @ApiProperty()
+    addressDistrict: number;
+
+    @ApiProperty()
+    addressVillage: number;
+
+    @ApiProperty()
+    addressStreet: string;
+}
+
+export class CompleteCompanyProfileOutputDto {
+    @ApiProperty()
+    status: boolean
+}

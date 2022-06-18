@@ -11,6 +11,7 @@ import {UserSkillEntity} from "../entities/userSkill.entity";
 import {UserPositionEntity} from "../entities/userPosition.entity";
 import { SkillService } from './skill.service';
 import { PositionService } from './position.service';
+import {CompanyInfoEntity} from "../entities/companyInfo.entity";
 
 @Module({
   imports: [
@@ -21,7 +22,8 @@ import { PositionService } from './position.service';
         UserPositionEntity,
         AddressEntity,
         PositionEntity,
-        SkillEntity
+        SkillEntity,
+        CompanyInfoEntity
     ])
   ],
   providers: [UserService, AddressService, SkillService, PositionService],

@@ -7,7 +7,12 @@ import {PermissionsGuard} from "../../polices/permissions.guard";
 import {UserService} from "../../services/user.service";
 import {GetUser} from "../../utils/decorators/get-user.decorator";
 import {UserEntity} from "../../entities/user.entity";
-import {CompleteUserProfileInputDto, CompleteUserProfileOutputDto} from "../../dtos/profile.dto";
+import {
+    CompleteCompanyProfileInputDto,
+    CompleteCompanyProfileOutputDto,
+    CompleteUserProfileInputDto,
+    CompleteUserProfileOutputDto
+} from "../../dtos/profile.dto";
 
 @ApiTags('profile')
 @ApiBearerAuth()
@@ -56,7 +61,12 @@ export class ProfileController {
 
     @UseGuards(PermissionsGuard)
     @RequirePermissions(AppPermission.COMPLETE_PROFILE)
+    @ApiOkResponse({ type: CompleteCompanyProfileOutputDto })
     @Post('/complete-company')
-    completeCompany() {
+    completeCompany(
+        @Body() dto: CompleteCompanyProfileInputDto,
+        @GetUser() user: UserEntity
+    ): Promise<CompleteUserProfileOutputDto> {
+        return this.userService.completeCompany(user, dto);
     }
 }

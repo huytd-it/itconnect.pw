@@ -11,6 +11,7 @@ import {AppRole} from "../polices/permission.enum";
 import {UserSkillEntity} from "./userSkill.entity";
 import {SkillEntity} from "./skill.entity";
 import {UserInfoEntity} from "./userInfo.entity";
+import {CompanyInfoEntity} from "./companyInfo.entity";
 
 @Entity()
 export class UserEntity {
@@ -31,6 +32,10 @@ export class UserEntity {
     @OneToOne(type => UserInfoEntity)
     @JoinColumn()
     userInfo: UserInfoEntity;
+
+    @OneToOne(type => CompanyInfoEntity)
+    @JoinColumn()
+    companyInfo: CompanyInfoEntity;
 
     @OneToMany(type => UserSkillEntity, userSkill => userSkill.user)
     userSkills: SkillEntity[];

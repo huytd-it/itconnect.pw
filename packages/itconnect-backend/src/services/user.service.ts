@@ -2,7 +2,11 @@ import {Injectable} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {UserEntity} from "../entities/user.entity";
 import {DataSource, In, Repository} from "typeorm";
-import {CompleteUserProfileInputDto, CompleteUserProfileOutputDto} from "../dtos/profile.dto";
+import {
+    CompleteCompanyProfileInputDto, CompleteCompanyProfileOutputDto,
+    CompleteUserProfileInputDto,
+    CompleteUserProfileOutputDto
+} from "../dtos/profile.dto";
 import {UserInfoEntity} from "../entities/userInfo.entity";
 import {SkillEntity} from "../entities/skill.entity";
 import {UserSkillEntity} from "../entities/userSkill.entity";
@@ -11,6 +15,7 @@ import {AddressEntity} from "../entities/address.entity";
 import {AppRole} from "../polices/permission.enum";
 import {PositionEntity} from "../entities/position.entity";
 import {UserPositionEntity} from "../entities/userPosition.entity";
+import {CompanyInfoEntity} from "../entities/companyInfo.entity";
 
 @Injectable()
 export class UserService {
@@ -91,7 +96,7 @@ export class UserService {
             })
 
             const appPositions = skills.map(item => item.name);
-            const userPositions = dto.skills.filter(item => !appSkills.includes(item));
+            const userPositions = dto.skills.filter(item => !appPositions.includes(item));
 
             // insert user positions - app owner
             for (let appPosition of positions) {
@@ -136,6 +141,52 @@ export class UserService {
             // update user role
             await queryRunner.manager.update(UserEntity, { id: user.id }, {
                 role: AppRole.user
+            });
+
+            await queryRunner.commitTransaction();
+            return {
+                status: true
+            }
+        } catch (err) {
+            await queryRunner.rollbackTransaction();
+            throw new RuntimeException();
+        } finally {
+            await queryRunner.release();
+        }
+    }
+
+    async completeCompany(user: UserEntity, dto: CompleteCompanyProfileInputDto): Promise<CompleteCompanyProfileOutputDto> {
+        const queryRunner = this.dataSource.createQueryRunner();
+        await queryRunner.connect();
+        await queryRunner.startTransaction();
+        try {
+            /**
+             * Handle user info
+             *
+             *
+             */
+            const companyInfoEntity = new CompanyInfoEntity();
+            companyInfoEntity.user = user;
+            companyInfoEntity.phone = dto.phone;
+            companyInfoEntity.dayEstablish = dto.dayEstablish;
+            companyInfoEntity.addressStreet = dto.addressStreet;
+
+            const aVillage = new AddressEntity();
+            aVillage.id = dto.addressVillage;
+            companyInfoEntity.addressVillage = aVillage;
+
+            const aDistrict = new AddressEntity();
+            aDistrict.id = dto.addressDistrict;
+            companyInfoEntity.addressDistrict = aDistrict;
+
+            const aProvince = new AddressEntity();
+            aProvince.id = dto.addressProvince;
+            companyInfoEntity.addressProvince = aProvince;
+            await queryRunner.manager.save(companyInfoEntity);
+
+            // update user role
+            await queryRunner.manager.update(UserEntity, { id: user.id }, {
+                role: AppRole.company
             });
 
             await queryRunner.commitTransaction();
