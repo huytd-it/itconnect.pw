@@ -10,6 +10,9 @@ import {
 import {UserEntity} from "./user.entity";
 import {SkillEntity} from "./skill.entity";
 
+export const MAX_USER_SKILL = 20;
+export const MIN_USER_SKILL = 3;
+
 @Entity()
 export class UserSkillEntity {
     @PrimaryGeneratedColumn()

@@ -7,8 +7,10 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from "typeorm";
-import {UserSkillEntity} from "./userSkill.entity";
 import {UserPositionEntity} from "./userPosition.entity";
+
+export const MAX_POSITION_NAME_LENGTH = 20;
+export const MIN_POSITION_NAME_LENGTH = 1;
 
 @Entity()
 export class PositionEntity {

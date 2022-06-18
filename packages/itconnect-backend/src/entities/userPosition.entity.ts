@@ -11,6 +11,9 @@ import {UserEntity} from "./user.entity";
 import {SkillEntity} from "./skill.entity";
 import {PositionEntity} from "./position.entity";
 
+export const MAX_POSITION_SKILL = 20;
+export const MIN_POSITION_SKILL = 3;
+
 @Entity()
 export class UserPositionEntity {
     @PrimaryGeneratedColumn()

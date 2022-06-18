@@ -1,5 +1,5 @@
-import {Controller, Get, UseGuards} from '@nestjs/common';
-import {ApiBearerAuth, ApiTags} from "@nestjs/swagger";
+import {Body, Controller, Get, Post, UseGuards} from '@nestjs/common';
+import {ApiBearerAuth, ApiOkResponse, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {JwtAuthGuard} from "../../utils/guards/jwt.guard";
 import {RequirePermissions} from "../../polices/polices.decorator";
 import {AppPermission, appRolesConfig} from "../../polices/permission.enum";
@@ -7,6 +7,7 @@ import {PermissionsGuard} from "../../polices/permissions.guard";
 import {UserService} from "../../services/user.service";
 import {GetUser} from "../../utils/decorators/get-user.decorator";
 import {UserEntity} from "../../entities/user.entity";
+import {CompleteUserProfileInputDto, CompleteUserProfileOutputDto} from "../../dtos/profile.dto";
 
 @ApiTags('profile')
 @ApiBearerAuth()
@@ -40,5 +41,22 @@ export class ProfileController {
             permissions,
             user
         }
+    }
+
+    @UseGuards(PermissionsGuard)
+    @RequirePermissions(AppPermission.COMPLETE_PROFILE)
+    @ApiOkResponse({ type: CompleteUserProfileOutputDto })
+    @Post('/complete-user')
+    completeUser(
+        @Body() dto: CompleteUserProfileInputDto,
+        @GetUser() user: UserEntity
+    ): Promise<CompleteUserProfileOutputDto> {
+        return this.userService.completeProfile(user, dto);
+    }
+
+    @UseGuards(PermissionsGuard)
+    @RequirePermissions(AppPermission.COMPLETE_PROFILE)
+    @Post('/complete-company')
+    completeCompany() {
     }
 }
