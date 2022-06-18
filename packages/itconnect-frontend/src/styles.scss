@@ -32,6 +32,15 @@ $my-custom-level: mat.define-typography-level(
 ng-select {
   margin-top: -4px;
 
+  &.ng-select-disabled {
+    opacity: 0.6;
+    pointer-events: none;
+
+    .ng-select-container:after {
+      background-image: unset !important;
+    }
+  }
+
   &:not(.ng-select-opened) {
     .ng-select-container {
       &:not(.ng-has-value) {

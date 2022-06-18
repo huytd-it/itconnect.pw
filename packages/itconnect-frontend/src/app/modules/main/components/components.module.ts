@@ -13,6 +13,7 @@ import {MatChipsModule} from "@angular/material/chips";
 import {MatIconModule} from "@angular/material/icon";
 import { AddLifeTimelineComponent } from './add-life-timeline/add-life-timeline.component';
 import { AddLifeTimelineModalComponent } from './add-life-timeline-modal/add-life-timeline-modal.component';
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 
@@ -34,6 +35,7 @@ import { AddLifeTimelineModalComponent } from './add-life-timeline-modal/add-lif
     MatInputModule,
     MatChipsModule,
     MatIconModule,
+    ReactiveFormsModule,
   ],
   exports: [
     HeaderComponent,

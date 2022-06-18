@@ -22,6 +22,7 @@ export class EasySelectComponent implements OnInit, ControlValueAccessor {
   @Input() label: string;
   @Input() multiple: boolean
   @Input() required: boolean;
+  @Input() fDisabled: boolean;
   @Input() loadMoreFn: (query: SearchPageOutput) => Observable<PageInput<any>>;
 
   itemSelected: OptionItem | OptionItem[];
@@ -113,16 +114,13 @@ export class EasySelectComponent implements OnInit, ControlValueAccessor {
             this.pageData.data = this.pageData.data.concat(dataMore.data);
           } else {
             this.pageData = dataMore;
-            console.log(this.pageData);
           }
         })
     }
   }
 
   onOpen() {
-    if (!this.pageData) {
-      this.fetchMore();
-    }
+    this.resetLoad();
   }
 
   onClose() {
