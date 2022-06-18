@@ -3,11 +3,14 @@ import {
     CreateDateColumn,
     DeleteDateColumn,
     Entity,
-    Index,
+    Index, JoinColumn, OneToMany, OneToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from "typeorm";
 import {AppRole} from "../polices/permission.enum";
+import {UserSkillEntity} from "./userSkill.entity";
+import {SkillEntity} from "./skill.entity";
+import {UserInfoEntity} from "./userInfo.entity";
 
 @Entity()
 export class UserEntity {
@@ -24,6 +27,13 @@ export class UserEntity {
     @Column({ default: AppRole.begin })
     @Index()
     role: AppRole;
+
+    @OneToOne(type => UserInfoEntity)
+    @JoinColumn()
+    userInfo: UserInfoEntity;
+
+    @OneToMany(type => UserSkillEntity, userSkill => userSkill.user)
+    userSkills: SkillEntity[];
 
     @CreateDateColumn()
     createdAt: Date;
