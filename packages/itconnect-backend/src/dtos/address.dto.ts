@@ -2,6 +2,7 @@ import {ApiProperty, ApiPropertyOptional} from "@nestjs/swagger";
 import {EAddressType} from "../entities/address.entity";
 import {IsEnum, IsInt, IsOptional} from "class-validator";
 import {ApiEnumValue} from "../utils/decorators/api-enum-value.decorator";
+import {Type} from "class-transformer";
 
 export class AddressDto {
     @ApiProperty()
@@ -28,10 +29,12 @@ export class AddressSearchInputDto {
             enum: EAddressType
         }
     )
+    @Type(() => Number)
     @IsOptional()
     type: EAddressType;
 
     @ApiPropertyOptional()
+    @Type(() => Number)
     @IsInt()
     @IsOptional()
     parentId: number;

@@ -32,7 +32,9 @@ export class AddressService {
         }
 
         if (dtoSearch.parentId) {
-            options.where['parentId'] = dtoSearch.parentId
+            options.where.parent = {
+                id: dtoSearch.parentId
+            };
         }
 
         if (dtoPage.order_field && dtoPage.order) {
