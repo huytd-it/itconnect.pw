@@ -4,7 +4,7 @@
     <input matInput placeholder="Ex. 123" value="">
   </mat-form-field>
   <div class="tw-flex-1 tw-min-w-[200px]">
-    <app-easy-select [label]="'Phường/Xã'"></app-easy-select>
+    <app-easy-select [label]="'Phường/Xã'" [loadMoreFn]="fetchData"></app-easy-select>
   </div>
   <mat-form-field appearance="outline" class="tw-flex-1">
     <mat-label>Quận/Huyện</mat-label>

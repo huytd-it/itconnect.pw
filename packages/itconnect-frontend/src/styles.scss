@@ -33,13 +33,46 @@ ng-select {
   margin-top: -4px;
 
   &:not(.ng-select-opened) {
-    .ng-select-container:not(.ng-has-value) {
-      .ng-placeholder {
-        margin-top: 6px;
+    .ng-select-container {
+      &:not(.ng-has-value) {
+        .ng-placeholder {
+          margin-top: 6px;
+        }
+        .ng-spinner-loader {
+          position: absolute !important;
+          top: calc(50% - 5px);
+          right: 25px;
+        }
+      }
+      &.ng-has-value {
+        .ng-spinner-loader {
+          position: absolute !important;
+          top: calc(50% - 5px);
+          right: 40px;
+        }
       }
     }
     .ng-arrow-wrapper {
       margin-top: 6px;
+    }
+  }
+
+  &.ng-select-opened {
+    .ng-select-container {
+      &:not(.ng-has-value) {
+        .ng-spinner-loader {
+          position: absolute !important;
+          top: calc(50% - 5px);
+          right: 25px;
+        }
+      }
+      &.ng-has-value {
+        .ng-spinner-loader {
+          position: absolute !important;
+          top: calc(50% - 5px);
+          right: 40px;
+        }
+      }
     }
   }
 

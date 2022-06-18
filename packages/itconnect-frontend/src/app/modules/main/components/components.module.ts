@@ -33,7 +33,7 @@ import { AddLifeTimelineModalComponent } from './add-life-timeline-modal/add-lif
     MatAutocompleteModule,
     MatInputModule,
     MatChipsModule,
-    MatIconModule
+    MatIconModule,
   ],
   exports: [
     HeaderComponent,

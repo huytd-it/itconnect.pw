@@ -43,8 +43,12 @@ export class PageInput<T> {
 
 
 export class PageOutput {
-  page: number;
-  take: number;
-  order: 'asc' | 'desc';
-  order_field: string;
+  page?: number;
+  take?: number;
+  order?: 'asc' | 'desc';
+  order_field?: string;
+}
+
+export class SearchPageOutput extends PageOutput {
+  search?: string;
 }

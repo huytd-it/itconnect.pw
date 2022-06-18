@@ -15,7 +15,7 @@ import { NotifyComponent } from './notify/notify.component';
 import {UtilsModule} from "../utils/utils.module";
 import { EasySelectComponent } from './easy-select/easy-select.component';
 import {NgSelectModule} from "@ng-select/ng-select";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -52,6 +52,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     NotifyComponent,
     UtilsModule,
     EasySelectComponent,
-  ]
+  ],
+  providers: []
 })
 export class CommonComponentsModule { }

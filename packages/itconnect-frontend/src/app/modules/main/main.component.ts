@@ -23,9 +23,7 @@ export class MainComponent implements OnInit, OnDestroy {
     this.userSubscription = this.authService.data$.subscribe((val) => {
       if (this.authService.token) {
         this.isLoaded = !!val;
-        _.debounce(user => {
-          this.appService.setFsLoading(!user);
-        }, 1000)(val);
+        this.setLoadingDebounce(!val);
       }
     })
   }
@@ -37,4 +35,9 @@ export class MainComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
   }
+
+  private setLoadingDebounce = _.debounce((status: boolean) => {
+    this.appService.setFsLoading(status);
+  }, 0);
 }
+

@@ -1,10 +1,21 @@
 <ng-select
   appearance="outline"
-  [items]="cities"
   bindLabel="name"
-  addTagText="Create New"
-  [addTag]="CreateNew"
+  [items]="items"
+  [loading]="isLoading"
   [placeholder]="label"
   [multiple]="multiple"
-  [(ngModel)]="selectedCity" required="true" #model="ngModel"
+  [searchFn]="onSearchFn"
+  [ngModel]="itemSelected"
+  (ngModelChange)="onChange($event)"
+  (search)="onSearch($event)"
+  (scrollToEnd)="onScrollToEnd()"
+  (scroll)="onScroll($event)"
+  (open)="onOpen()"
+  (close)="onClose()"
+  (clear)="onClear()"
+  required
 ></ng-select>
+
+<!--  addTagText="Create New"-->
+<!--  [addTag]="CreateNew"-->
