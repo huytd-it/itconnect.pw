@@ -1,0 +1,56 @@
+<div class="tw-mt-4">
+
+  <table class="tw-w-full">
+    <tr
+      *ngFor="let item of tags"
+    >
+      <td class="tw-w-0">
+        <button
+          class="tw-p-2 tw-rounded-md tw-border tw-relative tw-mr-3"
+          [matTooltip]="item.name"
+          (click)="removeTag(item)"
+        >
+          <div class="
+            tw-absolute tw-right-[-5px] tw-top-[-5px] tw-font-medium tw-w-[15px] tw-h-[15px] tw-text-[10px]
+            tw-rounded-full tw-bg-primaryColor tw-text-white tw-flex tw-justify-center tw-items-center
+          ">x</div>
+          <span class="tw-inline-block tw-whitespace-nowrap tw-min-w-[50px] tw-max-w-[100px] tw-overflow-hidden tw-overflow-ellipsis">
+            {{item.name}}
+          </span>
+        </button>
+      </td>
+      <td>
+        <mat-slider
+          thumbLabel
+          color="primary"
+          tickInterval="1"
+          step="1"
+          min="1"
+          max="10"
+          aria-label="units"
+          class="tw-w-full tw-max-w-[300px] c-slider"
+          (change)="onChangeLevel(item, $event)"
+        ></mat-slider>
+      </td>
+    </tr>
+  </table>
+
+  <button
+    type="button"
+    class="tw-p-2 tw-mt-2 tw-rounded-md tw-border tw-border-primaryColor tw-text-primaryColor tw-h-[53px]"
+    *ngIf="!isAdding"
+    (click)="isAdding = true"
+  >
+    + Thêm
+  </button>
+  <div class="tw-min-w-[200px] tw-mt-[-3px]" *ngIf="isAdding">
+    <app-easy-select
+      [label]="'Chọn hoặc thêm tag'"
+      [autoFocus]="true"
+      [loadMoreFn]="loadMoreFn"
+      (addTag)="addTag($event)"
+      (onBlur)="isAdding = false"
+      (onChangeE)="onSelect($event)"
+    ></app-easy-select>
+  </div>
+</div>

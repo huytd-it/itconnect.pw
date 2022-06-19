@@ -18,6 +18,7 @@ import {NgSelectModule} from "@ng-select/ng-select";
 import {FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule} from "@angular/forms";
 import { EditorC1Component } from './editor-c1/editor-c1.component';
 import {QuillModule} from "ngx-quill";
+import { InputAmountVndComponent } from './input-amount-vnd/input-amount-vnd.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import {QuillModule} from "ngx-quill";
     NotifyComponent,
     EasySelectComponent,
     EditorC1Component,
+    InputAmountVndComponent,
   ],
   imports: [
     CommonModule,
@@ -44,20 +46,21 @@ import {QuillModule} from "ngx-quill";
     ReactiveFormsModule,
     QuillModule.forRoot()
   ],
-  exports: [
-    MatButtonModule,
-    MatInputModule,
-    LogoComponent,
-    AvatarComponent,
-    FontAwesomeModule,
-    MainContentComponent,
-    LineTextComponent,
-    FsLoadingComponent,
-    NotifyComponent,
-    UtilsModule,
-    EasySelectComponent,
-    EditorC1Component
-  ],
+    exports: [
+        MatButtonModule,
+        MatInputModule,
+        LogoComponent,
+        AvatarComponent,
+        FontAwesomeModule,
+        MainContentComponent,
+        LineTextComponent,
+        FsLoadingComponent,
+        NotifyComponent,
+        UtilsModule,
+        EasySelectComponent,
+        EditorC1Component,
+        InputAmountVndComponent
+    ],
   providers: []
 })
 export class CommonComponentsModule { }

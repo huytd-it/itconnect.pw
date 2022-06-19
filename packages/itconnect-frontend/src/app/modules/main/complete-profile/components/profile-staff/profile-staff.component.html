@@ -43,29 +43,55 @@
           </mat-error>
         </div>
       </div>
-      <div class="tw-w-full md:tw-h-[200px]"></div>
+
+      <div class="tw-text-left tw-mt-4">
+        <app-easy-select [label]="'Trình Độ'"></app-easy-select>
+      </div>
+
     </div>
 
     <div class="tw-flex-1 md:tw-min-w-[500px]">
       <app-line-text>
         <fa-icon [icon]="faConnectDevelop"></fa-icon>
-        <span class="tw-ml-2 tw-text-[10px]">Kỹ năng</span>
+        <span class="tw-ml-2 tw-text-[10px]">Nghề nghiệp</span>
       </app-line-text>
 
       <div class="tw-text-left">
-        <div class="">
-          Chọn một số vị trí bạn mong muốn (<span class="tw-text-red-500">*</span>):
+        <div>
+          Chọn một số vị trí bạn mong muốn (<span class="tw-text-red-500">*</span>)
         </div>
-        <app-input-skill [loadMoreFn]="fetchDataPosition" [formControlName]="FormField.positions"></app-input-skill>
+        <app-input-skill-level [loadMoreFn]="fetchDataPosition" [formControlName]="FormField.positions"></app-input-skill-level>
+      </div>
+
+      <div class="tw-text-left tw-mt-8">
+        <div>
+          Chọn một số kỹ năng của bạn (<span class="tw-text-red-500">*</span>)
+        </div>
+        <app-input-skill-level [loadMoreFn]="fetchDataSkill" [formControlName]="FormField.skills"></app-input-skill-level>
+      </div>
+
+      <div class="tw-text-left tw-mt-8">
+        <div>
+          Kinh nghiệm làm việc
+        </div>
+        <app-work-experience></app-work-experience>
+      </div>
+
+      <div class="tw-text-left tw-mt-8">
+        <div>
+          Học vấn
+        </div>
+        <app-work-experience></app-work-experience>
+      </div>
+
+      <div class="tw-text-left tw-mt-8 tw-mb-10">
+        <div class="tw-mb-3">
+          Giới thiệu bản thân
+        </div>
+        <app-editor-c1></app-editor-c1>
       </div>
 
 
-      <div class="tw-text-left tw-mt-4">
-        <div class="">
-          Chọn một số kỹ năng của bạn (<span class="tw-text-red-500">*</span>):
-        </div>
-        <app-input-skill [loadMoreFn]="fetchDataSkill" [formControlName]="FormField.skills"></app-input-skill>
-      </div>
 
       <div class="tw-mt-[50px] tw-flex tw-justify-center tw-pb-6">
         <button
