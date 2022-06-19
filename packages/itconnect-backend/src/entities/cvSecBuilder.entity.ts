@@ -9,6 +9,7 @@ import {
 } from "typeorm";
 import {UserEntity} from "./user.entity";
 import {CvSecBuilderSectionControlTypeEntity} from "./cvSecBuilderSectionControlType.entity";
+import {CvSecDataEntity} from "./cvSecData.entity";
 
 @Entity()
 @Unique('userId_name_unique', ['name', 'user'])
@@ -20,6 +21,13 @@ export class CvSecBuilderEntity {
     name: number;
 
     @Column()
+    @Unique('tag_unique', ['tag_name'])
+    tag: string;
+
+    @Column({ default: 1 })
+    max_data_row: number;
+
+    @Column()
     @Index()
     isGlobal: boolean;
 
@@ -27,7 +35,10 @@ export class CvSecBuilderEntity {
     user: UserEntity;
 
     @OneToMany(type => CvSecBuilderSectionControlTypeEntity, db => db.cvSecBuilder)
-    cvSecBuilderSectionControlTypes: CvSecBuilderSectionControlTypeEntity;
+    cvSecBuilderSectionControlTypes: CvSecBuilderSectionControlTypeEntity[];
+
+    @OneToMany(type => CvSecDataEntity, db => db.cvSecBuilder)
+    cvSecData: CvSecDataEntity[];
 
     @CreateDateColumn()
     createdAt: Date;

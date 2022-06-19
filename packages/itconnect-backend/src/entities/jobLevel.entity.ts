@@ -22,9 +22,6 @@ export class JobLevelEntity {
     @Index()
     name: string;
 
-    @OneToMany(type => UserInfoEntity, db => db.jobLevel)
-    userInfos: UserInfoEntity[]
-
     @CreateDateColumn()
     createdAt: Date;
 

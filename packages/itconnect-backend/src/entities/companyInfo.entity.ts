@@ -18,6 +18,7 @@ export class CompanyInfoEntity {
     id: number;
 
     @OneToOne(type => UserEntity, user => user.companyInfo)
+    @JoinColumn()
     user: UserEntity;
 
     @ManyToOne(type => AddressEntity)

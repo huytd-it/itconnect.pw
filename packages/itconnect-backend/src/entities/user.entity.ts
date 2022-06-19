@@ -13,6 +13,11 @@ import {SkillEntity} from "./skill.entity";
 import {UserInfoEntity} from "./userInfo.entity";
 import {CompanyInfoEntity} from "./companyInfo.entity";
 import {CvSecBuilderEntity} from "./cvSecBuilder.entity";
+import {CvSecDataEntity} from "./cvSecData.entity";
+import {CvSecControlDataSkillEntity} from "./cvSecControlDataSkill.entity";
+import {CvSecControlDataPositionEntity} from "./cvSecControlDataPosition.entity";
+import {CvSecControlDataJobLevelEntity} from "./cvSecControlDataJobLevel.entity";
+import {CvSecControlDataWorkFromEntity} from "./cvSecControlDataWorkFrom.entity";
 
 @Entity()
 export class UserEntity {
@@ -31,11 +36,9 @@ export class UserEntity {
     role: AppRole;
 
     @OneToOne(type => UserInfoEntity)
-    @JoinColumn()
     userInfo: UserInfoEntity;
 
     @OneToOne(type => CompanyInfoEntity)
-    @JoinColumn()
     companyInfo: CompanyInfoEntity;
 
     @OneToMany(type => UserSkillEntity, userSkill => userSkill.user)
@@ -43,6 +46,21 @@ export class UserEntity {
 
     @OneToMany(type => CvSecBuilderEntity, tb => tb.user)
     cvSecBuilders: CvSecBuilderEntity[];
+
+    @OneToMany(type => CvSecDataEntity, tb => tb.user)
+    cvSecData: CvSecDataEntity[];
+
+    @OneToMany(type => CvSecControlDataSkillEntity, db => db.user)
+    cvSecControlDataSkills: CvSecControlDataSkillEntity[];
+
+    @OneToMany(type => CvSecControlDataPositionEntity, db => db.user)
+    cvSecControlDataPositions: CvSecControlDataPositionEntity[];
+
+    @OneToMany(type => CvSecControlDataJobLevelEntity, db => db.user)
+    cvSecControlDataJobLevels: CvSecControlDataJobLevelEntity[];
+
+    @OneToMany(type => CvSecControlDataWorkFromEntity, db => db.user)
+    cvSecControlDataWorkFromEntity: CvSecControlDataWorkFromEntity[];
 
     @CreateDateColumn()
     createdAt: Date;

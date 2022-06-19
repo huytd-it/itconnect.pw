@@ -19,6 +19,7 @@ export class UserInfoEntity {
     id: number;
 
     @OneToOne(type => UserEntity, user => user.userInfo)
+    @JoinColumn()
     user: UserEntity;
 
     @ManyToOne(type => AddressEntity)
@@ -44,9 +45,6 @@ export class UserInfoEntity {
 
     @Column()
     birthday: Date;
-
-    @ManyToOne(type => JobLevelEntity)
-    jobLevel: JobLevelEntity;
 
     @CreateDateColumn()
     createdAt: Date;
