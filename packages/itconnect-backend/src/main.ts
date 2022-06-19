@@ -3,10 +3,19 @@ import { AppModule } from './app.module';
 import {ConfigService} from "@nestjs/config";
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
 import {Logger, ValidationPipe} from "@nestjs/common";
+import {useContainer} from "class-validator";
+import {ValidatorsModule} from "./validators/validators.module";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe())
+
+  /**
+   * Fix class validators
+   *
+   *
+   */
+  useContainer(app.select(ValidatorsModule), { fallbackOnErrors: true });
+  app.useGlobalPipes(new ValidationPipe());
 
   /**
    * Config CORS
@@ -45,10 +54,9 @@ async function bootstrap() {
       .addTag('permission')
       .addTag('address')
       .addTag('skill')
-      // .addTag('user-skill')
       .addTag('position')
-      // .addTag('user-position')
       .addTag('work-from')
+      .addTag('job-level')
       .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('documentation', app, document);

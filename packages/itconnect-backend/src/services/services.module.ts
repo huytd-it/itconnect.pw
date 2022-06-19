@@ -14,6 +14,8 @@ import { PositionService } from './position.service';
 import {CompanyInfoEntity} from "../entities/companyInfo.entity";
 import {WorkFromEntity} from "../entities/workFrom.entity";
 import {WorkFromService} from "./workFrom.service";
+import {JobLevelEntity} from "../entities/jobLevel.entity";
+import {JobLevelService} from "./jobLevel.service";
 
 @Module({
   imports: [
@@ -26,16 +28,18 @@ import {WorkFromService} from "./workFrom.service";
         PositionEntity,
         SkillEntity,
         CompanyInfoEntity,
-        WorkFromEntity
+        WorkFromEntity,
+        JobLevelEntity
     ])
   ],
-  providers: [UserService, AddressService, SkillService, PositionService, WorkFromService],
+  providers: [UserService, AddressService, SkillService, PositionService, WorkFromService, JobLevelService],
   exports: [
       UserService,
       AddressService,
       SkillService,
       PositionService,
-      WorkFromService
+      WorkFromService,
+      JobLevelService
   ]
 })
 export class ServicesModule {}

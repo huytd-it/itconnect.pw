@@ -45,16 +45,7 @@ export class AuthService {
     }
 
     async register(dto: RegisterInputDTO) {
-        let user = await this.usersRepository.findOne({
-            where: {
-                email: dto.email
-            }
-        });
-        if (user) {
-            throw new ConflictException('Email exists');
-        }
-
-        user = await this.usersRepository.save({
+        let user = await this.usersRepository.save({
             email: dto.email,
             password: bcrypt.hashSync(dto.password, 12)
         });

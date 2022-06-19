@@ -8,6 +8,9 @@ import {WorkFromService} from "../../services/workFrom.service";
 import {PermissionsGuard} from "../../polices/permissions.guard";
 import {RequirePermissions} from "../../polices/polices.decorator";
 import {AppPermission} from "../../polices/permission.enum";
+import {ApiPaginatedQueryOrder} from "../../utils/decorators/api-paginated-query-order.decorator";
+import {AddressEntity} from "../../entities/address.entity";
+import {WorkFromEntity} from "../../entities/workFrom.entity";
 
 @ApiTags('work-from')
 @ApiBearerAuth()
@@ -23,6 +26,7 @@ export class WorkFromController {
     @UseGuards(PermissionsGuard)
     @RequirePermissions(AppPermission.WORK_FROM_SEARCH)
     @ApiPaginatedResponse(WorkFromDto)
+    @ApiPaginatedQueryOrder(WorkFromEntity)
     @Get('search')
     search(
         @Query() searchDto: WorkFromSearchInputDto,

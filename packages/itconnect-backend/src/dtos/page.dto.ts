@@ -1,15 +1,18 @@
 import {IsArray, IsEnum, IsInt, IsOptional, Max, Min} from "class-validator";
 import {ApiProperty, ApiPropertyOptional} from "@nestjs/swagger";
 import {Type} from "class-transformer";
+import {HasOrderField} from "../validators/page-has-order-field.validate";
 
 export enum Order {
     asc = "asc",
     desc = "desc",
 }
 
+
 export class PageOptionsDto {
     @ApiPropertyOptional()
     @IsOptional()
+    @HasOrderField()
     readonly order_field?: string;
 
     @ApiPropertyOptional({

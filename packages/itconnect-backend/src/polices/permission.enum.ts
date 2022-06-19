@@ -87,7 +87,14 @@ export enum AppPermission {
      * Position search
      *
      */
-    POSITION_SEARCH = 'position_search'
+    POSITION_SEARCH = 'position_search',
+
+
+    /**
+     * Job level
+     *
+     */
+    JOB_LEVEL_SEARCH = 'job_level_search'
 }
 
 
@@ -104,6 +111,7 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.WORK_FROM_SEARCH,
         AppPermission.POSITION_SEARCH,
         AppPermission.PERMISSION_OWNER,
+        AppPermission.JOB_LEVEL_SEARCH,
     ],
 
     /**
@@ -123,6 +131,7 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.WORK_FROM_SEARCH,
         AppPermission.POSITION_SEARCH,
         AppPermission.PERMISSION_OWNER,
+        AppPermission.JOB_LEVEL_SEARCH,
     ],
 
     /***
@@ -142,6 +151,7 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.WORK_FROM_SEARCH,
         AppPermission.POSITION_SEARCH,
         AppPermission.PERMISSION_OWNER,
+        AppPermission.JOB_LEVEL_SEARCH,
     ],
 
     /**

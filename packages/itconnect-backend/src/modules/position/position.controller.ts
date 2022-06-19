@@ -8,6 +8,9 @@ import {PositionDto, PositionSearchInputDto} from "../../dtos/position.dto";
 import {PermissionsGuard} from "../../polices/permissions.guard";
 import {RequirePermissions} from "../../polices/polices.decorator";
 import {AppPermission} from "../../polices/permission.enum";
+import {ApiPaginatedQueryOrder} from "../../utils/decorators/api-paginated-query-order.decorator";
+import {AddressEntity} from "../../entities/address.entity";
+import {PositionEntity} from "../../entities/position.entity";
 
 @ApiTags('position')
 @ApiBearerAuth()
@@ -23,6 +26,7 @@ export class PositionController {
     @UseGuards(PermissionsGuard)
     @RequirePermissions(AppPermission.POSITION_SEARCH)
     @ApiPaginatedResponse(PositionDto)
+    @ApiPaginatedQueryOrder(PositionEntity)
     @Get('search')
     search(
         @Query() searchDto: PositionSearchInputDto,

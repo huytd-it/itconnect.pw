@@ -12,6 +12,10 @@ import { AddressModule } from './modules/address/address.module';
 import { SkillModule } from './modules/skill/skill.module';
 import { PositionModule } from './modules/position/position.module';
 import { WorkFromModule } from './modules/work-from/work-from.module';
+import {JobLevelModule} from "./modules/job-level/job-level.module";
+import { ValidatorsModule } from './validators/validators.module';
+import {APP_GUARD} from "@nestjs/core";
+import {PageGuard} from "./utils/guards/page.guard";
 
 @Module({
   imports: [
@@ -31,8 +35,16 @@ import { WorkFromModule } from './modules/work-from/work-from.module';
       SkillModule,
       PositionModule,
       WorkFromModule,
+      JobLevelModule,
+      ValidatorsModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+      AppService,
+      {
+          provide: APP_GUARD,
+          useClass: PageGuard
+      }
+  ],
 })
 export class AppModule {}
