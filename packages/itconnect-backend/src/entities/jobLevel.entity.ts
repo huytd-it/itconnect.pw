@@ -3,11 +3,12 @@ import {
     CreateDateColumn,
     DeleteDateColumn,
     Entity,
-    Index, ManyToOne,
+    Index, ManyToOne, OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from "typeorm";
 import {UserPositionEntity} from "./userPosition.entity";
+import {UserInfoEntity} from "./userInfo.entity";
 
 export const MAX_JOB_LEVEL_NAME_LENGTH = 20;
 export const MIN_JOB_LEVEL_NAME_LENGTH = 1;
@@ -21,8 +22,8 @@ export class JobLevelEntity {
     @Index()
     name: string;
 
-    // @ManyToOne(type => UserPositionEntity, userPosition => userPosition.position)
-    // userPositions: UserPositionEntity[]
+    @OneToMany(type => UserInfoEntity, db => db.jobLevel)
+    userInfos: UserInfoEntity[]
 
     @CreateDateColumn()
     createdAt: Date;

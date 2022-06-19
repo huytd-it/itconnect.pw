@@ -3,7 +3,7 @@ import {
     CreateDateColumn,
     DeleteDateColumn,
     Entity,
-    Index, ManyToOne,
+    Index, ManyToOne, OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from "typeorm";
@@ -21,7 +21,7 @@ export class SkillEntity {
     @Index()
     name: string;
 
-    @ManyToOne(type => UserSkillEntity, userSkill => userSkill.skill)
+    @OneToMany(type => UserSkillEntity, db => db.skill)
     userSkills: UserSkillEntity[]
 
     @CreateDateColumn()

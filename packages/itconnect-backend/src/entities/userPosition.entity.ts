@@ -8,7 +8,6 @@ import {
     UpdateDateColumn
 } from "typeorm";
 import {UserEntity} from "./user.entity";
-import {SkillEntity} from "./skill.entity";
 import {PositionEntity} from "./position.entity";
 
 export const MAX_POSITION_SKILL = 20;

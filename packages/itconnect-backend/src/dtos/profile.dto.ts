@@ -14,6 +14,8 @@ import {MAX_USER_SKILL, MIN_USER_SKILL} from "../entities/userSkill.entity";
 import {MAX_POSITION_SKILL, MIN_POSITION_SKILL} from "../entities/userPosition.entity";
 import {MAX_SKILL_NAME_LENGTH, MIN_SKILL_NAME_LENGTH} from "../entities/skill.entity";
 import {MAX_POSITION_NAME_LENGTH, MIN_POSITION_NAME_LENGTH} from "../entities/position.entity";
+import {HasRowField} from "../validators/has-row-field.validate";
+import {AddressEntity} from "../entities/address.entity";
 
 const MAX_LENGTH_FULL_NAME = 255;
 const MIN_LENGTH_FULL_NAME = 3;
@@ -35,12 +37,15 @@ export class CompleteUserProfileInputDto {
     birthday: Date;
 
     @ApiProperty()
+    @HasRowField(AddressEntity, 'id')
     addressProvince: number;
 
     @ApiProperty()
+    @HasRowField(AddressEntity, 'id')
     addressDistrict: number;
 
     @ApiProperty()
+    @HasRowField(AddressEntity, 'id')
     addressVillage: number;
 
     @ApiProperty()

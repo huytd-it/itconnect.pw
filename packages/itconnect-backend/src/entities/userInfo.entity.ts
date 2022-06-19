@@ -3,13 +3,14 @@ import {
     CreateDateColumn,
     DeleteDateColumn,
     Entity, JoinColumn,
-    ManyToOne,
+    ManyToOne, OneToMany,
     OneToOne,
     PrimaryColumn, PrimaryGeneratedColumn,
     UpdateDateColumn
 } from "typeorm";
 import {UserEntity} from "./user.entity";
 import {AddressEntity} from "./address.entity";
+import {JobLevelEntity} from "./jobLevel.entity";
 
 
 @Entity()
@@ -43,6 +44,9 @@ export class UserInfoEntity {
 
     @Column()
     birthday: Date;
+
+    @ManyToOne(type => JobLevelEntity)
+    jobLevel: JobLevelEntity;
 
     @CreateDateColumn()
     createdAt: Date;

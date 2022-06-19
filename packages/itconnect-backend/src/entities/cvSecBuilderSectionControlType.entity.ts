@@ -3,22 +3,28 @@ import {
     CreateDateColumn,
     DeleteDateColumn,
     Entity,
-    Index,
+    Index, ManyToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from "typeorm";
+import {UserEntity} from "./user.entity";
+import {SkillEntity} from "./skill.entity";
+import {CvSecBuilderEntity} from "./cvSecBuilder.entity";
+import {CvSectionControlTypeEntity} from "./cvSectionControlType.entity";
 
 @Entity()
-export class cvSecBuilderSectionControlTypeEntity {
+export class CvSecBuilderSectionControlTypeEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
     name: number;
 
-    @Column()
-    @Index()
-    isGlobal: boolean;
+    @ManyToOne(type => CvSecBuilderEntity)
+    cvSecBuilder: CvSecBuilderEntity;
+
+    @ManyToOne(type => CvSectionControlTypeEntity)
+    cvSectionControlType: CvSectionControlTypeEntity;
 
     @CreateDateColumn()
     createdAt: Date;

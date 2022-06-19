@@ -12,6 +12,7 @@ import {UserSkillEntity} from "./userSkill.entity";
 import {SkillEntity} from "./skill.entity";
 import {UserInfoEntity} from "./userInfo.entity";
 import {CompanyInfoEntity} from "./companyInfo.entity";
+import {CvSecBuilderEntity} from "./cvSecBuilder.entity";
 
 @Entity()
 export class UserEntity {
@@ -39,6 +40,9 @@ export class UserEntity {
 
     @OneToMany(type => UserSkillEntity, userSkill => userSkill.user)
     userSkills: SkillEntity[];
+
+    @OneToMany(type => CvSecBuilderEntity, tb => tb.user)
+    cvSecBuilders: CvSecBuilderEntity[];
 
     @CreateDateColumn()
     createdAt: Date;

@@ -3,13 +3,16 @@ import {
     CreateDateColumn,
     DeleteDateColumn,
     Entity,
-    Index,
-    PrimaryGeneratedColumn,
+    Index, ManyToOne, OneToMany,
+    PrimaryGeneratedColumn, Unique,
     UpdateDateColumn
 } from "typeorm";
+import {UserEntity} from "./user.entity";
+import {CvSecBuilderSectionControlTypeEntity} from "./cvSecBuilderSectionControlType.entity";
 
 @Entity()
-export class cvSecBuilderEntity {
+@Unique('userId_name_unique', ['name', 'user'])
+export class CvSecBuilderEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -19,6 +22,12 @@ export class cvSecBuilderEntity {
     @Column()
     @Index()
     isGlobal: boolean;
+
+    @ManyToOne(type => UserEntity)
+    user: UserEntity;
+
+    @OneToMany(type => CvSecBuilderSectionControlTypeEntity, db => db.cvSecBuilder)
+    cvSecBuilderSectionControlTypes: CvSecBuilderSectionControlTypeEntity;
 
     @CreateDateColumn()
     createdAt: Date;

@@ -10,7 +10,7 @@ export class RegisterInputDTO {
     })
     @IsEmail()
     @IsNotEmpty()
-    @HasRowField({ entity: UserEntity })
+    @HasRowField(UserEntity)
     email: string;
 
     @ApiProperty({

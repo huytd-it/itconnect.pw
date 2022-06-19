@@ -21,9 +21,6 @@ export class WorkFromEntity {
     @Index()
     name: string;
 
-    // @ManyToOne(type => UserPositionEntity, userPosition => userPosition.position)
-    // userPositions: UserPositionEntity[]
-
     @CreateDateColumn()
     createdAt: Date;
 

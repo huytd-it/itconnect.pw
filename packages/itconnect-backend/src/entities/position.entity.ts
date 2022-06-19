@@ -3,7 +3,7 @@ import {
     CreateDateColumn,
     DeleteDateColumn,
     Entity,
-    Index, ManyToOne,
+    Index, ManyToOne, OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from "typeorm";
@@ -21,7 +21,7 @@ export class PositionEntity {
     @Index()
     name: string;
 
-    @ManyToOne(type => UserPositionEntity, userPosition => userPosition.position)
+    @OneToMany(type => UserPositionEntity, db => db.user)
     userPositions: UserPositionEntity[]
 
     @CreateDateColumn()
