@@ -36,6 +36,8 @@ export class ProfileController {
         return userOutput;
     }
 
+    @UseGuards(PermissionsGuard)
+    @RequirePermissions(AppPermission.PROFILE_DATA_BOOSTRAP)
     @Get('/data-boostrap')
     getDataBoostrap(
         @GetUser() userFull: UserEntity

@@ -5,6 +5,9 @@ import {PageOptionsDto} from "../../dtos/page.dto";
 import {ApiPaginatedResponse} from "../../utils/decorators/api-paginated-response.decorator";
 import {AddressDto, AddressSearchInputDto} from "../../dtos/address.dto";
 import {AddressService} from "../../services/address.service";
+import {PermissionsGuard} from "../../polices/permissions.guard";
+import {RequirePermissions} from "../../polices/polices.decorator";
+import {AppPermission} from "../../polices/permission.enum";
 
 @ApiTags('address')
 @ApiBearerAuth()
@@ -17,8 +20,10 @@ export class AddressController {
     ) {
     }
 
-    @Get('search')
+    @UseGuards(PermissionsGuard)
+    @RequirePermissions(AppPermission.ADDRESS_SEARCH)
     @ApiPaginatedResponse(AddressDto)
+    @Get('search')
     search(
         @Query() searchDto: AddressSearchInputDto,
         @Query() pageOptionsDto: PageOptionsDto,

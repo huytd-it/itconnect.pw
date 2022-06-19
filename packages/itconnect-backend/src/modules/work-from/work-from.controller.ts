@@ -5,6 +5,9 @@ import {ApiPaginatedResponse} from "../../utils/decorators/api-paginated-respons
 import {PageOptionsDto} from "../../dtos/page.dto";
 import {WorkFromDto, WorkFromSearchInputDto} from "../../dtos/workFrom.dto";
 import {WorkFromService} from "../../services/workFrom.service";
+import {PermissionsGuard} from "../../polices/permissions.guard";
+import {RequirePermissions} from "../../polices/polices.decorator";
+import {AppPermission} from "../../polices/permission.enum";
 
 @ApiTags('work-from')
 @ApiBearerAuth()
@@ -17,8 +20,10 @@ export class WorkFromController {
     ) {
     }
 
-    @Get('search')
+    @UseGuards(PermissionsGuard)
+    @RequirePermissions(AppPermission.WORK_FROM_SEARCH)
     @ApiPaginatedResponse(WorkFromDto)
+    @Get('search')
     search(
         @Query() searchDto: WorkFromSearchInputDto,
         @Query() pageOptionsDto: PageOptionsDto,

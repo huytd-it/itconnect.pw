@@ -1,3 +1,9 @@
+import {Logger} from "@nestjs/common";
+/***
+ * App Roles
+ *
+ *
+ */
 export enum AppRole {
     begin = 'begin',
     user = 'user',
@@ -16,6 +22,7 @@ export enum AppPermission {
      */
     PROFILE = 'profile',
     PROFILE_READ = 'profile_read',
+    PROFILE_DATA_BOOSTRAP = 'profile_data_boostrap',
 
     /**
      * Post feed
@@ -50,16 +57,39 @@ export enum AppPermission {
     JOB = 'job',
     JOB_CREATE = 'job_create',
 
-
     /**
-     * Common
+     * Permission
      *
      */
+    PERMISSION_OWNER = 'permission_owner',
 
+    /**
+     * Address
+     *
+     */
     ADDRESS_SEARCH = "address_search",
+
+
+    /**
+     * Skill
+     *
+     */
     SKILL_SEARCH = "skill_search",
-    // add more
+
+    /**
+     * Work from
+     *
+     */
+    WORK_FROM_SEARCH = 'work_from_search',
+
+
+    /**
+     * Position search
+     *
+     */
+    POSITION_SEARCH = 'position_search'
 }
+
 
 export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
     /**
@@ -67,7 +97,13 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
      *
      */
     [AppRole.begin]: [
-        AppPermission.COMPLETE_PROFILE
+        AppPermission.PROFILE_DATA_BOOSTRAP,
+        AppPermission.COMPLETE_PROFILE,
+        AppPermission.ADDRESS_SEARCH,
+        AppPermission.SKILL_SEARCH,
+        AppPermission.WORK_FROM_SEARCH,
+        AppPermission.POSITION_SEARCH,
+        AppPermission.PERMISSION_OWNER,
     ],
 
     /**
@@ -75,12 +111,18 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
      *
      */
     [AppRole.user]: [
+        AppPermission.PROFILE_DATA_BOOSTRAP,
         AppPermission.POST_FEED,
         AppPermission.FRIEND,
         AppPermission.NOTIFICATION,
         AppPermission.PROFILE,
         AppPermission.MESSAGE,
-        AppPermission.JOB
+        AppPermission.JOB,
+        AppPermission.ADDRESS_SEARCH,
+        AppPermission.SKILL_SEARCH,
+        AppPermission.WORK_FROM_SEARCH,
+        AppPermission.POSITION_SEARCH,
+        AppPermission.PERMISSION_OWNER,
     ],
 
     /***
@@ -88,12 +130,18 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
      *
      */
     [AppRole.company]: [
+        AppPermission.PROFILE_DATA_BOOSTRAP,
         AppPermission.POST_FEED,
         AppPermission.NOTIFICATION,
         AppPermission.PROFILE,
         AppPermission.MESSAGE,
         AppPermission.JOB,
-        AppPermission.JOB_CREATE
+        AppPermission.JOB_CREATE,
+        AppPermission.ADDRESS_SEARCH,
+        AppPermission.SKILL_SEARCH,
+        AppPermission.WORK_FROM_SEARCH,
+        AppPermission.POSITION_SEARCH,
+        AppPermission.PERMISSION_OWNER,
     ],
 
     /**
@@ -113,4 +161,19 @@ export const appRolesConfigHashMap = (function () {
         }, {})
     }
     return result;
+})();
+
+(function validRolePermissions() {
+    for (let roleName in appRolesConfig) {
+        let permissionWarning: string;
+        const permissions = appRolesConfig[roleName];
+        const warn = permissions.some((permission) => {
+            permissionWarning = permission;
+            return permissions.filter(item => item === permission).length > 1;
+        })
+        if (warn) {
+            const logger = new Logger();
+            logger.warn(`duplicate permission ${permissionWarning} in role ${roleName}`);
+        }
+    }
 })();

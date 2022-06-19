@@ -5,6 +5,9 @@ import {ApiPaginatedResponse} from "../../utils/decorators/api-paginated-respons
 import {PageOptionsDto} from "../../dtos/page.dto";
 import {SkillService} from "../../services/skill.service";
 import {SkillDto, SkillSearchInputDto} from "../../dtos/skill.dto";
+import {PermissionsGuard} from "../../polices/permissions.guard";
+import {RequirePermissions} from "../../polices/polices.decorator";
+import {AppPermission} from "../../polices/permission.enum";
 
 @ApiTags('skill')
 @ApiBearerAuth()
@@ -17,8 +20,10 @@ export class SkillController {
     ) {
     }
 
-    @Get('search')
+    @UseGuards(PermissionsGuard)
+    @RequirePermissions(AppPermission.SKILL_SEARCH)
     @ApiPaginatedResponse(SkillDto)
+    @Get('search')
     search(
         @Query() searchDto: SkillSearchInputDto,
         @Query() pageOptionsDto: PageOptionsDto,
