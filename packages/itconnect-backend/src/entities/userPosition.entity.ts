@@ -3,12 +3,13 @@ import {
     CreateDateColumn,
     DeleteDateColumn,
     Entity,
-    ManyToOne,
+    ManyToOne, OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from "typeorm";
 import {UserEntity} from "./user.entity";
 import {PositionEntity} from "./position.entity";
+import {CvWorkExperiencePositionEntity} from "./cvWorkExperiencePosition.entity";
 
 export const MAX_POSITION_SKILL = 20;
 export const MIN_POSITION_SKILL = 3;
@@ -29,6 +30,9 @@ export class UserPositionEntity {
 
     @ManyToOne(type => PositionEntity)
     position!: PositionEntity;
+
+    @OneToMany(type => CvWorkExperiencePositionEntity, db => db.userPosition)
+    cvWorkExperiencePositions: PositionEntity[];
 
     @CreateDateColumn()
     createdAt: Date;

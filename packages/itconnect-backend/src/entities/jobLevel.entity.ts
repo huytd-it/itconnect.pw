@@ -10,7 +10,7 @@ import {
 import {UserPositionEntity} from "./userPosition.entity";
 import {UserInfoEntity} from "./userInfo.entity";
 import {type} from "os";
-import {WorkExperienceEntity} from "./workExperience.entity";
+import {CvWorkExperienceEntity} from "./cvWorkExperience.entity";
 
 export const MAX_JOB_LEVEL_NAME_LENGTH = 20;
 export const MIN_JOB_LEVEL_NAME_LENGTH = 1;
@@ -27,8 +27,8 @@ export class JobLevelEntity {
     @OneToMany(type => UserInfoEntity, db => db.jobLevel)
     userInfos: UserInfoEntity[]
 
-    @OneToMany(type => WorkExperienceEntity, db => db.jobLevel)
-    workExperiences: WorkExperienceEntity[]
+    @OneToMany(type => CvWorkExperienceEntity, db => db.jobLevel)
+    cvWorkExperiences: CvWorkExperienceEntity[]
 
     @CreateDateColumn()
     createdAt: Date;

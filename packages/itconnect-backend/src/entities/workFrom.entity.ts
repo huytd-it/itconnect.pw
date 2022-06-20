@@ -3,11 +3,12 @@ import {
     CreateDateColumn,
     DeleteDateColumn,
     Entity,
-    Index, ManyToOne,
+    Index, ManyToOne, OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from "typeorm";
 import {UserPositionEntity} from "./userPosition.entity";
+import {CvWorkExperienceEntity} from "./cvWorkExperience.entity";
 
 export const MAX_WORK_FROM_NAME_LENGTH = 20;
 export const MIN_WORK_FROM_NAME_LENGTH = 1;
@@ -20,6 +21,9 @@ export class WorkFromEntity {
     @Column()
     @Index()
     name: string;
+
+    @OneToMany(type => CvWorkExperienceEntity, db => db.jobLevel)
+    cvWorkExperiences: CvWorkExperienceEntity[]
 
     @CreateDateColumn()
     createdAt: Date;

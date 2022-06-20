@@ -12,6 +12,8 @@ import {UserEntity} from "./user.entity";
 import {AddressEntity} from "./address.entity";
 import {JobLevelEntity} from "./jobLevel.entity";
 
+export const MAX_USER_INFO_INTEREST_LENGTH = 65000;
+export const MAX_USER_INFO_OBJECTIVE_LENGTH = 65000;
 
 @Entity()
 export class UserInfoEntity {
@@ -45,6 +47,12 @@ export class UserInfoEntity {
 
     @Column()
     birthday: Date;
+
+    @Column({ length: MAX_USER_INFO_INTEREST_LENGTH })
+    interest: string;
+
+    @Column({ length: MAX_USER_INFO_OBJECTIVE_LENGTH })
+    objective: string;
 
     @ManyToOne(type => JobLevelEntity)
     jobLevel: JobLevelEntity;

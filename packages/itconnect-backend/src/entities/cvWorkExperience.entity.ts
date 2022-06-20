@@ -13,12 +13,13 @@ import {PositionEntity} from "./position.entity";
 import {SkillEntity} from "./skill.entity";
 import {JobLevelEntity} from "./jobLevel.entity";
 import {WorkFromEntity} from "./workFrom.entity";
-import {WorkExperienceSkillEntity} from "./workExperienceSkill.entity";
-import {WorkExperiencePositionEntity} from "./workExperiencePosition.entity";
+import {CvWorkExperienceSkillEntity} from "./cvWorkExperienceSkill.entity";
+import {CvWorkExperiencePositionEntity} from "./cvWorkExperiencePosition.entity";
 
+export const MAX_WORK_EXPERIENCE_LENGTH = 65000;
 
 @Entity()
-export class WorkExperienceEntity {
+export class CvWorkExperienceEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -31,7 +32,7 @@ export class WorkExperienceEntity {
     @Column()
     companyName: string;
 
-    @Column()
+    @Column({ length: MAX_WORK_EXPERIENCE_LENGTH })
     content: string;
 
     @ManyToOne(type => CompanyInfoEntity)
@@ -43,14 +44,11 @@ export class WorkExperienceEntity {
     @ManyToOne(type => WorkFromEntity)
     workFrom: WorkFromEntity;
 
-    @OneToMany(type => WorkExperienceSkillEntity, db => db.workExperience)
-    workExperienceSkills: WorkExperienceSkillEntity[];
+    @OneToMany(type => CvWorkExperienceSkillEntity, db => db.cvWorkExperience)
+    cvWorkExperienceSkills: CvWorkExperienceSkillEntity[];
 
-    @OneToMany(type => WorkExperiencePositionEntity, db => db.workExperience)
-    workExperiencePositions: WorkExperiencePositionEntity[];
-
-    @ManyToOne(type => SkillEntity)
-    skill: SkillEntity;
+    @OneToMany(type => CvWorkExperiencePositionEntity, db => db.cvWorkExperience)
+    cvWorkExperiencePositions: CvWorkExperiencePositionEntity[];
 
     @ManyToOne(type => UserEntity)
     user: UserEntity;

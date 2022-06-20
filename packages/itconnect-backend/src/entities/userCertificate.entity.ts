@@ -12,12 +12,14 @@ import {SkillEntity} from "./skill.entity";
 import {CvWorkExperiencePositionEntity} from "./cvWorkExperiencePosition.entity";
 import {PositionEntity} from "./position.entity";
 import {CvWorkExperienceSkillEntity} from "./cvWorkExperienceSkill.entity";
+import {CertificateEntity} from "./certificate.entity";
+import {CvCertificateEntity} from "./cvCertificate.entity";
 
-export const MAX_USER_SKILL = 20;
-export const MIN_USER_SKILL = 3;
+export const MAX_USER_CERTIFICATE = 20;
+export const MIN_USER_CERTIFICATE = 3;
 
 @Entity()
-export class UserSkillEntity {
+export class UserCertificateEntity {
     @PrimaryGeneratedColumn()
     id: number
 
@@ -30,11 +32,14 @@ export class UserSkillEntity {
     @ManyToOne(type => UserEntity)
     user: UserEntity;
 
-    @ManyToOne(type => SkillEntity)
-    skill!: SkillEntity;
+    @ManyToOne(type => CertificateEntity)
+    certificate!: CertificateEntity;
 
     @OneToMany(type => CvWorkExperienceSkillEntity, db => db.userSkill)
     cvWorkExperienceSkills: CvWorkExperienceSkillEntity[];
+
+    @OneToMany(type => CvCertificateEntity, db => db.userCertificate)
+    cvCertificates: CvCertificateEntity[];
 
     @CreateDateColumn()
     createdAt: Date;

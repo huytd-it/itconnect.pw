@@ -10,7 +10,7 @@ import {
 } from "typeorm";
 import {UserEntity} from "./user.entity";
 import {AddressEntity} from "./address.entity";
-import {WorkExperienceEntity} from "./workExperience.entity";
+import {CvWorkExperienceEntity} from "./cvWorkExperience.entity";
 
 
 @Entity()
@@ -34,8 +34,8 @@ export class CompanyInfoEntity {
     @JoinColumn()
     addressVillage: AddressEntity;
 
-    @OneToMany(type => WorkExperienceEntity, db => db.companyInfo)
-    workExperiences: WorkExperienceEntity[]
+    @OneToMany(type => CvWorkExperienceEntity, db => db.companyInfo)
+    cvWorkExperiences: CvWorkExperienceEntity[]
 
     @Column()
     addressStreet: string;

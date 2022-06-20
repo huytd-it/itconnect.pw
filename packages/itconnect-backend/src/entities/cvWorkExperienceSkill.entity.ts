@@ -9,24 +9,22 @@ import {
 } from "typeorm";
 import {UserEntity} from "./user.entity";
 import {SkillEntity} from "./skill.entity";
-import {WorkExperienceEntity} from "./workExperience.entity";
+import {CvWorkExperienceEntity} from "./cvWorkExperience.entity";
+import {UserSkillEntity} from "./userSkill.entity";
 
 export const MAX_WORK_EXPERIENCE_SKILL = 20;
 export const MIN_WORK_EXPERIENCE_SKILL = 1;
 
 @Entity()
-export class WorkExperienceSkillEntity {
+export class CvWorkExperienceSkillEntity {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
-    name: string
+    @ManyToOne(type => CvWorkExperienceEntity)
+    cvWorkExperience: CvWorkExperienceEntity;
 
-    @ManyToOne(type => WorkExperienceEntity)
-    workExperience: WorkExperienceEntity;
-
-    @ManyToOne(type => SkillEntity)
-    skill!: SkillEntity;
+    @ManyToOne(type => UserSkillEntity)
+    userSkill: UserSkillEntity;
 
     @CreateDateColumn()
     createdAt: Date;

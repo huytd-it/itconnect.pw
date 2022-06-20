@@ -7,14 +7,15 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from "typeorm";
-import {UserPositionEntity} from "./userPosition.entity";
+import {UserSkillEntity} from "./userSkill.entity";
 import {CvWorkExperienceEntity} from "./cvWorkExperience.entity";
+import {UserCertificateEntity} from "./userCertificate.entity";
 
-export const MAX_POSITION_NAME_LENGTH = 20;
-export const MIN_POSITION_NAME_LENGTH = 1;
+export const MAX_CERTIFICATE_NAME_LENGTH = 20;
+export const MIN_CERTIFICATE_NAME_LENGTH = 1;
 
 @Entity()
-export class PositionEntity {
+export class CertificateEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -22,8 +23,8 @@ export class PositionEntity {
     @Index()
     name: string;
 
-    @OneToMany(type => UserPositionEntity, db => db.position)
-    userPositions: UserPositionEntity[]
+    @OneToMany(type => UserCertificateEntity, db => db.certificate)
+    userCertificates: UserCertificateEntity[]
 
     @CreateDateColumn()
     createdAt: Date;

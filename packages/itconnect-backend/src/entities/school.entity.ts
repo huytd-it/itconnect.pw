@@ -8,7 +8,7 @@ import {
     UpdateDateColumn
 } from "typeorm";
 import {UserPositionEntity} from "./userPosition.entity";
-import {EducationEntity} from "./education.entity";
+import {CvEducationEntity} from "./cvEducation.entity";
 
 export const MAX_SCHOOL_NAME_LENGTH = 255;
 export const MIN_SCHOOL_NAME_LENGTH = 1;
@@ -22,8 +22,8 @@ export class SchoolEntity {
     @Index()
     name: string;
 
-    @OneToMany(type => EducationEntity, db => db.school)
-    educations: EducationEntity[]
+    @OneToMany(type => CvEducationEntity, db => db.school)
+    cvEducations: CvEducationEntity[]
 
     @CreateDateColumn()
     createdAt: Date;

@@ -7,7 +7,7 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from "typeorm";
-import {EducationEntity} from "./education.entity";
+import {CvEducationEntity} from "./cvEducation.entity";
 
 @Entity()
 export class RankedAcademicEntity {
@@ -17,8 +17,8 @@ export class RankedAcademicEntity {
     @Column()
     name: string
 
-    @OneToMany(type => EducationEntity, db => db.rankedAcademic)
-    educations: EducationEntity[]
+    @OneToMany(type => CvEducationEntity, db => db.rankedAcademic)
+    cvEducations: CvEducationEntity[]
 
     @CreateDateColumn()
     createdAt: Date;

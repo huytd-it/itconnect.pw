@@ -12,8 +12,12 @@ import {UserSkillEntity} from "./userSkill.entity";
 import {SkillEntity} from "./skill.entity";
 import {UserInfoEntity} from "./userInfo.entity";
 import {CompanyInfoEntity} from "./companyInfo.entity";
-import {EducationEntity} from "./education.entity";
-import {WorkExperienceEntity} from "./workExperience.entity";
+import {CvEducationEntity} from "./cvEducation.entity";
+import {CvWorkExperienceEntity} from "./cvWorkExperience.entity";
+import {CvActivitiesEntity} from "./cvActivities.entity";
+import {CvHonorsAwardsEntity} from "./cvHonorsAwards.entity";
+import {UserCertificateEntity} from "./userCertificate.entity";
+import {CvCertificateEntity} from "./cvCertificate.entity";
 
 
 @Entity()
@@ -41,11 +45,23 @@ export class UserEntity {
     @OneToMany(type => UserSkillEntity, userSkill => userSkill.user)
     userSkills: SkillEntity[];
 
-    @OneToMany(type => EducationEntity, db => db.user)
-    educations: EducationEntity[];
+    @OneToMany(type => UserCertificateEntity, db => db.user)
+    userCertificates: UserCertificateEntity[];
 
-    @OneToMany(type => WorkExperienceEntity, db => db.user)
-    workExperiences: WorkExperienceEntity[];
+    @OneToMany(type => CvEducationEntity, db => db.user)
+    cvEducations: CvEducationEntity[];
+
+    @OneToMany(type => CvWorkExperienceEntity, db => db.user)
+    cvWorkExperiences: CvWorkExperienceEntity[];
+
+    @OneToMany(type => CvHonorsAwardsEntity, db => db.user)
+    cvHonorsAwards: CvHonorsAwardsEntity[];
+
+    @OneToMany(type => CvActivitiesEntity, db => db.user)
+    cvActivities: CvActivitiesEntity[];
+
+    @OneToMany(type => CvCertificateEntity, db => db.user)
+    cvCertificates: CvCertificateEntity[];
 
     @CreateDateColumn()
     createdAt: Date;
