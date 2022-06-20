@@ -8,13 +8,13 @@ import {
     UpdateDateColumn
 } from "typeorm";
 import {UserPositionEntity} from "./userPosition.entity";
-import {WorkExperienceEntity} from "./workExperience.entity";
+import {EducationEntity} from "./education.entity";
 
-export const MAX_POSITION_NAME_LENGTH = 20;
-export const MIN_POSITION_NAME_LENGTH = 1;
+export const MAX_SCHOOL_NAME_LENGTH = 255;
+export const MIN_SCHOOL_NAME_LENGTH = 1;
 
 @Entity()
-export class PositionEntity {
+export class SchoolEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -22,8 +22,8 @@ export class PositionEntity {
     @Index()
     name: string;
 
-    @OneToMany(type => UserPositionEntity, db => db.position)
-    userPositions: UserPositionEntity[]
+    @OneToMany(type => EducationEntity, db => db.school)
+    educations: EducationEntity[]
 
     @CreateDateColumn()
     createdAt: Date;

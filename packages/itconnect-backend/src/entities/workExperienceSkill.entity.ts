@@ -8,27 +8,25 @@ import {
     UpdateDateColumn
 } from "typeorm";
 import {UserEntity} from "./user.entity";
-import {PositionEntity} from "./position.entity";
+import {SkillEntity} from "./skill.entity";
+import {WorkExperienceEntity} from "./workExperience.entity";
 
-export const MAX_POSITION_SKILL = 20;
-export const MIN_POSITION_SKILL = 3;
+export const MAX_WORK_EXPERIENCE_SKILL = 20;
+export const MIN_WORK_EXPERIENCE_SKILL = 1;
 
 @Entity()
-export class UserPositionEntity {
+export class WorkExperienceSkillEntity {
     @PrimaryGeneratedColumn()
     id: number
 
     @Column()
     name: string
 
-    @Column({ default: 1 })
-    level: number;
+    @ManyToOne(type => WorkExperienceEntity)
+    workExperience: WorkExperienceEntity;
 
-    @ManyToOne(type => UserEntity)
-    user: UserEntity;
-
-    @ManyToOne(type => PositionEntity)
-    position!: PositionEntity;
+    @ManyToOne(type => SkillEntity)
+    skill!: SkillEntity;
 
     @CreateDateColumn()
     createdAt: Date;

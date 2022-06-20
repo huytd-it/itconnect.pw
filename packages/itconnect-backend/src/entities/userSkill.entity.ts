@@ -21,6 +21,9 @@ export class UserSkillEntity {
     @Column()
     name: string
 
+    @Column({ default: 1 })
+    level: number;
+
     @ManyToOne(type => UserEntity)
     user: UserEntity;
 

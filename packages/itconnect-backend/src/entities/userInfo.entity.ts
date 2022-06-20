@@ -46,6 +46,9 @@ export class UserInfoEntity {
     @Column()
     birthday: Date;
 
+    @ManyToOne(type => JobLevelEntity)
+    jobLevel: JobLevelEntity;
+
     @CreateDateColumn()
     createdAt: Date;
 

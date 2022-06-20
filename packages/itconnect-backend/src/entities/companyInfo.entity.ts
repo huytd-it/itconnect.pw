@@ -3,13 +3,14 @@ import {
     CreateDateColumn,
     DeleteDateColumn,
     Entity, JoinColumn,
-    ManyToOne,
+    ManyToOne, OneToMany,
     OneToOne,
     PrimaryColumn, PrimaryGeneratedColumn,
     UpdateDateColumn
 } from "typeorm";
 import {UserEntity} from "./user.entity";
 import {AddressEntity} from "./address.entity";
+import {WorkExperienceEntity} from "./workExperience.entity";
 
 
 @Entity()
@@ -32,6 +33,9 @@ export class CompanyInfoEntity {
     @ManyToOne(type => AddressEntity)
     @JoinColumn()
     addressVillage: AddressEntity;
+
+    @OneToMany(type => WorkExperienceEntity, db => db.companyInfo)
+    workExperiences: WorkExperienceEntity[]
 
     @Column()
     addressStreet: string;
