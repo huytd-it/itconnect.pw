@@ -23,7 +23,7 @@ export class CvCertificateEntity {
     @Column()
     date: Date;
 
-    @Column({ length: MAX_CERTIFICATE_CONTENT_LENGTH })
+    @Column({ type: 'text' })
     content: string;
 
     @ManyToOne(type => CertificateEntity)

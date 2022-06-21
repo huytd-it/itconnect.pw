@@ -22,7 +22,7 @@ export class CvEducationEntity {
     @Column()
     mark: number;
 
-    @Column({ length: MAX_EDUCATION_CONTENT_LENGTH })
+    @Column({ type: 'text' })
     content: string;
 
     @Column()

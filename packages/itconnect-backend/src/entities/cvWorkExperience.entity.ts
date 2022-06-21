@@ -32,7 +32,7 @@ export class CvWorkExperienceEntity {
     @Column()
     companyName: string;
 
-    @Column({ length: MAX_WORK_EXPERIENCE_LENGTH })
+    @Column({ type: 'text' })
     content: string;
 
     @ManyToOne(type => CompanyInfoEntity)

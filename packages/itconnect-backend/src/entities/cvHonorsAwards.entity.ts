@@ -16,7 +16,7 @@ export class CvHonorsAwardsEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ length: MAX_HONORS_CONTENT_LENGTH })
+    @Column({ type: 'text' })
     content: string;
 
     @Column()

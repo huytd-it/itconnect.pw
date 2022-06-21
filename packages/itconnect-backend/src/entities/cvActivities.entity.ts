@@ -22,7 +22,7 @@ export class CvActivitiesEntity {
     @Column()
     role: string;
 
-    @Column({ length: MAX_ACTIVITY_CONTENT_LENGTH })
+    @Column({ type: 'text' })
     content: string;
 
     @Column()
