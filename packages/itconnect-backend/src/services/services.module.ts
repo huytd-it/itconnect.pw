@@ -20,6 +20,12 @@ import {SchoolService} from "./school.service";
 import {SchoolEntity} from "../entities/school.entity";
 import {CertificateService} from "./certificate.service";
 import {CertificateEntity} from "../entities/certificate.entity";
+import {UserTaggedSkillEntity} from "../entities/userTaggedSkill.entity";
+import {UserTaggedPositionEntity} from "../entities/userTaggedPosition.entity";
+import {UserTaggedCertificateEntity} from "../entities/userTaggedCertificate.entity";
+import {UserTaggedSchoolEntity} from "../entities/userTaggedSchool.entity";
+import {UserSchoolEntity} from "../entities/userSchool.entity";
+import {UserCertificateEntity} from "../entities/userCertificate.entity";
 
 @Module({
   imports: [
@@ -28,6 +34,12 @@ import {CertificateEntity} from "../entities/certificate.entity";
         UserInfoEntity,
         UserSkillEntity,
         UserPositionEntity,
+        UserSchoolEntity,
+        UserCertificateEntity,
+        UserTaggedSkillEntity,
+        UserTaggedPositionEntity,
+        UserTaggedCertificateEntity,
+        UserTaggedSchoolEntity,
         AddressEntity,
         PositionEntity,
         SkillEntity,
@@ -35,7 +47,7 @@ import {CertificateEntity} from "../entities/certificate.entity";
         WorkFromEntity,
         JobLevelEntity,
         SchoolEntity,
-        CertificateEntity
+        CertificateEntity,
     ])
   ],
   providers: [

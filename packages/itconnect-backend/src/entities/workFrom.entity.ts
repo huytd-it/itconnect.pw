@@ -18,7 +18,7 @@ export class WorkFromEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({ default: false })
     @Unique(['name'])
     name: string;
 

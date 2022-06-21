@@ -1,4 +1,4 @@
-import {Controller, Get, Query, UseGuards} from '@nestjs/common';
+import {Body, Controller, Get, Post, Query, UseGuards} from '@nestjs/common';
 import {ApiBearerAuth, ApiTags} from "@nestjs/swagger";
 import {JwtAuthGuard} from "../../utils/guards/jwt.guard";
 import {ApiPaginatedResponse} from "../../utils/decorators/api-paginated-response.decorator";
@@ -7,12 +7,10 @@ import {PermissionsGuard} from "../../polices/permissions.guard";
 import {RequirePermissions} from "../../polices/polices.decorator";
 import {AppPermission} from "../../polices/permission.enum";
 import {ApiPaginatedQueryOrder} from "../../utils/decorators/api-paginated-query-order.decorator";
-import {CertificateService} from "../../services/certificate.service";
-import {CertificateDto, CertificateSearchInputDto} from "../../dtos/certificate.dto";
-import {CertificateEntity} from "../../entities/certificate.entity";
 import {SchoolService} from "../../services/school.service";
-import {SchoolDto, SchoolSearchInputDto} from "../../dtos/school.dto";
+import {SchoolCreateDto, SchoolDto, SchoolSearchInputDto} from "../../dtos/school.dto";
 import {SchoolEntity} from "../../entities/school.entity";
+import {SkillCreateDto} from "../../dtos/skill.dto";
 
 @ApiTags('school')
 @ApiBearerAuth()
@@ -37,4 +35,12 @@ export class SchoolController {
         return this.schoolService.search(searchDto, new PageOptionsDto(pageOptionsDto));
     }
 
+    @UseGuards(PermissionsGuard)
+    @RequirePermissions(AppPermission.SCHOOL_CREATE)
+    @Post('create')
+    create(
+        @Body() data: SchoolCreateDto,
+    ) {
+        return this.schoolService.create(data);
+    }
 }

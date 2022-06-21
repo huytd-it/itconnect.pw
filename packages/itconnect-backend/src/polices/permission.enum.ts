@@ -75,6 +75,8 @@ export enum AppPermission {
      *
      */
     SKILL_SEARCH = "skill_search",
+    SKILL_CREATE = "skill_create",
+    SKILL_DELETE = "skill_delete",
 
     /**
      * Work from
@@ -88,7 +90,7 @@ export enum AppPermission {
      *
      */
     POSITION_SEARCH = 'position_search',
-
+    POSITION_CREATE = "position_create",
 
     /**
      * Job level
@@ -102,6 +104,7 @@ export enum AppPermission {
      *
      */
     SCHOOL_SEARCH = 'school_search',
+    SCHOOL_CREATE = "school_create",
 
 
     /**
@@ -109,6 +112,8 @@ export enum AppPermission {
      *
      */
     CERTIFICATE_SEARCH = 'certificate_search',
+    CERTIFICATE_CREATE = "certificate_create",
+
 }
 
 
@@ -122,10 +127,16 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.COMPLETE_PROFILE,
         AppPermission.ADDRESS_SEARCH,
         AppPermission.SKILL_SEARCH,
+        AppPermission.SKILL_CREATE,
         AppPermission.WORK_FROM_SEARCH,
         AppPermission.POSITION_SEARCH,
+        AppPermission.POSITION_CREATE,
         AppPermission.PERMISSION_OWNER,
         AppPermission.JOB_LEVEL_SEARCH,
+        AppPermission.CERTIFICATE_SEARCH,
+        AppPermission.CERTIFICATE_CREATE,
+        AppPermission.SCHOOL_SEARCH,
+        AppPermission.SCHOOL_CREATE
     ],
 
     /**
@@ -142,10 +153,16 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.JOB,
         AppPermission.ADDRESS_SEARCH,
         AppPermission.SKILL_SEARCH,
+        AppPermission.SKILL_CREATE,
         AppPermission.WORK_FROM_SEARCH,
         AppPermission.POSITION_SEARCH,
+        AppPermission.POSITION_CREATE,
         AppPermission.PERMISSION_OWNER,
         AppPermission.JOB_LEVEL_SEARCH,
+        AppPermission.CERTIFICATE_SEARCH,
+        AppPermission.CERTIFICATE_CREATE,
+        AppPermission.SCHOOL_SEARCH,
+        AppPermission.SCHOOL_CREATE
     ],
 
     /***
@@ -162,10 +179,16 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.JOB_CREATE,
         AppPermission.ADDRESS_SEARCH,
         AppPermission.SKILL_SEARCH,
+        AppPermission.SKILL_CREATE,
         AppPermission.WORK_FROM_SEARCH,
         AppPermission.POSITION_SEARCH,
+        AppPermission.POSITION_CREATE,
         AppPermission.PERMISSION_OWNER,
         AppPermission.JOB_LEVEL_SEARCH,
+        AppPermission.CERTIFICATE_SEARCH,
+        AppPermission.CERTIFICATE_CREATE,
+        AppPermission.SCHOOL_SEARCH,
+        AppPermission.SCHOOL_CREATE
     ],
 
     /**
@@ -201,3 +224,7 @@ export const appRolesConfigHashMap = (function () {
         }
     }
 })();
+
+export const hasUserTagged = (user: { role: string }) => {
+    return user.role === AppRole.user || user.role === AppRole.company || user.role === AppRole.begin;
+}

@@ -4,8 +4,8 @@ import {Type} from "class-transformer";
 import {HasOrderField} from "../validators/page-has-order-field.validate";
 
 export enum Order {
-    asc = "asc",
-    desc = "desc",
+    ASC = "ASC",
+    DESC = "DESC",
 }
 
 
@@ -20,7 +20,7 @@ export class PageOptionsDto {
     })
     @IsEnum(Order)
     @IsOptional()
-    readonly order?: string;
+    readonly order?: Order;
 
     @ApiPropertyOptional({
         minimum: 1,

@@ -1,44 +1,113 @@
-import { Injectable } from '@nestjs/common';
+import {ConflictException, Inject, Injectable, Request, Scope} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {PositionEntity} from "../entities/position.entity";
-import {FindManyOptions, Like, Repository} from "typeorm";
+import {FindManyOptions, FindOptionsWhere, In, Like, Repository} from "typeorm";
 import {SkillDto, SkillSearchInputDto} from "../dtos/skill.dto";
 import {PageDto, PageMetaDto, PageOptionsDto} from "../dtos/page.dto";
-import {PositionDto, PositionSearchInputDto} from "../dtos/position.dto";
+import {PositionCreateDto, PositionDto, PositionSearchInputDto} from "../dtos/position.dto";
+import {UserEntity} from "../entities/user.entity";
+import {hasUserTagged} from "../polices/permission.enum";
+import {UserTaggedPositionEntity} from "../entities/userTaggedPosition.entity";
+import {REQUEST} from "@nestjs/core";
+import {SkillEntity} from "../entities/skill.entity";
+import {Approve} from "../dtos/abstract.dto";
 
-@Injectable()
+@Injectable({ scope: Scope.REQUEST })
 export class PositionService {
 
     constructor(
         @InjectRepository(PositionEntity)
-        private positionRepository: Repository<PositionEntity>
+        private positionRepository: Repository<PositionEntity>,
+        @InjectRepository(UserTaggedPositionEntity)
+        private userTaggedPositionRepository: Repository<UserTaggedPositionEntity>,
+        @Inject(REQUEST) private request: Request
     ) {
     }
 
     async search(dtoSearch: PositionSearchInputDto, dtoPage: PageOptionsDto) {
-        const options:  FindManyOptions<PositionDto> = {
-            skip: dtoPage.skip,
-            take: dtoPage.take,
-        };
+        const query = this.positionRepository.createQueryBuilder('position');
+        query.select('position.*');
 
-        options.where = {}
+        const whereClause: FindOptionsWhere<SkillEntity> = {};
         if (dtoSearch.search) {
-            options.where.name = Like(`%${dtoSearch.search}%`)
+            whereClause.name = Like(`%${dtoSearch.search}%`);
         }
+        if (dtoSearch.approve && (dtoSearch.approve == Approve.True || dtoSearch.approve == Approve.False)) {
+            whereClause.isApprove = dtoSearch.approve == Approve.True;
+        }
+        query.where(whereClause);
 
-        if (dtoPage.order_field && dtoPage.order) {
-            options.order = {
-                [dtoPage.order_field]: dtoPage.order
+        // owner tag
+        const currentUser = this.request['user'] as UserEntity;
+        if (hasUserTagged(currentUser)) {
+            const userTagged = await this.userTaggedPositionRepository.find({
+                where: {
+                    user: {
+                        id: currentUser.id
+                    }
+                },
+                loadRelationIds: true
+            });
+            if (userTagged.length) {
+                query.andWhere((clause) => {
+                    clause.where({
+                        id: In(userTagged.map(item => item.position))
+                    })
+                    clause.orWhere({
+                        isApprove: true
+                    })
+                })
             }
         }
 
-        const result = await this.positionRepository.find(options);
-        const total = await this.positionRepository.count({
-            where: options.where
-        });
+        if (dtoPage.order && dtoPage.order_field) {
+            query.orderBy(dtoPage.order_field, dtoPage.order)
+        }
+
+        // count all data
+        const total = await query.getCount();
+
+        // query data
+        query.skip(dtoPage.skip);
+        query.take(dtoPage.take);
+        const result = await query.execute();
 
         const meta = new PageMetaDto({ itemCount: total, pageOptionDto: dtoPage });
         return new PageDto(result, meta)
     }
 
+    async create(data: PositionCreateDto) {
+        const name = data.name;
+        let position = await this.positionRepository.findOne({
+            where: { name }
+        })
+
+        const currentUser = this.request['user'] as UserEntity;
+
+        // create owner
+        if (hasUserTagged(currentUser)) {
+            if (!position) {
+                position = await this.positionRepository.save({ name });
+            }
+            const data = {
+                user: {
+                    id: currentUser.id
+                },
+                position: {
+                    id: position.id
+                }
+            };
+            const skillTagged = await this.userTaggedPositionRepository.findOne({
+                where: data
+            })
+            if (skillTagged) {
+                throw new ConflictException('Position is exists');
+            }
+            await this.userTaggedPositionRepository.save(data)
+        } else {
+            throw new ConflictException('Position is exists');
+        }
+
+        return position;
+    }
 }

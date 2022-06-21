@@ -5,7 +5,7 @@ import {InjectRepository} from "@nestjs/typeorm";
 import {SkillEntity} from "../entities/skill.entity";
 import {SkillDto, SkillSearchInputDto} from "../dtos/skill.dto";
 import {WorkFromEntity} from "../entities/workFrom.entity";
-import {WorkFromSearchInputDto} from "../dtos/workFrom.dto";
+import {WorkFromDto, WorkFromSearchInputDto} from "../dtos/workFrom.dto";
 
 @Injectable()
 export class WorkFromService {
@@ -17,7 +17,7 @@ export class WorkFromService {
     }
 
     async search(dtoSearch: WorkFromSearchInputDto, dtoPage: PageOptionsDto) {
-        const options:  FindManyOptions<SkillDto> = {
+        const options:  FindManyOptions<WorkFromDto> = {
             skip: dtoPage.skip,
             take: dtoPage.take,
         };

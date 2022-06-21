@@ -23,7 +23,7 @@ export class CertificateEntity {
     @Unique(['name'])
     name: string;
 
-    @Column()
+    @Column({ default: false })
     @Index()
     isApprove: boolean;
 

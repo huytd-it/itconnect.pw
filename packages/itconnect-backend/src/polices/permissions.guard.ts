@@ -31,7 +31,7 @@ export class PermissionsGuard implements CanActivate {
             return permissionsHashMap[p];
         })
         if (!result) {
-            throw new ForbiddenException(`Require permission '${AppPermission[permissionCheck]}'`);
+            throw new ForbiddenException(`Require permission '${permissionCheck}'`);
         }
 
         return true;

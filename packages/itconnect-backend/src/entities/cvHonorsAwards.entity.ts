@@ -20,10 +20,7 @@ export class CvHonorsAwardsEntity {
     content: string;
 
     @Column()
-    startDate: Date;
-
-    @Column()
-    endDate: Date;
+    date: Date;
 
     @ManyToOne(type => UserEntity)
     user: UserEntity;
