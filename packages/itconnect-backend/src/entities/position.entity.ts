@@ -5,10 +5,14 @@ import {
     Entity,
     Index, ManyToOne, OneToMany,
     PrimaryGeneratedColumn,
-    UpdateDateColumn
+    UpdateDateColumn,
+    Unique
 } from "typeorm";
 import {UserPositionEntity} from "./userPosition.entity";
 import {CvWorkExperienceEntity} from "./cvWorkExperience.entity";
+import {CvWorkExperiencePositionEntity} from "./cvWorkExperiencePosition.entity";
+import {UserTaggedCertificateEntity} from "./userTaggedCertificate.entity";
+import {UserTaggedPositionEntity} from "./userTaggedPosition.entity";
 
 export const MAX_POSITION_NAME_LENGTH = 20;
 export const MIN_POSITION_NAME_LENGTH = 1;
@@ -19,11 +23,21 @@ export class PositionEntity {
     id: number;
 
     @Column()
-    @Index()
+    @Unique(['name'])
     name: string;
+
+    @Column()
+    @Index()
+    isApprove: boolean;
 
     @OneToMany(type => UserPositionEntity, db => db.position)
     userPositions: UserPositionEntity[]
+
+    @OneToMany(type => UserTaggedPositionEntity, db => db.position)
+    userTaggedPositions: UserTaggedPositionEntity[]
+
+    @OneToMany(type => CvWorkExperiencePositionEntity, db => db.position)
+    cvWorkExperiencePositions: PositionEntity[];
 
     @CreateDateColumn()
     createdAt: Date;

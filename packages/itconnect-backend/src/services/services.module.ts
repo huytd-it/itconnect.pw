@@ -16,6 +16,10 @@ import {WorkFromEntity} from "../entities/workFrom.entity";
 import {WorkFromService} from "./workFrom.service";
 import {JobLevelEntity} from "../entities/jobLevel.entity";
 import {JobLevelService} from "./jobLevel.service";
+import {SchoolService} from "./school.service";
+import {SchoolEntity} from "../entities/school.entity";
+import {CertificateService} from "./certificate.service";
+import {CertificateEntity} from "../entities/certificate.entity";
 
 @Module({
   imports: [
@@ -29,17 +33,30 @@ import {JobLevelService} from "./jobLevel.service";
         SkillEntity,
         CompanyInfoEntity,
         WorkFromEntity,
-        JobLevelEntity
+        JobLevelEntity,
+        SchoolEntity,
+        CertificateEntity
     ])
   ],
-  providers: [UserService, AddressService, SkillService, PositionService, WorkFromService, JobLevelService],
+  providers: [
+      UserService,
+      AddressService,
+      SkillService,
+      PositionService,
+      WorkFromService,
+      JobLevelService,
+      SchoolService,
+      CertificateService
+  ],
   exports: [
       UserService,
       AddressService,
       SkillService,
       PositionService,
       WorkFromService,
-      JobLevelService
+      JobLevelService,
+      SchoolService,
+      CertificateService
   ]
 })
 export class ServicesModule {}

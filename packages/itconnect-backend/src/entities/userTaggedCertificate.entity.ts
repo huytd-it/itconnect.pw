@@ -20,7 +20,7 @@ export const MIN_USER_CERTIFICATE = 3;
 
 @Entity()
 @Unique(['user', 'certificate'])
-export class UserCertificateEntity {
+export class UserTaggedCertificateEntity {
     @PrimaryGeneratedColumn()
     id: number
 
@@ -29,9 +29,6 @@ export class UserCertificateEntity {
 
     @ManyToOne(type => CertificateEntity)
     certificate: CertificateEntity;
-
-    @Column({ default: 1 })
-    level: number;
 
     @CreateDateColumn()
     createdAt: Date;

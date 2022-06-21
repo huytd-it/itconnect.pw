@@ -10,6 +10,7 @@ import {
 import {RankedAcademicEntity} from "./rankedAcademic.entity";
 import {SchoolEntity} from "./school.entity";
 import {UserEntity} from "./user.entity";
+import {UserSchoolEntity} from "./userSchool.entity";
 
 export const MAX_EDUCATION_CONTENT_LENGTH = 65000;
 
@@ -34,7 +35,7 @@ export class CvEducationEntity {
     rankedAcademic: RankedAcademicEntity;
 
     @ManyToOne(type => SchoolEntity)
-    school: SchoolEntity[];
+    school: SchoolEntity;
 
     @ManyToOne(type => UserEntity)
     user: UserEntity;

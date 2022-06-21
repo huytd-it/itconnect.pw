@@ -16,6 +16,7 @@ import {MAX_SKILL_NAME_LENGTH, MIN_SKILL_NAME_LENGTH} from "../entities/skill.en
 import {MAX_POSITION_NAME_LENGTH, MIN_POSITION_NAME_LENGTH} from "../entities/position.entity";
 import {HasRowField} from "../validators/has-row-field.validate";
 import {AddressEntity} from "../entities/address.entity";
+import {UserDto} from "./user.dto";
 
 const MAX_LENGTH_FULL_NAME = 255;
 const MIN_LENGTH_FULL_NAME = 3;
@@ -111,4 +112,12 @@ export class CompleteCompanyProfileInputDto {
 export class CompleteCompanyProfileOutputDto {
     @ApiProperty()
     status: boolean
+}
+
+export class DataBoostrapOutputDto {
+    @ApiProperty()
+    permissions: string[];
+
+    @ApiProperty()
+    user: UserDto;
 }

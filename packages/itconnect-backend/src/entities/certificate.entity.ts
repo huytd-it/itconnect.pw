@@ -4,12 +4,12 @@ import {
     DeleteDateColumn,
     Entity,
     Index, ManyToOne, OneToMany,
-    PrimaryGeneratedColumn,
+    PrimaryGeneratedColumn, Unique,
     UpdateDateColumn
 } from "typeorm";
-import {UserSkillEntity} from "./userSkill.entity";
-import {CvWorkExperienceEntity} from "./cvWorkExperience.entity";
 import {UserCertificateEntity} from "./userCertificate.entity";
+import {CvCertificateEntity} from "./cvCertificate.entity";
+import {UserTaggedCertificateEntity} from "./userTaggedCertificate.entity";
 
 export const MAX_CERTIFICATE_NAME_LENGTH = 20;
 export const MIN_CERTIFICATE_NAME_LENGTH = 1;
@@ -20,11 +20,21 @@ export class CertificateEntity {
     id: number;
 
     @Column()
-    @Index()
+    @Unique(['name'])
     name: string;
+
+    @Column()
+    @Index()
+    isApprove: boolean;
 
     @OneToMany(type => UserCertificateEntity, db => db.certificate)
     userCertificates: UserCertificateEntity[]
+
+    @OneToMany(type => UserTaggedCertificateEntity, db => db.certificate)
+    userTaggedCertificates: UserTaggedCertificateEntity[]
+
+    @OneToMany(type => CvCertificateEntity, db => db.certificate)
+    cvCertificates: CvCertificateEntity[];
 
     @CreateDateColumn()
     createdAt: Date;

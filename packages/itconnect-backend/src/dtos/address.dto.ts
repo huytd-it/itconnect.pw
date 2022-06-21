@@ -3,8 +3,9 @@ import {AddressEntity, EAddressType} from "../entities/address.entity";
 import {IsEnum, IsInt, IsOptional} from "class-validator";
 import {ApiEnumValue} from "../utils/decorators/api-enum-value.decorator";
 import {Type} from "class-transformer";
+import {EntityDto} from "./abstract.dto";
 
-export class AddressDto {
+export class AddressDto extends EntityDto {
     @ApiProperty()
     id: number;
 
@@ -17,7 +18,8 @@ export class AddressDto {
     @IsEnum(EAddressType)
     type: EAddressType;
 
-    /// add more field
+    @ApiProperty()
+    parentId: number;
 }
 
 export class AddressSearchInputDto {

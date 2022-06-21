@@ -4,19 +4,17 @@ import {
     DeleteDateColumn,
     Entity,
     ManyToOne,
-    PrimaryGeneratedColumn,
+    PrimaryGeneratedColumn, Unique,
     UpdateDateColumn
 } from "typeorm";
-import {UserEntity} from "./user.entity";
-import {SkillEntity} from "./skill.entity";
 import {CvWorkExperienceEntity} from "./cvWorkExperience.entity";
 import {PositionEntity} from "./position.entity";
-import {UserPositionEntity} from "./userPosition.entity";
 
 export const MAX_WORK_EXPERIENCE_POSITION = 20;
 export const MIN_WORK_EXPERIENCE_POSITION = 1;
 
 @Entity()
+@Unique(['cvWorkExperience', 'position'])
 export class CvWorkExperiencePositionEntity {
     @PrimaryGeneratedColumn()
     id: number
@@ -24,8 +22,8 @@ export class CvWorkExperiencePositionEntity {
     @ManyToOne(type => CvWorkExperienceEntity)
     cvWorkExperience: CvWorkExperienceEntity;
 
-    @ManyToOne(type => UserPositionEntity)
-    userPosition: UserPositionEntity;
+    @ManyToOne(type => PositionEntity)
+    position: PositionEntity;
 
     @CreateDateColumn()
     createdAt: Date;

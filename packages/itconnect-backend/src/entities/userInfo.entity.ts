@@ -5,7 +5,7 @@ import {
     Entity, JoinColumn,
     ManyToOne, OneToMany,
     OneToOne,
-    PrimaryColumn, PrimaryGeneratedColumn,
+    PrimaryColumn, PrimaryGeneratedColumn, Unique,
     UpdateDateColumn
 } from "typeorm";
 import {UserEntity} from "./user.entity";

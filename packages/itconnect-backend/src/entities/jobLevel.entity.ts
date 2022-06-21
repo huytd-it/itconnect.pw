@@ -5,7 +5,8 @@ import {
     Entity,
     Index, ManyToOne, OneToMany,
     PrimaryGeneratedColumn,
-    UpdateDateColumn
+    UpdateDateColumn,
+    Unique
 } from "typeorm";
 import {UserPositionEntity} from "./userPosition.entity";
 import {UserInfoEntity} from "./userInfo.entity";
@@ -21,7 +22,7 @@ export class JobLevelEntity {
     id: number;
 
     @Column()
-    @Index()
+    @Unique(['name'])
     name: string;
 
     @OneToMany(type => UserInfoEntity, db => db.jobLevel)

@@ -94,7 +94,21 @@ export enum AppPermission {
      * Job level
      *
      */
-    JOB_LEVEL_SEARCH = 'job_level_search'
+    JOB_LEVEL_SEARCH = 'job_level_search',
+
+
+    /**
+     * School
+     *
+     */
+    SCHOOL_SEARCH = 'school_search',
+
+
+    /**
+     * Certificate = 'certificate'
+     *
+     */
+    CERTIFICATE_SEARCH = 'certificate_search',
 }
 
 

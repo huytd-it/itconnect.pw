@@ -59,92 +59,92 @@ export class UserService {
              *
              *
              */
-            const skills = await queryRunner.manager.find(SkillEntity, {
-                where: {
-                    name: In(dto.skills)
-                }
-            })
-
-            const appSkills = skills.map(item => item.name);
-            const userSkills = dto.skills.filter(item => !appSkills.includes(item));
-
-            // insert user skills - app owner
-            for (let appSkill of skills) {
-                const entity = new UserSkillEntity();
-                entity.name = appSkill.name;
-                entity.skill = appSkill;
-                await queryRunner.manager.save(entity);
-            }
-
-
-            // insert user skill
-            for (let userSkill of userSkills) {
-                const entity = new UserSkillEntity();
-                entity.name = userSkill;
-                await queryRunner.manager.save(entity);
-            }
-
-            /***
-             * Handle position
-             *
-             *
-             */
-            const positions = await queryRunner.manager.find(PositionEntity, {
-                where: {
-                    name: In(dto.skills)
-                }
-            })
-
-            const appPositions = skills.map(item => item.name);
-            const userPositions = dto.skills.filter(item => !appPositions.includes(item));
-
-            // insert user positions - app owner
-            for (let appPosition of positions) {
-                const entity = new UserPositionEntity();
-                entity.name = appPosition.name;
-                entity.position = appPosition;
-                await queryRunner.manager.save(entity);
-            }
-
-
-            // insert user positions
-            for (let userPosition of userPositions) {
-                const entity = new UserPositionEntity();
-                entity.name = userPosition;
-                await queryRunner.manager.save(entity);
-            }
-
-            /**
-             * Handle user info
-             *
-             *
-             */
-            const userInfoEntity = new UserInfoEntity();
-            userInfoEntity.user = user;
-            userInfoEntity.fullName = dto.fullName;
-            userInfoEntity.phone = dto.phone;
-            userInfoEntity.birthday = dto.birthday;
-            userInfoEntity.addressStreet = dto.addressStreet;
-
-            const aVillage = new AddressEntity();
-            aVillage.id = dto.addressVillage;
-            userInfoEntity.addressVillage = aVillage;
-
-            const aDistrict = new AddressEntity();
-            aDistrict.id = dto.addressDistrict;
-            userInfoEntity.addressDistrict = aDistrict;
-
-            const aProvince = new AddressEntity();
-            aProvince.id = dto.addressProvince;
-            userInfoEntity.addressProvince = aProvince;
-            await queryRunner.manager.save(userInfoEntity);
-
-            // update user role
-            await queryRunner.manager.update(UserEntity, { id: user.id }, {
-                role: AppRole.user
-            });
-
-            await queryRunner.commitTransaction();
+            // const skills = await queryRunner.manager.find(SkillEntity, {
+            //     where: {
+            //         name: In(dto.skills)
+            //     }
+            // })
+            //
+            // const appSkills = skills.map(item => item.name);
+            // const userSkills = dto.skills.filter(item => !appSkills.includes(item));
+            //
+            // // insert user skills - app owner
+            // for (let appSkill of skills) {
+            //     const entity = new UserSkillEntity();
+            //     entity.name = appSkill.name;
+            //     entity.skill = appSkill;
+            //     await queryRunner.manager.save(entity);
+            // }
+            //
+            //
+            // // insert user skill
+            // for (let userSkill of userSkills) {
+            //     const entity = new UserSkillEntity();
+            //     entity.name = userSkill;
+            //     await queryRunner.manager.save(entity);
+            // }
+            //
+            // /***
+            //  * Handle position
+            //  *
+            //  *
+            //  */
+            // const positions = await queryRunner.manager.find(PositionEntity, {
+            //     where: {
+            //         name: In(dto.skills)
+            //     }
+            // })
+            //
+            // const appPositions = skills.map(item => item.name);
+            // const userPositions = dto.skills.filter(item => !appPositions.includes(item));
+            //
+            // // insert user positions - app owner
+            // for (let appPosition of positions) {
+            //     const entity = new UserPositionEntity();
+            //     entity.name = appPosition.name;
+            //     entity.position = appPosition;
+            //     await queryRunner.manager.save(entity);
+            // }
+            //
+            //
+            // // insert user positions
+            // for (let userPosition of userPositions) {
+            //     const entity = new UserPositionEntity();
+            //     entity.name = userPosition;
+            //     await queryRunner.manager.save(entity);
+            // }
+            //
+            // /**
+            //  * Handle user info
+            //  *
+            //  *
+            //  */
+            // const userInfoEntity = new UserInfoEntity();
+            // userInfoEntity.user = user;
+            // userInfoEntity.fullName = dto.fullName;
+            // userInfoEntity.phone = dto.phone;
+            // userInfoEntity.birthday = dto.birthday;
+            // userInfoEntity.addressStreet = dto.addressStreet;
+            //
+            // const aVillage = new AddressEntity();
+            // aVillage.id = dto.addressVillage;
+            // userInfoEntity.addressVillage = aVillage;
+            //
+            // const aDistrict = new AddressEntity();
+            // aDistrict.id = dto.addressDistrict;
+            // userInfoEntity.addressDistrict = aDistrict;
+            //
+            // const aProvince = new AddressEntity();
+            // aProvince.id = dto.addressProvince;
+            // userInfoEntity.addressProvince = aProvince;
+            // await queryRunner.manager.save(userInfoEntity);
+            //
+            // // update user role
+            // await queryRunner.manager.update(UserEntity, { id: user.id }, {
+            //     role: AppRole.user
+            // });
+            //
+            // await queryRunner.commitTransaction();
             return {
                 status: true
             }

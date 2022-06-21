@@ -4,11 +4,14 @@ import {
     DeleteDateColumn,
     Entity,
     Index, ManyToOne, OneToMany,
-    PrimaryGeneratedColumn,
+    PrimaryGeneratedColumn, Unique,
     UpdateDateColumn
 } from "typeorm";
 import {UserPositionEntity} from "./userPosition.entity";
 import {CvEducationEntity} from "./cvEducation.entity";
+import {UserSkillEntity} from "./userSkill.entity";
+import {UserSchoolEntity} from "./userSchool.entity";
+import {UserTaggedSchoolEntity} from "./userTaggedSchool.entity";
 
 export const MAX_SCHOOL_NAME_LENGTH = 255;
 export const MIN_SCHOOL_NAME_LENGTH = 1;
@@ -19,8 +22,18 @@ export class SchoolEntity {
     id: number;
 
     @Column()
-    @Index()
+    @Unique(['name'])
     name: string;
+
+    @Column()
+    @Index()
+    isApprove: boolean;
+
+    @OneToMany(type => UserSchoolEntity, db => db.school)
+    userSchools: UserSchoolEntity[]
+
+    @OneToMany(type => UserTaggedSchoolEntity, db => db.school)
+    userTaggedSchools: UserTaggedSchoolEntity[]
 
     @OneToMany(type => CvEducationEntity, db => db.school)
     cvEducations: CvEducationEntity[]

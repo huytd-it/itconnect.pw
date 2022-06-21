@@ -5,21 +5,17 @@ import {
     ManyToOne,
     OneToMany,
     PrimaryGeneratedColumn,
-    UpdateDateColumn
+    UpdateDateColumn,
+    Unique
 } from "typeorm";
 import {UserEntity} from "./user.entity";
-import {CompanyInfoEntity} from "./companyInfo.entity";
-import {PositionEntity} from "./position.entity";
-import {SkillEntity} from "./skill.entity";
-import {JobLevelEntity} from "./jobLevel.entity";
-import {WorkFromEntity} from "./workFrom.entity";
-import {CvWorkExperienceSkillEntity} from "./cvWorkExperienceSkill.entity";
-import {CvWorkExperiencePositionEntity} from "./cvWorkExperiencePosition.entity";
 import {UserCertificateEntity} from "./userCertificate.entity";
+import {CertificateEntity} from "./certificate.entity";
 
 export const MAX_CERTIFICATE_CONTENT_LENGTH = 65000;
 
 @Entity()
+@Unique(['user', 'certificate'])
 export class CvCertificateEntity {
     @PrimaryGeneratedColumn()
     id: number;
@@ -30,8 +26,8 @@ export class CvCertificateEntity {
     @Column({ length: MAX_CERTIFICATE_CONTENT_LENGTH })
     content: string;
 
-    @ManyToOne(type => UserCertificateEntity)
-    userCertificate: UserCertificateEntity;
+    @ManyToOne(type => CertificateEntity)
+    certificate: CertificateEntity;
 
     @ManyToOne(type => UserEntity)
     user: UserEntity;

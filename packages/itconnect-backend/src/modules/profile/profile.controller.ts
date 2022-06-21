@@ -11,8 +11,9 @@ import {
     CompleteCompanyProfileInputDto,
     CompleteCompanyProfileOutputDto,
     CompleteUserProfileInputDto,
-    CompleteUserProfileOutputDto
+    CompleteUserProfileOutputDto, DataBoostrapOutputDto
 } from "../../dtos/profile.dto";
+import {UserDto} from "../../dtos/user.dto";
 
 @ApiTags('profile')
 @ApiBearerAuth()
@@ -26,8 +27,10 @@ export class ProfileController {
     }
 
 
+    // note: need re-code
     @UseGuards(PermissionsGuard)
     @RequirePermissions(AppPermission.PROFILE_READ)
+    @ApiOkResponse({ type: UserDto })
     @Get()
     getProfile(
         @GetUser() user: UserEntity
@@ -36,8 +39,10 @@ export class ProfileController {
         return userOutput;
     }
 
+    // note: need re-code
     @UseGuards(PermissionsGuard)
     @RequirePermissions(AppPermission.PROFILE_DATA_BOOSTRAP)
+    @ApiOkResponse({ type: DataBoostrapOutputDto })
     @Get('/data-boostrap')
     getDataBoostrap(
         @GetUser() userFull: UserEntity

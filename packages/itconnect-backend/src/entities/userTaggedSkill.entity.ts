@@ -2,27 +2,28 @@ import {
     Column,
     CreateDateColumn,
     DeleteDateColumn,
-    Entity,
-    ManyToOne,
+    Entity, Index,
+    ManyToOne, OneToMany,
     PrimaryGeneratedColumn, Unique,
     UpdateDateColumn
 } from "typeorm";
 import {UserEntity} from "./user.entity";
 import {SkillEntity} from "./skill.entity";
-import {CvWorkExperienceEntity} from "./cvWorkExperience.entity";
-import {UserSkillEntity} from "./userSkill.entity";
+import {CvWorkExperiencePositionEntity} from "./cvWorkExperiencePosition.entity";
+import {PositionEntity} from "./position.entity";
+import {CvWorkExperienceSkillEntity} from "./cvWorkExperienceSkill.entity";
 
-export const MAX_WORK_EXPERIENCE_SKILL = 20;
-export const MIN_WORK_EXPERIENCE_SKILL = 1;
+export const MAX_USER_SKILL = 20;
+export const MIN_USER_SKILL = 3;
 
 @Entity()
-@Unique(['cvWorkExperience', 'skill'])
-export class CvWorkExperienceSkillEntity {
+@Unique(['skill', 'user'])
+export class UserTaggedSkillEntity {
     @PrimaryGeneratedColumn()
     id: number
 
-    @ManyToOne(type => CvWorkExperienceEntity)
-    cvWorkExperience: CvWorkExperienceEntity;
+    @ManyToOne(type => UserEntity)
+    user: UserEntity;
 
     @ManyToOne(type => SkillEntity)
     skill: SkillEntity;

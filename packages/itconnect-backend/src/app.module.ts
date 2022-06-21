@@ -16,6 +16,8 @@ import {JobLevelModule} from "./modules/job-level/job-level.module";
 import { ValidatorsModule } from './validators/validators.module';
 import {APP_GUARD} from "@nestjs/core";
 import {PageGuard} from "./utils/guards/page.guard";
+import {SchoolModule} from "./modules/school/school.module";
+import {CertificateModule} from "./modules/certificate/certificate.module";
 
 @Module({
   imports: [
@@ -36,7 +38,9 @@ import {PageGuard} from "./utils/guards/page.guard";
       PositionModule,
       WorkFromModule,
       JobLevelModule,
-      ValidatorsModule
+      ValidatorsModule,
+      SchoolModule,
+      CertificateModule
   ],
   controllers: [AppController],
   providers: [

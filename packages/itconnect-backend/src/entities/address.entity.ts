@@ -5,7 +5,7 @@ import {
     Index,
     ManyToOne,
     OneToMany,
-    PrimaryGeneratedColumn, UpdateDateColumn
+    PrimaryGeneratedColumn, Unique, UpdateDateColumn
 } from "typeorm";
 
 export enum EAddressType {
@@ -15,13 +15,12 @@ export enum EAddressType {
 }
 
 @Entity()
-@Index(['name', 'type'])
+@Unique(['name', 'type'])
 export class AddressEntity {
     @PrimaryGeneratedColumn()
     id: number
 
     @Column()
-    @Index()
     name: string;
 
     @Column()

@@ -4,7 +4,7 @@ import {
     DeleteDateColumn,
     Entity,
     Index, ManyToOne, OneToMany,
-    PrimaryGeneratedColumn,
+    PrimaryGeneratedColumn, Unique,
     UpdateDateColumn
 } from "typeorm";
 import {UserPositionEntity} from "./userPosition.entity";
@@ -19,7 +19,7 @@ export class WorkFromEntity {
     id: number;
 
     @Column()
-    @Index()
+    @Unique(['name'])
     name: string;
 
     @OneToMany(type => CvWorkExperienceEntity, db => db.jobLevel)

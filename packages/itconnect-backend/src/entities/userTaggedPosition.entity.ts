@@ -8,28 +8,23 @@ import {
     UpdateDateColumn
 } from "typeorm";
 import {UserEntity} from "./user.entity";
-import {SkillEntity} from "./skill.entity";
-import {CvWorkExperiencePositionEntity} from "./cvWorkExperiencePosition.entity";
 import {PositionEntity} from "./position.entity";
-import {CvWorkExperienceSkillEntity} from "./cvWorkExperienceSkill.entity";
+import {CvWorkExperiencePositionEntity} from "./cvWorkExperiencePosition.entity";
 
-export const MAX_USER_SKILL = 20;
-export const MIN_USER_SKILL = 3;
+export const MAX_POSITION_SKILL = 20;
+export const MIN_POSITION_SKILL = 3;
 
 @Entity()
-@Unique(['skill', 'user'])
-export class UserSkillEntity {
+@Unique(['position', 'user'])
+export class UserTaggedPositionEntity {
     @PrimaryGeneratedColumn()
     id: number
 
     @ManyToOne(type => UserEntity)
     user: UserEntity;
 
-    @ManyToOne(type => SkillEntity)
-    skill: SkillEntity;
-
-    @Column({ default: 1 })
-    level: number;
+    @ManyToOne(type => PositionEntity)
+    position: PositionEntity;
 
     @CreateDateColumn()
     createdAt: Date;
