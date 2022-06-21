@@ -37,9 +37,9 @@ export class SkillController {
 
 
     @UseGuards(PermissionsGuard)
-    @RequirePermissions(AppPermission.SKILL_CREATE)
-    @Post('create')
-    create(
+    @RequirePermissions(AppPermission.SKILL_CREATE_TAG)
+    @Post('create-tag')
+    createTag(
         @Body() data: SkillCreateDto,
     ) {
         return this.skillService.create(data);

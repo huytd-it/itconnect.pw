@@ -37,9 +37,9 @@ export class PositionController {
     }
 
     @UseGuards(PermissionsGuard)
-    @RequirePermissions(AppPermission.POSITION_CREATE)
-    @Post('create')
-    create(
+    @RequirePermissions(AppPermission.POSITION_CREATE_TAG)
+    @Post('create-tag')
+    createTag(
         @Body() data: PositionCreateDto,
     ) {
         return this.positionService.create(data);

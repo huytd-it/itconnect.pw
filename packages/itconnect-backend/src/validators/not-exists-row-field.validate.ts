@@ -9,11 +9,11 @@ import {Injectable} from "@nestjs/common";
 import {DataSource, Repository} from "typeorm";
 import {EntityClassOrSchema} from "@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type";
 
-const name = 'HasRow';
+const name = 'NotExistsRow';
 
 @ValidatorConstraint({ name, async: true })
 @Injectable()
-export class HasRowRule implements ValidatorConstraintInterface {
+export class NotExistsRowRule implements ValidatorConstraintInterface {
     constructor(
         private dataSource: DataSource
     ) {
@@ -28,7 +28,7 @@ export class HasRowRule implements ValidatorConstraintInterface {
                 [field]: value
             }
         })
-        return rowCount < 1;
+        return rowCount === 0;
     }
 
     defaultMessage(args: ValidationArguments) {
@@ -36,7 +36,7 @@ export class HasRowRule implements ValidatorConstraintInterface {
     }
 }
 
-export function HasRowField<T extends EntityClassOrSchema, K>(
+export function NotExistsRowField<T extends EntityClassOrSchema, K>(
     entity: T,
     field?: K,
     validationOptions?: ValidationOptions
@@ -47,7 +47,7 @@ export function HasRowField<T extends EntityClassOrSchema, K>(
             target: object.constructor,
             propertyName: propertyName,
             options: validationOptions,
-            validator: HasRowRule,
+            validator: NotExistsRowRule,
             constraints: [
                 entity,
                 field

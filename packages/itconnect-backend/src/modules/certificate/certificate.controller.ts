@@ -37,9 +37,9 @@ export class CertificateController {
 
 
     @UseGuards(PermissionsGuard)
-    @RequirePermissions(AppPermission.CERTIFICATE_CREATE)
-    @Post('create')
-    create(
+    @RequirePermissions(AppPermission.CERTIFICATE_CREATE_TAG)
+    @Post('create-tag')
+    createTag(
         @Body() data: CertificateCreateDto,
     ) {
         return this.certificateService.create(data);

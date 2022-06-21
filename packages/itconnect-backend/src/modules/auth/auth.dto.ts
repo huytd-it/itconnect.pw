@@ -1,7 +1,8 @@
 import {IsEmail, IsNotEmpty, MaxLength, MinLength} from "class-validator";
 import {ApiProperty} from "@nestjs/swagger";
-import {HasRowField} from "../../validators/has-row-field.validate";
+import {ExistsRowField} from "../../validators/exists-row-field.validate";
 import {UserEntity} from "../../entities/user.entity";
+import {NotExistsRowField, NotExistsRowRule} from "../../validators/not-exists-row-field.validate";
 
 export class RegisterInputDTO {
     @ApiProperty({
@@ -10,7 +11,7 @@ export class RegisterInputDTO {
     })
     @IsEmail()
     @IsNotEmpty()
-    @HasRowField(UserEntity)
+    @NotExistsRowField(UserEntity)
     email: string;
 
     @ApiProperty({

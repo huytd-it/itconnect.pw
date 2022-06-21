@@ -36,8 +36,8 @@ export class SchoolController {
     }
 
     @UseGuards(PermissionsGuard)
-    @RequirePermissions(AppPermission.SCHOOL_CREATE)
-    @Post('create')
+    @RequirePermissions(AppPermission.SCHOOL_CREATE_TAG)
+    @Post('create-tag')
     create(
         @Body() data: SchoolCreateDto,
     ) {

@@ -8,10 +8,10 @@ import {UserService} from "../../services/user.service";
 import {GetUser} from "../../utils/decorators/get-user.decorator";
 import {UserEntity} from "../../entities/user.entity";
 import {
-    CompleteCompanyProfileInputDto,
-    CompleteCompanyProfileOutputDto,
-    CompleteUserProfileInputDto,
-    CompleteUserProfileOutputDto, DataBoostrapOutputDto
+    CreateOrEditCompanyProfileInputDto,
+    CreateOrEditCompanyProfileOutputDto,
+    CreateOrEditUserProfileInputDto,
+    CreateOrUserProfileOutputDto, DataBoostrapOutputDto
 } from "../../dtos/profile.dto";
 import {UserDto} from "../../dtos/user.dto";
 
@@ -56,24 +56,24 @@ export class ProfileController {
     }
 
     @UseGuards(PermissionsGuard)
-    @RequirePermissions(AppPermission.COMPLETE_PROFILE)
-    @ApiOkResponse({ type: CompleteUserProfileOutputDto })
-    @Post('/complete-user')
+    @RequirePermissions(AppPermission.PROFILE_USER_CE)
+    @ApiOkResponse({ type: CreateOrUserProfileOutputDto })
+    @Post('/create-or-edit-user')
     completeUser(
-        @Body() dto: CompleteUserProfileInputDto,
+        @Body() dto: CreateOrEditUserProfileInputDto,
         @GetUser() user: UserEntity
-    ): Promise<CompleteUserProfileOutputDto> {
-        return this.userService.completeProfile(user, dto);
+    ): Promise<CreateOrUserProfileOutputDto> {
+        return this.userService.createOrEditUser(user, dto);
     }
 
     @UseGuards(PermissionsGuard)
-    @RequirePermissions(AppPermission.COMPLETE_PROFILE)
-    @ApiOkResponse({ type: CompleteCompanyProfileOutputDto })
-    @Post('/complete-company')
+    @RequirePermissions(AppPermission.PROFILE_COMPANY_CE)
+    @ApiOkResponse({ type: CreateOrEditCompanyProfileOutputDto })
+    @Post('/create-or-edit-company')
     completeCompany(
-        @Body() dto: CompleteCompanyProfileInputDto,
+        @Body() dto: CreateOrEditCompanyProfileInputDto,
         @GetUser() user: UserEntity
-    ): Promise<CompleteUserProfileOutputDto> {
-        return this.userService.completeCompany(user, dto);
+    ): Promise<CreateOrUserProfileOutputDto> {
+        return this.userService.createOrEditCompany(user, dto);
     }
 }
