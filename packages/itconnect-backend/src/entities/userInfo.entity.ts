@@ -48,10 +48,10 @@ export class UserInfoEntity {
     @Column()
     birthday: Date;
 
-    @Column({ length: MAX_USER_INFO_INTEREST_LENGTH })
+    @Column({ length: MAX_USER_INFO_INTEREST_LENGTH, nullable: true })
     interest: string;
 
-    @Column({ length: MAX_USER_INFO_OBJECTIVE_LENGTH })
+    @Column({ length: MAX_USER_INFO_OBJECTIVE_LENGTH, nullable: true })
     objective: string;
 
     @ManyToOne(type => JobLevelEntity)

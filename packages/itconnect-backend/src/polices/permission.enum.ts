@@ -129,17 +129,8 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.PROFILE_COMPANY_CE,
         AppPermission.COMPLETE_PROFILE,
         AppPermission.ADDRESS_SEARCH,
-        AppPermission.SKILL_SEARCH,
-        AppPermission.SKILL_CREATE_TAG,
-        AppPermission.WORK_FROM_SEARCH,
-        AppPermission.POSITION_SEARCH,
-        AppPermission.POSITION_CREATE_TAG,
         AppPermission.PERMISSION_OWNER,
-        AppPermission.JOB_LEVEL_SEARCH,
-        AppPermission.CERTIFICATE_SEARCH,
-        AppPermission.CERTIFICATE_CREATE_TAG,
-        AppPermission.SCHOOL_SEARCH,
-        AppPermission.SCHOOL_CREATE_TAG
+        AppPermission.JOB_LEVEL_SEARCH
     ],
 
     /**

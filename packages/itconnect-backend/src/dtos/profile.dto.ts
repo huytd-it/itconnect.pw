@@ -3,8 +3,8 @@ import {
     ArrayMaxSize,
     ArrayMinSize, ArrayUnique,
     IsArray,
-    IsDate, IsEmail, IsEnum,
-    IsInt,
+    IsDate, IsEmail, IsEmpty, IsEnum,
+    IsInt, IsNotEmpty,
     IsOptional, IsString,
     Matches,
     MaxLength, MinLength,
@@ -34,7 +34,8 @@ export class CreateOrEditUserProfileInputDto {
 
     @ApiPropertyOptional()
     @IsOptional()
-    @Matches(/([\+84|84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\b/)
+    @IsEmpty()
+    @Matches(/^$|([\+84|84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\b/)
     phone: string;
 
     @ApiProperty()
@@ -58,16 +59,19 @@ export class CreateOrEditUserProfileInputDto {
     addressStreet: string;
 
     @ApiPropertyOptional()
+    @IsOptional()
     @MaxLength(MAX_USER_INFO_INTEREST_LENGTH)
     interest: string;
 
     @ApiPropertyOptional()
+    @IsOptional()
     @MaxLength(MAX_USER_INFO_OBJECTIVE_LENGTH)
     objective: string;
 
-    @ApiProperty()
+    @ApiPropertyOptional()
     @IsInt()
-    @ExistsRowField(JobLevelEntity)
+    @IsOptional()
+    @ExistsRowField(JobLevelEntity, 'id')
     jobLevel: number;
 
     // @ApiProperty()

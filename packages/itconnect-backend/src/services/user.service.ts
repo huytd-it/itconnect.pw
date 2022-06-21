@@ -80,9 +80,11 @@ export class UserService {
             userInfoEntity.interest = dto.interest;
             userInfoEntity.objective = dto.objective;
 
-            const jobLevel = new JobLevelEntity();
-            jobLevel.id = dto.jobLevel;
-            userInfoEntity.jobLevel = jobLevel;
+            if (dto.jobLevel) {
+                const jobLevel = new JobLevelEntity();
+                jobLevel.id = dto.jobLevel;
+                userInfoEntity.jobLevel = jobLevel;
+            }
 
             const aVillage = new AddressEntity();
             aVillage.id = dto.addressVillage;
