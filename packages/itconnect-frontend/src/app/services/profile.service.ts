@@ -30,13 +30,13 @@ export class ProfileService {
     return this.httpClient.get<ProfileDataBoostrap>(uri, httpOptions);
   }
 
-  completeUser(data: CompleteUserProfileOutput) {
-    const uri = 'profile/complete-user'
+  createOrEditUser(data: CompleteUserProfileOutput) {
+    const uri = 'profile/create-or-edit-user'
     return this.httpClient.post<CompleteUserProfileInput>(uri, data, httpOptions);
   }
 
-  completeCompany(data: CompleteCompanyProfileOutput) {
-    const uri = 'profile/complete-company'
+  createOrEditCompany(data: CompleteCompanyProfileOutput) {
+    const uri = 'profile/create-or-edit-company'
     return this.httpClient.post<CompleteCompanyProfileInput>(uri, data, httpOptions);
   }
 }

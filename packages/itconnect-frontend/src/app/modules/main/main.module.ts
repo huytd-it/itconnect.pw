@@ -7,6 +7,7 @@ import {MainComponentsModule} from "./components/components.module";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {JwtIntercept} from "../../utils/intercepts/jwt.intercept";
 import {ErrorIntercept} from "../../utils/intercepts/error.intercept";
+import {QuillModule} from "ngx-quill";
 
 
 @NgModule({

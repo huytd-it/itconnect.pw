@@ -16,8 +16,9 @@ export class CompleteUserProfileOutput {
   addressDistrict: number;
   addressVillage: number;
   addressStreet: string;
-  skills: string[]
-  positions: string[]
+  interest: string;
+  objective: string;
+  jobLevel: number;
 }
 
 export class CompleteUserProfileInput {

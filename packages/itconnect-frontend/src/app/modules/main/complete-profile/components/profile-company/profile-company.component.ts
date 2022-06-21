@@ -65,7 +65,7 @@ export class ProfileCompanyComponent implements OnInit {
     }
 
     this.appService.setHeadLoading(true);
-    this.profileService.completeCompany(dto)
+    this.profileService.createOrEditCompany(dto)
       .pipe(finalize(() => this.appService.setHeadLoading(false)))
       .subscribe(val => {
         this.onCompleteProfile.emit();

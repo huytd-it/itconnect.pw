@@ -5,8 +5,7 @@
     </h1>
     <mat-stepper [linear]="true" #stepper>
       <mat-step label="Chọn danh mục" [completed]="stepCompleted > 0">
-        <app-profile-staff></app-profile-staff>
-        <!--        <app-select-position (onNextPosition)="onNextPosition($event)"></app-select-position>-->
+        <app-select-position (onNextPosition)="onNextPosition($event)"></app-select-position>
       </mat-step>
       <mat-step label="Hồ sơ" [completed]="stepCompleted > 1">
         <div class="tw-h-[80px]"></div>

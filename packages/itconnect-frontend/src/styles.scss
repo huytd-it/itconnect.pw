@@ -132,6 +132,22 @@ ng-select {
 }
 
 /**
+ * Custom quill editor
+ */
+quill-editor {
+  .ql-toolbar {
+    border-color: #e5e7eb !important;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+  .ql-container {
+    border-color: #e5e7eb !important;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+}
+
+/**
  * without material
  */
 body {

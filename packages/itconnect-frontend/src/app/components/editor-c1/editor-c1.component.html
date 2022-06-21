@@ -1,9 +1,10 @@
-<quill-editor>
-  <div quill-editor-toolbar>
+<div [formGroup]="form" *ngIf="!!form && !!name">
+  <quill-editor [formControlName]="name">
+    <div quill-editor-toolbar>
     <span class="ql-formats">
       <button class="ql-bold" [title]="'Bold'"></button>
     </span>
-    <span class="ql-formats">
+      <span class="ql-formats">
       <select class="ql-align" [title]="'Aligment'">
         <option selected></option>
         <option value="center"></option>
@@ -11,5 +12,6 @@
         <option value="justify"></option>
       </select>
     </span>
-  </div>
-</quill-editor>
+    </div>
+  </quill-editor>
+</div>
