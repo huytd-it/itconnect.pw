@@ -4,6 +4,7 @@ import {PermissionService} from "../../../../services/permission.service";
 import {AppPermission} from "../../../../models/permission.model";
 import {AppService} from "../../../../services/app.service";
 import {Subscription} from "rxjs";
+import * as _ from "lodash";
 
 @Component({
   selector: 'app-header',
@@ -12,7 +13,7 @@ import {Subscription} from "rxjs";
 })
 export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('menuEl') menuEl: ElementRef;
-  menu: MenuItem[];
+  menu: MenuItem[] = [];
   isFullLogo: boolean;
   isDropdownMoreMenu: boolean;
   hasMoreMenu: boolean;
@@ -29,7 +30,6 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.menu = this.getMenu();
   }
 
   ngOnDestroy(): void {
@@ -96,6 +96,8 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     const sizeMenu = Math.round(clientWidth / widthItem) - 2;
     let hasMoreMenu = false;
 
+    const menuDefault = _.cloneDeep(this.getMenu());
+    this.menu = menuDefault.filter(item => this.permission.hasPermission(item.permission));
     this.menu.forEach((item, index) => {
       // remove 1 because 'index'
       let hidden = index > sizeMenu - 1;

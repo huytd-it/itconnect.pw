@@ -13,6 +13,6 @@ export class PreviewComponent implements OnInit {
   }
 
   onSubmit() {
-    location.reload();
+    location.href = '/u/me'
   }
 }

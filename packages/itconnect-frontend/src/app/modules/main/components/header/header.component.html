@@ -12,18 +12,20 @@
       class="tw-flex tw-justify-start tw-flex-1 tw-max-w-[600px] tw-overflow-hidden"
       #menuEl
     >
-      <a
-        *ngFor="let item of menu"
-        [routerLink]="item.link"
-        routerLinkActive="is-active"
-        class="tw-mr-3 lg:tw-mr-[70px] tw-py-2 tw-px-4 hover:tw-bg-[#efeded] tw-rounded-xl"
-        [hidden]="item.visible || !(item.permission | permission)"
-        [matTooltip]="item.name"
-      >
-        <i
-          [class]="'tw-w-[28px] tw-h-[28px] tw-bg-[length:28px_28px] tw-inline-block ' + item.class"
-        ></i>
-      </a>
+      <ng-container *ngFor="let item of menu">
+        <a
+          [routerLink]="item.link"
+          routerLinkActive="is-active"
+          class="tw-mr-3 lg:tw-mr-[70px] tw-py-2 tw-px-4 hover:tw-bg-[#efeded] tw-rounded-xl"
+          [hidden]="item.visible"
+          [matTooltip]="item.name"
+          *ngIf="item.permission | permission"
+        >
+          <i
+            [class]="'tw-w-[28px] tw-h-[28px] tw-bg-[length:28px_28px] tw-inline-block ' + item.class"
+          ></i>
+        </a>
+      </ng-container>
 
       <!--button menu item-->
       <button
@@ -54,7 +56,7 @@
         [routerLink]="item.link"
         routerLinkActive="is-active"
         class="tw-mr-2 tw-py-2 tw-px-3 hover:tw-bg-buttonHover tw-rounded-xl tw-inline-block"
-        *ngIf="item.visible"
+        *ngIf="item.visible && (item.permission | permission)"
         [matTooltip]="item.name"
       >
         <i

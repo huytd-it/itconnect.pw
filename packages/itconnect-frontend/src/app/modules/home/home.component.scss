@@ -3,3 +3,21 @@
     overflow: hidden;
   }
 }
+
+.actions {
+  .reg-mobile {
+    display: none;
+  }
+  @media screen and (max-width: 410px) {
+    button {
+      font-size: 11px;
+    }
+    .reg {
+      display: none;
+    }
+    .reg-mobile {
+      display: inline-block;
+    }
+  }
+
+}

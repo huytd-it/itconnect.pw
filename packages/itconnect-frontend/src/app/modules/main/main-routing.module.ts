@@ -50,6 +50,14 @@ const routes: Routes = [
         }
       },
       {
+        path: 'me',
+        loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule),
+        canActivate: [PermissionGuard],
+        data: {
+          permission: AppPermission.PROFILE
+        }
+      },
+      {
         path: 'jobs',
         loadChildren: () => import('./jobs/jobs.module').then(m => m.JobsModule),
         canActivate: [PermissionGuard],
@@ -59,7 +67,7 @@ const routes: Routes = [
       },
       { path: '**', redirectTo: 'home' },
     ],
-  },
+  }
 ];
 
 @NgModule({

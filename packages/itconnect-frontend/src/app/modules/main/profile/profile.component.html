@@ -1,0 +1,46 @@
+<app-main-content>
+  <div class="tw-flex tw-flex-wrap tw-gap-4 xl:tw-px-[100px]">
+    <div class="tw-hidden md:tw-w-[20vw] md:tw-block">
+      <div class="tw-bg-white tw-rounded tw-shadow tw-p-3">
+        <ng-container *ngFor="let item of menu">
+          <a
+            class="tw-block tw-font-medium tw-text-[16px] tw-flex tw-items-center tw-mb-2"
+            routerLinkActive="tw-text-primaryColor"
+            [routerLink]="item.link"
+            *ngIf="item.permission | permission"
+          >
+            <i [class]="'c-icon tw-w-[40px] tw-h-[40px] tw-bg-[length:25px_25px] ' + item.class"></i>
+            <span class="tw-ml-2">{{item.name}}</span>
+          </a>
+        </ng-container>
+      </div>
+    </div>
+    <div class="tw-w-full md:tw-hidden">
+      <div class="tw-bg-white tw-rounded tw-shadow tw-p-3 tw-flex tw-justify-between tw-items-center">
+        <span class="tw-block tw-font-medium tw-text-[16px] tw-flex tw-items-center">
+          <i [class]="'c-icon tw-w-[40px] tw-h-[40px] tw-bg-[length:25px_25px] ' + menuActive.class"></i>
+          {{menuActive.name}}
+        </span>
+        <button mat-icon-button [matMenuTriggerFor]="menuRef" aria-label="Example icon-button with a menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+      </div>
+      <mat-menu #menuRef="matMenu" class="tw-px-1 tw-pr-4 tw-pl-2">
+        <ng-container *ngFor="let item of menu">
+            <button
+              class="tw-block tw-font-medium tw-text-[16px] tw-flex tw-items-center tw-mb-2"
+              routerLinkActive="tw-text-primaryColor"
+              [routerLink]="item.link"
+              *ngIf="item.permission | permission"
+            >
+              <i [class]="'c-icon tw-w-[40px] tw-h-[40px] tw-bg-[length:25px_25px] ' + item.class"></i>
+              <span class="tw-ml-2">{{item.name}}</span>
+            </button>
+        </ng-container>
+      </mat-menu>
+    </div>
+    <div class="tw-flex-1 tw-bg-white tw-rounded tw-shadow tw-min-h-[calc(100vh-100px)]">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</app-main-content>

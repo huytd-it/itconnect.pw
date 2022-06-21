@@ -14,14 +14,15 @@
     >
       <button
         class="tw-flex tw-justify-start tw-items-center tw-p-3"
-        routerLink="/me"
+        routerLink="me"
         [disabled]="!(permission.all.PROFILE | permission)"
       >
         <app-avatar [name]="name" [radius]="45"></app-avatar>
         <span class="tw-p-3">{{name}}</span>
       </button>
       <div class="tw-border-t tw-p-3">
-        <button (click)="logout()">
+        <button (click)="logout()" class="tw-flex tw-items-center">
+          <i class="c-icon tw-w-[25px] tw-h-[25px] tw-bg-[length:14px_14px] icon-logout tw-mr-2"></i>
           Đăng xuất
         </button>
       </div>
