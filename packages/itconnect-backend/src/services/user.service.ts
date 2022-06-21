@@ -35,6 +35,15 @@ export class UserService {
     ) {
     }
 
+    findOneUserInfoFull(id: number) {
+        return this.userInfoRepository.findOne({
+            where: {
+                id
+            },
+            relations: ['jobLevel', 'addressProvince', 'addressDistrict', 'addressVillage']
+        });
+    }
+
     find(id: number) {
         return this.usersRepository.findOne({
             where: {

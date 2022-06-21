@@ -52,3 +52,16 @@ export class PageOutput {
 export class SearchPageOutput extends PageOutput {
   search?: string;
 }
+
+export class CreateTaggedOutput {
+  name: string;
+}
+
+export class TaggedInput {
+  id: number;
+  name: string;
+  isApprove: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  deleteAt: Date;
+}

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {httpOptions, objectToParams} from "../utils/common";
 import {SkillSearchInput, SkillSearchOutput} from "../models/skill.model";
+import {CreateTaggedOutput, TaggedInput} from "../models/common";
 
 @Injectable({
   providedIn: 'root'
@@ -20,5 +21,10 @@ export class SkillService {
         params: objectToParams(query)
       }
     );
+  }
+
+  createTag(data: CreateTaggedOutput) {
+    const uri = 'skill/create-tag';
+    return this.httpClient.post<TaggedInput>(uri, data, httpOptions);
   }
 }

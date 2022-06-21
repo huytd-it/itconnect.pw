@@ -44,11 +44,12 @@ export class ProfileController {
     @RequirePermissions(AppPermission.PROFILE_DATA_BOOSTRAP)
     @ApiOkResponse({ type: DataBoostrapOutputDto })
     @Get('/data-boostrap')
-    getDataBoostrap(
+    async getDataBoostrap(
         @GetUser() userFull: UserEntity
     ) {
         const permissions = appRolesConfig[userFull.role];
         const {password, ...user} = userFull;
+        user.userInfo = await this.userService.findOneUserInfoFull(userFull.id);
         return {
             permissions,
             user

@@ -2,12 +2,12 @@
 
   <table class="tw-w-full">
     <tr
-      *ngFor="let item of tags"
+      *ngFor="let item of items"
     >
-      <td class="tw-w-0">
+      <td class="tw-w-0 tw-pb-5">
         <button
           class="tw-p-2 tw-rounded-md tw-border tw-relative tw-mr-3"
-          [matTooltip]="item.name"
+          [matTooltip]="item[bindLabel]"
           (click)="removeTag(item)"
         >
           <div class="
@@ -15,22 +15,12 @@
             tw-rounded-full tw-bg-primaryColor tw-text-white tw-flex tw-justify-center tw-items-center
           ">x</div>
           <span class="tw-inline-block tw-whitespace-nowrap tw-min-w-[50px] tw-max-w-[100px] tw-overflow-hidden tw-overflow-ellipsis">
-            {{item.name}}
+            {{item[bindLabel]}}
           </span>
         </button>
       </td>
-      <td>
-        <mat-slider
-          thumbLabel
-          color="primary"
-          tickInterval="1"
-          step="1"
-          min="1"
-          max="10"
-          aria-label="units"
-          class="tw-w-full tw-max-w-[300px] c-slider"
-          (change)="onChangeLevel(item, $event)"
-        ></mat-slider>
+      <td class="tw-pb-5">
+        <ngx-slider [(value)]="item[bindLevel]" [options]="options" (valueChange)="onChangeLevel(item, $event)"></ngx-slider>
       </td>
     </tr>
   </table>
@@ -43,7 +33,7 @@
   >
     + Thêm
   </button>
-  <div class="tw-min-w-[200px] tw-mt-[-3px]" *ngIf="isAdding">
+  <div class="tw-min-w-[200px] tw-mt-[-3px] tw-max-w-[300px]" *ngIf="isAdding">
     <app-easy-select
       [label]="'Chọn hoặc thêm tag'"
       [autoFocus]="true"

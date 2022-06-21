@@ -55,6 +55,7 @@ async function bootstrap() {
       .addTag('address')
       .addTag('skill')
       .addTag('position')
+      .addTag('user-position')
       .addTag('school')
       .addTag('certificate')
       .addTag('work-from')

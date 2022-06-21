@@ -20,6 +20,9 @@ export class ExistsRowRule implements ValidatorConstraintInterface {
     }
 
     async validate(value: string, args: ValidationArguments) {
+        if (!value && args.constraints[2]) {
+            return true;
+        }
         const entity = args.constraints[0];
         const repo = this.dataSource.getRepository(entity);
         const field = args.constraints[1] || args.property;
@@ -39,6 +42,7 @@ export class ExistsRowRule implements ValidatorConstraintInterface {
 export function ExistsRowField<T extends EntityClassOrSchema, K>(
     entity: T,
     field?: K,
+    optional: boolean = false,
     validationOptions?: ValidationOptions
 ) {
     return function (object: any, propertyName: string) {
@@ -50,7 +54,8 @@ export function ExistsRowField<T extends EntityClassOrSchema, K>(
             validator: ExistsRowRule,
             constraints: [
                 entity,
-                field
+                field,
+                optional
             ]
         });
     };

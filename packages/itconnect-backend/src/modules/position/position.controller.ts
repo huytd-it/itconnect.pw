@@ -1,5 +1,5 @@
 import {Body, Controller, Get, Post, Query, UseGuards} from '@nestjs/common';
-import {ApiBearerAuth, ApiTags} from "@nestjs/swagger";
+import {ApiBearerAuth, ApiOkResponse, ApiTags} from "@nestjs/swagger";
 import {JwtAuthGuard} from "../../utils/guards/jwt.guard";
 import {ApiPaginatedResponse} from "../../utils/decorators/api-paginated-response.decorator";
 import {PageOptionsDto} from "../../dtos/page.dto";
@@ -38,6 +38,7 @@ export class PositionController {
 
     @UseGuards(PermissionsGuard)
     @RequirePermissions(AppPermission.POSITION_CREATE_TAG)
+    @ApiOkResponse({ type: PositionDto })
     @Post('create-tag')
     createTag(
         @Body() data: PositionCreateDto,

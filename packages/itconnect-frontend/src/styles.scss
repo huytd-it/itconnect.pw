@@ -222,3 +222,33 @@ $icons: (
     background-color: #888;
   }
 }
+
+
+ngx-slider {
+  margin: unset !important;
+
+  .ngx-slider-pointer {
+    width: 22px !important;
+    height: 22px !important;
+    top: -9px !important;
+
+    &:after {
+      width: 7px !important;
+      height: 7px !important;
+      top: 7px !important;
+      left: 7px !important;
+    }
+
+    &.ngx-slider-active {
+      outline: unset !important;
+      &:after {
+        background: white !important;
+      }
+    }
+  }
+
+  .ngx-slider-floor, .ngx-slider-model-value, .ngx-slider-ceil {
+    font-size: 12px !important;
+    color: var(--text);
+  }
+}

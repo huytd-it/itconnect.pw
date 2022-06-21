@@ -1,5 +1,28 @@
 <div class="tw-p-3">
-  <app-input-skill-level
-    [loadMoreFn]="fetchDataPosition"
-  ></app-input-skill-level>
+  <div class="tw-max-w-[500px]">
+    <div class="tw-font-medium tw-mb-6">
+      Các vị trí của bạn
+    </div>
+    <app-input-skill-level
+      [items]="userPosition"
+      [loadMoreFn]="fetchDataPosition"
+      [createTagFn]="createTagPosition"
+      (onAdd)="onAddUserPosition($event)"
+      (onRemove)="onRemoveUserPosition($event)"
+      (onChange)="onChangeUserPosition($event)"
+    ></app-input-skill-level>
+  </div>
+  <div class="tw-max-w-[500px] tw-mt-10">
+    <div class="tw-font-medium tw-mb-6">
+      Các kỹ năng của bạn
+    </div>
+    <app-input-skill-level
+      [items]="userSkill"
+      [loadMoreFn]="fetchDataSkill"
+      [createTagFn]="createTagSkill"
+      (onAdd)="onAddUserSkill($event)"
+      (onRemove)="onRemoveUserSkill($event)"
+      (onChange)="onChangeUserSkill($event)"
+    ></app-input-skill-level>
+  </div>
 </div>

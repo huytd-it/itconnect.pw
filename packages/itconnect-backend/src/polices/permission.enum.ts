@@ -12,6 +12,8 @@ export enum AppRole {
 }
 
 export enum AppPermission {
+    LOGOUT = 'logout',
+
     /**
      * Getting started
      */
@@ -92,6 +94,9 @@ export enum AppPermission {
      */
     POSITION_SEARCH = 'position_search',
     POSITION_CREATE_TAG = "position_create_tag",
+    USER_POSITION_GET_ALL = 'user_position_get_all',
+    USER_POSITION_CE = 'user_position_ce',
+    USER_POSITION_DELETE = 'user_position_delete',
 
     /**
      * Job level
@@ -124,6 +129,7 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
      *
      */
     [AppRole.begin]: [
+        AppPermission.LOGOUT,
         AppPermission.PROFILE_DATA_BOOSTRAP,
         AppPermission.PROFILE_USER_CE,
         AppPermission.PROFILE_COMPANY_CE,
@@ -138,6 +144,7 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
      *
      */
     [AppRole.user]: [
+        AppPermission.LOGOUT,
         AppPermission.PROFILE_DATA_BOOSTRAP,
         AppPermission.PROFILE_USER_CE,
         AppPermission.POST_FEED,
@@ -146,12 +153,16 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.PROFILE,
         AppPermission.MESSAGE,
         AppPermission.JOB,
+        AppPermission.JOB_CREATE,
         AppPermission.ADDRESS_SEARCH,
         AppPermission.SKILL_SEARCH,
         AppPermission.SKILL_CREATE_TAG,
         AppPermission.WORK_FROM_SEARCH,
         AppPermission.POSITION_SEARCH,
         AppPermission.POSITION_CREATE_TAG,
+        AppPermission.USER_POSITION_CE,
+        AppPermission.USER_POSITION_DELETE,
+        AppPermission.USER_POSITION_GET_ALL,
         AppPermission.PERMISSION_OWNER,
         AppPermission.JOB_LEVEL_SEARCH,
         AppPermission.CERTIFICATE_SEARCH,
@@ -165,6 +176,7 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
      *
      */
     [AppRole.company]: [
+        AppPermission.LOGOUT,
         AppPermission.PROFILE_DATA_BOOSTRAP,
         AppPermission.PROFILE_COMPANY_CE,
         AppPermission.POST_FEED,

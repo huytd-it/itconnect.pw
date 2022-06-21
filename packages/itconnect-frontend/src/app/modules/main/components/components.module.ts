@@ -20,6 +20,7 @@ import { WorkExperienceComponent } from './work-experience/work-experience.compo
 import { WorkExperienceModalComponent } from './work-experience-modal/work-experience-modal.component';
 import { GroupControlTimeTextComponent } from './group-control-time-text/group-control-time-text.component';
 import { GroupControlTimeTextModalComponent } from './group-control-time-text-modal/group-control-time-text-modal.component';
+import {NgxSliderModule} from "@angular-slider/ngx-slider";
 
 @NgModule({
   declarations: [
@@ -34,19 +35,20 @@ import { GroupControlTimeTextModalComponent } from './group-control-time-text-mo
     GroupControlTimeTextComponent,
     GroupControlTimeTextModalComponent
   ],
-  imports: [
-    CommonModule,
-    CommonComponentsModule,
-    RouterModule,
-    MatTooltipModule,
-    MatAutocompleteModule,
-    MatInputModule,
-    MatChipsModule,
-    MatIconModule,
-    ReactiveFormsModule,
-    MatProgressBarModule,
-    MatSliderModule,
-  ],
+    imports: [
+        CommonModule,
+        CommonComponentsModule,
+        RouterModule,
+        MatTooltipModule,
+        MatAutocompleteModule,
+        MatInputModule,
+        MatChipsModule,
+        MatIconModule,
+        ReactiveFormsModule,
+        MatProgressBarModule,
+        MatSliderModule,
+        NgxSliderModule,
+    ],
   exports: [
     HeaderComponent,
     SearchComponent,

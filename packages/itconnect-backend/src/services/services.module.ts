@@ -26,6 +26,8 @@ import {UserTaggedCertificateEntity} from "../entities/userTaggedCertificate.ent
 import {UserTaggedSchoolEntity} from "../entities/userTaggedSchool.entity";
 import {UserSchoolEntity} from "../entities/userSchool.entity";
 import {UserCertificateEntity} from "../entities/userCertificate.entity";
+import { UserPositionService } from './user-position.service';
+import {UserSkillService} from "./user-skill.service";
 
 @Module({
   imports: [
@@ -58,7 +60,9 @@ import {UserCertificateEntity} from "../entities/userCertificate.entity";
       WorkFromService,
       JobLevelService,
       SchoolService,
-      CertificateService
+      CertificateService,
+      UserPositionService,
+      UserSkillService
   ],
   exports: [
       UserService,
@@ -68,7 +72,9 @@ import {UserCertificateEntity} from "../entities/userCertificate.entity";
       WorkFromService,
       JobLevelService,
       SchoolService,
-      CertificateService
+      CertificateService,
+      UserPositionService,
+      UserSkillService
   ]
 })
 export class ServicesModule {}

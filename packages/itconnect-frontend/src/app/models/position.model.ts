@@ -1,10 +1,6 @@
-import {PageInput, PageOutput, SearchPageOutput} from "./common";
+import {CreateTaggedOutput, PageInput, PageOutput, SearchPageOutput, TaggedInput} from "./common";
 
-export class Position {
-  id: number;
-  name: string;
-
-  // add more
+export class Position extends TaggedInput {
 }
 
 export class PositionSearchInput extends PageInput<Position> {}

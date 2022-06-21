@@ -18,6 +18,9 @@ import {APP_GUARD} from "@nestjs/core";
 import {PageGuard} from "./utils/guards/page.guard";
 import {SchoolModule} from "./modules/school/school.module";
 import {CertificateModule} from "./modules/certificate/certificate.module";
+import { UserPositionModule } from './modules/user-position/user-position.module';
+import {UserSkillService} from "./services/user-skill.service";
+import {UserSkillModule} from "./modules/user-skill/user-skill.module";
 
 @Module({
   imports: [
@@ -40,7 +43,9 @@ import {CertificateModule} from "./modules/certificate/certificate.module";
       JobLevelModule,
       ValidatorsModule,
       SchoolModule,
-      CertificateModule
+      CertificateModule,
+      UserPositionModule,
+      UserSkillModule
   ],
   controllers: [AppController],
   providers: [
