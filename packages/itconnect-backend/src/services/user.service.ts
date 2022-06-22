@@ -66,19 +66,14 @@ export class UserService {
         await queryRunner.connect();
         await queryRunner.startTransaction();
         try {
-            let userInfoEntity: UserInfoEntity;
-            if (dto.id) {
-                userInfoEntity = await queryRunner.manager.findOne(UserInfoEntity, {
-                    where: {
-                        user: {
-                            id: user.id
-                        }
+            let userInfoEntity: UserInfoEntity = await queryRunner.manager.findOne(UserInfoEntity, {
+                where: {
+                    user: {
+                        id: user.id
                     }
-                })
-                if (!userInfoEntity) {
-                    throw new RuntimeException('user info not exists');
                 }
-            } else {
+            })
+            if (!userInfoEntity) {
                 userInfoEntity = new UserInfoEntity();
             }
 
@@ -141,19 +136,14 @@ export class UserService {
         await queryRunner.connect();
         await queryRunner.startTransaction();
         try {
-            let companyInfoEntity: CompanyInfoEntity;
-            if (dto.id) {
-                companyInfoEntity = await queryRunner.manager.findOne(CompanyInfoEntity, {
-                    where: {
-                        user: {
-                            id: user.id
-                        }
+            let companyInfoEntity: CompanyInfoEntity = await queryRunner.manager.findOne(CompanyInfoEntity, {
+                where: {
+                    user: {
+                        id: user.id
                     }
-                })
-                if (!companyInfoEntity) {
-                    throw new RuntimeException('company info not exists');
                 }
-            } else {
+            })
+            if (!companyInfoEntity) {
                 companyInfoEntity = new CompanyInfoEntity();
             }
 
