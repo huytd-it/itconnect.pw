@@ -58,7 +58,7 @@ import {CvWorkExperiencePositionModule} from "./modules/cv-work-experience-posit
       CvWorkExperienceSkillModule,
       CvWorkExperiencePositionModule,
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [
       AppService,
       {
