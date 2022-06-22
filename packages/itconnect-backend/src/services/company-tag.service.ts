@@ -22,6 +22,25 @@ export class CompanyTagService {
     ) {
     }
 
+    // without is global
+    isOwner(companyTagId: number) {
+        const currentUser = this.request['user'] as UserEntity;
+        return this.userTaggedCompanyTagRepository.findOne({
+            where: {
+                user: { id: currentUser.id },
+                companyTag: { id: companyTagId }
+            }
+        })
+    }
+
+    isApprove(companyTagId: number) {
+        return this.companyTagRepository.findOne({
+            where: {
+                id: companyTagId,
+                isApprove: true
+            }
+        })
+    }
     async search(dtoSearch: CompanyTagSearchInputDto, dtoPage: PageOptionsDto) {
         const query = this.companyTagRepository.createQueryBuilder('companyTag');
         query.select('companyTag.*');

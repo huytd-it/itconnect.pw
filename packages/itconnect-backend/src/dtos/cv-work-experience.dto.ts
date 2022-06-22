@@ -91,3 +91,8 @@ export class CreateOrEditCvWorkExperienceDto {
     @ExistsRowField(JobLevelEntity, 'id', true)
     workFrom: number;
 }
+
+export class CvWorkExperienceDeleteDto {
+    @ApiProperty()
+    id: number
+}

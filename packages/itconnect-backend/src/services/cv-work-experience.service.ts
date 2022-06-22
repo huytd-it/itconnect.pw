@@ -6,6 +6,7 @@ import {InjectRepository} from "@nestjs/typeorm";
 import {CvWorkExperienceEntity} from "../entities/cvWorkExperience.entity";
 import {DeepPartial, Repository} from "typeorm";
 import {QueryDeepPartialEntity} from "typeorm/query-builder/QueryPartialEntity";
+import {CompanyTagService} from "./company-tag.service";
 
 @Injectable({ scope: Scope.REQUEST })
 export class CvWorkExperienceService {
@@ -13,7 +14,8 @@ export class CvWorkExperienceService {
     constructor(
         @InjectRepository(CvWorkExperienceEntity)
         private cvWorkExperienceRepository: Repository<CvWorkExperienceEntity>,
-        @Inject(REQUEST) private request: Request
+        @Inject(REQUEST) private request: Request,
+        private companyTagService: CompanyTagService
     ) {
     }
 
@@ -55,11 +57,21 @@ export class CvWorkExperienceService {
         const dataUpdate: DeepPartial<CvWorkExperienceEntity> = {
             startDate: data.startDate,
             endDate: data.endDate,
-            companyTag: { id: data.companyTag },
             jobLevel: { id: data.jobLevel },
             workFrom: { id: data.workFrom },
             content: data.content,
         };
+
+        if (data.companyTag) {
+            const tGlobal = await this.companyTagService.isApprove(data.companyTag);
+            if (!tGlobal) {
+                const tOwner = await this.companyTagService.isOwner(data.companyTag);
+                if (!tOwner) {
+                    throw new ForbiddenException();
+                }
+            }
+            dataUpdate.companyTag = { id: data.companyTag };
+        }
 
         if (data.id) {
             const cv = await this.cvWorkExperienceRepository.findOne({
@@ -96,5 +108,15 @@ export class CvWorkExperienceService {
                 'cvWorkExperiencePositions.position',
             ]
         })
+    }
+
+    async delete(id: number) {
+        const owner = await this.isOwner(id);
+        if (owner) {
+            // soft delete
+            // if force need remove all ...skill & ...position
+            return this.cvWorkExperienceRepository.softRemove(owner);
+        }
+        throw new ForbiddenException();
     }
 }
