@@ -27,13 +27,10 @@ export class CvWorkExperienceEntity {
     @Column()
     startDate: Date;
 
-    @Column()
+    @Column({ nullable: true })
     endDate: Date;
 
-    @Column()
-    companyName: string;
-
-    @Column({ type: 'text' })
+    @Column({ type: 'text', nullable: true })
     content: string;
 
     @ManyToOne(type => CompanyTagEntity)

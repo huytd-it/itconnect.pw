@@ -35,7 +35,7 @@ export class ExistsRowRule implements ValidatorConstraintInterface {
     }
 
     defaultMessage(args: ValidationArguments) {
-        return `${args.constraints[1] || args.property} is not exists`;
+        return `${args.property} is not exists`;
     }
 }
 

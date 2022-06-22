@@ -17,7 +17,11 @@ export class UserPositionService {
     }
 
     getAll() {
+        const currentUser = this.request['user'] as UserEntity;
         return this.userPositionEntity.find({
+            where: {
+              user: { id: currentUser.id }
+            },
             relations: ['position']
         });
     }

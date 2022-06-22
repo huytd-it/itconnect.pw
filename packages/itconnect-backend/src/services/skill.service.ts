@@ -22,6 +22,26 @@ export class SkillService {
     ) {
     }
 
+    // without is global
+    isOwner(skillId: number) {
+        const currentUser = this.request['user'] as UserEntity;
+        return this.userTaggedSkillRepository.findOne({
+            where: {
+                user: { id: currentUser.id },
+                skill: { id: skillId }
+            }
+        })
+    }
+
+    isApprove(skillId: number) {
+        return this.skillRepository.findOne({
+            where: {
+                id: skillId,
+                isApprove: true
+            }
+        })
+    }
+
     async search(dtoSearch: SkillSearchInputDto, dtoPage: PageOptionsDto) {
         const query = this.skillRepository.createQueryBuilder('skill');
         query.select('skill.*');

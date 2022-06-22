@@ -9,7 +9,7 @@ import {NotExistsRowRule} from "./not-exists-row-field.validate";
     providers: [
         HasOrderFieldRule,
         ExistsRowRule,
-        NotExistsRowRule
+        NotExistsRowRule,
     ]
 })
 export class ValidatorsModule {

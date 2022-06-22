@@ -22,6 +22,12 @@ import { UserPositionModule } from './modules/user-position/user-position.module
 import {UserSkillService} from "./services/user-skill.service";
 import {UserSkillModule} from "./modules/user-skill/user-skill.module";
 import {CompanyTagModule} from "./modules/company-tag/company-tag.module";
+import { CvWorkExperienceModule } from './modules/cv-work-experience/cv-work-experience.module';
+import {CvWorkExperienceSkillService} from "./services/cv-work-experience-skill.service";
+import {CvWorkExperienceSkillModule} from "./modules/cv-work-experience-skill/cv-work-experience-skill.module";
+import {ServicesModule} from "./services/services.module";
+import {CvWorkExperiencePositionService} from "./services/cv-work-experience-position.service";
+import {CvWorkExperiencePositionModule} from "./modules/cv-work-experience-position/cv-work-experience-position.module";
 
 @Module({
   imports: [
@@ -47,7 +53,10 @@ import {CompanyTagModule} from "./modules/company-tag/company-tag.module";
       CertificateModule,
       UserPositionModule,
       UserSkillModule,
-      CompanyTagModule
+      CompanyTagModule,
+      CvWorkExperienceModule,
+      CvWorkExperienceSkillModule,
+      CvWorkExperiencePositionModule,
   ],
   controllers: [AppController],
   providers: [

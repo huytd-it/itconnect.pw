@@ -1,4 +1,4 @@
-import {ConflictException, Injectable} from '@nestjs/common';
+import {ConflictException, Inject, Injectable, Request, Scope} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {UserEntity} from "../entities/user.entity";
 import {DataSource, In, Repository} from "typeorm";
@@ -18,6 +18,7 @@ import {UserPositionEntity} from "../entities/userPosition.entity";
 import {CompanyInfoEntity} from "../entities/companyInfo.entity";
 import {JobLevelEntity} from "../entities/jobLevel.entity";
 import {use} from "passport";
+import {REQUEST} from "@nestjs/core";
 
 @Injectable()
 export class UserService {

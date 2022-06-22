@@ -24,6 +24,26 @@ export class PositionService {
     ) {
     }
 
+    // without is global
+    isOwner(positionId: number) {
+        const currentUser = this.request['user'] as UserEntity;
+        return this.userTaggedPositionRepository.findOne({
+            where: {
+                user: { id: currentUser.id },
+                position: { id: positionId }
+            }
+        })
+    }
+
+    isApprove(positionId: number) {
+        return this.positionRepository.findOne({
+            where: {
+                id: positionId,
+                isApprove: true
+            }
+        })
+    }
+
     async search(dtoSearch: PositionSearchInputDto, dtoPage: PageOptionsDto) {
         const query = this.positionRepository.createQueryBuilder('position');
         query.select('position.*');

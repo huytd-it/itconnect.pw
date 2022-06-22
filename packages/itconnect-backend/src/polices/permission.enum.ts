@@ -131,6 +131,18 @@ export enum AppPermission {
     COMPANY_TAG_SEARCH = 'company_tag_search',
     COMPANY_TAG_CREATE_TAG = "company_tag_create_tag",
 
+
+    /**
+     * Cv Work Experience
+     *
+     */
+    CV_WORK_EXPERIENCE = 'cv_work_experience',
+    CV_WORK_EXPERIENCE_GET_OWNER = 'cv_work_experience_get_owner',
+    CV_WORK_EXPERIENCE_CE = 'cv_work_experience_ce',
+    CV_WORK_EXPERIENCE_SKILL_CE = 'cv_work_experience_skill_ce',
+    CV_WORK_EXPERIENCE_SKILL_DELETE = 'cv_work_experience_skill_delete',
+    CV_WORK_EXPERIENCE_POSITION_CE = 'cv_work_experience_position_ce',
+    CV_WORK_EXPERIENCE_POSITION_DELETE = 'cv_work_experience_position_delete',
 }
 
 
@@ -185,6 +197,13 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.SCHOOL_CREATE_TAG,
         AppPermission.COMPANY_TAG_SEARCH,
         AppPermission.COMPANY_TAG_CREATE_TAG,
+        AppPermission.CV_WORK_EXPERIENCE,
+        AppPermission.CV_WORK_EXPERIENCE_GET_OWNER,
+        AppPermission.CV_WORK_EXPERIENCE_CE,
+        AppPermission.CV_WORK_EXPERIENCE_SKILL_CE,
+        AppPermission.CV_WORK_EXPERIENCE_SKILL_DELETE,
+        AppPermission.CV_WORK_EXPERIENCE_POSITION_CE,
+        AppPermission.CV_WORK_EXPERIENCE_POSITION_DELETE,
     ],
 
     /***

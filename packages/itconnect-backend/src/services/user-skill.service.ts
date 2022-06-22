@@ -17,7 +17,13 @@ export class UserSkillService {
     }
 
     getAll() {
+        const currentUser = this.request['user'] as UserEntity;
         return this.userSkillEntity.find({
+            where: {
+              user: {
+                  id: currentUser.id
+              }
+            },
             relations: ['skill']
         });
     }
