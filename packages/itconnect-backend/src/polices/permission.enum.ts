@@ -122,6 +122,7 @@ export enum AppPermission {
      */
     CERTIFICATE_SEARCH = 'certificate_search',
     CERTIFICATE_CREATE_TAG = "certificate_create_tag",
+    USER_CERTIFICATE_GET_BY_CERT_ID = 'user_certificate_get_by_cert_id',
     USER_CERTIFICATE_GET_ALL = 'user_certificate_get_all',
     USER_CERTIFICATE_CE = 'user_certificate_ce',
     USER_CERTIFICATE_DELETE = 'user_certificate_delete',
@@ -208,6 +209,7 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.USER_CERTIFICATE_CE,
         AppPermission.USER_CERTIFICATE_DELETE,
         AppPermission.USER_CERTIFICATE_GET_ALL,
+        AppPermission.USER_CERTIFICATE_GET_BY_CERT_ID,
         AppPermission.SCHOOL_SEARCH,
         AppPermission.SCHOOL_CREATE_TAG,
         AppPermission.COMPANY_TAG_SEARCH,

@@ -36,3 +36,8 @@ export class DeleteUserCertificateParamDto {
     @ApiProperty()
     id: number;
 }
+
+export class UserCertificateGetByCertIdParamDto {
+    @ApiProperty()
+    certificateId: number;
+}

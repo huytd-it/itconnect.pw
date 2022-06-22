@@ -4,7 +4,12 @@ import {JwtAuthGuard} from "../../utils/guards/jwt.guard";
 import {UserCertificateService} from "../../services/user-certificate.service";
 import {PermissionsGuard} from "../../polices/permissions.guard";
 import {RequirePermissions} from "../../polices/polices.decorator";
-import {CreateOrEditUserCertificateDto, DeleteUserCertificateParamDto, UserCertificateDto} from "../../dtos/user-certificate.dto";
+import {
+    CreateOrEditUserCertificateDto,
+    DeleteUserCertificateParamDto,
+    UserCertificateDto,
+    UserCertificateGetByCertIdParamDto
+} from "../../dtos/user-certificate.dto";
 import {AppPermission} from "../../polices/permission.enum";
 
 @ApiTags('user-certificate')
@@ -18,6 +23,17 @@ export class UserCertificateController {
     ) {
     }
 
+    // getByCertificateId
+
+    @UseGuards(PermissionsGuard)
+    @RequirePermissions(AppPermission.USER_CERTIFICATE_GET_BY_CERT_ID)
+    @ApiOkResponse({ type: UserCertificateDto })
+    @Get('getByCertificateId/:certificateId')
+    getByCertificateId(
+        @Param() dto: UserCertificateGetByCertIdParamDto
+    ) {
+        return this.userCertificateService.getByCertificateId(dto.certificateId);
+    }
 
     @UseGuards(PermissionsGuard)
     @RequirePermissions(AppPermission.USER_CERTIFICATE_GET_ALL)

@@ -8,6 +8,7 @@ import {DeepPartial, Repository} from "typeorm";
 import {CvCertificateEntity} from "../entities/cvCertificate.entity";
 import {CertificateService} from "./certificate.service";
 import {CreateOrEditCvCertificateDto} from "../dtos/cv-certificate.dto";
+import {UserCertificateService} from "./user-certificate.service";
 
 @Injectable({ scope: Scope.REQUEST })
 export class CvCertificateService {
@@ -16,6 +17,7 @@ export class CvCertificateService {
         @InjectRepository(CvCertificateEntity)
         private cvCertificateRepository: Repository<CvCertificateEntity>,
         @Inject(REQUEST) private request: Request,
+        private userCertificateService: UserCertificateService,
         private certificateService: CertificateService
     ) {
     }
@@ -83,6 +85,18 @@ export class CvCertificateService {
             const cv = await this.cvCertificateRepository.save([
                 {...dataUpdate, user: { id: currentUser.id } }
             ]);
+
+            // insert user certificate
+            try {
+                await this.userCertificateService.createOrEdit({
+                    certificate: data.certificate,
+                    level: 1,
+                    id: 0
+                })
+            } catch (e) {
+                console.log(e);
+            }
+
             upId = cv[0].id;
         }
 
@@ -99,9 +113,17 @@ export class CvCertificateService {
     async delete(id: number) {
         const owner = await this.isOwner(id);
         if (owner) {
-            // soft delete
-            // if force need remove all ...skill & ...position
-            return this.cvCertificateRepository.softRemove(owner);
+            // remove user certificate
+            try {
+                const userCert = await this.userCertificateService.getByCertificateId(owner.certificate.id);
+                if (userCert) {
+                    await this.userCertificateService.delete(userCert.id)
+                }
+            } catch (e) {
+                console.log(e);
+            }
+
+            return this.cvCertificateRepository.remove(owner);
         }
         throw new ForbiddenException();
     }
