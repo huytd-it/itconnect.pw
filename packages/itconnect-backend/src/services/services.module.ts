@@ -37,6 +37,9 @@ import {CvWorkExperienceEntity} from "../entities/cvWorkExperience.entity";
 import {CvWorkExperiencePositionEntity} from "../entities/cvWorkExperiencePosition.entity";
 import {CvWorkExperienceSkillService} from "./cv-work-experience-skill.service";
 import {CvWorkExperiencePositionService} from "./cv-work-experience-position.service";
+import {UserCertificateService} from "./user-certificate.service";
+import {CvCertificateEntity} from "../entities/cvCertificate.entity";
+import {CvCertificateService} from "./cv-certificate.service";
 
 @Module({
   imports: [
@@ -64,6 +67,7 @@ import {CvWorkExperiencePositionService} from "./cv-work-experience-position.ser
         CvWorkExperienceEntity,
         CvWorkExperienceSkillEntity,
         CvWorkExperiencePositionEntity,
+        CvCertificateEntity
     ])
   ],
   providers: [
@@ -77,10 +81,12 @@ import {CvWorkExperiencePositionService} from "./cv-work-experience-position.ser
       CertificateService,
       UserPositionService,
       UserSkillService,
+      UserCertificateService,
       CompanyTagService,
       CvWorkExperienceService,
       CvWorkExperienceSkillService,
-      CvWorkExperiencePositionService
+      CvWorkExperiencePositionService,
+      CvCertificateService
   ],
   exports: [
       UserService,
@@ -93,10 +99,12 @@ import {CvWorkExperiencePositionService} from "./cv-work-experience-position.ser
       CertificateService,
       UserPositionService,
       UserSkillService,
+      UserCertificateService,
       CompanyTagService,
       CvWorkExperienceService,
       CvWorkExperienceSkillService,
-      CvWorkExperiencePositionService
+      CvWorkExperiencePositionService,
+      CvCertificateService
   ]
 })
 export class ServicesModule {}

@@ -23,6 +23,25 @@ export class CertificateService {
     ) {
     }
 
+    isOwner(certificateId: number) {
+        const currentUser = this.request['user'] as UserEntity;
+        return this.userTaggedCertificate.findOne({
+            where: {
+                user: { id: currentUser.id },
+                certificate: { id: certificateId }
+            }
+        })
+    }
+
+    isApprove(certificateId: number) {
+        return this.certificateRepository.findOne({
+            where: {
+                id: certificateId,
+                isApprove: true
+            }
+        })
+    }
+
     async search(dtoSearch: CertificateSearchInputDto, dtoPage: PageOptionsDto) {
         const query = this.certificateRepository.createQueryBuilder('certificate');
         query.select('certificate.*');

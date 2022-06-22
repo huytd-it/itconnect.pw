@@ -21,9 +21,9 @@ export class CvCertificateEntity {
     id: number;
 
     @Column()
-    date: Date;
+    year: number;
 
-    @Column({ type: 'text' })
+    @Column({ type: 'text', nullable: true })
     content: string;
 
     @ManyToOne(type => CertificateEntity)

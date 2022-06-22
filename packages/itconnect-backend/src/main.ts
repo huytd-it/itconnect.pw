@@ -54,16 +54,19 @@ async function bootstrap() {
       .addTag('permission')
       .addTag('address')
       .addTag('skill')
+      .addTag('user-skill')
       .addTag('position')
       .addTag('user-position')
       .addTag('school')
       .addTag('certificate')
+      .addTag('user-certificate')
       .addTag('work-from')
       .addTag('job-level')
       .addTag('company-tag')
       .addTag('cv-work-experience')
       .addTag('cv-work-experience-skill')
       .addTag('cv-work-experience-position')
+      .addTag('cv-certificate')
       .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('documentation', app, document);

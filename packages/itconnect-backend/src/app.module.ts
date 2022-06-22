@@ -19,15 +19,13 @@ import {PageGuard} from "./utils/guards/page.guard";
 import {SchoolModule} from "./modules/school/school.module";
 import {CertificateModule} from "./modules/certificate/certificate.module";
 import { UserPositionModule } from './modules/user-position/user-position.module';
-import {UserSkillService} from "./services/user-skill.service";
-import {UserSkillModule} from "./modules/user-skill/user-skill.module";
+import {UserCertificateModule} from "./modules/user-certificate/user-certificate.module";
 import {CompanyTagModule} from "./modules/company-tag/company-tag.module";
 import { CvWorkExperienceModule } from './modules/cv-work-experience/cv-work-experience.module';
-import {CvWorkExperienceSkillService} from "./services/cv-work-experience-skill.service";
 import {CvWorkExperienceSkillModule} from "./modules/cv-work-experience-skill/cv-work-experience-skill.module";
-import {ServicesModule} from "./services/services.module";
-import {CvWorkExperiencePositionService} from "./services/cv-work-experience-position.service";
 import {CvWorkExperiencePositionModule} from "./modules/cv-work-experience-position/cv-work-experience-position.module";
+import {CvCertificateModule} from "./modules/cv-certificate/cv-certificate.module";
+import {UserSkillModule} from "./modules/user-skill/user-skill.module";
 
 @Module({
   imports: [
@@ -53,10 +51,12 @@ import {CvWorkExperiencePositionModule} from "./modules/cv-work-experience-posit
       CertificateModule,
       UserPositionModule,
       UserSkillModule,
+      UserCertificateModule,
       CompanyTagModule,
       CvWorkExperienceModule,
       CvWorkExperienceSkillModule,
       CvWorkExperiencePositionModule,
+      CvCertificateModule
   ],
   controllers: [],
   providers: [
