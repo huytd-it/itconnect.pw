@@ -23,6 +23,7 @@ export class InputSkillLevelComponent implements OnInit {
   @Input() createTagFn: (data: CreateTaggedOutput) => Observable<TaggedInput>;
   @Input() bindLabel: string = 'name';
   @Input() bindLevel: string = 'level';
+  @Input() appendTo: string;
   @Input() items: any[] = [];
   @Output() onAdd = new EventEmitter<TaggedInput>();
   @Output() onChange = new EventEmitter<any>();

@@ -19,6 +19,9 @@ import {FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule} from "@angular/form
 import { EditorC1Component } from './editor-c1/editor-c1.component';
 import {QuillModule} from "ngx-quill";
 import { InputAmountVndComponent } from './input-amount-vnd/input-amount-vnd.component';
+import {InputMonthYearComponent} from "./input-month-year/input-month-year.component";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
 
 @NgModule({
   declarations: [
@@ -31,6 +34,7 @@ import { InputAmountVndComponent } from './input-amount-vnd/input-amount-vnd.com
     EasySelectComponent,
     EditorC1Component,
     InputAmountVndComponent,
+    InputMonthYearComponent,
   ],
   imports: [
     CommonModule,
@@ -44,7 +48,9 @@ import { InputAmountVndComponent } from './input-amount-vnd/input-amount-vnd.com
     NgSelectModule,
     FormsModule,
     ReactiveFormsModule,
-    QuillModule.forRoot()
+    QuillModule.forRoot(),
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
     exports: [
         MatButtonModule,
@@ -59,7 +65,8 @@ import { InputAmountVndComponent } from './input-amount-vnd/input-amount-vnd.com
         UtilsModule,
         EasySelectComponent,
         EditorC1Component,
-        InputAmountVndComponent
+        InputAmountVndComponent,
+        InputMonthYearComponent,
     ],
   providers: []
 })

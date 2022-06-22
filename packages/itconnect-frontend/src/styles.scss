@@ -3,6 +3,7 @@
 
 :root {
   --primary: #3F51B5;
+  --primary-200: #e0e2ec;
   --secondary: #986557;
   --text: #555555;
   --background: #F3F2EF;
@@ -250,5 +251,12 @@ ngx-slider {
   .ngx-slider-floor, .ngx-slider-model-value, .ngx-slider-ceil {
     font-size: 12px !important;
     color: var(--text);
+  }
+}
+
+
+body > .ng-dropdown-panel {
+  &.ng-select-bottom {
+    margin-top: 40px;
   }
 }

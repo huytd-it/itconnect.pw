@@ -16,8 +16,6 @@ import { InputSkillComponent } from './input-skill/input-skill.component';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {InputSkillLevelComponent} from "./input-skill-level/input-skill-level.component";
 import {MatSliderModule} from "@angular/material/slider";
-import { WorkExperienceComponent } from './work-experience/work-experience.component';
-import { WorkExperienceModalComponent } from './work-experience-modal/work-experience-modal.component';
 import { GroupControlTimeTextComponent } from './group-control-time-text/group-control-time-text.component';
 import { GroupControlTimeTextModalComponent } from './group-control-time-text-modal/group-control-time-text-modal.component';
 import {NgxSliderModule} from "@angular-slider/ngx-slider";
@@ -30,10 +28,8 @@ import {NgxSliderModule} from "@angular-slider/ngx-slider";
     InputAddressComponent,
     InputSkillComponent,
     InputSkillLevelComponent,
-    WorkExperienceComponent,
-    WorkExperienceModalComponent,
     GroupControlTimeTextComponent,
-    GroupControlTimeTextModalComponent
+    GroupControlTimeTextModalComponent,
   ],
     imports: [
         CommonModule,
@@ -55,7 +51,6 @@ import {NgxSliderModule} from "@angular-slider/ngx-slider";
     InputAddressComponent,
     InputSkillComponent,
     InputSkillLevelComponent,
-    WorkExperienceComponent
   ]
 })
 export class MainComponentsModule { }

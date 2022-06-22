@@ -75,6 +75,9 @@ export enum AppPermission {
    */
   SKILL_SEARCH = "skill_search",
   SKILL_CREATE_TAG = "skill_create_tag",
+  USER_SKILL_GET_ALL = 'user_skill_get_all',
+  USER_SKILL_CE = 'user_skill_ce',
+  USER_SKILL_DELETE = 'user_skill_delete',
 
   /**
    * Work from
@@ -89,6 +92,9 @@ export enum AppPermission {
    */
   POSITION_SEARCH = 'position_search',
   POSITION_CREATE_TAG = "position_create_tag",
+  USER_POSITION_GET_ALL = 'user_position_get_all',
+  USER_POSITION_CE = 'user_position_ce',
+  USER_POSITION_DELETE = 'user_position_delete',
 
   /**
    * Job level
@@ -113,5 +119,7 @@ export enum AppPermission {
   CERTIFICATE_CREATE_TAG = "certificate_create_tag",
 
 }
+
+
 
 export type AppPermissionHashMap = Partial<{ [key in AppPermission]: boolean }>;

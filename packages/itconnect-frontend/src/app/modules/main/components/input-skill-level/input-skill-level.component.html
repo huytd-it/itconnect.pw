@@ -38,6 +38,7 @@
       [label]="'Chọn hoặc thêm tag'"
       [autoFocus]="true"
       [loadMoreFn]="loadMoreFn"
+      [appendTo]="appendTo"
       (addTag)="addTag($event)"
       (onBlur)="isAdding = false"
       (onChangeE)="onSelect($event)"

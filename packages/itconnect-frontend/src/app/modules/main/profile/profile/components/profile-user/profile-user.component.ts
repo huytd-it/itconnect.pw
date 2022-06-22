@@ -9,6 +9,7 @@ import * as _ from "lodash";
 import {UserSkill} from "../../../../../../models/user-skill.model";
 import {SkillService} from "../../../../../../services/skill.service";
 import {UserSkillService} from "../../../../../../services/user-skill.service";
+import {AppPermission} from "../../../../../../models/permission.model";
 
 @Component({
   selector: 'app-profile-user',
@@ -18,6 +19,8 @@ import {UserSkillService} from "../../../../../../services/user-skill.service";
 export class ProfileUserComponent implements OnInit {
   userPosition: UserPosition[];
   userSkill: UserSkill[];
+
+  readonly permission = AppPermission;
 
   constructor(
     private positionService: PositionService,
