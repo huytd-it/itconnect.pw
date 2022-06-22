@@ -1,29 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {WorkExperienceModalComponent} from "../work-experience-modal/work-experience-modal.component";
-import {CvWorkExperienceService} from "../../../../../../services/cv-work-experience.service";
 import {finalize} from "rxjs";
 import {AppService} from "../../../../../../services/app.service";
-import {CvWorkExperience} from "../../../../../../models/cv-work-experience.model";
+import {CvCertificate} from "../../../../../../models/cv-certificate.model";
+import {CvCertificateService} from "../../../../../../services/cv-certificate.service";
+import {CertificateModalComponent} from "../certificate-modal/certificate-modal.component";
 
 @Component({
-  selector: 'app-work-experience',
-  templateUrl: './work-experience.component.html',
-  styleUrls: ['./work-experience.component.scss']
+  selector: 'app-certificate',
+  templateUrl: './certificate.component.html',
+  styleUrls: ['./certificate.component.scss']
 })
-export class WorkExperienceComponent implements OnInit {
+export class CertificateComponent implements OnInit {
 
-  data: CvWorkExperience[] = [];
+  data: CvCertificate[] = [];
 
   constructor(
     public dialog: MatDialog,
-    private cvWorkExperienceService: CvWorkExperienceService,
+    private cvCertificateService: CvCertificateService,
     private appService: AppService
   ) { }
 
   ngOnInit(): void {
     let flag = 1;
-    this.cvWorkExperienceService.getOwner()
+    this.cvCertificateService.getOwner()
       .pipe(finalize(() => !--flag && this.appService.setHeadLoading(false)))
       .subscribe(data => {
         this.data = data;
@@ -31,7 +32,7 @@ export class WorkExperienceComponent implements OnInit {
   }
 
   onAdd() {
-    const dialogRef = this.dialog.open(WorkExperienceModalComponent, {
+    const dialogRef = this.dialog.open(CertificateModalComponent, {
       maxWidth: '95vw',
       maxHeight: '95vh',
     });
@@ -44,14 +45,14 @@ export class WorkExperienceComponent implements OnInit {
     });
   }
 
-  onEdit(item: CvWorkExperience) {
-    const dialogRef = this.dialog.open(WorkExperienceModalComponent, {
+  onEdit(item: CvCertificate) {
+    const dialogRef = this.dialog.open(CertificateModalComponent, {
       maxWidth: '95vw',
       maxHeight: '95vh',
       data: item
     });
 
-    dialogRef.afterClosed().subscribe((result: CvWorkExperience)=> {
+    dialogRef.afterClosed().subscribe((result: CvCertificate)=> {
       if (!result) {
         return
       }
@@ -60,9 +61,9 @@ export class WorkExperienceComponent implements OnInit {
     });
   }
 
-  onRemove(e: CvWorkExperience) {
+  onRemove(e: CvCertificate) {
     this.appService.setHeadLoading(true);
-    this.cvWorkExperienceService.delete(e.id)
+    this.cvCertificateService.delete(e.id)
       .pipe(finalize(() => this.appService.setHeadLoading(false)))
       .subscribe(data => {
         this.data = this.data.filter(item => item.id !== e.id);

@@ -8,13 +8,13 @@ import {MatDatepicker} from "@angular/material/datepicker";
 
 export const MY_FORMATS = {
   parse: {
-    dateInput: 'MM/YYYY',
+    dateInput: 'YYYY',
   },
   display: {
-    dateInput: 'MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
+    dateInput: 'YYYY',
+    monthYearLabel: 'YYYY',
     dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
+    monthYearA11yLabel: 'YYYY',
   },
 };
 
@@ -55,7 +55,6 @@ export class InputYearComponent implements OnInit {
     if (!ctrlValue) {
       ctrlValue = moment();
     }
-    ctrlValue.month(normalizedMonthAndYear.month());
     ctrlValue.year(normalizedMonthAndYear.year());
     this.formControl.setValue(ctrlValue);
     datepicker.close();

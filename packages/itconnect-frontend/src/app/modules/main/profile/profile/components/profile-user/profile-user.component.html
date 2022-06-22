@@ -1,5 +1,5 @@
 <div>
-  <mat-accordion [multi]="true">
+  <mat-accordion [multi]="false">
     <div class="tw-rounded tw-rounded-b-none tw-shadow-md tw-p-3 tw-bg-white tw-p-10 tw-relative">
       <div class="tw-flex tw-justify-center tw-flex-col tw-items-center tw-z-10 tw-relative tw-mt-[50px]">
         <div class="tw-rounded-full tw-border-white tw-border-2">
@@ -81,7 +81,7 @@
         <app-work-experience></app-work-experience>
       </div>
     </mat-expansion-panel>
-    <mat-expansion-panel [expanded]="false">
+    <mat-expansion-panel [expanded]="true" *ngIf="permission.CV_CERTIFICATE | permission">
       <mat-expansion-panel-header>
         <mat-panel-title>
           <div class="tw-font-medium">
@@ -90,6 +90,7 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <div>
+        <app-certificate></app-certificate>
       </div>
     </mat-expansion-panel>
     <mat-expansion-panel [expanded]="false">

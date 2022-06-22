@@ -7,11 +7,10 @@
     max="{{maxDate | date:'yyyy-MM-dd'}}"
     min="{{minDate | date:'yyyy-MM-dd'}}"
   >
-  <mat-hint>MM/YYYY</mat-hint>
   <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
   <mat-datepicker #dp
                   startView="multi-year"
-                  (monthSelected)="setMonthAndYear($event, dp)"
+                  (yearSelected)="setMonthAndYear($event, dp)"
                   panelClass="example-month-picker">
   </mat-datepicker>
   <mat-error *ngIf="isControlError('required')">

@@ -117,7 +117,9 @@ export enum AppPermission {
    */
   CERTIFICATE_SEARCH = 'certificate_search',
   CERTIFICATE_CREATE_TAG = "certificate_create_tag",
-
+  USER_CERTIFICATE_GET_ALL = 'user_certificate_get_all',
+  USER_CERTIFICATE_CE = 'user_certificate_ce',
+  USER_CERTIFICATE_DELETE = 'user_certificate_delete',
 
   /**
    * Company tag = 'company_tag'
@@ -132,12 +134,22 @@ export enum AppPermission {
    *
    */
   CV_WORK_EXPERIENCE = 'cv_work_experience',
+  CV_WORK_EXPERIENCE_DELETE = 'cv_work_experience_delete',
   CV_WORK_EXPERIENCE_GET_OWNER = 'cv_work_experience_get_owner',
   CV_WORK_EXPERIENCE_CE = 'cv_work_experience_ce',
   CV_WORK_EXPERIENCE_SKILL_CE = 'cv_work_experience_skill_ce',
   CV_WORK_EXPERIENCE_SKILL_DELETE = 'cv_work_experience_skill_delete',
   CV_WORK_EXPERIENCE_POSITION_CE = 'cv_work_experience_position_ce',
   CV_WORK_EXPERIENCE_POSITION_DELETE = 'cv_work_experience_position_delete',
+
+  /**
+   * Cv Certificate
+   *
+   */
+  CV_CERTIFICATE = 'cv_certificate',
+  CV_CERTIFICATE_DELETE = 'cv_certificate_delete',
+  CV_CERTIFICATE_GET_OWNER = 'cv_certificate_get_owner',
+  CV_CERTIFICATE_CE = 'cv_certificate_ce',
 }
 
 

@@ -16,6 +16,10 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import { UserInfoComponent } from './user-info/user-info.component';
 import { UserInfoModalComponent } from './user-info-modal/user-info-modal.component';
+import {CertificateComponent} from "./certificate/certificate.component";
+import {CertificateModalComponent} from "./certificate-modal/certificate-modal.component";
+import {CertificateItemComponent} from "./certificate-item/certificate-item.component";
+import {NgxSliderModule} from "@angular-slider/ngx-slider";
 
 
 
@@ -27,21 +31,25 @@ import { UserInfoModalComponent } from './user-info-modal/user-info-modal.compon
     WorkExperienceComponent,
     WorkExperienceItemComponent,
     UserInfoComponent,
-    UserInfoModalComponent
+    UserInfoModalComponent,
+    CertificateComponent,
+    CertificateModalComponent,
+    CertificateItemComponent
   ],
-    imports: [
-        CommonModule,
-        MainComponentsModule,
-        MatExpansionModule,
-        CommonComponentsModule,
-        MatDialogModule,
-        MatSlideToggleModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatTooltipModule,
-        MatDatepickerModule,
-      MatNativeDateModule
-    ],
+  imports: [
+    CommonModule,
+    MainComponentsModule,
+    MatExpansionModule,
+    CommonComponentsModule,
+    MatDialogModule,
+    MatSlideToggleModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatTooltipModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    NgxSliderModule
+  ],
   exports: [
     ProfileUserComponent,
     ProfileCompanyComponent

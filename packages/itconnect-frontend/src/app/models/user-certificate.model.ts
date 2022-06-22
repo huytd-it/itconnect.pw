@@ -1,14 +1,14 @@
-import {Skill} from "./skill.model";
+import {Certificate} from "./certificate.model";
 
-export class UserSkill {
+export class UserCertificate {
   id: number;
   level: number;
-  skill: Skill;
+  certificate: Certificate;
   name?: string; // refactor data
 }
 
-export class CreateOrEditUserSkillOutput {
+export class CreateOrEditUserCertificateOutput {
   id?: number;
   level: number;
-  skill?: number;
+  certificate?: number;
 }

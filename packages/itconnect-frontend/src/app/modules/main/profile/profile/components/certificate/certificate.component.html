@@ -1,6 +1,6 @@
 <div class="tw-mt-5">
   <div *ngFor="let item of data" class="tw-mb-[60px]">
-    <app-work-experience-item [data]="item" (onEdit)="onEdit(item)" (onRemove)="onRemove($event)"></app-work-experience-item>
+    <app-certificate-item [data]="item" (onEdit)="onEdit(item)" (onRemove)="onRemove($event)"></app-certificate-item>
   </div>
 
   <button mat-button color="primary" (click)="onAdd()">+ Thêm</button>

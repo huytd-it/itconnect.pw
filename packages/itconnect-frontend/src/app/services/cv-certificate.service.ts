@@ -4,28 +4,29 @@ import {httpOptions, objectToParams} from "../utils/common";
 import {SkillSearchInput, SkillSearchOutput} from "../models/skill.model";
 import {CreateTaggedOutput, TaggedInput} from "../models/common";
 import {CreateOrEditCvWorkExperience, CvWorkExperience} from "../models/cv-work-experience.model";
+import {CreateOrEditCvCertificate, CvCertificate} from "../models/cv-certificate.model";
 
 @Injectable({
   providedIn: 'root'
 })
-export class CvWorkExperienceService {
+export class CvCertificateService {
 
   constructor(
     private httpClient: HttpClient
   ) {}
 
-  createOrEdit(data: CreateOrEditCvWorkExperience) {
-    const uri = 'cv-work-experience/createOrEdit';
-    return this.httpClient.post<CvWorkExperience>(uri, data, httpOptions);
+  createOrEdit(data: CreateOrEditCvCertificate) {
+    const uri = 'cv-certificate/createOrEdit';
+    return this.httpClient.post<CvCertificate>(uri, data, httpOptions);
   }
 
   getOwner() {
-    const uri = 'cv-work-experience/getOwner';
-    return this.httpClient.get<CvWorkExperience[]>(uri, httpOptions);
+    const uri = 'cv-certificate/getOwner';
+    return this.httpClient.get<CvCertificate[]>(uri, httpOptions);
   }
 
   delete(id: number) {
-    const uri = 'cv-work-experience/' + id;
+    const uri = 'cv-certificate/' + id;
     return this.httpClient.delete(uri, httpOptions);
   }
 }

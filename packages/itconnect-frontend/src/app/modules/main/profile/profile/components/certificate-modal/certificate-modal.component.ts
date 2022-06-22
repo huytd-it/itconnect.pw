@@ -1,8 +1,4 @@
 import {Component, Inject, OnInit, ViewChild} from '@angular/core';
-import {faArrowDown, faArrowRight} from "@fortawesome/free-solid-svg-icons";
-import {JobLevelService} from "../../../../../../services/job-level.service";
-import {CompanyTagService} from "../../../../../../services/company-tag.service";
-import {WorkFromService} from "../../../../../../services/work-from.service";
 import {SearchPageOutput} from "../../../../../../models/common";
 import {AppService} from "../../../../../../services/app.service";
 import {finalize} from "rxjs";
@@ -10,28 +6,23 @@ import {EasySelectComponent} from "../../../../../../components/easy-select/easy
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import * as moment from "moment";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {CreateOrEditCvWorkExperience, CvWorkExperience} from "../../../../../../models/cv-work-experience.model";
-import {CvWorkExperienceService} from "../../../../../../services/cv-work-experience.service";
+import {CreateOrEditCvCertificate, CvCertificate} from "../../../../../../models/cv-certificate.model";
+import {CertificateService} from "../../../../../../services/certificate.service";
+import {CvCertificateService} from "../../../../../../services/cv-certificate.service";
 
 enum FormField {
-  Company = 'companyTag',
-  WorkFrom = 'workFrom',
-  JobLevel = 'jobLevel',
-  StartDate = 'startDate',
-  EndDate = 'endDate',
+  Certificate = 'certificate',
+  Year = 'year',
   Content = 'content'
 }
 
 @Component({
   selector: 'app-work-experience-modal',
-  templateUrl: './work-experience-modal.component.html',
-  styleUrls: ['./work-experience-modal.component.scss']
+  templateUrl: './certificate-modal.component.html',
+  styleUrls: ['./certificate-modal.component.scss']
 })
-export class WorkExperienceModalComponent implements OnInit {
-  @ViewChild('selectCompany') selectCompany: EasySelectComponent;
-  faArrowRight = faArrowRight;
-  faArrowDown = faArrowDown;
-  isToggleWorking: boolean;
+export class CertificateModalComponent implements OnInit {
+  @ViewChild('selectCertificate') selectCertificate: EasySelectComponent;
   form: FormGroup;
   readonly FormField = FormField;
 
@@ -39,79 +30,43 @@ export class WorkExperienceModalComponent implements OnInit {
     return moment().toDate();
   }
 
-  get minDate() {
-    const value = this.form.controls[FormField.StartDate].value;
-    if (value) {
-      return value;
-    }
-    return moment().toDate();
-  }
-
   constructor(
-    private jobLevelService: JobLevelService,
-    private companyTagService: CompanyTagService,
-    private workFromService: WorkFromService,
-    private cvWorkExperienceService: CvWorkExperienceService,
+    private certificateService: CertificateService,
+    private cvCertificateService: CvCertificateService,
     private appService: AppService,
     private formBuilder: FormBuilder,
-    public dialogRef: MatDialogRef<WorkExperienceModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: CvWorkExperience,
+    public dialogRef: MatDialogRef<CertificateModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: CvCertificate,
   ) {
     this.form = this.formBuilder.group({
-      [FormField.Company]: [null, [Validators.required]],
-      [FormField.JobLevel]: [null],
-      [FormField.WorkFrom]: [null],
+      [FormField.Certificate]: [null, [Validators.required]],
+      [FormField.Year]: [null, [Validators.required]],
       [FormField.Content]: [null],
-      [FormField.StartDate]: [null, [Validators.required]],
-      [FormField.EndDate]: [null, [Validators.required]],
     })
   }
 
   ngOnInit(): void {
     if (this.data) {
       this.form.patchValue({
-        [FormField.Company]: this.data.companyTag,
-        [FormField.WorkFrom]: this.data.workFrom,
-        [FormField.JobLevel]: this.data.jobLevel,
-        [FormField.StartDate]: this.data.startDate ? moment(this.data.startDate) : null,
-        [FormField.EndDate]: this.data.endDate ? moment(this.data.endDate) : null,
-        [FormField.Content]: this.data.content
+        [FormField.Certificate]: this.data.certificate,
+        [FormField.Year]: moment().year(this.data.year),
+        [FormField.Content]: this.data.content,
       })
-      this.isToggleWorking = !this.data.endDate;
-      this.onChangeToggleWorking();
     }
   }
 
-  fetchWorkFrom = (query: SearchPageOutput) => {
-    return this.workFromService.search(query);
+  fetchCertificate = (query: SearchPageOutput) => {
+    return this.certificateService.search(query);
   }
 
-  fetchJobLevel = (query: SearchPageOutput) => {
-    return this.jobLevelService.search(query);
-  }
-
-  fetchCompanyTag = (query: SearchPageOutput) => {
-    return this.companyTagService.search(query);
-  }
-
-  onAddCompanyTag(e: string) {
+  onAddCertificate(e: string) {
     this.appService.setHeadLoading(true);
-    this.companyTagService.createTag({ name: e })
+    this.certificateService.createTag({ name: e })
       .pipe(finalize(() => this.appService.setHeadLoading(false)))
       .subscribe((data) => {
-        this.form.controls[FormField.Company].setValue(data);
-        this.selectCompany.close();
+        this.form.controls[FormField.Certificate].setValue(data);
+        this.selectCertificate.close();
       })
-  }
-
-  onChangeToggleWorking() {
-    const control = this.form.controls[FormField.EndDate];
-    if (this.isToggleWorking) {
-      control.setValue(null);
-      control.disable()
-    } else {
-      control.enable()
-    }
   }
 
   isControlError(field: FormField, ...types: string[]) {
@@ -129,13 +84,10 @@ export class WorkExperienceModalComponent implements OnInit {
     }
 
     const value = this.form.value;
-    const data: CreateOrEditCvWorkExperience = {
+    const data: CreateOrEditCvCertificate = {
       content: value[FormField.Content],
-      workFrom: value[FormField.WorkFrom]?.id,
-      jobLevel: value[FormField.JobLevel]?.id,
-      startDate: value[FormField.StartDate],
-      endDate: value[FormField.EndDate],
-      companyTag: value[FormField.Company]?.id,
+      year: value[FormField.Year],
+      certificate: value[FormField.Certificate]?.id,
     }
 
     if (this.data) {
@@ -143,14 +95,14 @@ export class WorkExperienceModalComponent implements OnInit {
     }
 
     this.appService.setHeadLoading(true);
-    this.cvWorkExperienceService.createOrEdit(data)
+    this.cvCertificateService.createOrEdit(data)
       .pipe(finalize(() => this.appService.setHeadLoading(false)))
       .subscribe(data => {
         this.onClose(data);
       })
   }
 
-  onClose(data?: CvWorkExperience) {
+  onClose(data?: CvCertificate) {
     this.dialogRef.close(data);
   }
 }

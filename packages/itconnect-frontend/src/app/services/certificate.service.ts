@@ -3,19 +3,20 @@ import {HttpClient} from "@angular/common/http";
 import {httpOptions, objectToParams} from "../utils/common";
 import {SkillSearchInput, SkillSearchOutput} from "../models/skill.model";
 import {CreateTaggedOutput, TaggedInput} from "../models/common";
+import {CertificateSearchInput, CertificateSearchOutput} from "../models/certificate.model";
 
 @Injectable({
   providedIn: 'root'
 })
-export class SkillService {
+export class CertificateService {
 
   constructor(
     private httpClient: HttpClient
   ) {}
 
-  search(query: SkillSearchOutput) {
-    const uri = 'skill/search'
-    return this.httpClient.get<SkillSearchInput>(uri,
+  search(query: CertificateSearchOutput) {
+    const uri = 'certificate/search'
+    return this.httpClient.get<CertificateSearchInput>(uri,
       {
         ...httpOptions,
         params: objectToParams(query)
@@ -24,7 +25,7 @@ export class SkillService {
   }
 
   createTag(data: CreateTaggedOutput) {
-    const uri = 'skill/create-tag';
+    const uri = 'certificate/create-tag';
     return this.httpClient.post<TaggedInput>(uri, data, httpOptions);
   }
 }

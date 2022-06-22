@@ -1,39 +1,15 @@
-import {Position} from "./position.model";
-import {Skill} from "./skill.model";
-import {JobLevel} from "./job-level.model";
-import {WorkFrom} from "./work-from.model";
-import {CompanyTag} from "./company-tag.model";
+import {Certificate} from "./certificate.model";
 
-export class CvWorkExperiencePosition {
-    id: number
-    position: Position;
-    name?: string; // refactor
-}
-
-export class CvWorkExperienceSkill {
-    id: number
-    skill: Skill;
-    name?: string; // refactor
-}
-
-export class CvWorkExperience {
+export class CvCertificate {
     id: number;
-    startDate: Date;
-    endDate: Date;
+    year: number;
     content: string;
-    companyTag: CompanyTag;
-    jobLevel: JobLevel;
-    workFrom: WorkFrom;
-    cvWorkExperienceSkills: CvWorkExperienceSkill[];
-    cvWorkExperiencePositions: CvWorkExperiencePosition[];
+    certificate: Certificate;
 }
 
-export class CreateOrEditCvWorkExperience {
+export class CreateOrEditCvCertificate {
     id?: number;
-    startDate: Date;
-    endDate: Date;
+    year: number;
     content: string;
-    companyTag: number;
-    jobLevel: number;
-    workFrom: number;
+    certificate: number;
 }

@@ -1,13 +1,13 @@
 import {PageInput, PageOutput, SearchPageOutput} from "./common";
 
-export class Skill {
+export class Certificate {
   id: number;
   name: string;
 
   // add more
 }
 
-export class SkillSearchInput extends PageInput<Skill> {}
+export class CertificateSearchInput extends PageInput<Certificate> {}
 
-export class SkillSearchOutput extends SearchPageOutput {
+export class CertificateSearchOutput extends SearchPageOutput {
 }
