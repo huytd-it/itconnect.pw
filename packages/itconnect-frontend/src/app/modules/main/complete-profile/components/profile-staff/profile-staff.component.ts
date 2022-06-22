@@ -1,14 +1,9 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {faInfoCircle, faPersonBooth} from "@fortawesome/free-solid-svg-icons";
-import {faConnectdevelop} from "@fortawesome/free-brands-svg-icons";
 import {OptionItem, PageOutput, SearchPageOutput} from "../../../../../models/common";
 import {FormBuilder, FormGroup, Validator, Validators} from "@angular/forms";
 import {validateInputAddressRequired} from "../../../components/input-address/input-address.component";
-import {AddressSearchOutput} from "../../../../../models/address.model";
 import {PositionService} from "../../../../../services/position.service";
 import {SkillService} from "../../../../../services/skill.service";
-import {PositionSearchOutput} from "../../../../../models/position.model";
-import {SkillSearchOutput} from "../../../../../models/skill.model";
 import {ProfileService} from "../../../../../services/profile.service";
 import {CompleteUserProfileOutput} from "../../../../../models/profile.model";
 import {catchError, finalize} from "rxjs";

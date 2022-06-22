@@ -14,6 +14,8 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import { WorkExperienceItemComponent } from './work-experience-item/work-experience-item.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import { UserInfoComponent } from './user-info/user-info.component';
+import { UserInfoModalComponent } from './user-info-modal/user-info-modal.component';
 
 
 
@@ -23,7 +25,9 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     ProfileCompanyComponent,
     WorkExperienceModalComponent,
     WorkExperienceComponent,
-    WorkExperienceItemComponent
+    WorkExperienceItemComponent,
+    UserInfoComponent,
+    UserInfoModalComponent
   ],
     imports: [
         CommonModule,
@@ -35,6 +39,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
         FormsModule,
         ReactiveFormsModule,
         MatTooltipModule,
+        MatDatepickerModule,
+      MatNativeDateModule
     ],
   exports: [
     ProfileUserComponent,

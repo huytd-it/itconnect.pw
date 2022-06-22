@@ -3,9 +3,9 @@ import {AuthLoginInput, AuthLoginOutput, AuthRegisterInput, AuthRegisterOutput} 
 import {HttpClient} from "@angular/common/http";
 import {httpOptions} from "../utils/common";
 import {BehaviorSubject, map, Observable} from "rxjs";
-import {User} from "../models/user.model";
+import {User, UserInfo} from "../models/user.model";
 import {ProfileService} from "./profile.service";
-import {ProfileDataBoostrap} from "../models/profile.model";
+import {CompleteUserProfileInput, ProfileDataBoostrap} from "../models/profile.model";
 import {AppPermission, AppPermissionHashMap, AppRole} from "../models/permission.model";
 import {PermissionService} from "./permission.service";
 
@@ -70,7 +70,7 @@ export class AuthService {
     this.preLoadUser();
   }
 
-  private preLoadUser() {
+  preLoadUser() {
     if (!this.token) {
       return;
     }
@@ -79,4 +79,5 @@ export class AuthService {
       this.dataSubject.next(data);
     })
   }
+
 }

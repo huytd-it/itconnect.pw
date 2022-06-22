@@ -10,6 +10,7 @@ import {UserSkill} from "../../../../../../models/user-skill.model";
 import {SkillService} from "../../../../../../services/skill.service";
 import {UserSkillService} from "../../../../../../services/user-skill.service";
 import {AppPermission} from "../../../../../../models/permission.model";
+import {AuthService} from "../../../../../../services/auth.service";
 
 @Component({
   selector: 'app-profile-user',
@@ -22,12 +23,17 @@ export class ProfileUserComponent implements OnInit {
 
   readonly permission = AppPermission;
 
+  get userName() {
+    return this.authService.data?.user.userInfo.fullName;
+  }
+
   constructor(
     private positionService: PositionService,
     private userPositionService: UserPositionService,
     private skillService: SkillService,
     private userSkillService: UserSkillService,
-    private appService: AppService
+    private appService: AppService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
