@@ -1,34 +1,36 @@
-<div class="tw-flex tw-flex-wrap tw-gap-2 tw-mt-4">
-
-  <button
-    class="tw-p-2 tw-rounded-md tw-border tw-relative tw-h-[53px]"
-    *ngFor="let item of tags"
-    (click)="removeTag(item)"
+<div class="tw-mt-4 tw-flex tw-flex-wrap tw-gap-2 tw-items-center">
+  <ng-container
+    *ngFor="let item of items"
   >
-    <div class="
-    tw-absolute tw-right-[-5px] tw-top-[-5px] tw-font-medium tw-w-[15px] tw-h-[15px] tw-text-[10px]
-    tw-rounded-full tw-bg-primaryColor tw-text-white tw-flex tw-justify-center tw-items-center
-    ">
-      x
-    </div>
-    {{item}}
-  </button>
-  <div>
+    <button
+      class="tw-p-2 tw-rounded-md tw-border tw-relative tw-h-[55px] tw-mt-2"
+      [matTooltip]="item[bindLabel]"
+      (click)="removeTag(item)"
+    >
+      <div class="
+          tw-absolute tw-right-[-5px] tw-top-[-5px] tw-font-medium tw-w-[15px] tw-h-[15px] tw-text-[10px]
+          tw-rounded-full tw-bg-primaryColor tw-text-white tw-flex tw-justify-center tw-items-center
+        ">x</div>
+      <span class="tw-inline-block tw-whitespace-nowrap tw-max-w-[100px] tw-overflow-hidden tw-overflow-ellipsis">
+          {{item[bindLabel]}}
+        </span>
+    </button>
+  </ng-container>
 
-  </div>
   <button
     type="button"
-    class="tw-p-2 tw-rounded-md tw-border tw-border-primaryColor tw-text-primaryColor tw-h-[53px]"
+    class="tw-p-2 tw-mt-2 tw-rounded-md tw-border tw-border-primaryColor tw-text-primaryColor tw-h-[53px]"
     *ngIf="!isAdding"
     (click)="isAdding = true"
   >
     + Thêm
   </button>
-  <div class="tw-min-w-[200px] tw-mt-[-3px]" *ngIf="isAdding">
+  <div class="tw-min-w-[200px] tw-mt-[-3px] tw-max-w-[300px]" *ngIf="isAdding">
     <app-easy-select
       [label]="'Chọn hoặc thêm tag'"
       [autoFocus]="true"
       [loadMoreFn]="loadMoreFn"
+      [appendTo]="appendTo"
       (addTag)="addTag($event)"
       (onBlur)="isAdding = false"
       (onChangeE)="onSelect($event)"

@@ -40,7 +40,7 @@
         ></app-input-skill-level>
       </div>
     </mat-expansion-panel>
-    <mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel [expanded]="true"  *ngIf="permission.CV_WORK_EXPERIENCE | permission">
       <mat-expansion-panel-header>
         <mat-panel-title>
           <div class="tw-font-medium">

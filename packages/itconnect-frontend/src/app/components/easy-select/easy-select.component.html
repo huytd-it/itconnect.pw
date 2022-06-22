@@ -11,7 +11,7 @@
   [searchFn]="onSearchFn"
   [disabled]="fDisabled"
   [addTagText]="addTagText"
-  [addTag]="funcAddTag()"
+  [addTag]="isAddTag && funcAddTag()"
   [ngModel]="itemSelected"
   (ngModelChange)="onChange($event)"
   (search)="onSearch($event)"
@@ -22,6 +22,3 @@
   (clear)="onClear()"
   required
 ></ng-select>
-
-<!--  addTagText="Create New"-->
-<!--  [addTag]="CreateNew"-->

@@ -1,57 +1,61 @@
-import {Component, forwardRef, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, forwardRef, Input, OnInit, Output} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
-import {OptionItem, PageInput, SearchPageOutput} from "../../../../models/common";
-import {Observable} from "rxjs";
+import {
+  CreateTaggedOutput,
+  OptionItem,
+  PageInput,
+  SearchPageOutput,
+  TaggedInput,
+} from "../../../../models/common";
+import {finalize, Observable} from "rxjs";
+import {MatSliderChange} from "@angular/material/slider";
+import {Options} from "@angular-slider/ngx-slider";
+import {AppService} from "../../../../services/app.service";
 
 @Component({
   selector: 'app-input-skill',
   templateUrl: './input-skill.component.html',
   styleUrls: ['./input-skill.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => InputSkillComponent),
-      multi: true
-    }
-  ]
+  providers: []
 })
-export class InputSkillComponent implements OnInit, ControlValueAccessor {
-  isAdding: boolean;
-  tags: string[] = [];
+export class InputSkillComponent implements OnInit {
   @Input() loadMoreFn: (query: SearchPageOutput) => Observable<PageInput<any>>;
+  @Input() createTagFn: (data: CreateTaggedOutput) => Observable<TaggedInput>;
+  @Input() bindLabel: string = 'name';
+  @Input() bindLevel: string = 'level';
+  @Input() appendTo: string;
+  @Input() items: any[] = [];
+  @Output() onAdd = new EventEmitter<TaggedInput>();
+  @Output() onRemove = new EventEmitter();
+  isAdding: boolean;
 
-  private funcChangeControlValue: (data: any) => void;
-
-  constructor() { }
+  constructor(
+    private appService: AppService
+  ) { }
 
   ngOnInit(): void {
   }
 
-  addTag(tag: string) {
+  async addTag(tag: string) {
     this.isAdding = false;
-    if (!this.tags.includes(tag)) {
-      this.tags.push(tag);
-    }
-    this.funcChangeControlValue(this.tags);
+    this.appService.setHeadLoading(true);
+    this.createTagFn({ name: tag })
+      .pipe(finalize(() => this.appService.setHeadLoading(false)))
+      .subscribe(data => {
+        this.addUserTagged(data);
+      })
   }
 
-  removeTag(item: string) {
-    this.tags = this.tags.filter(o => o !== item);
-    this.funcChangeControlValue(this.tags);
-  }
-
-  registerOnChange(fn: any): void {
-    this.funcChangeControlValue = fn;
-  }
-
-  registerOnTouched(fn: any): void {
-  }
-
-  writeValue(obj: any): void {
-    this.tags = obj || [];
+  removeTag(item: any) {
+    this.onRemove.emit(item);
   }
 
   onSelect(e: OptionItem | OptionItem[]) {
-    this.addTag((<OptionItem>e).name);
+    this.isAdding = false;
+    this.addUserTagged(<any>e);
+  }
+
+  private addUserTagged(tag: TaggedInput) {
+    this.onAdd.emit(tag);
   }
 }

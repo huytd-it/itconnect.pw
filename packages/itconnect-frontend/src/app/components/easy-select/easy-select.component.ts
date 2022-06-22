@@ -37,6 +37,7 @@ export class EasySelectComponent implements OnInit, ControlValueAccessor, OnChan
   @Input() required: boolean;
   @Input() fDisabled: boolean;
   @Input() autoFocus: boolean;
+  @Input() isAddTag: boolean = true;
   @Input() addTagText: string = "Thêm mới"
   @Input() appendTo: string;
   @Input() dropdownPosition: 'top' | 'right' | 'bottom' | 'left' | 'auto' = 'auto';
@@ -75,6 +76,11 @@ export class EasySelectComponent implements OnInit, ControlValueAccessor, OnChan
         this.onBlur.emit();
       }
     })
+  }
+
+
+  close() {
+    this.ngSelect.close();
   }
 
   registerOnChange(fn: any): void {

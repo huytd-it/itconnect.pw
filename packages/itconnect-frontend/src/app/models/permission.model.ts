@@ -118,8 +118,27 @@ export enum AppPermission {
   CERTIFICATE_SEARCH = 'certificate_search',
   CERTIFICATE_CREATE_TAG = "certificate_create_tag",
 
-}
 
+  /**
+   * Company tag = 'company_tag'
+   *
+   */
+  COMPANY_TAG_SEARCH = 'company_tag_search',
+  COMPANY_TAG_CREATE_TAG = "company_tag_create_tag",
+
+
+  /**
+   * Cv Work Experience
+   *
+   */
+  CV_WORK_EXPERIENCE = 'cv_work_experience',
+  CV_WORK_EXPERIENCE_GET_OWNER = 'cv_work_experience_get_owner',
+  CV_WORK_EXPERIENCE_CE = 'cv_work_experience_ce',
+  CV_WORK_EXPERIENCE_SKILL_CE = 'cv_work_experience_skill_ce',
+  CV_WORK_EXPERIENCE_SKILL_DELETE = 'cv_work_experience_skill_delete',
+  CV_WORK_EXPERIENCE_POSITION_CE = 'cv_work_experience_position_ce',
+  CV_WORK_EXPERIENCE_POSITION_DELETE = 'cv_work_experience_position_delete',
+}
 
 
 export type AppPermissionHashMap = Partial<{ [key in AppPermission]: boolean }>;

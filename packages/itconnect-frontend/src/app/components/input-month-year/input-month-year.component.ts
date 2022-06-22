@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
 import * as moment from 'moment';
 import {Moment} from 'moment';
-import {FormControl} from "@angular/forms";
+import {Form, FormControl, FormGroup} from "@angular/forms";
 import {MatDatepicker} from "@angular/material/datepicker";
 
 export const MY_FORMATS = {
@@ -35,19 +35,39 @@ export const MY_FORMATS = {
   ],
 })
 export class InputMonthYearComponent implements OnInit {
+  @Input() label: string;
+  @Input() form: FormGroup;
+  @Input() name: string;
+  @Input() maxDate: Date;
+  @Input() minDate: Date;
+
+  get formControl() {
+    return this.form.controls[this.name];
+  }
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  date = new FormControl(moment());
-
   setMonthAndYear(normalizedMonthAndYear: Moment, datepicker: MatDatepicker<any>) {
-    const ctrlValue = this.date.value!;
+    let ctrlValue = this.formControl.value!;
+    if (!ctrlValue) {
+      ctrlValue = moment();
+    }
     ctrlValue.month(normalizedMonthAndYear.month());
     ctrlValue.year(normalizedMonthAndYear.year());
-    this.date.setValue(ctrlValue);
+    this.formControl.setValue(ctrlValue);
     datepicker.close();
   }
+
+
+  isControlError(...types: string[]) {
+    const control = this.formControl;
+    if (control.invalid && (control.touched || control.dirty)) {
+      return types.some(type => !!control?.errors?.[type]);
+    }
+    return false;
+  }
+
 }
