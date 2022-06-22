@@ -11,6 +11,7 @@ import {
 import {UserEntity} from "./user.entity";
 import {AddressEntity} from "./address.entity";
 import {CvWorkExperienceEntity} from "./cvWorkExperience.entity";
+import {CompanyTagEntity} from "./companyTag.entity";
 
 
 @Entity()
@@ -34,8 +35,8 @@ export class CompanyInfoEntity {
     @JoinColumn()
     addressVillage: AddressEntity;
 
-    @OneToMany(type => CvWorkExperienceEntity, db => db.companyInfo)
-    cvWorkExperiences: CvWorkExperienceEntity[]
+    @OneToOne(type => CompanyTagEntity)
+    companyTag: CompanyTagEntity;
 
     @Column()
     addressStreet: string;

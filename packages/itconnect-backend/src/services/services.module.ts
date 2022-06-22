@@ -28,6 +28,9 @@ import {UserSchoolEntity} from "../entities/userSchool.entity";
 import {UserCertificateEntity} from "../entities/userCertificate.entity";
 import { UserPositionService } from './user-position.service';
 import {UserSkillService} from "./user-skill.service";
+import {CompanyTagEntity} from "../entities/companyTag.entity";
+import {UserTaggedCompanyTagEntity} from "../entities/userTaggedCompanyTag.entity";
+import {CompanyTagService} from "./company-tag.service";
 
 @Module({
   imports: [
@@ -42,6 +45,7 @@ import {UserSkillService} from "./user-skill.service";
         UserTaggedPositionEntity,
         UserTaggedCertificateEntity,
         UserTaggedSchoolEntity,
+        UserTaggedCompanyTagEntity,
         AddressEntity,
         PositionEntity,
         SkillEntity,
@@ -50,6 +54,7 @@ import {UserSkillService} from "./user-skill.service";
         JobLevelEntity,
         SchoolEntity,
         CertificateEntity,
+        CompanyTagEntity,
     ])
   ],
   providers: [
@@ -62,7 +67,8 @@ import {UserSkillService} from "./user-skill.service";
       SchoolService,
       CertificateService,
       UserPositionService,
-      UserSkillService
+      UserSkillService,
+      CompanyTagService
   ],
   exports: [
       UserService,
@@ -74,7 +80,8 @@ import {UserSkillService} from "./user-skill.service";
       SchoolService,
       CertificateService,
       UserPositionService,
-      UserSkillService
+      UserSkillService,
+      CompanyTagService
   ]
 })
 export class ServicesModule {}

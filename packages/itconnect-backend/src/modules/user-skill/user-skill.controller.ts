@@ -20,7 +20,7 @@ export class UserSkillController {
 
 
     @UseGuards(PermissionsGuard)
-    @RequirePermissions(AppPermission.USER_POSITION_GET_ALL)
+    @RequirePermissions(AppPermission.USER_SKILL_GET_ALL)
     @ApiOkResponse({ type: UserSkillDto })
     @Get('getAll')
     getAll() {
@@ -28,7 +28,7 @@ export class UserSkillController {
     }
 
     @UseGuards(PermissionsGuard)
-    @RequirePermissions(AppPermission.USER_POSITION_CE)
+    @RequirePermissions(AppPermission.USER_SKILL_CE)
     @ApiOkResponse({ type: UserSkillDto })
     @Post('createOrEdit')
     createOrEdit(
@@ -38,7 +38,7 @@ export class UserSkillController {
     }
 
     @UseGuards(PermissionsGuard)
-    @RequirePermissions(AppPermission.USER_POSITION_DELETE)
+    @RequirePermissions(AppPermission.USER_SKILL_DELETE)
     @Delete(':id')
     delete(
         @Param() dto: DeleteUserSkillParamDto

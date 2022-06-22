@@ -39,7 +39,7 @@ export class UserInfoEntity {
     @Column()
     addressStreet: string;
 
-    @Column()
+    @Column({ nullable: true })
     phone: string;
 
     @Column()

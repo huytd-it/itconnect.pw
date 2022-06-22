@@ -80,6 +80,9 @@ export enum AppPermission {
      */
     SKILL_SEARCH = "skill_search",
     SKILL_CREATE_TAG = "skill_create_tag",
+    USER_SKILL_GET_ALL = 'user_skill_get_all',
+    USER_SKILL_CE = 'user_skill_ce',
+    USER_SKILL_DELETE = 'user_skill_delete',
 
     /**
      * Work from
@@ -120,6 +123,14 @@ export enum AppPermission {
     CERTIFICATE_SEARCH = 'certificate_search',
     CERTIFICATE_CREATE_TAG = "certificate_create_tag",
 
+
+    /**
+     * Company tag = 'company_tag'
+     *
+     */
+    COMPANY_TAG_SEARCH = 'company_tag_search',
+    COMPANY_TAG_CREATE_TAG = "company_tag_create_tag",
+
 }
 
 
@@ -157,6 +168,9 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.ADDRESS_SEARCH,
         AppPermission.SKILL_SEARCH,
         AppPermission.SKILL_CREATE_TAG,
+        AppPermission.USER_SKILL_CE,
+        AppPermission.USER_SKILL_GET_ALL,
+        AppPermission.USER_SKILL_DELETE,
         AppPermission.WORK_FROM_SEARCH,
         AppPermission.POSITION_SEARCH,
         AppPermission.POSITION_CREATE_TAG,
@@ -168,7 +182,9 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.CERTIFICATE_SEARCH,
         AppPermission.CERTIFICATE_CREATE_TAG,
         AppPermission.SCHOOL_SEARCH,
-        AppPermission.SCHOOL_CREATE_TAG
+        AppPermission.SCHOOL_CREATE_TAG,
+        AppPermission.COMPANY_TAG_SEARCH,
+        AppPermission.COMPANY_TAG_CREATE_TAG,
     ],
 
     /***
@@ -196,7 +212,9 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.CERTIFICATE_SEARCH,
         AppPermission.CERTIFICATE_CREATE_TAG,
         AppPermission.SCHOOL_SEARCH,
-        AppPermission.SCHOOL_CREATE_TAG
+        AppPermission.SCHOOL_CREATE_TAG,
+        AppPermission.COMPANY_TAG_SEARCH,
+        AppPermission.COMPANY_TAG_CREATE_TAG,
     ],
 
     /**

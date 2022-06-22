@@ -15,6 +15,7 @@ import {JobLevelEntity} from "./jobLevel.entity";
 import {WorkFromEntity} from "./workFrom.entity";
 import {CvWorkExperienceSkillEntity} from "./cvWorkExperienceSkill.entity";
 import {CvWorkExperiencePositionEntity} from "./cvWorkExperiencePosition.entity";
+import {CompanyTagEntity} from "./companyTag.entity";
 
 export const MAX_WORK_EXPERIENCE_LENGTH = 65000;
 
@@ -35,8 +36,8 @@ export class CvWorkExperienceEntity {
     @Column({ type: 'text' })
     content: string;
 
-    @ManyToOne(type => CompanyInfoEntity)
-    companyInfo: CompanyInfoEntity;
+    @ManyToOne(type => CompanyTagEntity)
+    companyTag: CompanyTagEntity;
 
     @ManyToOne(type => JobLevelEntity)
     jobLevel: JobLevelEntity;

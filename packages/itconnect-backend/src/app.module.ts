@@ -21,6 +21,7 @@ import {CertificateModule} from "./modules/certificate/certificate.module";
 import { UserPositionModule } from './modules/user-position/user-position.module';
 import {UserSkillService} from "./services/user-skill.service";
 import {UserSkillModule} from "./modules/user-skill/user-skill.module";
+import {CompanyTagModule} from "./modules/company-tag/company-tag.module";
 
 @Module({
   imports: [
@@ -45,7 +46,8 @@ import {UserSkillModule} from "./modules/user-skill/user-skill.module";
       SchoolModule,
       CertificateModule,
       UserPositionModule,
-      UserSkillModule
+      UserSkillModule,
+      CompanyTagModule
   ],
   controllers: [AppController],
   providers: [

@@ -60,6 +60,7 @@ async function bootstrap() {
       .addTag('certificate')
       .addTag('work-from')
       .addTag('job-level')
+      .addTag('company-tag')
       .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('documentation', app, document);
