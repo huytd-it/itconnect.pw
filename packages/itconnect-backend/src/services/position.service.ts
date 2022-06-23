@@ -69,6 +69,7 @@ export class PositionService {
                 loadRelationIds: true
             });
             if (userTagged.length) {
+                console.log(userTagged);
                 query.andWhere((clause) => {
                     clause.where({
                         id: In(userTagged.map(item => item.position))
