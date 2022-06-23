@@ -28,3 +28,9 @@ export class JobWorkFrom {
   workFrom: number;
   name: string; // refactor
 }
+
+
+export class JobJobLevel {
+  jobLevel: number;
+  name: string; // refactor
+}

@@ -3,82 +3,134 @@
 </div>
 <form class="tw-p-5" [formGroup]="form">
   <div class="tw-flex tw-flex-wrap tw-gap-10">
-    <div class="tw-border tw-rounded tw-p-4 tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px]">
-      <div class="tw-ml-1">
-        Vị trí
+    <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px]">
+      <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
+        <div class="tw-flex tw-items-center">
+          <mat-icon>groups</mat-icon>
+          <span class="tw-ml-2">Vị trí</span>
+        </div>
       </div>
-      <app-input-skill-level-range
-        [items]="form.controls[FormField.positions].value || []"
-        [loadMoreFn]="fetchDataPosition"
-        (onRemove)="onRemoveDataPosition($event)"
-        (onAdd)="onAddDataPosition($event)"
-        (onChange)="onChangeDataPosition($event)"
-      ></app-input-skill-level-range>
+      <div class="tw-p-3">
+        <app-input-skill-level-range
+          [items]="form.controls[FormField.positions].value || []"
+          [loadMoreFn]="fetchDataPosition"
+          (onRemove)="onRemoveDataPosition($event)"
+          (onAdd)="onAddDataPosition($event)"
+          (onChange)="onChangeDataPosition($event)"
+        ></app-input-skill-level-range>
+      </div>
     </div>
 
-    <div class="tw-border tw-rounded tw-p-4 tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px]">
-      <div class="tw-ml-1">
-        Kỹ năng
+    <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px]">
+      <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
+        <div class="tw-flex tw-items-center">
+          <mat-icon>hub</mat-icon>
+          <span class="tw-ml-2">Kỹ năng</span>
+        </div>
       </div>
-      <app-input-skill-level-range
-        [items]="form.controls[FormField.skills].value || []"
-        [loadMoreFn]="fetchDataSkill"
-        (onRemove)="onRemoveDataSkill($event)"
-        (onAdd)="onAddDataSkill($event)"
-        (onChange)="onChangeDataSkill($event)"
-      ></app-input-skill-level-range>
+      <div class="tw-p-3">
+        <app-input-skill-level-range
+          [items]="form.controls[FormField.skills].value || []"
+          [loadMoreFn]="fetchDataSkill"
+          (onRemove)="onRemoveDataSkill($event)"
+          (onAdd)="onAddDataSkill($event)"
+          (onChange)="onChangeDataSkill($event)"
+        ></app-input-skill-level-range>
+      </div>
     </div>
 
-    <div class="tw-border tw-rounded tw-p-4 tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px]">
-      <div class="tw-ml-1">
-        Văn Bằng / Chứng chỉ
+    <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px]">
+      <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
+        <div class="tw-flex tw-items-center">
+          <mat-icon>card_membership</mat-icon>
+          <span class="tw-ml-2">Văn bằng / Chứng chỉ</span>
+        </div>
       </div>
-      <app-input-skill-level-range
-        [items]="form.controls[FormField.certificate].value || []"
-        [loadMoreFn]="fetchDataCertificate"
-        (onRemove)="onRemoveDataCertificate($event)"
-        (onAdd)="onAddDataCertificate($event)"
-        (onChange)="onChangeDataCertificate($event)"
-      ></app-input-skill-level-range>
+      <div class="tw-p-3">
+        <app-input-skill-level-range
+          [items]="form.controls[FormField.certificate].value || []"
+          [loadMoreFn]="fetchDataCertificate"
+          (onRemove)="onRemoveDataCertificate($event)"
+          (onAdd)="onAddDataCertificate($event)"
+          (onChange)="onChangeDataCertificate($event)"
+        ></app-input-skill-level-range>
+      </div>
     </div>
 
-    <div class="tw-border tw-rounded tw-p-4 tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px]">
-      <div class="tw-ml-1">
-        Học vấn
+    <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px]">
+      <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
+        <div class="tw-flex tw-items-center">
+          <mat-icon>school</mat-icon>
+          <span class="tw-ml-2">Học vấn</span>
+        </div>
       </div>
-      <app-input-skill-level-range
-        [items]="form.controls[FormField.school].value || []"
-        [loadMoreFn]="fetchDataSchool"
-        (onRemove)="onRemoveDataSchool($event)"
-        (onAdd)="onAddDataSchool($event)"
-        (onChange)="onChangeDataSchool($event)"
-      ></app-input-skill-level-range>
+      <div class="tw-p-3">
+        <app-input-skill-level-range
+          [items]="form.controls[FormField.school].value || []"
+          [loadMoreFn]="fetchDataSchool"
+          (onRemove)="onRemoveDataSchool($event)"
+          (onAdd)="onAddDataSchool($event)"
+          (onChange)="onChangeDataSchool($event)"
+        ></app-input-skill-level-range>
+      </div>
     </div>
 
-    <div class="tw-border tw-rounded tw-p-4 tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px]">
-      <div class="tw-ml-1">
-        Hình thức làm việc
+    <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px]">
+      <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
+        <div class="tw-flex tw-items-center">
+          <mat-icon>hail</mat-icon>
+          <span class="tw-ml-2">Hình thức làm việc</span>
+        </div>
       </div>
-      <app-input-skill
-        [items]="form.controls[FormField.workFrom].value || []"
-        [loadMoreFn]="fetchDataWorkFrom"
-        [hasAddTag]="false"
-        (onAdd)="onAddDataWorkFrom($event)"
-        (onRemove)="onRemoveDataWorkFrom($event)"
-      ></app-input-skill>
+      <div class="tw-p-3">
+        <app-input-skill
+          [items]="form.controls[FormField.workFrom].value || []"
+          [loadMoreFn]="fetchDataWorkFrom"
+          [hasAddTag]="false"
+          (onAdd)="onAddDataWorkFrom($event)"
+          (onRemove)="onRemoveDataWorkFrom($event)"
+        ></app-input-skill>
+      </div>
     </div>
 
-    <div class="tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px]">
-      <ng-select
-        #ngSelect
-        appearance="outline"
-        bindLabel="name"
-        placeholder="Năm kinh nghiệm"
-        [items]="yoeList"
-        [formControlName]="FormField.yoe"
-      ></ng-select>
-      <app-easy-select [isAddTag]="false" [label]="'Cấp độ'" [loadMoreFn]="fetchDataJobLevel"></app-easy-select>
+
+    <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px]">
+      <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
+        <div class="tw-flex tw-items-center">
+          <mat-icon>psychology_alt</mat-icon>
+          <span class="tw-ml-2">Cấp độ nghề nghiệp</span>
+        </div>
+      </div>
+      <div class="tw-p-3">
+        <app-input-skill
+          [items]="form.controls[FormField.jobLevel].value || []"
+          [loadMoreFn]="fetchDataJobLevel"
+          [hasAddTag]="false"
+          (onAdd)="onAddDataJobLevel($event)"
+          (onRemove)="onRemoveDataJobLevel($event)"
+        ></app-input-skill>
+      </div>
     </div>
+
+
+    <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px]">
+      <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
+        <div class="tw-flex tw-items-center">
+          <mat-icon>difference</mat-icon>
+          <span class="tw-ml-2">Yêu cầu khác</span>
+        </div>
+      </div>
+      <div class="tw-p-3">
+        <ng-select
+          #ngSelect
+          bindLabel="name"
+          placeholder="Năm kinh nghiệm"
+          [items]="yoeList"
+          [formControlName]="FormField.yoe"
+        ></ng-select>
+      </div>
+    </div>
+
   </div>
 
 

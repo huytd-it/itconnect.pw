@@ -8,7 +8,7 @@ import {PositionSearchOutput} from "../../../../models/position.model";
 import {SkillSearchOutput} from "../../../../models/skill.model";
 import {WorkFromService} from "../../../../services/work-from.service";
 import {WorkFromSearchOutput} from "../../../../models/work-from.model";
-import {JobCertificate, JobPosition, JobSchool, JobSkill, JobWorkFrom} from "../../../../models/job.model";
+import {JobCertificate, JobJobLevel, JobPosition, JobSchool, JobSkill, JobWorkFrom} from "../../../../models/job.model";
 import {CertificateSearchOutput} from "../../../../models/certificate.model";
 import {CertificateService} from "../../../../services/certificate.service";
 import {SchoolService} from "../../../../services/school.service";
@@ -28,6 +28,7 @@ export enum FormField {
   certificate = "certificate",
   school = "school",
   workFrom = "workFrom",
+  jobLevel = "jobLevel",
   name = "name",
   salaryFrom = "salaryFrom",
   salaryTo = "salaryTo",
@@ -74,6 +75,7 @@ export class CreateComponent implements OnInit {
       [FormField.certificate]: [null],
       [FormField.school]: [null],
       [FormField.workFrom]: [null],
+      [FormField.jobLevel]: [null],
       [FormField.name]: [null, Validators.required],
       [FormField.dateEnd]: [null, Validators.required],
       [FormField.salaryFrom]: [null],
@@ -277,6 +279,30 @@ export class CreateComponent implements OnInit {
   fetchDataJobLevel = (query: SearchPageOutput) => {
     const qr: JobLevelSearchOutput = query;
     return this.jobLevelService.search(qr);
+  }
+
+  onAddDataJobLevel = (item: TaggedInput) => {
+    const control = this.form.controls[FormField.jobLevel];
+    const value: JobJobLevel[] = control.value || [];
+    const exists = value.find(it => it.jobLevel === item.id);
+    if (exists) {
+      return;
+    }
+
+    value.push({
+      jobLevel: item.id,
+      name: item.name
+    })
+    control.setValue(value);
+  }
+
+  onChangeDataJobLevel = (item: JobJobLevel) => {
+  }
+
+  onRemoveDataJobLevel = (item: JobJobLevel) => {
+    const control = this.form.controls[FormField.jobLevel];
+    const value: JobJobLevel[] = control.value || [];
+    control.setValue(value.filter(it => it.jobLevel != item.jobLevel));
   }
 
   /**

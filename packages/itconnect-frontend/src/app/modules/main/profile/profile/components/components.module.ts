@@ -23,6 +23,7 @@ import {NgxSliderModule} from "@angular-slider/ngx-slider";
 import {EducationComponent} from "./education/education.component";
 import {EducationItemComponent} from "./education-item/education-item.component";
 import {EducationModalComponent} from "./education-modal/education-modal.component";
+import {MatIconModule} from "@angular/material/icon";
 
 
 
@@ -42,20 +43,21 @@ import {EducationModalComponent} from "./education-modal/education-modal.compone
     EducationItemComponent,
     EducationModalComponent
   ],
-  imports: [
-    CommonModule,
-    MainComponentsModule,
-    MatExpansionModule,
-    CommonComponentsModule,
-    MatDialogModule,
-    MatSlideToggleModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatTooltipModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    NgxSliderModule
-  ],
+    imports: [
+        CommonModule,
+        MainComponentsModule,
+        MatExpansionModule,
+        CommonComponentsModule,
+        MatDialogModule,
+        MatSlideToggleModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatTooltipModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        NgxSliderModule,
+        MatIconModule
+    ],
   exports: [
     ProfileUserComponent,
     ProfileCompanyComponent
