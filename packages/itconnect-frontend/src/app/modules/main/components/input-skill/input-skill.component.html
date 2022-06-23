@@ -3,6 +3,7 @@
     *ngFor="let item of items"
   >
     <button
+      type="button"
       class="tw-p-2 tw-rounded-md tw-border tw-relative tw-mr-3 tw-flex tw-items-center"
       [matTooltip]="item[bindLabel]"
       (click)="removeTag(item)"
@@ -31,6 +32,7 @@
       [label]="'Chọn hoặc thêm tag'"
       [autoFocus]="true"
       [loadMoreFn]="loadMoreFn"
+      [isAddTag]="hasAddTag"
       [appendTo]="appendTo"
       (addTag)="addTag($event)"
       (onBlur)="isAdding = false"

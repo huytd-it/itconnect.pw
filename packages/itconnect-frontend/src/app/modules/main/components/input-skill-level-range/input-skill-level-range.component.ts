@@ -13,22 +13,34 @@ import {Options} from "@angular-slider/ngx-slider";
 import {AppService} from "../../../../services/app.service";
 
 @Component({
-  selector: 'app-input-skill',
-  templateUrl: './input-skill.component.html',
-  styleUrls: ['./input-skill.component.scss'],
+  selector: 'app-input-skill-level-range',
+  templateUrl: './input-skill-level-range.component.html',
+  styleUrls: ['./input-skill-level-range.component.scss'],
   providers: []
 })
-export class InputSkillComponent implements OnInit {
+export class InputSkillLevelRangeComponent implements OnInit {
   @Input() loadMoreFn: (query: SearchPageOutput) => Observable<PageInput<any>>;
   @Input() createTagFn: (data: CreateTaggedOutput) => Observable<TaggedInput>;
   @Input() bindLabel: string = 'name';
-  @Input() bindLevel: string = 'level';
+  @Input() bindLevelMin: string = 'levelMin';
+  @Input() bindLevelMax: string = 'levelMax';
   @Input() appendTo: string;
-  @Input() hasAddTag: boolean = true;
   @Input() items: any[] = [];
   @Output() onAdd = new EventEmitter<TaggedInput>();
+  @Output() onChange = new EventEmitter<any>();
   @Output() onRemove = new EventEmitter();
   isAdding: boolean;
+
+  options: Options = {
+    floor: 1,
+    ceil: 10,
+    step: 1,
+    showTicks: true,
+    showSelectionBar: true,
+    getPointerColor: value => 'var(--primary)',
+    getTickColor: value => '#d8e0f3',
+    getSelectionBarColor: value => 'var(--primary)',
+  };
 
   constructor(
     private appService: AppService
@@ -58,5 +70,16 @@ export class InputSkillComponent implements OnInit {
 
   private addUserTagged(tag: TaggedInput) {
     this.onAdd.emit(tag);
+  }
+
+
+  onChangeLevelMin(item: any, e: number) {
+    item[this.bindLevelMin] = e;
+    this.onChange.emit(item);
+  }
+
+  onChangeLevelMax(item: any, e: number) {
+    item[this.bindLevelMax] = e;
+    this.onChange.emit(item);
   }
 }

@@ -136,6 +136,11 @@ ng-select {
  * Custom quill editor
  */
 quill-editor {
+  .ql-editor {
+    &:before {
+      font-style: unset !important;
+    }
+  }
   .ql-toolbar {
     border-color: #e5e7eb !important;
     border-top-left-radius: 5px;

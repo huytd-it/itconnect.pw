@@ -19,6 +19,7 @@ import {MatSliderModule} from "@angular/material/slider";
 import { GroupControlTimeTextComponent } from './group-control-time-text/group-control-time-text.component';
 import { GroupControlTimeTextModalComponent } from './group-control-time-text-modal/group-control-time-text-modal.component';
 import {NgxSliderModule} from "@angular-slider/ngx-slider";
+import {InputSkillLevelRangeComponent} from "./input-skill-level-range/input-skill-level-range.component";
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import {NgxSliderModule} from "@angular-slider/ngx-slider";
     InputSkillLevelComponent,
     GroupControlTimeTextComponent,
     GroupControlTimeTextModalComponent,
+    InputSkillLevelRangeComponent
   ],
     imports: [
         CommonModule,
@@ -51,6 +53,7 @@ import {NgxSliderModule} from "@angular-slider/ngx-slider";
     InputAddressComponent,
     InputSkillComponent,
     InputSkillLevelComponent,
+    InputSkillLevelRangeComponent
   ]
 })
 export class MainComponentsModule { }

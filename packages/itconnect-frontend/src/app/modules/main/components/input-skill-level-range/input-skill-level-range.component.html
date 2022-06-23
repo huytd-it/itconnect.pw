@@ -21,7 +21,10 @@
         </button>
       </td>
       <td class="tw-pb-5">
-        <ngx-slider [(value)]="item[bindLevel]" [options]="options" (valueChange)="onChangeLevel(item, $event)"></ngx-slider>
+        <ngx-slider [(value)]="item[bindLevelMin]" [(highValue)]="item[bindLevelMax]" [options]="options"
+                    (valueChange)="onChangeLevelMin(item, $event)"
+                    (highValueChange)="onChangeLevelMax(item, $event)"
+        ></ngx-slider>
       </td>
     </tr>
   </table>
