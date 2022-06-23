@@ -48,6 +48,15 @@ export class UserInfoEntity {
     @Column()
     birthday: Date;
 
+    @Column({ nullable: true })
+    computeYoe: number;
+
+    @Column({ nullable: true })
+    computeYoeDate: Date;
+
+    @Column({ nullable: true })
+    computeYoeCurrent: boolean;
+
     @Column({  nullable: true, type: 'text' })
     interest: string;
 

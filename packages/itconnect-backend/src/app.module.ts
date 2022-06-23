@@ -26,6 +26,8 @@ import {CvWorkExperienceSkillModule} from "./modules/cv-work-experience-skill/cv
 import {CvWorkExperiencePositionModule} from "./modules/cv-work-experience-position/cv-work-experience-position.module";
 import {CvCertificateModule} from "./modules/cv-certificate/cv-certificate.module";
 import {UserSkillModule} from "./modules/user-skill/user-skill.module";
+import {RankedAcademicModule} from "./modules/ranked-academic/ranked-academic.module";
+import {CvEducationModule} from "./modules/cv-education/cv-education.module";
 
 @Module({
   imports: [
@@ -56,7 +58,9 @@ import {UserSkillModule} from "./modules/user-skill/user-skill.module";
       CvWorkExperienceModule,
       CvWorkExperienceSkillModule,
       CvWorkExperiencePositionModule,
-      CvCertificateModule
+      CvCertificateModule,
+      RankedAcademicModule,
+      CvEducationModule
   ],
   controllers: [],
   providers: [

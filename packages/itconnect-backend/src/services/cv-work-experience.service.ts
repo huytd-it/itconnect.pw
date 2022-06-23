@@ -7,6 +7,7 @@ import {CvWorkExperienceEntity} from "../entities/cvWorkExperience.entity";
 import {DeepPartial, Repository} from "typeorm";
 import {QueryDeepPartialEntity} from "typeorm/query-builder/QueryPartialEntity";
 import {CompanyTagService} from "./company-tag.service";
+import {UserService} from "./user.service";
 
 @Injectable({ scope: Scope.REQUEST })
 export class CvWorkExperienceService {
@@ -15,7 +16,8 @@ export class CvWorkExperienceService {
         @InjectRepository(CvWorkExperienceEntity)
         private cvWorkExperienceRepository: Repository<CvWorkExperienceEntity>,
         @Inject(REQUEST) private request: Request,
-        private companyTagService: CompanyTagService
+        private companyTagService: CompanyTagService,
+        private userService: UserService
     ) {
     }
 
@@ -56,9 +58,9 @@ export class CvWorkExperienceService {
 
         const dataUpdate: DeepPartial<CvWorkExperienceEntity> = {
             startDate: data.startDate,
-            endDate: data.endDate,
-            jobLevel: { id: data.jobLevel },
-            workFrom: { id: data.workFrom },
+            endDate: data.endDate || null,
+            jobLevel: data.jobLevel ? { id: data.jobLevel } : null,
+            workFrom: data.workFrom ? { id: data.workFrom } : null,
             content: data.content,
         };
 
@@ -94,6 +96,9 @@ export class CvWorkExperienceService {
             upId = cv[0].id;
         }
 
+        // re-compute yoe
+        await this.userService.computeYoE(currentUser.id);
+
         return this.cvWorkExperienceRepository.findOne({
             where: {
                 id: upId
@@ -115,7 +120,13 @@ export class CvWorkExperienceService {
         if (owner) {
             // soft delete
             // if force need remove all ...skill & ...position
-            return this.cvWorkExperienceRepository.softRemove(owner);
+            const result = await this.cvWorkExperienceRepository.softRemove(owner);
+
+            // re-compute yoe
+            const currentUser = this.request['user'] as UserEntity;
+            await this.userService.computeYoE(currentUser.id);
+
+            return result;
         }
         throw new ForbiddenException();
     }

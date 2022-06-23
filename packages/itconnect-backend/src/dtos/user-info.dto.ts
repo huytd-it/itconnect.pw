@@ -1,6 +1,7 @@
 import {ApiProperty} from "@nestjs/swagger";
 import {AddressDto} from "./address.dto";
 import {JobLevelDto} from "./jobLevel.dto";
+import {Column} from "typeorm";
 
 export class UserInfoDto {
     @ApiProperty()
@@ -37,5 +38,25 @@ export class UserInfoDto {
     objective: string;
 
     @ApiProperty()
+    computeYoe: number;
+
+    @ApiProperty()
+    computeYoeDate: Date;
+
+    @ApiProperty()
+    computeYoeCurrent: boolean;
+
+    @ApiProperty()
     jobLevel: JobLevelDto;
+}
+
+export class UserInfoComputeYoe {
+    @ApiProperty()
+    computeYoe: number;
+
+    @ApiProperty()
+    computeYoeDate: Date;
+
+    @ApiProperty()
+    computeYoeCurrent: boolean;
 }

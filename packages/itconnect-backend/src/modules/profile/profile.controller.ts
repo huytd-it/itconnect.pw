@@ -14,6 +14,7 @@ import {
     CreateOrUserProfileOutputDto, DataBoostrapOutputDto
 } from "../../dtos/profile.dto";
 import {UserDto} from "../../dtos/user.dto";
+import {UserInfoComputeYoe} from "../../dtos/user-info.dto";
 
 @ApiTags('profile')
 @ApiBearerAuth()
@@ -76,5 +77,15 @@ export class ProfileController {
         @GetUser() user: UserEntity
     ): Promise<CreateOrUserProfileOutputDto> {
         return this.userService.createOrEditCompany(user, dto);
+    }
+
+    @UseGuards(PermissionsGuard)
+    @RequirePermissions(AppPermission.PROFILE_COMPUTE_YOE)
+    @ApiOkResponse({ type: UserInfoComputeYoe })
+    @Get('/yoe')
+    computeYoe(
+        @GetUser() user: UserEntity
+    ) {
+        return this.userService.getComputeYoe(user);
     }
 }

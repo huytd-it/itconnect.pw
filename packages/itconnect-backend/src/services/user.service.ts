@@ -13,12 +13,22 @@ import {UserSkillEntity} from "../entities/userSkill.entity";
 import {RuntimeException} from "@nestjs/core/errors/exceptions/runtime.exception";
 import {AddressEntity} from "../entities/address.entity";
 import {AppRole} from "../polices/permission.enum";
-import {PositionEntity} from "../entities/position.entity";
-import {UserPositionEntity} from "../entities/userPosition.entity";
 import {CompanyInfoEntity} from "../entities/companyInfo.entity";
 import {JobLevelEntity} from "../entities/jobLevel.entity";
-import {use} from "passport";
-import {REQUEST} from "@nestjs/core";
+import {CvWorkExperienceEntity} from "../entities/cvWorkExperience.entity";
+import * as moment from "moment";
+import {Moment} from "moment";
+
+interface ComputeYoeData {
+    data: {
+        s: Moment,
+        e: Moment
+    }[];
+    prev?: {
+        s: Moment,
+        e: Moment
+    }
+}
 
 @Injectable()
 export class UserService {
@@ -32,6 +42,8 @@ export class UserService {
         private skillRepository: Repository<SkillEntity>,
         @InjectRepository(UserSkillEntity)
         private userSkillRepository: Repository<UserSkillEntity>,
+        @InjectRepository(CvWorkExperienceEntity)
+        private cvWorkExperienceRepository: Repository<CvWorkExperienceEntity>,
         private dataSource: DataSource,
     ) {
     }
@@ -195,6 +207,81 @@ export class UserService {
             throw new RuntimeException();
         } finally {
             await queryRunner.release();
+        }
+    }
+
+    async computeYoE(userId: number) {
+        const cvWe = await this.cvWorkExperienceRepository.find({
+            where: {
+                user: {
+                    id: userId
+                }
+            },
+            order: {
+                startDate: 'ASC'
+            }
+        });
+
+        let yoE = 0;
+        let isCurrent = false;
+
+        let combineDates = cvWe.reduce<ComputeYoeData>(
+            (val, item) => {
+                let e: Moment;
+                let s = moment(item.startDate).startOf('month');
+                if (!item.endDate) {
+                    isCurrent = true;
+                    e = moment().startOf('month');
+                } else {
+                    e = moment(item.endDate).startOf('month');
+                }
+
+                let range = { s, e };
+                let isPush = true;
+                if (val.prev) {
+                    if (val.prev.e >= s) {
+                        if (val.prev.e < e) {
+                            val.prev.e = e;
+                        }
+                        isPush = false;
+                    }
+                }
+
+                if (isPush) {
+                    val.data.push(range);
+                    val.prev = range;
+                }
+
+                return val;
+            }
+        , { data: [] });
+
+        combineDates.data.forEach(item => {
+            yoE += item.e.diff(item.s, 'month');
+        })
+
+        return this.userInfoRepository.update(
+            { user: { id: userId } },
+            {
+                computeYoe: yoE,
+                computeYoeCurrent: isCurrent,
+                computeYoeDate: new Date()
+            }
+        )
+    }
+
+    async getComputeYoe(user: UserEntity) {
+        const r = await this.userInfoRepository.findOne({
+            where: {
+                user: {
+                    id: user.id
+                }
+            }
+        })
+        return {
+            computeYoeCurrent: r.computeYoeCurrent,
+            computeYoeDate: r.computeYoeDate,
+            computeYoe: r.computeYoe,
         }
     }
 }

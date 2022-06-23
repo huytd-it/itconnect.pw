@@ -27,6 +27,7 @@ export enum AppPermission {
     PROFILE_DATA_BOOSTRAP = 'profile_data_boostrap',
     PROFILE_USER_CE = 'profile_user_ce',
     PROFILE_COMPANY_CE = 'profile_company_ce',
+    PROFILE_COMPUTE_YOE = 'profile_compute_yoe',
 
     /**
      * Post feed
@@ -90,6 +91,12 @@ export enum AppPermission {
      */
     WORK_FROM_SEARCH = 'work_from_search',
 
+
+    /**
+     * ranked_academic
+     *
+     */
+    RANKED_ACADEMIC_SEARCH = 'ranked_academic_search',
 
     /**
      * Position search
@@ -156,6 +163,15 @@ export enum AppPermission {
     CV_CERTIFICATE_DELETE = 'cv_certificate_delete',
     CV_CERTIFICATE_GET_OWNER = 'cv_certificate_get_owner',
     CV_CERTIFICATE_CE = 'cv_certificate_ce',
+
+    /**
+     * Cv Education
+     *
+     */
+    CV_EDUCATION = 'cv_education',
+    CV_EDUCATION_DELETE = 'cv_education_delete',
+    CV_EDUCATION_GET_OWNER = 'cv_education_get_owner',
+    CV_EDUCATION_CE = 'cv_education_ce',
 }
 
 
@@ -183,6 +199,7 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.LOGOUT,
         AppPermission.PROFILE_DATA_BOOSTRAP,
         AppPermission.PROFILE_USER_CE,
+        AppPermission.PROFILE_COMPUTE_YOE,
         AppPermission.POST_FEED,
         AppPermission.FRIEND,
         AppPermission.NOTIFICATION,
@@ -226,6 +243,11 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.CV_CERTIFICATE_CE,
         AppPermission.CV_CERTIFICATE_DELETE,
         AppPermission.CV_CERTIFICATE_GET_OWNER,
+        AppPermission.RANKED_ACADEMIC_SEARCH,
+        AppPermission.CV_EDUCATION,
+        AppPermission.CV_EDUCATION_CE,
+        AppPermission.CV_EDUCATION_DELETE,
+        AppPermission.CV_EDUCATION_GET_OWNER,
     ],
 
     /***

@@ -25,6 +25,26 @@ export class SchoolService {
     ) {
     }
 
+    // without is global
+    isOwner(schoolId: number) {
+        const currentUser = this.request['user'] as UserEntity;
+        return this.userTaggedSchoolRepository.findOne({
+            where: {
+                user: { id: currentUser.id },
+                school: { id: schoolId }
+            }
+        })
+    }
+
+    isApprove(schoolId: number) {
+        return this.schoolRepository.findOne({
+            where: {
+                id: schoolId,
+                isApprove: true
+            }
+        })
+    }
+
     async search(dtoSearch: SchoolSearchInputDto, dtoPage: PageOptionsDto) {
         const query = this.schoolRepository.createQueryBuilder('skill');
         query.select('skill.*');

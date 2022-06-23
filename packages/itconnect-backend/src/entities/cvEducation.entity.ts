@@ -19,7 +19,7 @@ export class CvEducationEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({ nullable: true })
     mark: number;
 
     @Column({ type: 'text', nullable: true })
@@ -28,7 +28,7 @@ export class CvEducationEntity {
     @Column()
     startDate: Date;
 
-    @Column()
+    @Column({ nullable: true })
     endDate: Date;
 
     @ManyToOne(type => RankedAcademicEntity)

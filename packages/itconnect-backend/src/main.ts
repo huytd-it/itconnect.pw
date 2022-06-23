@@ -62,11 +62,13 @@ async function bootstrap() {
       .addTag('user-certificate')
       .addTag('work-from')
       .addTag('job-level')
+      .addTag('ranked-academic')
       .addTag('company-tag')
       .addTag('cv-work-experience')
       .addTag('cv-work-experience-skill')
       .addTag('cv-work-experience-position')
       .addTag('cv-certificate')
+      .addTag('cv-education')
       .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('documentation', app, document);
