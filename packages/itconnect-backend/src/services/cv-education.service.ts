@@ -56,6 +56,7 @@ export class CvEducationService {
             endDate: data.endDate || null,
             rankedAcademic: data.rankedAcademic ? { id: data.rankedAcademic } : null,
             content: data.content,
+            mark: data.mark || null
         };
 
         if (data.school) {

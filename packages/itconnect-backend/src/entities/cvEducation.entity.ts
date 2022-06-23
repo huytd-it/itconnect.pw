@@ -19,7 +19,7 @@ export class CvEducationEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ nullable: true })
+    @Column({ nullable: true, type: 'float' })
     mark: number;
 
     @Column({ type: 'text', nullable: true })
