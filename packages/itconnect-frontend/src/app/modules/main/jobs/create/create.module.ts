@@ -7,6 +7,7 @@ import {MainComponentsModule} from "../../components/components.module";
 import {ReactiveFormsModule} from "@angular/forms";
 import {CommonComponentsModule} from "../../../../components/common-components.module";
 import {MatDatepickerModule} from "@angular/material/datepicker";
+import {NgSelectModule} from "@ng-select/ng-select";
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
         MainComponentsModule,
         ReactiveFormsModule,
         CommonComponentsModule,
-        MatDatepickerModule
+        MatDatepickerModule,
+        NgSelectModule
     ]
 })
 export class CreateModule { }

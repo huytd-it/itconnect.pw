@@ -13,6 +13,7 @@
       class="tw-absolute tw-z-[999999] tw-right-0 tw-mt-4 tw-rounded tw-shadow tw-bg-white tw-w-[260px]"
     >
       <button
+        (click)="isOpenDropdown = false"
         class="tw-flex tw-justify-start tw-items-center tw-p-3"
         routerLink="me"
         [disabled]="!(permission.all.PROFILE | permission)"

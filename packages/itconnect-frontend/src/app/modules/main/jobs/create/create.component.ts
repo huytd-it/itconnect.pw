@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PositionService} from "../../../../services/position.service";
 import {SkillService} from "../../../../services/skill.service";
@@ -15,6 +15,12 @@ import {SchoolService} from "../../../../services/school.service";
 import {SchoolSearchOutput} from "../../../../models/school.model";
 import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import {JobLevelService} from "../../../../services/job-level.service";
+import {JobLevelSearchOutput} from "../../../../models/job-level.model";
+import {CompanyTagService} from "../../../../services/company-tag.service";
+import {CompanyTagSearchOutput} from "../../../../models/company-tag.model";
+import {EasySelectComponent} from "../../../../components/easy-select/easy-select.component";
+import {finalize} from "rxjs";
 
 export enum FormField {
   skills = "skills",
@@ -26,6 +32,9 @@ export enum FormField {
   salaryFrom = "salaryFrom",
   salaryTo = "salaryTo",
   dateEnd = "dateEnd",
+  yoe = "yoe",
+  companyTag = "companyTag",
+  address = "address",
   Description = 'Description',
   SkillExperience = 'SkillExperience',
   Reason = 'Reason'
@@ -37,9 +46,14 @@ export enum FormField {
   styleUrls: ['./create.component.scss']
 })
 export class CreateComponent implements OnInit {
+  @ViewChild('selectCompany') selectCompany: EasySelectComponent;
   form: FormGroup;
   faArrowRight = faArrowRight;
   faArrowDown = faArrowDown;
+  yoeList = Array.from({ length: 10 }).map((__, index) => ({
+      id: index + 1,
+      name: `${index + 1}+`
+  }))
 
   readonly FormField = FormField;
 
@@ -50,6 +64,8 @@ export class CreateComponent implements OnInit {
     private workFromService: WorkFromService,
     private certificateService: CertificateService,
     private schoolService: SchoolService,
+    private jobLevelService: JobLevelService,
+    private companyTagService: CompanyTagService,
     private appService: AppService
   ) {
     this.form = this.formBuilder.group({
@@ -62,6 +78,9 @@ export class CreateComponent implements OnInit {
       [FormField.dateEnd]: [null, Validators.required],
       [FormField.salaryFrom]: [null],
       [FormField.salaryTo]: [null],
+      [FormField.yoe]: [null],
+      [FormField.companyTag]: [null],
+      [FormField.address]: [null],
       [FormField.SkillExperience]: [null, Validators.required],
       [FormField.Description]: [null, Validators.required],
       [FormField.Reason]: [null],
@@ -249,5 +268,33 @@ export class CreateComponent implements OnInit {
     const control = this.form.controls[FormField.workFrom];
     const value: JobWorkFrom[] = control.value || [];
     control.setValue(value.filter(it => it.workFrom != e.workFrom));
+  }
+
+  /**
+   * Job level
+   *
+   */
+  fetchDataJobLevel = (query: SearchPageOutput) => {
+    const qr: JobLevelSearchOutput = query;
+    return this.jobLevelService.search(qr);
+  }
+
+  /**
+   * Company name
+   *
+   */
+  fetchDataCompanyTag = (query: SearchPageOutput) => {
+    const qr: CompanyTagSearchOutput = query;
+    return this.companyTagService.search(qr);
+  }
+
+  onAddCompanyTag(e: string) {
+    this.appService.setHeadLoading(true);
+    this.companyTagService.createTag({ name: e })
+      .pipe(finalize(() => this.appService.setHeadLoading(false)))
+      .subscribe((data) => {
+        this.form.controls[FormField.companyTag].setValue(data);
+        this.selectCompany.close();
+      })
   }
 }
