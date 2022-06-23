@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {User} from "../models/user.model";
+import {User, UserInfoComputeYoe} from "../models/user.model";
 import {httpOptions} from "../utils/common";
 import {
   CompleteCompanyProfileInput,
@@ -38,5 +38,10 @@ export class ProfileService {
   createOrEditCompany(data: CompleteCompanyProfileOutput) {
     const uri = 'profile/create-or-edit-company'
     return this.httpClient.post<CompleteCompanyProfileInput>(uri, data, httpOptions);
+  }
+
+  yoe() {
+    const uri = 'profile/yoe'
+    return this.httpClient.get<UserInfoComputeYoe>(uri, httpOptions);
   }
 }

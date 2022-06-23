@@ -12,23 +12,27 @@ import * as moment from "moment";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {CreateOrEditCvWorkExperience, CvWorkExperience} from "../../../../../../models/cv-work-experience.model";
 import {CvWorkExperienceService} from "../../../../../../services/cv-work-experience.service";
+import {CreateOrEditCvEducation, CvEducation} from "../../../../../../models/cv-education.model";
+import {CvEducationService} from "../../../../../../services/cv-education.service";
+import {SchoolService} from "../../../../../../services/school.service";
+import {RankedAcademicService} from "../../../../../../services/ranked-academic.service";
 
 enum FormField {
-  Company = 'companyTag',
-  WorkFrom = 'workFrom',
-  JobLevel = 'jobLevel',
+  School = 'school',
+  RankedAcademic = 'rankedAcademic',
   StartDate = 'startDate',
   EndDate = 'endDate',
-  Content = 'content'
+  Content = 'content',
+  Mark = 'mark'
 }
 
 @Component({
-  selector: 'app-work-experience-modal',
-  templateUrl: './work-experience-modal.component.html',
-  styleUrls: ['./work-experience-modal.component.scss']
+  selector: 'app-education-modal',
+  templateUrl: './education-modal.component.html',
+  styleUrls: ['./education-modal.component.scss']
 })
-export class WorkExperienceModalComponent implements OnInit {
-  @ViewChild('selectCompany') selectCompany: EasySelectComponent;
+export class EducationModalComponent implements OnInit {
+  @ViewChild('selectSchool') selectSchool: EasySelectComponent;
   faArrowRight = faArrowRight;
   faArrowDown = faArrowDown;
   isToggleWorking: boolean;
@@ -48,19 +52,18 @@ export class WorkExperienceModalComponent implements OnInit {
   }
 
   constructor(
-    private jobLevelService: JobLevelService,
-    private companyTagService: CompanyTagService,
-    private workFromService: WorkFromService,
-    private cvWorkExperienceService: CvWorkExperienceService,
+    private cvEducationService: CvEducationService,
+    private schoolService: SchoolService,
+    private rankedAcademicService: RankedAcademicService,
     private appService: AppService,
     private formBuilder: FormBuilder,
-    public dialogRef: MatDialogRef<WorkExperienceModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: CvWorkExperience,
+    public dialogRef: MatDialogRef<EducationModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: CvEducation,
   ) {
     this.form = this.formBuilder.group({
-      [FormField.Company]: [null, [Validators.required]],
-      [FormField.JobLevel]: [null],
-      [FormField.WorkFrom]: [null],
+      [FormField.School]: [null, [Validators.required]],
+      [FormField.RankedAcademic]: [null],
+      [FormField.Mark]: [null],
       [FormField.Content]: [null],
       [FormField.StartDate]: [null, [Validators.required]],
       [FormField.EndDate]: [null, [Validators.required]],
@@ -70,9 +73,9 @@ export class WorkExperienceModalComponent implements OnInit {
   ngOnInit(): void {
     if (this.data) {
       this.form.patchValue({
-        [FormField.Company]: this.data.companyTag,
-        [FormField.WorkFrom]: this.data.workFrom,
-        [FormField.JobLevel]: this.data.jobLevel,
+        [FormField.School]: this.data.school,
+        [FormField.RankedAcademic]: this.data.rankedAcademic,
+        [FormField.Mark]: this.data.mark,
         [FormField.StartDate]: this.data.startDate ? moment(this.data.startDate) : null,
         [FormField.EndDate]: this.data.endDate ? moment(this.data.endDate) : null,
         [FormField.Content]: this.data.content
@@ -82,25 +85,21 @@ export class WorkExperienceModalComponent implements OnInit {
     }
   }
 
-  fetchWorkFrom = (query: SearchPageOutput) => {
-    return this.workFromService.search(query);
+  fetchSchool = (query: SearchPageOutput) => {
+    return this.schoolService.search(query);
   }
 
-  fetchJobLevel = (query: SearchPageOutput) => {
-    return this.jobLevelService.search(query);
+  fetchRankedAcademic = (query: SearchPageOutput) => {
+    return this.rankedAcademicService.search(query);
   }
 
-  fetchCompanyTag = (query: SearchPageOutput) => {
-    return this.companyTagService.search(query);
-  }
-
-  onAddCompanyTag(e: string) {
+  onAddSchool(e: string) {
     this.appService.setHeadLoading(true);
-    this.companyTagService.createTag({ name: e })
+    this.schoolService.createTag({ name: e })
       .pipe(finalize(() => this.appService.setHeadLoading(false)))
       .subscribe((data) => {
-        this.form.controls[FormField.Company].setValue(data);
-        this.selectCompany.close();
+        this.form.controls[FormField.School].setValue(data);
+        this.selectSchool.close();
       })
   }
 
@@ -129,13 +128,13 @@ export class WorkExperienceModalComponent implements OnInit {
     }
 
     const value = this.form.value;
-    const data: CreateOrEditCvWorkExperience = {
+    const data: CreateOrEditCvEducation = {
       content: value[FormField.Content],
-      workFrom: value[FormField.WorkFrom]?.id,
-      jobLevel: value[FormField.JobLevel]?.id,
+      school: value[FormField.School]?.id,
+      rankedAcademic: value[FormField.RankedAcademic]?.id,
       startDate: value[FormField.StartDate],
       endDate: value[FormField.EndDate],
-      companyTag: value[FormField.Company]?.id,
+      mark: value[FormField.Mark],
     }
 
     if (this.data) {
@@ -143,14 +142,14 @@ export class WorkExperienceModalComponent implements OnInit {
     }
 
     this.appService.setHeadLoading(true);
-    this.cvWorkExperienceService.createOrEdit(data)
+    this.cvEducationService.createOrEdit(data)
       .pipe(finalize(() => this.appService.setHeadLoading(false)))
       .subscribe(data => {
         this.onClose(data);
       })
   }
 
-  onClose(data?: CvWorkExperience) {
+  onClose(data?: CvEducation) {
     this.dialogRef.close(data);
   }
 }

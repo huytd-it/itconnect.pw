@@ -22,6 +22,7 @@ export enum AppPermission {
   PROFILE_DATA_BOOSTRAP = 'profile_data_boostrap',
   PROFILE_USER_CE = 'profile_user_ce',
   PROFILE_COMPANY_CE = 'profile_company_ce',
+  PROFILE_COMPUTE_YOE = 'profile_compute_yoe',
 
   /**
    * Post feed
@@ -87,6 +88,12 @@ export enum AppPermission {
 
 
   /**
+   * ranked_academic
+   *
+   */
+  RANKED_ACADEMIC_SEARCH = 'ranked_academic_search',
+
+  /**
    * Position search
    *
    */
@@ -117,6 +124,7 @@ export enum AppPermission {
    */
   CERTIFICATE_SEARCH = 'certificate_search',
   CERTIFICATE_CREATE_TAG = "certificate_create_tag",
+  USER_CERTIFICATE_GET_BY_CERT_ID = 'user_certificate_get_by_cert_id',
   USER_CERTIFICATE_GET_ALL = 'user_certificate_get_all',
   USER_CERTIFICATE_CE = 'user_certificate_ce',
   USER_CERTIFICATE_DELETE = 'user_certificate_delete',
@@ -150,6 +158,15 @@ export enum AppPermission {
   CV_CERTIFICATE_DELETE = 'cv_certificate_delete',
   CV_CERTIFICATE_GET_OWNER = 'cv_certificate_get_owner',
   CV_CERTIFICATE_CE = 'cv_certificate_ce',
+
+  /**
+   * Cv Education
+   *
+   */
+  CV_EDUCATION = 'cv_education',
+  CV_EDUCATION_DELETE = 'cv_education_delete',
+  CV_EDUCATION_GET_OWNER = 'cv_education_get_owner',
+  CV_EDUCATION_CE = 'cv_education_ce',
 }
 
 

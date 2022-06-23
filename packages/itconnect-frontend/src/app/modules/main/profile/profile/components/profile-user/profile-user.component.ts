@@ -11,6 +11,8 @@ import {SkillService} from "../../../../../../services/skill.service";
 import {UserSkillService} from "../../../../../../services/user-skill.service";
 import {AppPermission} from "../../../../../../models/permission.model";
 import {AuthService} from "../../../../../../services/auth.service";
+import {ProfileService} from "../../../../../../services/profile.service";
+import * as moment from "moment";
 
 @Component({
   selector: 'app-profile-user',
@@ -20,6 +22,7 @@ import {AuthService} from "../../../../../../services/auth.service";
 export class ProfileUserComponent implements OnInit {
   userPosition: UserPosition[];
   userSkill: UserSkill[];
+  yoe: string;
 
   readonly permission = AppPermission;
 
@@ -33,14 +36,16 @@ export class ProfileUserComponent implements OnInit {
     private skillService: SkillService,
     private userSkillService: UserSkillService,
     private appService: AppService,
-    private authService: AuthService
+    private authService: AuthService,
+    private profileService: ProfileService
   ) { }
 
   ngOnInit(): void {
-    this.firstLoad().then(() => {});
+    this.firstLoad();
+    this.loadYoe();
   }
 
-  async firstLoad() {
+  firstLoad() {
     let flag = 2;
     this.appService.setHeadLoading(true);
     this.userPositionService.getAll()
@@ -135,4 +140,33 @@ export class ProfileUserComponent implements OnInit {
       .subscribe(data => {
       })
   }, 300) as any;
+
+
+  loadYoe() {
+    this.profileService.yoe().subscribe(data => {
+      let add = 0;
+      if (data.computeYoeCurrent) {
+        add = moment().diff(moment(data.computeYoeDate).startOf('month'), 'month')
+      }
+      let yoe = data.computeYoe + add;
+      this.yoe = this.yoeToString(yoe);
+    })
+  }
+
+  yoeToString(yoe: number) {
+    let str = "";
+
+    yoe = yoe / 12;
+    if (yoe >= 1) {
+      str = `${Math.floor(yoe)} năm`;
+      yoe = Math.round(yoe - Math.floor(yoe));
+      if (yoe > 0) {
+        str += ` ${yoe} tháng`;
+      }
+    } else {
+      str = Math.round(yoe * 12) + ' tháng';
+    }
+
+    return str;
+  }
 }

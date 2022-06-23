@@ -3,7 +3,7 @@
     *ngFor="let item of items"
   >
     <button
-      class="tw-p-2 tw-rounded-md tw-border tw-relative tw-h-[55px] tw-mt-2"
+      class="tw-p-2 tw-rounded-md tw-border tw-relative tw-mr-3 tw-flex tw-items-center"
       [matTooltip]="item[bindLabel]"
       (click)="removeTag(item)"
     >
@@ -18,8 +18,9 @@
   </ng-container>
 
   <button
+    mat-button
+    color="primary"
     type="button"
-    class="tw-p-2 tw-mt-2 tw-rounded-md tw-border tw-border-primaryColor tw-text-primaryColor tw-h-[53px]"
     *ngIf="!isAdding"
     (click)="isAdding = true"
   >

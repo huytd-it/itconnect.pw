@@ -16,6 +16,9 @@ export class UserInfo {
   interest: string;
   objective: string;
   jobLevel: JobLevel;
+  computeYoe: number;
+  computeYoeDate: Date;
+  computeYoeCurrent: boolean;
 }
 
 export class User extends BaseTable {
@@ -23,4 +26,11 @@ export class User extends BaseTable {
   email: string;
   role: AppRole;
   userInfo: UserInfo;
+}
+
+
+export class UserInfoComputeYoe {
+  computeYoe: number;
+  computeYoeDate: Date;
+  computeYoeCurrent: boolean;
 }

@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 import {PermissionPipe} from "./pipes/permission.pipe";
 import {NumberOnlyDirective} from "./directives/number-only.directive";
 import {SafeHtmlPipe} from "./pipes/sanitizeHtml.pipe";
+import {NumberDecimalOnlyDirective} from "./directives/number-decimal-only.directive";
 
 
 @NgModule({
   declarations: [
     PermissionPipe,
     NumberOnlyDirective,
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    NumberDecimalOnlyDirective
   ],
   imports: [
     CommonModule
@@ -17,7 +19,8 @@ import {SafeHtmlPipe} from "./pipes/sanitizeHtml.pipe";
   exports: [
     PermissionPipe,
     NumberOnlyDirective,
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    NumberDecimalOnlyDirective
   ]
 })
 export class UtilsModule { }

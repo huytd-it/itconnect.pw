@@ -1,9 +1,6 @@
 <div class="tw-max-w-[500px]">
-  <div class="tw-flex tw-justify-between tw-items-center tw-gap-3">
-    <span class="tw-font-bold tw-text-primaryColor">{{data.certificate.name}}</span>
-    <div *ngIf="userCertificate" class="tw-flex-1 tw-mr-5">
-      <ngx-slider [(value)]="userCertificate.level" [options]="options" (valueChange)="onChangeLevel($event)"></ngx-slider>
-    </div>
+  <div class="tw-flex tw-justify-between tw-items-center">
+    <span class="tw-font-bold tw-text-primaryColor">{{data.school.name}}</span>
     <div class="tw-flex tw-items-center">
       <button
         class="c-icon tw-w-[20px] tw-h-[20px] tw-bg-[length:20px_20px] c-btn icon-new-message tw-mx-3"
@@ -16,11 +13,23 @@
         (click)="onRemove.emit(data)"
       ></button>
       <div class="tw-rounded-2xl tw-bg-primaryColor200 tw-p-2 tw-text-primaryColor tw-text-[12px]">
-        {{data.year}}
+        {{data.startDate | date: 'MM/YYYY'}} - {{data.endDate ? (data.endDate | date: 'MM/YYYY') : 'Hiện tại'}}
       </div>
     </div>
   </div>
   <div class="tw-text-[13px]">
+    <div class="tw-my-4 tw-flex tw-flex-wrap tw-gap-3 tw-items-center" *ngIf="data.rankedAcademic">
+      <span class="tw-min-w-[50px] tw-font-medium">
+        Xếp loại
+      </span>
+      <span class="tw-ml-2">{{data.rankedAcademic.name}}</span>
+    </div>
+    <div class="tw-my-4 tw-flex tw-flex-wrap tw-gap-3 tw-items-center" *ngIf="data.mark">
+      <span class="tw-min-w-[50px] tw-font-medium">
+        Điểm
+      </span>
+      <span class="tw-ml-2">{{data.mark}}</span>
+    </div>
     <div class="tw-mt-6"  *ngIf="data.content">
       <div class="tw-my-2 tw-min-w-[50px] tw-font-medium">
         Mô Tả
@@ -28,4 +37,5 @@
       <div [innerHTML]="data.content | sanitizeHtml"></div>
     </div>
   </div>
+
 </div>

@@ -20,6 +20,9 @@ import {CertificateComponent} from "./certificate/certificate.component";
 import {CertificateModalComponent} from "./certificate-modal/certificate-modal.component";
 import {CertificateItemComponent} from "./certificate-item/certificate-item.component";
 import {NgxSliderModule} from "@angular-slider/ngx-slider";
+import {EducationComponent} from "./education/education.component";
+import {EducationItemComponent} from "./education-item/education-item.component";
+import {EducationModalComponent} from "./education-modal/education-modal.component";
 
 
 
@@ -34,7 +37,10 @@ import {NgxSliderModule} from "@angular-slider/ngx-slider";
     UserInfoModalComponent,
     CertificateComponent,
     CertificateModalComponent,
-    CertificateItemComponent
+    CertificateItemComponent,
+    EducationComponent,
+    EducationItemComponent,
+    EducationModalComponent
   ],
   imports: [
     CommonModule,

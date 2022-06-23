@@ -5,25 +5,28 @@ import {CvWorkExperienceService} from "../../../../../../services/cv-work-experi
 import {finalize} from "rxjs";
 import {AppService} from "../../../../../../services/app.service";
 import {CvWorkExperience} from "../../../../../../models/cv-work-experience.model";
+import {CvEducation} from "../../../../../../models/cv-education.model";
+import {CvEducationService} from "../../../../../../services/cv-education.service";
+import {EducationModalComponent} from "../education-modal/education-modal.component";
 
 @Component({
-  selector: 'app-work-experience',
-  templateUrl: './work-experience.component.html',
-  styleUrls: ['./work-experience.component.scss']
+  selector: 'app-education',
+  templateUrl: './education.component.html',
+  styleUrls: ['./education.component.scss']
 })
-export class WorkExperienceComponent implements OnInit {
+export class EducationComponent implements OnInit {
   @Output() onUpdate = new EventEmitter();
-  data: CvWorkExperience[] = [];
+  data: CvEducation[] = [];
 
   constructor(
     public dialog: MatDialog,
-    private cvWorkExperienceService: CvWorkExperienceService,
+    private cvEducationService: CvEducationService,
     private appService: AppService
   ) { }
 
   ngOnInit(): void {
     let flag = 1;
-    this.cvWorkExperienceService.getOwner()
+    this.cvEducationService.getOwner()
       .pipe(finalize(() => !--flag && this.appService.setHeadLoading(false)))
       .subscribe(data => {
         this.data = data;
@@ -31,7 +34,7 @@ export class WorkExperienceComponent implements OnInit {
   }
 
   onAdd() {
-    const dialogRef = this.dialog.open(WorkExperienceModalComponent, {
+    const dialogRef = this.dialog.open(EducationModalComponent, {
       maxWidth: '95vw',
       maxHeight: '95vh',
     });
@@ -45,14 +48,14 @@ export class WorkExperienceComponent implements OnInit {
     });
   }
 
-  onEdit(item: CvWorkExperience) {
-    const dialogRef = this.dialog.open(WorkExperienceModalComponent, {
+  onEdit(item: CvEducation) {
+    const dialogRef = this.dialog.open(EducationModalComponent, {
       maxWidth: '95vw',
       maxHeight: '95vh',
       data: item
     });
 
-    dialogRef.afterClosed().subscribe((result: CvWorkExperience)=> {
+    dialogRef.afterClosed().subscribe((result: CvEducation)=> {
       if (!result) {
         return
       }
@@ -62,9 +65,9 @@ export class WorkExperienceComponent implements OnInit {
     });
   }
 
-  onRemove(e: CvWorkExperience) {
+  onRemove(e: CvEducation) {
     this.appService.setHeadLoading(true);
-    this.cvWorkExperienceService.delete(e.id)
+    this.cvEducationService.delete(e.id)
       .pipe(finalize(() => this.appService.setHeadLoading(false)))
       .subscribe(data => {
         this.data = this.data.filter(item => item.id !== e.id);

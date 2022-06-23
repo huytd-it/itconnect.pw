@@ -1,18 +1,19 @@
 <div>
-  <mat-accordion [multi]="false">
+  <mat-accordion [multi]="true">
     <div class="tw-rounded tw-rounded-b-none tw-shadow-md tw-p-3 tw-bg-white tw-p-10 tw-relative">
-      <div class="tw-flex tw-justify-center tw-flex-col tw-items-center tw-z-10 tw-relative tw-mt-[50px]">
-        <div class="tw-rounded-full tw-border-white tw-border-2">
+      <div class="tw-flex tw-justify-center tw-flex-col tw-items-center tw-z-10 tw-relative tw-mt-[60px]">
+        <div class="tw-rounded-full tw-border-white tw-border-4">
           <app-avatar [name]="userName || ''" [radius]="100"></app-avatar>
         </div>
         <span class="tw-text-textColor tw-mt-5 tw-font-bold tw-text-2xl">
           {{userName}}
         </span>
       </div>
-      <div class="tw-absolute tw-top-0 tw-left-0 tw-w-full tw-h-[150px] tw-bg-sky-100 tw-z-0">
+      <div class="tw-absolute tw-top-0 tw-left-0 tw-w-full tw-h-[170px] tw-z-0">
+        <img src="/assets/images/bg.jpg" class="tw-w-full tw-h-full tw-object-cover tw-object-bottom">
       </div>
     </div>
-    <mat-expansion-panel [expanded]="true" *ngIf="permission.PROFILE_USER_CE | permission" class="!tw-rounded-t-none">
+    <mat-expansion-panel [expanded]="false" *ngIf="permission.PROFILE_USER_CE | permission" class="!tw-rounded-t-none">
       <mat-expansion-panel-header>
         <mat-panel-title>
           <div class="tw-font-medium tw-flex tw-items-center">
@@ -74,14 +75,15 @@
         <mat-panel-title>
           <div class="tw-font-medium">
             Kinh nghiệm làm việc
+            <span class="tw-font-bold">({{yoe}})</span>
           </div>
         </mat-panel-title>
       </mat-expansion-panel-header>
       <div>
-        <app-work-experience></app-work-experience>
+        <app-work-experience (onUpdate)="loadYoe()"></app-work-experience>
       </div>
     </mat-expansion-panel>
-    <mat-expansion-panel [expanded]="true" *ngIf="permission.CV_CERTIFICATE | permission">
+    <mat-expansion-panel [expanded]="false" *ngIf="permission.CV_CERTIFICATE | permission">
       <mat-expansion-panel-header>
         <mat-panel-title>
           <div class="tw-font-medium">
@@ -93,7 +95,7 @@
         <app-certificate></app-certificate>
       </div>
     </mat-expansion-panel>
-    <mat-expansion-panel [expanded]="false">
+    <mat-expansion-panel [expanded]="true" *ngIf="permission.CV_EDUCATION | permission">
       <mat-expansion-panel-header>
         <mat-panel-title>
           <div class="tw-font-medium">
@@ -102,6 +104,7 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <div>
+        <app-education></app-education>
       </div>
     </mat-expansion-panel>
     <mat-expansion-panel [expanded]="false">
