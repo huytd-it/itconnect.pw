@@ -74,6 +74,10 @@ export class CompanyTagService {
                         isApprove: true
                     })
                 })
+            } else {
+                query.andWhere({
+                    isApprove: true
+                })
             }
         }
 

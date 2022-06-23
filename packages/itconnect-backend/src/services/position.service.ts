@@ -77,6 +77,10 @@ export class PositionService {
                         isApprove: true
                     })
                 })
+            } else {
+                query.andWhere({
+                    isApprove: true
+                })
             }
         }
 

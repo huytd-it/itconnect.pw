@@ -75,6 +75,10 @@ export class CertificateService {
                         isApprove: true
                     })
                 })
+            } else {
+                query.andWhere({
+                    isApprove: true
+                })
             }
         }
 

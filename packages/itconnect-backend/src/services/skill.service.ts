@@ -75,6 +75,10 @@ export class SkillService {
                         isApprove: true
                     })
                 })
+            } else {
+                query.andWhere({
+                    isApprove: true
+                })
             }
         }
 

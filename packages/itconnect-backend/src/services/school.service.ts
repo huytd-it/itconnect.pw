@@ -78,6 +78,10 @@ export class SchoolService {
                         isApprove: true
                     })
                 })
+            } else {
+                query.andWhere({
+                    isApprove: true
+                })
             }
         }
 
