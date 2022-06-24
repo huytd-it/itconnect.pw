@@ -13,7 +13,7 @@ echo 'Update SSL' > /var/simple/index.html
 
 # SSL with certbot
 apt install certbot python3-certbot-nginx -y
-certbot --nginx -d itconnect.pw -d www.itconnect.pw -d api.itconnect.pw --agree-tos -m "nguyengiahuy16@gmail.com" -n
+certbot --nginx -d itconnect.pw -d www.itconnect.pw -d api.itconnect.pw -d mail.itconnect.pw --agree-tos -m "nguyengiahuy16@gmail.com" -n
 mkdir -pv /etc/nginx/ssl/itconnect.pw/
 openssl dhparam -out /etc/nginx/ssl/itconnect.pw/dhparams.pem -dsaparam 4096
 
