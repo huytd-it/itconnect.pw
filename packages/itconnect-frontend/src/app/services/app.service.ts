@@ -38,14 +38,19 @@ export class AppService {
   checkStatusServer() {
     this.status()
       .pipe(catchError((e) => {
-        this.router.navigate(['/maintenance']).then(() => {});
+        if (!this.router.url.match(/\/maintenance/)) {
+          this.router.navigate(['/maintenance']).then(() => {});
+        }
+        setTimeout(() => {
+          this.setFsLoading(false);
+        }, 1000);
         return throwError(e);
       }))
       .subscribe(() => {
         if (this.router.url.match(/\/maintenance/)) {
           this.router.navigate(['/']).then(() => {});
         }
-        this.setFsLoading(false)
+        this.setFsLoading(false);
       });
   }
 }
