@@ -86,7 +86,7 @@ export class CertificateModalComponent implements OnInit {
     const value = this.form.value;
     const data: CreateOrEditCvCertificate = {
       content: value[FormField.Content],
-      year: value[FormField.Year],
+      year: moment(value[FormField.Year]).year(),
       certificate: value[FormField.Certificate]?.id,
     }
 
