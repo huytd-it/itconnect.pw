@@ -1,17 +1,18 @@
 #!/bin/bash
 
-networkName=itconnect_nginx
-volumeFEBuilt=itconnect_fe_built
-volumeSSL=itconnect_ssl
+network=(itconnect_nginx)
+volume=(itconnect_fe_built itconnect_ssl itconnect_mysql_data itconnect_mysql_data_local)
 
-if [[ "$(docker network ls | grep "${networkName}")" == "" ]] ; then
-  docker network create "${networkName}"
-fi
+for i in "${network[@]}"
+do
+  if [[ "$(docker network ls | grep "${i}")" == "" ]] ; then
+    docker network create "${i}"
+  fi
+done
 
-if [[ "$(docker volume ls | grep "${volumeFEBuilt}")" == "" ]] ; then
-  docker volume create "${volumeFEBuilt}"
-fi
-
-if [[ "$(docker volume ls | grep "${volumeSSL}")" == "" ]] ; then
-  docker volume create "${volumeSSL}"
-fi
+for i in "${volume[@]}"
+do
+  if [[ "$(docker volume ls | grep "${i}")" == "" ]] ; then
+    docker volume create "${i}"
+  fi
+done
