@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject, catchError, Observable, throwError} from "rxjs";
+import {HttpClient} from "@angular/common/http";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +12,15 @@ export class AppService {
   private headLoadingSubject: BehaviorSubject<boolean>;
   readonly headLoading$: Observable<boolean>;
 
-  constructor() {
+  constructor(
+    private httpClient: HttpClient,
+    private router: Router
+  ) {
     this.fsLoadingSubject = new BehaviorSubject<boolean>(false);
     this.fsLoading$ = this.fsLoadingSubject.asObservable();
     this.headLoadingSubject = new BehaviorSubject<boolean>(false);
     this.headLoading$ = this.headLoadingSubject.asObservable();
+    setTimeout(() => this.checkStatusServer());
   }
 
   setFsLoading(status: boolean) {
@@ -23,5 +29,23 @@ export class AppService {
 
   setHeadLoading(status: boolean) {
     this.headLoadingSubject.next(status);
+  }
+
+  status() {
+    return this.httpClient.get('');
+  }
+
+  checkStatusServer() {
+    this.status()
+      .pipe(catchError((e) => {
+        this.router.navigate(['/maintenance']).then(() => {});
+        return throwError(e);
+      }))
+      .subscribe(() => {
+        if (this.router.url.match(/\/maintenance/)) {
+          this.router.navigate(['/']).then(() => {});
+        }
+        this.setFsLoading(false)
+      });
   }
 }

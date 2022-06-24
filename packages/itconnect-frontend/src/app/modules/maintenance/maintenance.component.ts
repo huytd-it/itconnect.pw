@@ -15,14 +15,11 @@ export class MaintenanceComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.appService.checkStatusServer();
   }
 
   onReCheck() {
     this.appService.setFsLoading(true);
-    this.profileService.profile()
-      .pipe(finalize(() => this.appService.setFsLoading(false)))
-      .subscribe(() => {
-        location.href = '/';
-      })
+    this.appService.checkStatusServer();
   }
 }
