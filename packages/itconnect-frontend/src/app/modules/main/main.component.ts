@@ -3,6 +3,7 @@ import {AppService} from "../../services/app.service";
 import {AuthService} from "../../services/auth.service";
 import {Subscription} from "rxjs";
 import * as _ from "lodash";
+import {environment} from "src/environments/environment";
 
 @Component({
   selector: 'app-main',
@@ -38,6 +39,6 @@ export class MainComponent implements OnInit, OnDestroy {
 
   private setLoadingDebounce = _.debounce((status: boolean) => {
     this.appService.setFsLoading(status);
-  }, 0);
+  }, environment.production ? 500 : 0);
 }
 
