@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import {AuthLoginInput, AuthLoginOutput, AuthRegisterInput, AuthRegisterOutput} from "../models/auth.models";
 import {HttpClient} from "@angular/common/http";
 import {httpOptions} from "../utils/common";
-import {BehaviorSubject, map, Observable} from "rxjs";
+import {BehaviorSubject, catchError, finalize, map, Observable, throwError} from "rxjs";
 import {User, UserInfo} from "../models/user.model";
 import {ProfileService} from "./profile.service";
 import {CompleteUserProfileInput, ProfileDataBoostrap} from "../models/profile.model";
 import {AppPermission, AppPermissionHashMap, AppRole} from "../models/permission.model";
 import {PermissionService} from "./permission.service";
+import {Router} from "@angular/router";
+import {AppService} from "./app.service";
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +31,9 @@ export class AuthService {
   constructor(
     private httpClient: HttpClient,
     private profileService: ProfileService,
-    private permissionService: PermissionService
+    private permissionService: PermissionService,
+    private router: Router,
+    private appService: AppService
   ) {
     this.dataSubject = new BehaviorSubject<ProfileDataBoostrap | undefined>(undefined);
     this.data$ = this.dataSubject.asObservable();
@@ -74,10 +78,19 @@ export class AuthService {
     if (!this.token) {
       return;
     }
-    this.profileService.dataBoostrap().subscribe((data) => {
-      this.permissionService.createPermissionHashMap(data.permissions);
-      this.dataSubject.next(data);
-    })
+    this.appService.setFsLoading(true);
+    this.profileService.dataBoostrap()
+      .pipe(finalize(() => {
+        this.appService.setFsLoading(false);
+      }))
+      .pipe(catchError((e) => {
+        this.router.navigate(['/maintenance']).then(() => {});
+        return throwError(e);
+      }))
+      .subscribe((data) => {
+        this.permissionService.createPermissionHashMap(data.permissions);
+        this.dataSubject.next(data);
+      })
   }
 
 }

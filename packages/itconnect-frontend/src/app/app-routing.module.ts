@@ -17,6 +17,7 @@ const routes: Routes = [
     loadChildren: () => import('./modules/main/main.module').then(m => m.MainModule),
     canActivate: [AuthGuard],
   },
+  { path: 'maintenance', loadChildren: () => import('./modules/maintenance/maintenance.module').then(m => m.MaintenanceModule) },
   { path: '**', redirectTo: '/' }
 ];
 

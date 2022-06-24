@@ -16,7 +16,7 @@ export class ErrorIntercept implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(catchError(err => {
-      this.notifyService.error(err.error.error, err.error.message);
+      this.notifyService.error(err.error.error || 'Unknown error', err.error.message || 'um......');
       if(
         err.status === 401 &&
         !req.url.match(/main\/auth/)
