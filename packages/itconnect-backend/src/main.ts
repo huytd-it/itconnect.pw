@@ -69,6 +69,7 @@ async function bootstrap() {
       .addTag('cv-work-experience-position')
       .addTag('cv-certificate')
       .addTag('cv-education')
+      .addTag('')
       .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('documentation', app, document);

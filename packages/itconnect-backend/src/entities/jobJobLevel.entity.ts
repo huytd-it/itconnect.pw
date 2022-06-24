@@ -12,19 +12,21 @@ import {PositionEntity} from "./position.entity";
 import {CvWorkExperiencePositionEntity} from "./cvWorkExperiencePosition.entity";
 import {SkillEntity} from "./skill.entity";
 import {WorkFromEntity} from "./workFrom.entity";
+import {JobLevelEntity} from "./jobLevel.entity";
+import {JobEntity} from "./job.entity";
 
 
 @Entity()
-@Unique(['workFrom', 'user'])
-export class JobWorkFromEntity {
+@Unique(['jobLevel', 'job'])
+export class JobJobLevelEntity {
     @PrimaryGeneratedColumn()
     id: number
 
-    @ManyToOne(type => UserEntity)
-    user: UserEntity;
+    @ManyToOne(type => JobEntity)
+    job: JobEntity;
 
-    @ManyToOne(type => WorkFromEntity)
-    workFrom: WorkFromEntity;
+    @ManyToOne(type => JobLevelEntity)
+    jobLevel: JobLevelEntity;
 
     @CreateDateColumn()
     createdAt: Date;

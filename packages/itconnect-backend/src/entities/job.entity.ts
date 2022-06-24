@@ -3,7 +3,7 @@ import {
     CreateDateColumn, DeleteDateColumn,
     Entity,
     JoinColumn,
-    ManyToOne,
+    ManyToOne, OneToMany,
     OneToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn
@@ -12,7 +12,22 @@ import {UserEntity} from "./user.entity";
 import {AddressEntity} from "./address.entity";
 import {JobLevelEntity} from "./jobLevel.entity";
 import {CompanyTagEntity} from "./companyTag.entity";
+import {PositionEntity} from "./position.entity";
+import {JobPositionDto} from "../dtos/job.dto";
+import {JobPositionEntity} from "./jobPosition.entity";
+import {JobSkillEntity} from "./jobSkill.entity";
+import {JobCertificateEntity} from "./jobCertificate.entity";
+import {JobSchoolEntity} from "./jobSchool.entity";
+import {JobWorkFromEntity} from "./jobWorkFrom.entity";
+import {JobJobLevelEntity} from "./jobJobLevel.entity";
 
+export enum JobStatus {
+    Draft = 1,
+    WaitApprove = 2,
+    WaitSystem = 3,
+    Publish = 4,
+    Hide = 5
+}
 
 @Entity()
 export class JobEntity {
@@ -38,17 +53,35 @@ export class JobEntity {
     @Column()
     addressStreet: string;
 
+    @OneToMany(type => JobPositionEntity, db => db.job)
+    jobPositions: JobPositionEntity[];
+
+    @OneToMany(type => JobSkillEntity, db => db.job)
+    jobSkills: JobSkillEntity[];
+
+    @OneToMany(type => JobCertificateEntity, db => db.job)
+    jobCertificates: JobCertificateEntity[];
+
+    @OneToMany(type => JobSchoolEntity, db => db.job)
+    jobSchools: JobSchoolEntity[];
+
+    @OneToMany(type => JobWorkFromEntity, db => db.job)
+    jobWorkFrom: JobWorkFromEntity[];
+
+    @OneToMany(type => JobJobLevelEntity, db => db.job)
+    jobJobLevels: JobJobLevelEntity[];
+
     @ManyToOne(type => CompanyTagEntity)
     companyTag: CompanyTagEntity;
 
-    @ManyToOne(type => JobLevelEntity)
-    jobLevel: JobLevelEntity;
-
-    @Column()
+    @Column({ nullable: true })
     salaryMin: number;
 
-    @Column()
+    @Column({ nullable: true })
     salaryMax: number;
+
+    @Column({ nullable: true })
+    yoe: number;
 
     @Column()
     name: string;
@@ -56,14 +89,17 @@ export class JobEntity {
     @Column()
     endDate: Date;
 
-    @Column()
+    @Column({ type: 'text' })
     descriptionContent: string;
 
-    @Column()
+    @Column({ type: 'text' })
     requirementContent: string;
 
-    @Column()
+    @Column({ type: 'text', nullable: true })
     reasonContent: string;
+
+    @Column()
+    status: JobStatus;
 
     @CreateDateColumn()
     createdAt: Date;

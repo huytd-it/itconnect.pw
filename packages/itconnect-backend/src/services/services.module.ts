@@ -44,6 +44,15 @@ import {RankedAcademicEntity} from "../entities/rankedAcademic.entity";
 import {RankedAcademicService} from "./rankedAcademic.service";
 import {CvEducationEntity} from "../entities/cvEducation.entity";
 import {CvEducationService} from "./cv-education.service";
+import { JobService } from './job.service';
+import {JobEntity} from "../entities/job.entity";
+import {JobJobLevelCreateOrEditDto} from "../dtos/job.dto";
+import {JobJobLevelEntity} from "../entities/jobJobLevel.entity";
+import {JobPositionEntity} from "../entities/jobPosition.entity";
+import {JobSkillEntity} from "../entities/jobSkill.entity";
+import {JobWorkFromEntity} from "../entities/jobWorkFrom.entity";
+import {JobCertificateEntity} from "../entities/jobCertificate.entity";
+import {JobSchoolEntity} from "../entities/jobSchool.entity";
 
 @Module({
   imports: [
@@ -73,7 +82,14 @@ import {CvEducationService} from "./cv-education.service";
         CvWorkExperiencePositionEntity,
         CvCertificateEntity,
         RankedAcademicEntity,
-        CvEducationEntity
+        CvEducationEntity,
+        JobEntity,
+        JobJobLevelEntity,
+        JobPositionEntity,
+        JobSkillEntity,
+        JobWorkFromEntity,
+        JobCertificateEntity,
+        JobSchoolEntity,
     ])
   ],
   providers: [
@@ -94,7 +110,8 @@ import {CvEducationService} from "./cv-education.service";
       CvWorkExperiencePositionService,
       CvCertificateService,
       RankedAcademicService,
-      CvEducationService
+      CvEducationService,
+      JobService
   ],
   exports: [
       UserService,
@@ -114,7 +131,8 @@ import {CvEducationService} from "./cv-education.service";
       CvWorkExperiencePositionService,
       CvCertificateService,
       RankedAcademicService,
-      CvEducationService
+      CvEducationService,
+      JobService
   ]
 })
 export class ServicesModule {}

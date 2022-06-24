@@ -11,16 +11,17 @@ import {UserEntity} from "./user.entity";
 import {PositionEntity} from "./position.entity";
 import {CvWorkExperiencePositionEntity} from "./cvWorkExperiencePosition.entity";
 import {SkillEntity} from "./skill.entity";
+import {JobEntity} from "./job.entity";
 
 
 @Entity()
-@Unique(['skill', 'user'])
+@Unique(['skill', 'job'])
 export class JobSkillEntity {
     @PrimaryGeneratedColumn()
     id: number
 
-    @ManyToOne(type => UserEntity)
-    user: UserEntity;
+    @ManyToOne(type => JobEntity)
+    job: JobEntity;
 
     @ManyToOne(type => SkillEntity)
     skill: SkillEntity;

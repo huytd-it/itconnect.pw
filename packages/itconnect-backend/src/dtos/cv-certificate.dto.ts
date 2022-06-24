@@ -28,6 +28,7 @@ export class CreateOrEditCvCertificateDto {
     id: number;
 
     @ApiProperty()
+    @IsInt()
     year: number;
 
     @ApiPropertyOptional()

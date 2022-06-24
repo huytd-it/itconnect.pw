@@ -61,6 +61,8 @@ export enum AppPermission {
      */
     JOB = 'job',
     JOB_CREATE = 'job_create',
+    JOB_CE = 'job_ce',
+    JOB_DELETE = 'job_delete',
 
     /**
      * Permission
@@ -172,6 +174,7 @@ export enum AppPermission {
     CV_EDUCATION_DELETE = 'cv_education_delete',
     CV_EDUCATION_GET_OWNER = 'cv_education_get_owner',
     CV_EDUCATION_CE = 'cv_education_ce',
+
 }
 
 
@@ -207,6 +210,8 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.MESSAGE,
         AppPermission.JOB,
         AppPermission.JOB_CREATE,
+        AppPermission.JOB_CE,
+        AppPermission.JOB_DELETE,
         AppPermission.ADDRESS_SEARCH,
         AppPermission.SKILL_SEARCH,
         AppPermission.SKILL_CREATE_TAG,

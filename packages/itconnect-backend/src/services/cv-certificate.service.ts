@@ -56,6 +56,7 @@ export class CvCertificateService {
             certificate: { id: data.certificate },
             content: data.content,
         };
+        console.log(dataUpdate);
 
         if (data.certificate) {
             const tGlobal = await this.certificateService.isApprove(data.certificate);
