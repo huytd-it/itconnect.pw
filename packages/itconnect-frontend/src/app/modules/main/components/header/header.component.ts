@@ -1,22 +1,39 @@
-import {AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MenuItem} from "../../../../models/common";
+import {PermissionService} from "../../../../services/permission.service";
+import {AppPermission} from "../../../../models/permission.model";
+import {AppService} from "../../../../services/app.service";
+import {Subscription} from "rxjs";
+import * as _ from "lodash";
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit, AfterViewInit {
+export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('menuEl') menuEl: ElementRef;
-  menu: MenuItem[];
+  menu: MenuItem[] = [];
   isFullLogo: boolean;
   isDropdownMoreMenu: boolean;
   hasMoreMenu: boolean;
+  isLoading: boolean;
+  subscriptionLoading: Subscription;
 
-  constructor() { }
+  constructor(
+    public permission: PermissionService,
+    public app: AppService
+  ) {
+    this.subscriptionLoading = this.app.headLoading$.subscribe((val) => {
+      this.isLoading = val;
+    })
+  }
 
   ngOnInit(): void {
-    this.menu = this.getMenu();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptionLoading.unsubscribe();
   }
 
   ngAfterViewInit(): void {
@@ -30,22 +47,32 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       {
         name: "Trang chủ",
         class: 'icon-home',
-        link: 'home'
+        link: 'home',
+        permission: AppPermission.POST_FEED
+      },
+      {
+        name: "Việc làm",
+        class: 'icon-job',
+        link: 'jobs',
+        permission: AppPermission.JOB
       },
       {
         name: "Bạn bè",
         class: 'icon-friend',
-        link: 'friends'
+        link: 'friends',
+        permission: AppPermission.FRIEND
       },
       {
         name: "Thông báo",
         class: 'icon-notify',
-        link: 'notifications'
+        link: 'notifications',
+        permission: AppPermission.NOTIFICATION
       },
       {
         name: "Tin nhắn",
         class: 'icon-message',
-        link: 'messages'
+        link: 'messages',
+        permission: AppPermission.MESSAGE
       }
     ]
   }
@@ -69,6 +96,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     const sizeMenu = Math.round(clientWidth / widthItem) - 2;
     let hasMoreMenu = false;
 
+    const menuDefault = _.cloneDeep(this.getMenu());
+    this.menu = menuDefault.filter(item => this.permission.hasPermission(item.permission));
     this.menu.forEach((item, index) => {
       // remove 1 because 'index'
       let hidden = index > sizeMenu - 1;

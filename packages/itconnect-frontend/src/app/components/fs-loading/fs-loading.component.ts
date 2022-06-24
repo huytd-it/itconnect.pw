@@ -13,9 +13,7 @@ export class FsLoadingComponent implements OnInit {
   constructor(
     private appService: AppService
   ) {
-    this.appService.fsLoading$.subscribe(_.debounce(value => {
-      this.appService.setFsLoading(!value);
-    }, 500));
+    this.appService.fsLoading$.subscribe(value => this.isShow = value);
   }
 
   ngOnInit(): void {

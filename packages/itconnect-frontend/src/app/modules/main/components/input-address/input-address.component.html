@@ -1,33 +1,31 @@
-<div class="tw-flex tw-flex-wrap tw-gap-2">
+<div class="tw-flex tw-flex-wrap tw-gap-2" [formGroup]="form">
   <mat-form-field appearance="outline" class="tw-flex-1">
     <mat-label>Số nhà, (Đường/Ấp)</mat-label>
-    <input matInput placeholder="Ex. 123" value="">
+    <input matInput placeholder="Ex. 123" value="" [formControlName]="FormField.street">
   </mat-form-field>
-  <mat-form-field appearance="outline" class="tw-flex-1">
-    <mat-label>Phường/Xã</mat-label>
-    <input type="text" matInput [matAutocomplete]="auto" required>
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let option of test" [value]="option">
-        {{option}}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-  <mat-form-field appearance="outline" class="tw-flex-1">
-    <mat-label>Quận/Huyện</mat-label>
-    <input type="text" matInput [matAutocomplete]="auto" required>
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let option of test" [value]="option">
-        {{option}}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-  <mat-form-field appearance="outline" class="tw-flex-1">
-    <mat-label>Thành Phố/Tỉnh</mat-label>
-    <input type="text" matInput [matAutocomplete]="auto" required>
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let option of test" [value]="option">
-        {{option}}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
+  <div class="tw-flex-1 tw-min-w-[200px]">
+    <app-easy-select
+      [label]="'Phường/Xã'"
+      [loadMoreFn]="fetchData(FormField.village)"
+      [formControlName]="FormField.village"
+      [fDisabled]="isControlDisable(FormField.village)"
+    ></app-easy-select>
+  </div>
+  <div class="tw-flex-1 tw-min-w-[200px]">
+    <app-easy-select
+      [label]="'Quận/Huyện'"
+      [loadMoreFn]="fetchData(FormField.district)"
+      [formControlName]="FormField.district"
+      [fDisabled]="isControlDisable(FormField.district)"
+      (ngModelChange)="onChange($event, FormField.district)"
+    ></app-easy-select>
+  </div>
+  <div class="tw-flex-1 tw-min-w-[200px]">
+    <app-easy-select
+      [label]="'Thành Phố/Tỉnh'"
+      [loadMoreFn]="fetchData(FormField.province)"
+      [formControlName]="FormField.province"
+      (ngModelChange)="onChange($event, FormField.province)"
+    ></app-easy-select>
+  </div>
 </div>

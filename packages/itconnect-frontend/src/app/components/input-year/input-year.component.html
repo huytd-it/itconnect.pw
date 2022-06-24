@@ -1,0 +1,19 @@
+<mat-form-field appearance="outline" class="tw-w-full" [formGroup]="form">
+  <mat-label>{{label}}</mat-label>
+  <input
+    matInput
+    [matDatepicker]="dp"
+    [formControlName]="name"
+    max="{{maxDate | date:'yyyy-MM-dd'}}"
+    min="{{minDate | date:'yyyy-MM-dd'}}"
+  >
+  <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+  <mat-datepicker #dp
+                  startView="multi-year"
+                  (yearSelected)="setMonthAndYear($event, dp)"
+                  panelClass="example-month-picker">
+  </mat-datepicker>
+  <mat-error *ngIf="isControlError('required')">
+    {{label}} là bắt buộc
+  </mat-error>
+</mat-form-field>

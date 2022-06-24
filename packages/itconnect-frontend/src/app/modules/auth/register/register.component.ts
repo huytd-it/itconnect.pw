@@ -76,7 +76,7 @@ export class RegisterComponent implements OnInit {
         return throwError(err)
       }))
       .subscribe((response) => {
-        this.router.navigate(['/main']).then(() => {});
+        this.router.navigate(['/u']).then(() => {});
       })
   }
 

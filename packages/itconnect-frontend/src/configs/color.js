@@ -1,5 +1,6 @@
 module.exports = {
   primaryColor: 'var(--primary)',
+  primaryColor200: 'var(--primary-200)',
   secondaryColor: 'var(--secondary)',
   textColor: 'var(--text)',
   backgroundColor: 'var(--background)',

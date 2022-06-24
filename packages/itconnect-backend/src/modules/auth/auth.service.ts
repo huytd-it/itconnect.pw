@@ -39,32 +39,19 @@ export class AuthService {
             throw new UnauthorizedException('Email or password not correct');
         }
 
-        const {password, ...userOutput} = user;
         return {
             token: this.signUser(user.id),
-            user: userOutput
         }
     }
 
     async register(dto: RegisterInputDTO) {
-        let user = await this.usersRepository.findOne({
-            where: {
-                email: dto.email
-            }
-        });
-        if (user) {
-            throw new ConflictException('Email exists');
-        }
-
-        user = await this.usersRepository.save({
+        let user = await this.usersRepository.save({
             email: dto.email,
             password: bcrypt.hashSync(dto.password, 12)
         });
         if (user) {
-            const {password, ...userOutput} = user;
             return {
                 token: this.signUser(user.id),
-                user: userOutput
             }
         }
 

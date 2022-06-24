@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit, Renderer2} from '@angular/core';
 import {AppService} from "../../services/app.service";
 import {AuthService} from "../../services/auth.service";
 import {Subscription} from "rxjs";
+import * as _ from "lodash";
 
 @Component({
   selector: 'app-main',
@@ -10,6 +11,7 @@ import {Subscription} from "rxjs";
 })
 export class MainComponent implements OnInit, OnDestroy {
   userSubscription: Subscription;
+  isLoaded: boolean;
 
   constructor(
     private renderer: Renderer2,
@@ -17,8 +19,12 @@ export class MainComponent implements OnInit, OnDestroy {
     private authService: AuthService
   ) {
     this.renderer.addClass(document.body, 'main-module');
-    this.userSubscription = this.authService.user$.subscribe(user => {
-      this.appService.setFsLoading(!user);
+    this.appService.setFsLoading(true);
+    this.userSubscription = this.authService.data$.subscribe((val) => {
+      if (this.authService.token) {
+        this.isLoaded = !!val;
+        this.setLoadingDebounce(!val);
+      }
     })
   }
 
@@ -29,4 +35,9 @@ export class MainComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
   }
+
+  private setLoadingDebounce = _.debounce((status: boolean) => {
+    this.appService.setFsLoading(status);
+  }, 0);
 }
+

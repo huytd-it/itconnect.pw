@@ -1,0 +1,24 @@
+<ng-select
+  #ngSelect
+  appearance="outline"
+  bindLabel="name"
+  [appendTo]="appendTo"
+  [dropdownPosition]="dropdownPosition"
+  [items]="items"
+  [loading]="isLoading"
+  [placeholder]="label"
+  [multiple]="multiple"
+  [searchFn]="onSearchFn"
+  [disabled]="fDisabled"
+  [addTagText]="addTagText"
+  [addTag]="isAddTag && funcAddTag()"
+  [ngModel]="itemSelected"
+  (ngModelChange)="onChange($event)"
+  (search)="onSearch($event)"
+  (scrollToEnd)="onScrollToEnd()"
+  (scroll)="onScroll($event)"
+  (open)="onOpen()"
+  (close)="onClose()"
+  (clear)="onClear()"
+  required
+></ng-select>

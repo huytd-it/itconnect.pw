@@ -10,8 +10,19 @@
       [matTooltip]="item.tooltip"
       matTooltipPosition="right"
     >
-      <mat-radio-button></mat-radio-button>
+      <mat-radio-button (change)="positionSelected = item.id"></mat-radio-button>
       <span class="tw-font-medium">{{item.name}}</span>
+    </div>
+    <div class="tw-mt-[50px] tw-flex tw-justify-center tw-pb-6">
+      <button
+        mat-stroked-button
+        color="primary"
+        type="button"
+        [disabled]="!positionSelected"
+        (click)="onSubmit()"
+      >
+        Tiếp tục
+      </button>
     </div>
   </div>
 </div>

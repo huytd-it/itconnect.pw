@@ -13,7 +13,7 @@ const routes: Routes = [
     canActivate: [GuestGuard],
   },
   {
-    path: 'main',
+    path: 'u',
     loadChildren: () => import('./modules/main/main.module').then(m => m.MainModule),
     canActivate: [AuthGuard],
   },

@@ -1,0 +1,67 @@
+<div class="tw-max-w-[500px]">
+  <div class="tw-flex tw-justify-between tw-items-center">
+    <span class="tw-font-bold tw-text-primaryColor">{{data.companyTag.name}}</span>
+    <div class="tw-flex tw-items-center">
+      <button
+        class="c-icon tw-w-[20px] tw-h-[20px] tw-bg-[length:20px_20px] c-btn icon-new-message tw-mx-3"
+        [matTooltip]="'Sửa'"
+        (click)="onEdit.emit(data)"
+      ></button>
+      <button
+        class="c-icon tw-w-[20px] tw-h-[20px] tw-bg-[length:20px_20px] c-btn icon-trash tw-mr-3"
+        [matTooltip]="'Xóa'"
+        (click)="onRemove.emit(data)"
+      ></button>
+      <div class="tw-rounded-2xl tw-bg-primaryColor200 tw-p-2 tw-text-primaryColor tw-text-[12px]">
+        {{data.startDate | date: 'MM/YYYY'}} - {{data.endDate ? (data.endDate | date: 'MM/YYYY') : 'Hiện tại'}}
+      </div>
+    </div>
+  </div>
+  <div class="tw-text-[13px]">
+    <div class="tw-my-4 tw-flex tw-flex-wrap tw-gap-3 tw-items-center" *ngIf="data.jobLevel">
+      <span class="tw-min-w-[50px] tw-font-medium">
+        Trình độ
+      </span>
+      <span class="tw-ml-2">{{data.jobLevel.name}}</span>
+    </div>
+    <div class="tw-my-4 tw-flex tw-flex-wrap tw-gap-3 tw-items-center" *ngIf="data.workFrom">
+      <span class="tw-min-w-[50px] tw-font-medium">
+        Hình thức
+      </span>
+      <span class="tw-ml-2">{{data.workFrom.name}}</span>
+    </div>
+    <div class="tw-mt-2 tw-flex tw-flex-wrap tw-gap-3 tw-items-center">
+      <span class="tw-pt-3.5 tw-min-w-[50px]  tw-font-medium">
+        Kĩ năng
+      </span>
+      <app-input-skill
+        [appendTo]="'body'"
+        [items]="skillItems"
+        [loadMoreFn]="fetchDataSkill"
+        [createTagFn]="createTagSkill"
+        (onAdd)="onAddSkill($event)"
+        (onRemove)="onRemoveSkill($event)"
+      ></app-input-skill>
+    </div>
+    <div class="tw-mt-2 tw-flex tw-flex-wrap tw-gap-3 tw-items-center">
+      <span class="tw-pt-3.5 tw-min-w-[50px] tw-font-medium">
+        Vị trí
+      </span>
+      <app-input-skill
+        [appendTo]="'body'"
+        [items]="positionItems"
+        [loadMoreFn]="fetchDataPosition"
+        [createTagFn]="createTagPosition"
+        (onAdd)="onAddPosition($event)"
+        (onRemove)="onRemovePosition($event)"
+      ></app-input-skill>
+    </div>
+    <div class="tw-mt-6"  *ngIf="data.content">
+      <div class="tw-my-2 tw-min-w-[50px] tw-font-medium">
+        Mô Tả
+      </div>
+      <div [innerHTML]="data.content | sanitizeHtml"></div>
+    </div>
+  </div>
+
+</div>

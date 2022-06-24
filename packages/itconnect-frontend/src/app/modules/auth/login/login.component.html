@@ -21,9 +21,9 @@
         <mat-form-field appearance="outline" class="tw-w-full">
           <mat-label>Nhập mật khẩu</mat-label>
           <input matInput [type]="hidePassword ? 'password' : 'text'" [formControlName]="LoginField.password">
-          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+          <a class="tw-cursor-pointer" mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
             <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
-          </button>
+          </a>
           <mat-error *ngIf="isControlError(LoginField.password, 'required')">
             Mật khẩu bắt buộc
           </mat-error>
@@ -51,8 +51,8 @@
       </div>
       <mat-card-actions>
         <div class="tw-text-center">
-          New to ITConnect?
-          <button mat-button color="primary" routerLink="/auth/register">Register</button>
+          Tham gia ITConnect?
+          <button type="button" mat-button color="primary" routerLink="/auth/register">Đăng ký</button>
         </div>
       </mat-card-actions>
       <mat-card-footer>

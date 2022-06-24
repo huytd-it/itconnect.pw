@@ -1,0 +1,144 @@
+<div>
+  <mat-accordion [multi]="true">
+    <div class="tw-rounded tw-rounded-b-none tw-shadow-md tw-p-3 tw-bg-white tw-p-10 tw-relative">
+      <div class="tw-flex tw-justify-center tw-flex-col tw-items-center tw-z-10 tw-relative tw-mt-[60px]">
+        <div class="tw-rounded-full tw-border-white tw-border-4">
+          <app-avatar [name]="userName || ''" [radius]="100"></app-avatar>
+        </div>
+        <span class="tw-text-textColor tw-mt-5 tw-font-bold tw-text-2xl">
+          {{userName}}
+        </span>
+      </div>
+      <div class="tw-absolute tw-top-0 tw-left-0 tw-w-full tw-h-[170px] tw-z-0">
+        <img src="/assets/images/bg.jpg" class="tw-w-full tw-h-full tw-object-cover tw-object-bottom">
+      </div>
+    </div>
+    <mat-expansion-panel #infoPanel [expanded]="false" *ngIf="permission.PROFILE_USER_CE | permission" class="!tw-rounded-t-none">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <div class="tw-font-medium tw-flex tw-items-center tw-text-textColor">
+            <mat-icon class="tw-mr-3">info_outline</mat-icon>
+            Thông tin chung
+            <button
+              *ngIf="infoPanel.expanded"
+              class="c-icon tw-w-[20px] tw-h-[20px] tw-bg-[length:20px_20px] c-btn icon-new-message tw-mx-3"
+              [matTooltip]="'Sửa'"
+              (click)="uIf.onEdit(); $event.preventDefault(); $event.stopPropagation()"
+            ></button>
+          </div>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="tw-max-w-[500px]">
+        <app-user-info #uIf></app-user-info>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="false" *ngIf="permission.USER_POSITION_CE | permission">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <div class="tw-font-medium tw-flex tw-items-center tw-text-textColor">
+            <mat-icon class="tw-mr-3">groups</mat-icon>
+            Vị trí
+          </div>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="tw-max-w-[500px]">
+        <app-input-skill-level
+          [items]="userPosition"
+          [loadMoreFn]="fetchDataPosition"
+          [createTagFn]="createTagPosition"
+          [appendTo]="'body'"
+          (onAdd)="onAddUserPosition($event)"
+          (onRemove)="onRemoveUserPosition($event)"
+          (onChange)="onChangeUserPosition($event)"
+        ></app-input-skill-level>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="false"  *ngIf="permission.USER_SKILL_CE | permission">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <div class="tw-font-medium tw-flex tw-items-center tw-text-textColor">
+            <mat-icon class="tw-mr-3">hub</mat-icon>
+            Kĩ năng
+          </div>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="tw-max-w-[500px]">
+        <app-input-skill-level
+          [items]="userSkill"
+          [loadMoreFn]="fetchDataSkill"
+          [createTagFn]="createTagSkill"
+          [appendTo]="'body'"
+          (onAdd)="onAddUserSkill($event)"
+          (onRemove)="onRemoveUserSkill($event)"
+          (onChange)="onChangeUserSkill($event)"
+        ></app-input-skill-level>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="false"  *ngIf="permission.CV_WORK_EXPERIENCE | permission">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <div class="tw-font-medium tw-flex tw-items-center tw-text-textColor">
+            <mat-icon class="tw-mr-3">psychology_alt</mat-icon>
+            Kinh nghiệm làm việc
+            <span class="tw-font-bold tw-ml-2">({{yoe}})</span>
+          </div>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div>
+        <app-work-experience (onUpdate)="loadYoe()"></app-work-experience>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="false" *ngIf="permission.CV_CERTIFICATE | permission">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <div class="tw-font-medium tw-flex tw-items-center tw-text-textColor">
+            <mat-icon class="tw-mr-3">card_membership</mat-icon>
+            Văn bằng / Chứng chỉ
+          </div>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div>
+        <app-certificate></app-certificate>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="false" *ngIf="permission.CV_EDUCATION | permission">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <div class="tw-font-medium tw-flex tw-items-center tw-text-textColor">
+            <mat-icon class="tw-mr-3">school</mat-icon>
+            Học vấn
+          </div>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div>
+        <app-education></app-education>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <div class="tw-font-medium tw-flex tw-items-center tw-text-textColor">
+            <mat-icon class="tw-mr-3">military_tech</mat-icon>
+            Giải thưởng
+          </div>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <div class="tw-font-medium tw-flex tw-items-center tw-text-textColor">
+            <mat-icon class="tw-mr-3">celebration</mat-icon>
+            Hoạt động
+          </div>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+</div>
+

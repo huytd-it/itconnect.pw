@@ -1,55 +1,62 @@
-<div class="app-main-header tw-flex tw-items-center tw-px-4 tw-py-1 tw-bg-white tw-justify-between">
-  <div class="tw-flex tw-items-center tw-mr-3 lg:tw-mr-7">
-    <app-logo [onlyLogo]="!isFullLogo"></app-logo>
-    <div class="tw-ml-4">
-      <app-search></app-search>
+<div class="app-main-header">
+  <div class="tw-flex tw-items-center tw-px-4 tw-py-1 tw-bg-white tw-justify-between tw-h-[55px]">
+    <div class="tw-flex tw-items-center tw-mr-3 lg:tw-mr-7">
+      <app-logo [onlyLogo]="!isFullLogo"></app-logo>
+      <div class="tw-ml-4">
+        <app-search></app-search>
+      </div>
+    </div>
+
+    <!-- menu-->
+    <div
+      class="tw-flex tw-justify-start tw-flex-1 tw-max-w-[600px] tw-overflow-hidden"
+      #menuEl
+    >
+      <ng-container *ngFor="let item of menu">
+        <a
+          [routerLink]="item.link"
+          routerLinkActive="is-active"
+          class="tw-mr-3 lg:tw-mr-[70px] tw-py-2 tw-px-4 hover:tw-bg-[#efeded] tw-rounded-xl"
+          [hidden]="item.visible"
+          [matTooltip]="item.name"
+          *ngIf="item.permission | permission"
+        >
+          <i
+            [class]="'tw-w-[28px] tw-h-[28px] tw-bg-[length:28px_28px] tw-inline-block ' + item.class"
+          ></i>
+        </a>
+      </ng-container>
+
+      <!--button menu item-->
+      <button
+        *ngIf="hasMoreMenu"
+        class="tw-mr-3 lg:tw-mr-7 tw-py-2 tw-px-4 hover:tw-bg-[#efeded] tw-rounded-xl"
+        (click)="isDropdownMoreMenu = !isDropdownMoreMenu"
+        [matTooltip]="'Thêm'"
+      >
+        <i class="tw-w-[28px] tw-h-[28px] tw-bg-[length:28px_28px] tw-inline-block icon-more"></i>
+      </button>
+    </div>
+
+    <div>
+      <app-artdeco></app-artdeco>
     </div>
   </div>
-
-  <!-- menu-->
-  <div
-    class="tw-flex tw-justify-start tw-flex-1 tw-max-w-[600px] tw-overflow-hidden"
-    #menuEl
-  >
-    <a
-      *ngFor="let item of menu"
-      [routerLink]="item.link"
-      routerLinkActive="is-active"
-      class="tw-mr-3 lg:tw-mr-[70px] tw-py-2 tw-px-4 hover:tw-bg-[#efeded] tw-rounded-xl"
-      [hidden]="item.visible"
-      [matTooltip]="item.name"
-    >
-      <i
-        [class]="'tw-w-[28px] tw-h-[28px] tw-bg-[length:28px_28px] tw-inline-block ' + item.class"
-      ></i>
-    </a>
-
-    <!--button menu item-->
-    <button
-      *ngIf="hasMoreMenu"
-      class="tw-mr-3 lg:tw-mr-7 tw-py-2 tw-px-4 hover:tw-bg-[#efeded] tw-rounded-xl"
-      (click)="isDropdownMoreMenu = !isDropdownMoreMenu"
-      [matTooltip]="'Thêm'"
-    >
-      <i class="tw-w-[28px] tw-h-[28px] tw-bg-[length:28px_28px] tw-inline-block icon-more"></i>
-    </button>
-  </div>
-
-  <div>
-    <app-artdeco></app-artdeco>
-  </div>
+  <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
 </div>
+
+
 
 <!--backdrop menu item-->
 <ng-container *ngIf="isDropdownMoreMenu">
-  <div class="tw-fixed tw-z-[999998] tw-top-0 tw-left-0 tw-w-full tw-h-full" (click)="isDropdownMoreMenu = false"></div>
+  <div class="tw-fixed tw-z-[998] tw-top-0 tw-left-0 tw-w-full tw-h-full" (click)="isDropdownMoreMenu = false"></div>
   <div class="tw-absolute tw-z-[999999] tw-right-1 tw-top-[45px] tw-mt-4 tw-rounded tw-shadow tw-bg-white tw-p-3">
     <ng-container *ngFor="let item of menu">
       <a
         [routerLink]="item.link"
         routerLinkActive="is-active"
         class="tw-mr-2 tw-py-2 tw-px-3 hover:tw-bg-buttonHover tw-rounded-xl tw-inline-block"
-        *ngIf="item.visible"
+        *ngIf="item.visible && (item.permission | permission)"
         [matTooltip]="item.name"
       >
         <i

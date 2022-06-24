@@ -1,0 +1,68 @@
+<h1 mat-dialog-title>Thông tin chung</h1>
+<div mat-dialog-content class="tw-w-[95vw] md:tw-w-[600px] c-scrollbar">
+  <form [formGroup]="form" class="tw-text-center tw-block">
+    <mat-form-field appearance="outline" class="tw-w-full">
+      <mat-label>Họ và tên</mat-label>
+      <input matInput placeholder="Ex. YUH" value="" [formControlName]="FormField.fullName">
+      <mat-error *ngIf="isControlError(FormField.fullName, 'required')">
+        Họ và tên là bắt buộc
+      </mat-error>
+      <mat-error *ngIf="isControlError(FormField.fullName, 'maxlength', 'minlength')">
+        Họ và tên phải có ít nhất 3, tối đa 255 ký tự
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="tw-w-full">
+      <mat-label>Số điện thoại</mat-label>
+      <input matInput placeholder="Ex. 090123456" value="" [formControlName]="FormField.phone" appNumberOnly>
+      <mat-error *ngIf="isControlError(FormField.phone, 'required')">
+        Số điện thoại là bắt buộc
+      </mat-error>
+      <mat-error *ngIf="isControlError(FormField.phone, 'pattern')">
+        Số điện thoại không hợp lệ
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="tw-w-full tw-mb-3">
+      <mat-label>Ngày sinh</mat-label>
+      <input matInput [matDatepicker]="picker" [formControlName]="FormField.birthday">
+      <mat-hint>DD/MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="isControlError(FormField.birthday, 'required')">
+        Ngày sinh là bắt buộc
+      </mat-error>
+    </mat-form-field>
+    <div>
+      <app-input-address [formControlName]="FormField.address"></app-input-address>
+      <div class="tw-text-left tw-text-[11px] tw-ml-3 tw-mt-[-16px]">
+        <mat-error *ngIf="isControlError(FormField.address, 'required')">
+          Địa chỉ là bắt buộc
+        </mat-error>
+      </div>
+    </div>
+
+    <div class="tw-text-left tw-mt-4">
+      <app-easy-select [label]="'Trình Độ'" [loadMoreFn]="fetchJobLevel" [formControlName]="FormField.jobLevel"></app-easy-select>
+    </div>
+
+    <div class="tw-text-left tw-mt-3">
+      <div class="tw-mb-3">
+        Giới thiệu (Tùy chọn)
+      </div>
+      <app-editor-c1 [form]="form" [name]="FormField.objective"></app-editor-c1>
+    </div>
+
+    <div class="tw-text-left tw-mt-5">
+      <div class="tw-mb-3">
+        Sở thích (Tùy chọn)
+      </div>
+      <app-editor-c1 [form]="form" [name]="FormField.interest"></app-editor-c1>
+    </div>
+  </form>
+
+</div>
+<div mat-dialog-actions>
+  <div class="tw-flex tw-justify-center tw-w-full tw-mt-10 tw-mb-3">
+    <button mat-button (click)="onClose()">Đóng</button>
+    <button mat-stroked-button cdkFocusInitial color="primary" (click)="onSubmit()">Lưu</button>
+  </div>
+</div>

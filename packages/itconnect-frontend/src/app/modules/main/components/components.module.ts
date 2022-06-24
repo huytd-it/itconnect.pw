@@ -11,10 +11,15 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatInputModule} from "@angular/material/input";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatIconModule} from "@angular/material/icon";
-import { AddLifeTimelineComponent } from './add-life-timeline/add-life-timeline.component';
-import { AddLifeTimelineModalComponent } from './add-life-timeline-modal/add-life-timeline-modal.component';
-
-
+import {ReactiveFormsModule} from "@angular/forms";
+import { InputSkillComponent } from './input-skill/input-skill.component';
+import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {InputSkillLevelComponent} from "./input-skill-level/input-skill-level.component";
+import {MatSliderModule} from "@angular/material/slider";
+import { GroupControlTimeTextComponent } from './group-control-time-text/group-control-time-text.component';
+import { GroupControlTimeTextModalComponent } from './group-control-time-text-modal/group-control-time-text-modal.component';
+import {NgxSliderModule} from "@angular-slider/ngx-slider";
+import {InputSkillLevelRangeComponent} from "./input-skill-level-range/input-skill-level-range.component";
 
 @NgModule({
   declarations: [
@@ -22,23 +27,33 @@ import { AddLifeTimelineModalComponent } from './add-life-timeline-modal/add-lif
     SearchComponent,
     ArtdecoComponent,
     InputAddressComponent,
-    AddLifeTimelineComponent,
-    AddLifeTimelineModalComponent,
+    InputSkillComponent,
+    InputSkillLevelComponent,
+    GroupControlTimeTextComponent,
+    GroupControlTimeTextModalComponent,
+    InputSkillLevelRangeComponent
   ],
-  imports: [
-    CommonModule,
-    CommonComponentsModule,
-    RouterModule,
-    MatTooltipModule,
-    MatAutocompleteModule,
-    MatInputModule,
-    MatChipsModule,
-    MatIconModule
-  ],
+    imports: [
+        CommonModule,
+        CommonComponentsModule,
+        RouterModule,
+        MatTooltipModule,
+        MatAutocompleteModule,
+        MatInputModule,
+        MatChipsModule,
+        MatIconModule,
+        ReactiveFormsModule,
+        MatProgressBarModule,
+        MatSliderModule,
+        NgxSliderModule,
+    ],
   exports: [
     HeaderComponent,
     SearchComponent,
     InputAddressComponent,
+    InputSkillComponent,
+    InputSkillLevelComponent,
+    InputSkillLevelRangeComponent
   ]
 })
 export class MainComponentsModule { }

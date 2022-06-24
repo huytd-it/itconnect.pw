@@ -1,0 +1,229 @@
+<div class="tw-shadow-sm tw-p-5">
+  <h2 class="!tw-mb-0">Tạo Việc Làm</h2>
+</div>
+<form class="tw-p-5" [formGroup]="form">
+  <div class="tw-flex tw-flex-wrap tw-gap-10">
+    <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px]">
+      <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
+        <div class="tw-flex tw-items-center">
+          <mat-icon>groups</mat-icon>
+          <span class="tw-ml-2">Vị trí</span>
+        </div>
+      </div>
+      <div class="tw-p-3">
+        <app-input-skill-level-range
+          [items]="form.controls[FormField.positions].value || []"
+          [loadMoreFn]="fetchDataPosition"
+          (onRemove)="onRemoveDataPosition($event)"
+          (onAdd)="onAddDataPosition($event)"
+          (onChange)="onChangeDataPosition($event)"
+        ></app-input-skill-level-range>
+      </div>
+    </div>
+
+    <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px]">
+      <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
+        <div class="tw-flex tw-items-center">
+          <mat-icon>hub</mat-icon>
+          <span class="tw-ml-2">Kỹ năng</span>
+        </div>
+      </div>
+      <div class="tw-p-3">
+        <app-input-skill-level-range
+          [items]="form.controls[FormField.skills].value || []"
+          [loadMoreFn]="fetchDataSkill"
+          (onRemove)="onRemoveDataSkill($event)"
+          (onAdd)="onAddDataSkill($event)"
+          (onChange)="onChangeDataSkill($event)"
+        ></app-input-skill-level-range>
+      </div>
+    </div>
+
+    <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px]">
+      <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
+        <div class="tw-flex tw-items-center">
+          <mat-icon>card_membership</mat-icon>
+          <span class="tw-ml-2">Văn bằng / Chứng chỉ</span>
+        </div>
+      </div>
+      <div class="tw-p-3">
+        <app-input-skill-level-range
+          [items]="form.controls[FormField.certificate].value || []"
+          [loadMoreFn]="fetchDataCertificate"
+          (onRemove)="onRemoveDataCertificate($event)"
+          (onAdd)="onAddDataCertificate($event)"
+          (onChange)="onChangeDataCertificate($event)"
+        ></app-input-skill-level-range>
+      </div>
+    </div>
+
+    <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px]">
+      <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
+        <div class="tw-flex tw-items-center">
+          <mat-icon>school</mat-icon>
+          <span class="tw-ml-2">Học vấn</span>
+        </div>
+      </div>
+      <div class="tw-p-3">
+        <app-input-skill-level-range
+          [items]="form.controls[FormField.school].value || []"
+          [loadMoreFn]="fetchDataSchool"
+          (onRemove)="onRemoveDataSchool($event)"
+          (onAdd)="onAddDataSchool($event)"
+          (onChange)="onChangeDataSchool($event)"
+        ></app-input-skill-level-range>
+      </div>
+    </div>
+
+    <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px]">
+      <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
+        <div class="tw-flex tw-items-center">
+          <mat-icon>hail</mat-icon>
+          <span class="tw-ml-2">Hình thức làm việc</span>
+        </div>
+      </div>
+      <div class="tw-p-3">
+        <app-input-skill
+          [items]="form.controls[FormField.workFrom].value || []"
+          [loadMoreFn]="fetchDataWorkFrom"
+          [hasAddTag]="false"
+          (onAdd)="onAddDataWorkFrom($event)"
+          (onRemove)="onRemoveDataWorkFrom($event)"
+        ></app-input-skill>
+      </div>
+    </div>
+
+
+    <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px]">
+      <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
+        <div class="tw-flex tw-items-center">
+          <mat-icon>psychology_alt</mat-icon>
+          <span class="tw-ml-2">Cấp độ nghề nghiệp</span>
+        </div>
+      </div>
+      <div class="tw-p-3">
+        <app-input-skill
+          [items]="form.controls[FormField.jobLevel].value || []"
+          [loadMoreFn]="fetchDataJobLevel"
+          [hasAddTag]="false"
+          (onAdd)="onAddDataJobLevel($event)"
+          (onRemove)="onRemoveDataJobLevel($event)"
+        ></app-input-skill>
+      </div>
+    </div>
+
+
+    <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px]">
+      <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
+        <div class="tw-flex tw-items-center">
+          <mat-icon>difference</mat-icon>
+          <span class="tw-ml-2">Yêu cầu khác</span>
+        </div>
+      </div>
+      <div class="tw-p-3">
+        <ng-select
+          #ngSelect
+          bindLabel="name"
+          placeholder="Năm kinh nghiệm"
+          [items]="yoeList"
+          [formControlName]="FormField.yoe"
+        ></ng-select>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="tw-flex-wrap tw-gap-3 tw-flex tw-items-start tw-mt-[40px] ">
+    <mat-form-field appearance="outline" class="tw-flex-1">
+      <mat-label>Tên công việc</mat-label>
+      <input matInput type="text" [formControlName]="FormField.name">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="tw-mb-3">
+      <mat-label>Ngày kết thúc nhận hồ sơ</mat-label>
+      <input matInput [matDatepicker]="picker" [formControlName]="FormField.dateEnd">
+      <mat-hint>DD/MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="isControlError(FormField.dateEnd, 'required')">
+        Ngày kết thúc nhận hồ sơ là bắt buộc
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <app-easy-select
+    #selectCompany
+    [label]="'Công ty'"
+    [loadMoreFn]="fetchDataCompanyTag"
+    [formControlName]="FormField.companyTag"
+    (addTag)="onAddCompanyTag($event)"
+    appendTo="body"
+  ></app-easy-select>
+
+  <app-input-address [formControlName]="FormField.address"></app-input-address>
+
+
+  <div class="tw-text-left">
+    <div class="tw-flex tw-flex-wrap tw-gap-3 tw-max-w-[500px]">
+      <div class="tw-flex-1">
+        <mat-form-field appearance="outline" class="tw-ml-1 tw-w-full">
+          <mat-label>Lương (từ)</mat-label>
+          <input matInput appNumberOnly [formControlName]="FormField.salaryFrom">
+          <mat-hint>{{ form.value[FormField.salaryFrom] | currency: 'VND' }}</mat-hint>
+        </mat-form-field>
+      </div>
+      <span class="tw-mt-[-16px] md:tw-mt-5 tw-w-full md:tw-w-auto tw-flex tw-items-center tw-justify-center md:tw-inline-block">
+        <fa-icon [icon]="faArrowRight" class="tw-hidden md:tw-inline-block"></fa-icon>
+        <fa-icon [icon]="faArrowDown" class="tw-inline-block md:tw-hidden"></fa-icon>
+      </span>
+      <div class="tw-flex-1">
+        <mat-form-field appearance="outline" class="tw-ml-1 tw-w-full">
+          <mat-label>Lương (đến)</mat-label>
+          <input matInput appNumberOnly [formControlName]="FormField.salaryTo">
+          <mat-hint>{{ form.value[FormField.salaryTo] | currency: 'VND' }}</mat-hint>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="tw-text-left tw-mt-10">
+      <div class="tw-mb-2 tw-m1-1">
+        Giới thiệu công việc
+      </div>
+      <app-editor-c1 [form]="form" [name]="FormField.Description"></app-editor-c1>
+    </div>
+
+    <div class="tw-text-left tw-mt-10">
+      <div class="tw-mb-2 tw-ml-1">
+        Yêu cầu & kinh nghiệm
+      </div>
+      <app-editor-c1 [form]="form" [name]="FormField.SkillExperience"></app-editor-c1>
+    </div>
+
+    <div class="tw-text-left tw-mt-10">
+      <div class="tw-mb-2 tw-ml-1">
+        Lý do chọn chúng tôi
+      </div>
+      <app-editor-c1 [form]="form" [name]="FormField.Reason"></app-editor-c1>
+    </div>
+
+    <div class="tw-mt-[50px] tw-flex tw-justify-center tw-pb-6">
+      <button
+        mat-stroked-button
+        class="!tw-mr-2"
+        type="button"
+      >
+        Reset
+      </button>
+      <button
+        mat-stroked-button
+        color="primary"
+        type="button"
+        [disabled]="form.invalid"
+      >
+        Đăng
+      </button>
+    </div>
+
+  </div>
+</form>
