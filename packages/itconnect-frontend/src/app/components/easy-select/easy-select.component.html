@@ -2,6 +2,9 @@
   #ngSelect
   appearance="outline"
   bindLabel="name"
+  [ngClass]="{
+    'fix-bottom': paddingBottomMin
+  }"
   [appendTo]="appendTo"
   [dropdownPosition]="dropdownPosition"
   [items]="items"

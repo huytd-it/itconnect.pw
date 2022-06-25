@@ -14,7 +14,7 @@ const routes: Routes = [
         loadChildren: () => import('./create/create.module').then(m => m.CreateModule),
         canActivate: [PermissionGuard],
         data: {
-          permission: AppPermission.POST_FEED
+          permission: AppPermission.JOB_CE
         }
       }
     ]

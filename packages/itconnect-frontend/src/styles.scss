@@ -122,6 +122,22 @@ ng-select {
     }
   }
 
+  &.ng-select-multiple {
+    &:not(.ng-select-opened) {
+      .ng-has-value {
+        .ng-input input {
+          width: 10px !important;
+        }
+      }
+    }
+    .ng-arrow-wrapper {
+      .ng-arrow {
+        position: absolute;
+        right: 0;
+      }
+    }
+  }
+
   .ng-value {
     margin-top: 6px;
   }
@@ -129,6 +145,13 @@ ng-select {
   .ng-input {
     padding-left: 16px;
     top: 24px
+  }
+
+  &.fix-bottom {
+    padding-bottom: 0.25rem !important;
+    > ng-dropdown-panel {
+      margin-top: 14px;
+    }
   }
 }
 

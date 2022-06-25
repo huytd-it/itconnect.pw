@@ -1,0 +1,19 @@
+<div class="tw-bg-white tw-shadow-sm">
+  <div class="tw-m-auto tw-max-w-[1200px] tw-flex">
+    <div class="tw-py-1 tw-px-2 tw-border-r">
+      <ng-select
+        #ngSelect
+        appearance="outline"
+        bindLabel="name"
+        class="fix-bottom tw-w-[100px]"
+        [items]="list"
+        [ngModel]="typeSelected"
+        [clearable]="false"
+        [searchable]="false"
+        (change)="onChange($event)"
+        required
+      ></ng-select>
+    </div>
+    <ng-content></ng-content>
+  </div>
+</div>

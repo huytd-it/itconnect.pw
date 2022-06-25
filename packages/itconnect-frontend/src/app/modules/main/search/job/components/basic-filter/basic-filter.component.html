@@ -1,0 +1,10 @@
+<div class="tw-py-1 tw-px-2 tw-flex tw-gap-3">
+  <div class="tw-w-auto">
+    <app-easy-select-checkbox
+      [loadMoreFn]="fetchDataCompanyTag"
+      [paddingBottomMin]="true"
+      [label]="'Công ty'"
+      (addTag)="onAddCompanyTag.emit($event)"
+    ></app-easy-select-checkbox>
+  </div>
+</div>

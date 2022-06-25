@@ -1,0 +1,53 @@
+<ng-select
+  #ngSelect
+  appearance="outline"
+  bindLabel="name"
+  [ngClass]="{
+    'fix-bottom': paddingBottomMin
+  }"
+  [appendTo]="appendTo"
+  [dropdownPosition]="dropdownPosition"
+  [items]="items"
+  [loading]="isLoading"
+  [placeholder]="label"
+  [multiple]="true"
+  [clearable]="false"
+  [closeOnSelect]="false"
+  [searchFn]="onSearchFn"
+  [disabled]="fDisabled"
+  [maxSelectedItems]="maxSelectedItems"
+  [addTagText]="addTagText"
+  [addTag]="isAddTag && funcAddTag()"
+  [ngModel]="itemSelected"
+  (ngModelChange)="onChange($event)"
+  (search)="onSearch($event)"
+  (scrollToEnd)="onScrollToEnd()"
+  (scroll)="onScroll($event)"
+  (open)="onOpen()"
+  (close)="onClose()"
+  (clear)="onClear()"
+  required
+>
+  <ng-template ng-multi-label-tmp let-items="items">
+    <div class="tw-max-w-[120px] tw-overflow-hidden tw-overflow-ellipsis tw-whitespace-nowrap">
+      <ng-container *ngFor="let d of items">
+        {{d.name}},
+      </ng-container>
+    </div>
+    <div class="
+      tw-bg-primaryColor tw-rounded-full tw-text-white tw-font-medium tw-w-[22px] tw-h-[22px]
+      tw-text-center tw-ml-2
+    ">
+      {{items.length}}
+    </div>
+  </ng-template>
+  <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+      <mat-checkbox
+        class="tw-pointer-events-none"
+        color="primary"
+        [ngModel]="item$.selected"
+      >
+        {{item.name}}
+      </mat-checkbox>
+  </ng-template>
+</ng-select>

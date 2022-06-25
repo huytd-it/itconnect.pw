@@ -25,6 +25,13 @@ export enum AppPermission {
   PROFILE_COMPUTE_YOE = 'profile_compute_yoe',
 
   /**
+   * User
+   *
+   */
+  PEOPLE = 'people',
+  PEOPLE_SEARCH = 'people_search',
+
+  /**
    * Post feed
    *
    */
@@ -56,6 +63,9 @@ export enum AppPermission {
    */
   JOB = 'job',
   JOB_CREATE = 'job_create',
+  JOB_CE = 'job_ce',
+  JOB_DELETE = 'job_delete',
+  JOB_SEARCH = 'job_search',
 
   /**
    * Permission

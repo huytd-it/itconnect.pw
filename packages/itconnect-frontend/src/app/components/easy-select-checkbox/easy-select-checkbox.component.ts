@@ -19,22 +19,21 @@ import {toNonAccentVietnamese} from "../../utils/common";
 import {NgSelectComponent} from "@ng-select/ng-select";
 
 @Component({
-  selector: 'app-easy-select',
-  templateUrl: './easy-select.component.html',
-  styleUrls: ['./easy-select.component.scss'],
+  selector: 'app-easy-select-checkbox',
+  templateUrl: './easy-select-checkbox.component.html',
+  styleUrls: ['./easy-select-checkbox.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => EasySelectComponent),
+      useExisting: forwardRef(() => EasySelectCheckboxComponent),
       multi: true
     }
   ]
 })
-export class EasySelectComponent implements OnInit, ControlValueAccessor, OnChanges, AfterViewInit {
+export class EasySelectCheckboxComponent implements OnInit, ControlValueAccessor, OnChanges, AfterViewInit {
   @ViewChild('ngSelect') ngSelect: NgSelectComponent;
   @Input() label: string;
   @Input() paddingBottomMin: boolean = false;
-  @Input() multiple: boolean
   @Input() required: boolean;
   @Input() fDisabled: boolean;
   @Input() autoFocus: boolean;
@@ -43,17 +42,17 @@ export class EasySelectComponent implements OnInit, ControlValueAccessor, OnChan
   @Input() appendTo: string;
   @Input() dropdownPosition: 'top' | 'right' | 'bottom' | 'left' | 'auto' = 'auto';
   @Input() loadMoreFn: (query: SearchPageOutput) => Observable<PageInput<any>>;
+  @Input() maxSelectedItems: number;
   @Output() addTag = new EventEmitter<string>();
   @Output() onBlur = new EventEmitter();
   @Output() onChangeE = new EventEmitter<OptionItem | OptionItem[]>();
 
-  itemSelected: OptionItem | OptionItem[];
-
+  itemSelected: OptionItem[];
   isLoading: boolean;
   searchText: string;
   pageData: PageInput<any> | undefined;
 
-  private onNgModelItemChange: (data: OptionItem | OptionItem[]) => void;
+  private onNgModelItemChange: (data: OptionItem[]) => void;
 
   get items() {
     return this.pageData?.data || [];
@@ -91,7 +90,7 @@ export class EasySelectComponent implements OnInit, ControlValueAccessor, OnChan
   registerOnTouched(fn: any): void {
   }
 
-  writeValue(obj: OptionItem | OptionItem[]): void {
+  writeValue(obj: OptionItem[]): void {
     this.itemSelected = obj;
   }
 
@@ -104,7 +103,7 @@ export class EasySelectComponent implements OnInit, ControlValueAccessor, OnChan
     }
   }
 
-  onChange(data: OptionItem | OptionItem[]) {
+  onChange(data: OptionItem[]) {
     this.itemSelected = data;
     this.onNgModelItemChange?.(data);
     this.onChangeE.emit(data);
@@ -163,12 +162,19 @@ export class EasySelectComponent implements OnInit, ControlValueAccessor, OnChan
         .subscribe(dataMore => {
           if (this.pageData) {
             this.pageData.meta = dataMore.meta;
-            this.pageData.data = this.pageData.data.concat(dataMore.data);
+            this.pageData.data = this.pageData.data.concat(
+              this.filterDataSelected(dataMore.data)
+            );
           } else {
             this.pageData = dataMore;
           }
         })
     }
+  }
+
+  filterDataSelected(data: any[]) {
+    const selectedIds = this.itemSelected?.map(item => item.id) || [];
+    return data.filter(item => !selectedIds.includes(item.id));
   }
 
   onOpen() {
@@ -187,7 +193,17 @@ export class EasySelectComponent implements OnInit, ControlValueAccessor, OnChan
 
   private resetLoad() {
     this.searchText = '';
-    this.pageData = undefined;
+
+    // save old selected in dropdown
+    this.pageData = {
+      data: (this.itemSelected || []) as any,
+      meta: {
+        page: 0,
+        take: 10,
+        hasNextPage: true
+      } as any
+    }
+
     this.fetchMore();
   }
 

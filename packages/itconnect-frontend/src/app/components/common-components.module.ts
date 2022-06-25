@@ -23,21 +23,24 @@ import {InputYearComponent} from "./input-year/input-year.component";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import {InputMonthYearComponent} from "./input-month-year/input-month-year.component";
+import {EasySelectCheckboxComponent} from "./easy-select-checkbox/easy-select-checkbox.component";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 @NgModule({
-  declarations: [
-    LogoComponent,
-    AvatarComponent,
-    MainContentComponent,
-    LineTextComponent,
-    FsLoadingComponent,
-    NotifyComponent,
-    EasySelectComponent,
-    EditorC1Component,
-    InputAmountVndComponent,
-    InputMonthYearComponent,
-    InputYearComponent,
-  ],
+    declarations: [
+        LogoComponent,
+        AvatarComponent,
+        MainContentComponent,
+        LineTextComponent,
+        FsLoadingComponent,
+        NotifyComponent,
+        EasySelectComponent,
+        EditorC1Component,
+        InputAmountVndComponent,
+        InputMonthYearComponent,
+        InputYearComponent,
+        EasySelectCheckboxComponent,
+    ],
   imports: [
     CommonModule,
     UtilsModule,
@@ -52,7 +55,8 @@ import {InputMonthYearComponent} from "./input-month-year/input-month-year.compo
     ReactiveFormsModule,
     QuillModule.forRoot(),
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatCheckboxModule
   ],
     exports: [
         MatButtonModule,
@@ -70,6 +74,7 @@ import {InputMonthYearComponent} from "./input-month-year/input-month-year.compo
         InputAmountVndComponent,
         InputYearComponent,
         InputMonthYearComponent,
+        EasySelectCheckboxComponent,
     ],
   providers: []
 })

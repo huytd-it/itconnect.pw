@@ -1,0 +1,37 @@
+<app-head-filter>
+  <div class="tw-flex tw-w-full">
+    <app-basic-filter
+      class="tw-flex-1"
+      [fetchDataCompanyTag]="fetchDataCompanyTag"
+      (onAddCompanyTag)="onAddCompanyTag($event)"
+    ></app-basic-filter>
+    <div class="tw-border-l tw-flex tw-items-center">
+      <button
+        mat-button
+        color="primary"
+        class="!tw-ml-2 tw-flex tw-items-center"
+        (click)="expandFilter = !expandFilter"
+      >
+        <span class="tw-mr-1">Thêm</span>
+        <mat-icon>more_horiz</mat-icon>
+      </button>
+    </div>
+  </div>
+</app-head-filter>
+
+<div class="tw-flex tw-justify-center tw-relative">
+  <div
+    class="tw-w-full tw-h-full tw-absolute tw-z-10 tw-bg-[#ccc] tw-bg-opacity-10"
+    *ngIf="expandFilter"
+    (click)="expandFilter = false"
+  ></div>
+  <div
+    class="tw-absolute tw-right-0 tw-bg-white tw-w-full md:tw-w-[400px] tw-h-full tw-shadow-xl tw-border-t tw-z-20"
+    *ngIf="expandFilter"
+  >
+    <app-full-filter></app-full-filter>
+  </div>
+  <div class="tw-m-3 tw-w-full tw-max-w-[1400px] tw-h-[calc(100vh-148px)] tw-bg-white">
+  </div>
+</div>
+

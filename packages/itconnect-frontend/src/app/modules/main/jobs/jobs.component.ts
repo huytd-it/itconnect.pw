@@ -31,20 +31,14 @@ export class JobsComponent implements OnInit {
       {
         name: "Tìm việc",
         class: 'icon-search',
-        link: 'search',
-        permission: AppPermission.JOB
+        link: '/u/search/job',
+        permission: AppPermission.JOB_SEARCH
       },
-      {
-        name: "Việc làm của tôi",
-        class: 'icon-job',
-        link: 'my',
-        permission: AppPermission.JOB
-      },
-      {
+        {
         name: "Tạo việc làm",
         class: 'icon-new-message',
         link: 'create',
-        permission: AppPermission.JOB_CREATE
+        permission: AppPermission.JOB_CE
       }
     ]
   }

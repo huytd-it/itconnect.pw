@@ -65,9 +65,13 @@ const routes: Routes = [
           permission: AppPermission.JOB
         }
       },
+      {
+        path: 'search',
+        loadChildren: () => import('./search/search.module').then(m => m.SearchModule)
+      },
       { path: '**', redirectTo: 'home' },
     ],
-  }
+  },
 ];
 
 @NgModule({
