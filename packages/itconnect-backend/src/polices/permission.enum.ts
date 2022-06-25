@@ -30,6 +30,13 @@ export enum AppPermission {
     PROFILE_COMPUTE_YOE = 'profile_compute_yoe',
 
     /**
+     * User
+     *
+     */
+    PEOPLE = 'people',
+    PEOPLE_SEARCH = 'people_search',
+
+    /**
      * Post feed
      *
      */
@@ -63,6 +70,7 @@ export enum AppPermission {
     JOB_CREATE = 'job_create',
     JOB_CE = 'job_ce',
     JOB_DELETE = 'job_delete',
+    JOB_SEARCH = 'job_search',
 
     /**
      * Permission
@@ -174,7 +182,6 @@ export enum AppPermission {
     CV_EDUCATION_DELETE = 'cv_education_delete',
     CV_EDUCATION_GET_OWNER = 'cv_education_get_owner',
     CV_EDUCATION_CE = 'cv_education_ce',
-
 }
 
 
@@ -209,10 +216,13 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.NOTIFICATION,
         AppPermission.PROFILE,
         AppPermission.MESSAGE,
+        AppPermission.PEOPLE,
+        AppPermission.PEOPLE_SEARCH,
         AppPermission.JOB,
         AppPermission.JOB_CREATE,
         AppPermission.JOB_CE,
         AppPermission.JOB_DELETE,
+        AppPermission.JOB_SEARCH,
         AppPermission.ADDRESS_SEARCH,
         AppPermission.SKILL_SEARCH,
         AppPermission.SKILL_CREATE_TAG,

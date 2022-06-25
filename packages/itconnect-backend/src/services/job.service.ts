@@ -1,7 +1,7 @@
 import {BadRequestException, ForbiddenException, Inject, Injectable, Logger, Request, Scope} from '@nestjs/common';
-import {JobCreateOrEditDto} from "../dtos/job.dto";
+import {JobCreateOrEditDto, JobSearchBodyInputDto, JobSearchQueryInputDto} from "../dtos/job.dto";
 import {JobEntity, JobStatus} from "../entities/job.entity";
-import {DataSource, DeepPartial, In, Not, Repository} from "typeorm";
+import {DataSource, DeepPartial, In, LessThanOrEqual, Like, MoreThanOrEqual, Not, Repository} from "typeorm";
 import {InjectRepository} from "@nestjs/typeorm";
 import {JobPositionEntity} from "../entities/jobPosition.entity";
 import {JobSkillEntity} from "../entities/jobSkill.entity";
@@ -9,13 +9,15 @@ import {JobSchoolEntity} from "../entities/jobSchool.entity";
 import {JobCertificateEntity} from "../entities/jobCertificate.entity";
 import {JobWorkFromEntity} from "../entities/jobWorkFrom.entity";
 import {JobJobLevelEntity} from "../entities/jobJobLevel.entity";
-import {Id} from "../utils/function";
+import {Id, queryExists} from "../utils/function";
 import {REQUEST} from "@nestjs/core";
 import {UserEntity} from "../entities/user.entity";
 import {AppRole} from "../polices/permission.enum";
 import {CompanyInfoEntity} from "../entities/companyInfo.entity";
 import {CompanyTagEntity} from "../entities/companyTag.entity";
 import {JobLevelEntity} from "../entities/jobLevel.entity";
+import {PageOptionsDto} from "../dtos/page.dto";
+import {SchoolEntity} from "../entities/school.entity";
 
 @Injectable({ scope: Scope.REQUEST })
 export class JobService {
@@ -35,6 +37,8 @@ export class JobService {
         private jobWorkFromRepository: Repository<JobWorkFromEntity>,
         @InjectRepository(JobJobLevelEntity)
         private jobJobLevelRepository: Repository<JobJobLevelEntity>,
+        @InjectRepository(SchoolEntity)
+        private schoolRepository: Repository<SchoolEntity>,
         @Inject(REQUEST) private request: Request,
         private dataSource: DataSource
     ) {
@@ -208,7 +212,7 @@ export class JobService {
                     data: data.jobWorkFrom
                 },
                 {
-                    target: JobLevelEntity,
+                    target: JobJobLevelEntity,
                     foreignKey: 'jobLevel',
                     data: data.jobJobLevels
                 }
@@ -223,6 +227,7 @@ export class JobService {
                 jobForeign = jobForeign.map(({name, ...item}) => {
                    return {...item, job: Id(id) };
                 });
+
                 // remove all
                 await queryRunner.manager.delete(config.target, {
                     job: Id(id)
@@ -264,5 +269,62 @@ export class JobService {
             delete job.user.password;
         }
         return job;
+    }
+
+    search(query: JobSearchQueryInputDto, body: JobSearchBodyInputDto, page: PageOptionsDto) {
+        const qr = this.jobRepository.createQueryBuilder('job');
+
+        // job level, map id
+        if (body.jobLevel?.length) {
+            const qrJobJobLevel = this.jobJobLevelRepository.createQueryBuilder('jobJobLevel');
+            qrJobJobLevel.select('jobJobLevel.id')
+            qrJobJobLevel.where('jobJobLevel.jobId = job.id');
+            qrJobJobLevel.andWhere({
+                // or where
+                jobLevel: In(body.jobLevel)
+            });
+            // qr.andWhere(`exists (${qrJobJobLevel.getQuery()})`, qrJobJobLevel.getParameters());
+            queryExists(qr, qrJobJobLevel);
+        }
+
+        // work from, map id
+        if (body.workFrom?.length) {
+            const qrJobWorkFrom = this.jobWorkFromRepository.createQueryBuilder('jobWorkFrom');
+            qrJobWorkFrom.select('jobWorkFrom.id')
+            qrJobWorkFrom.where('jobWorkFrom.jobId = job.id');
+            qrJobWorkFrom.andWhere({
+                // or where
+                workFrom: In(body.workFrom)
+            });
+            queryExists(qr, qrJobWorkFrom);
+        }
+
+        // school, map text
+        if (body.school?.length) {
+            const keyword = body.school.map(search => ({
+                name: Like(`%${search}%`)
+            }));
+            const qrSchool = this.schoolRepository.createQueryBuilder('school');
+            qrSchool.select('school.id');
+            qrSchool.where('jobSchool.schoolId = school.id');
+            qrSchool.andWhere(keyword);
+
+            const qrJobSchool =  this.jobSchoolRepository.createQueryBuilder('jobSchool');
+            qrJobSchool.select('jobSchool.id');
+            qrJobSchool.where('jobSchool.jobId = job.id')
+            queryExists(qrJobSchool, qrSchool);
+            queryExists(qr, qrJobSchool);
+        }
+
+        // yoe
+        if (body.yoe) {
+            qr.andWhere({
+                yoe: MoreThanOrEqual(body.yoe)
+            })
+        }
+
+        console.log(qr.getQuery(), qr.getParameters());
+
+        return qr.getMany();
     }
 }

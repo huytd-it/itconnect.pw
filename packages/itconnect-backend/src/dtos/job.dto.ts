@@ -5,7 +5,7 @@ import {
     IsIn,
     IsInt,
     IsNotEmpty,
-    IsOptional,
+    IsOptional, IsString,
     Max, MaxLength,
     Min, MinDate,
     MinLength,
@@ -365,4 +365,40 @@ export class JobCreateOrEditQueryDto {
     @ApiPropertyOptional()
     @IsOptional()
     saveDraft: boolean;
+}
+
+export class JobSearchQueryInputDto {
+    @ApiPropertyOptional()
+    @IsOptional()
+    search: string;
+}
+
+export class JobSearchBodyInputDto {
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsInt()
+    @Min(1)
+    @Max(10)
+    yoe: number;
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsArray()
+    @IsInt({ each: true })
+    jobLevel: number[];
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsArray()
+    @IsInt({ each: true })
+    workFrom: number[];
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsArray()
+    @ArrayMaxSize(10)
+    @IsString({ each: true })
+    @MinLength(1, { each: true })
+    @MaxLength(255, { each: true })
+    school: string[];
 }
