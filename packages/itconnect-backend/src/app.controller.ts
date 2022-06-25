@@ -6,7 +6,9 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  main(): string {
-    throw new ForbiddenException()
+  main() {
+    return {
+      status: true
+    }
   }
 }

@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class mg1656063402961 implements MigrationInterface {
-    name = 'mg1656063402961'
+export class mg1656148522836 implements MigrationInterface {
+    name = 'mg1656148522836'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE \`address_entity\` (\`id\` int NOT NULL AUTO_INCREMENT, \`name\` varchar(255) NOT NULL, \`type\` int NOT NULL, \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deletedAt\` datetime(6) NULL, \`parentId\` int NULL, INDEX \`IDX_39d5f5d0d49f93a617b13b61fe\` (\`type\`), UNIQUE INDEX \`IDX_bb6ca3fd9ceb44a47859a43869\` (\`name\`, \`type\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
@@ -13,7 +13,6 @@ export class mg1656063402961 implements MigrationInterface {
         await queryRunner.query(`CREATE TABLE \`position_entity\` (\`id\` int NOT NULL AUTO_INCREMENT, \`name\` varchar(255) NOT NULL, \`isApprove\` tinyint NOT NULL DEFAULT 0, \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deletedAt\` datetime(6) NULL, INDEX \`IDX_098b1083dce9328b1fbc89fe66\` (\`isApprove\`), UNIQUE INDEX \`IDX_5aa970b42f0a6ce72351658bd2\` (\`name\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`cv_work_experience_position_entity\` (\`id\` int NOT NULL AUTO_INCREMENT, \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deletedAt\` datetime(6) NULL, \`cvWorkExperienceId\` int NULL, \`positionId\` int NULL, UNIQUE INDEX \`IDX_edea0cf6b6e524794e2324de90\` (\`cvWorkExperienceId\`, \`positionId\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`user_tagged_company_tag_entity\` (\`id\` int NOT NULL AUTO_INCREMENT, \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deletedAt\` datetime(6) NULL, \`userId\` int NULL, \`companyTagId\` int NULL, UNIQUE INDEX \`IDX_fdb82033eaa6d2f4cf7a44bbd3\` (\`companyTagId\`, \`userId\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`company_info_entity\` (\`id\` int NOT NULL AUTO_INCREMENT, \`addressStreet\` varchar(255) NOT NULL, \`phone\` varchar(255) NOT NULL, \`companyName\` varchar(255) NOT NULL, \`dayEstablish\` datetime NOT NULL, \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deletedAt\` datetime(6) NULL, \`userId\` int NULL, \`addressProvinceId\` int NULL, \`addressDistrictId\` int NULL, \`addressVillageId\` int NULL, UNIQUE INDEX \`REL_bbd7576066b053fc16f76617e0\` (\`userId\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`company_tag_entity\` (\`id\` int NOT NULL AUTO_INCREMENT, \`name\` varchar(255) NOT NULL, \`isApprove\` tinyint NOT NULL DEFAULT 0, \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deletedAt\` datetime(6) NULL, \`companyInfoId\` int NULL, INDEX \`IDX_6b90e9608014c63667263159ca\` (\`isApprove\`), UNIQUE INDEX \`IDX_3a8a95361d972896b371bf6ca6\` (\`name\`), UNIQUE INDEX \`REL_0abbd4350f976aabf730c5ba4c\` (\`companyInfoId\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`cv_work_experience_entity\` (\`id\` int NOT NULL AUTO_INCREMENT, \`startDate\` datetime NOT NULL, \`endDate\` datetime NULL, \`content\` text NULL, \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deletedAt\` datetime(6) NULL, \`companyTagId\` int NULL, \`jobLevelId\` int NULL, \`workFromId\` int NULL, \`userId\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`cv_work_experience_skill_entity\` (\`id\` int NOT NULL AUTO_INCREMENT, \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deletedAt\` datetime(6) NULL, \`cvWorkExperienceId\` int NULL, \`skillId\` int NULL, UNIQUE INDEX \`IDX_8c99e8dfb3daee272748878669\` (\`cvWorkExperienceId\`, \`skillId\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
@@ -28,17 +27,18 @@ export class mg1656063402961 implements MigrationInterface {
         await queryRunner.query(`CREATE TABLE \`cv_activities_entity\` (\`id\` int NOT NULL AUTO_INCREMENT, \`name\` varchar(255) NOT NULL, \`role\` varchar(255) NOT NULL, \`content\` text NOT NULL, \`startDate\` datetime NOT NULL, \`endDate\` datetime NOT NULL, \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deletedAt\` datetime(6) NULL, \`userId\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`cv_honors_awards_entity\` (\`id\` int NOT NULL AUTO_INCREMENT, \`content\` text NOT NULL, \`date\` datetime NOT NULL, \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deletedAt\` datetime(6) NULL, \`userId\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`cv_certificate_entity\` (\`id\` int NOT NULL AUTO_INCREMENT, \`year\` int NOT NULL, \`content\` text NULL, \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deletedAt\` datetime(6) NULL, \`certificateId\` int NULL, \`userId\` int NULL, UNIQUE INDEX \`IDX_17047910dd948275a7fbaec3ff\` (\`userId\`, \`certificateId\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`user_entity\` (\`id\` int NOT NULL AUTO_INCREMENT, \`email\` varchar(255) NOT NULL, \`password\` varchar(255) NOT NULL, \`role\` varchar(255) NOT NULL DEFAULT 'begin', \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deletedAt\` datetime(6) NULL, INDEX \`IDX_415c35b9b3b6fe45a3b065030f\` (\`email\`), INDEX \`IDX_158f20832b16ead19dcd50c743\` (\`role\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`user_certificate_entity\` (\`id\` int NOT NULL AUTO_INCREMENT, \`level\` int NOT NULL DEFAULT '1', \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deletedAt\` datetime(6) NULL, \`userId\` int NULL, \`certificateId\` int NULL, UNIQUE INDEX \`IDX_88a1485872bf594d91855aaf99\` (\`userId\`, \`certificateId\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`user_tagged_certificate_entity\` (\`id\` int NOT NULL AUTO_INCREMENT, \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deletedAt\` datetime(6) NULL, \`userId\` int NULL, \`certificateId\` int NULL, UNIQUE INDEX \`IDX_137366505dda765a2502e46f2f\` (\`userId\`, \`certificateId\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`certificate_entity\` (\`id\` int NOT NULL AUTO_INCREMENT, \`name\` varchar(255) NOT NULL, \`isApprove\` tinyint NOT NULL DEFAULT 0, \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deletedAt\` datetime(6) NULL, INDEX \`IDX_f181a76457aa6dd62fd6b99c72\` (\`isApprove\`), UNIQUE INDEX \`IDX_ee4950f4e4c1764b45288bd631\` (\`name\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
+        await queryRunner.query(`CREATE TABLE \`user_certificate_entity\` (\`id\` int NOT NULL AUTO_INCREMENT, \`level\` int NOT NULL DEFAULT '1', \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deletedAt\` datetime(6) NULL, \`userId\` int NULL, \`certificateId\` int NULL, UNIQUE INDEX \`IDX_88a1485872bf594d91855aaf99\` (\`userId\`, \`certificateId\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
+        await queryRunner.query(`CREATE TABLE \`user_entity\` (\`id\` int NOT NULL AUTO_INCREMENT, \`email\` varchar(255) NOT NULL, \`password\` varchar(255) NOT NULL, \`role\` varchar(255) NOT NULL DEFAULT 'begin', \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deletedAt\` datetime(6) NULL, INDEX \`IDX_415c35b9b3b6fe45a3b065030f\` (\`email\`), INDEX \`IDX_158f20832b16ead19dcd50c743\` (\`role\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
+        await queryRunner.query(`CREATE TABLE \`company_info_entity\` (\`id\` int NOT NULL AUTO_INCREMENT, \`addressStreet\` varchar(255) NOT NULL, \`phone\` varchar(255) NOT NULL, \`companyName\` varchar(255) NOT NULL, \`dayEstablish\` datetime NOT NULL, \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deletedAt\` datetime(6) NULL, \`userId\` int NULL, \`addressProvinceId\` int NULL, \`addressDistrictId\` int NULL, \`addressVillageId\` int NULL, UNIQUE INDEX \`REL_bbd7576066b053fc16f76617e0\` (\`userId\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`job_position_entity\` (\`id\` int NOT NULL AUTO_INCREMENT, \`levelMin\` int NOT NULL DEFAULT '1', \`levelMax\` int NOT NULL DEFAULT '10', \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deletedAt\` datetime(6) NULL, \`jobId\` int NULL, \`positionId\` int NULL, UNIQUE INDEX \`IDX_7405bb9f695d402ca4ec626dbe\` (\`positionId\`, \`jobId\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`job_skill_entity\` (\`id\` int NOT NULL AUTO_INCREMENT, \`levelMin\` int NOT NULL DEFAULT '1', \`levelMax\` int NOT NULL DEFAULT '10', \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deletedAt\` datetime(6) NULL, \`jobId\` int NULL, \`skillId\` int NULL, UNIQUE INDEX \`IDX_c6de5a25fc41035a07621a0c4c\` (\`skillId\`, \`jobId\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`job_certificate_entity\` (\`id\` int NOT NULL AUTO_INCREMENT, \`levelMin\` int NOT NULL DEFAULT '1', \`levelMax\` int NOT NULL DEFAULT '10', \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deletedAt\` datetime(6) NULL, \`jobId\` int NULL, \`certificateId\` int NULL, UNIQUE INDEX \`IDX_bbe5a7d3d0cad0f881e44b1b1b\` (\`certificateId\`, \`jobId\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`job_school_entity\` (\`id\` int NOT NULL AUTO_INCREMENT, \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deletedAt\` datetime(6) NULL, \`jobId\` int NULL, \`schoolId\` int NULL, UNIQUE INDEX \`IDX_1809ecb64455fb2a512419fb9e\` (\`schoolId\`, \`jobId\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`job_work_from_entity\` (\`id\` int NOT NULL AUTO_INCREMENT, \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deletedAt\` datetime(6) NULL, \`jobId\` int NULL, \`workFromId\` int NULL, UNIQUE INDEX \`IDX_bda60d0d004350f56667d8f4bf\` (\`workFromId\`, \`jobId\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`job_job_level_entity\` (\`id\` int NOT NULL AUTO_INCREMENT, \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deletedAt\` datetime(6) NULL, \`jobId\` int NULL, \`jobLevelId\` int NULL, UNIQUE INDEX \`IDX_84d28c725e0f8845014442498e\` (\`jobLevelId\`, \`jobId\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`job_entity\` (\`id\` int NOT NULL AUTO_INCREMENT, \`addressStreet\` varchar(255) NOT NULL, \`salaryMin\` int NULL, \`salaryMax\` int NULL, \`name\` varchar(255) NOT NULL, \`endDate\` datetime NOT NULL, \`descriptionContent\` varchar(255) NOT NULL, \`requirementContent\` varchar(255) NOT NULL, \`reasonContent\` varchar(255) NULL, \`status\` int NOT NULL, \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deletedAt\` datetime(6) NULL, \`userId\` int NULL, \`addressProvinceId\` int NULL, \`addressDistrictId\` int NULL, \`addressVillageId\` int NULL, \`companyTagId\` int NULL, UNIQUE INDEX \`REL_41535e84680fcc7f28198e6afe\` (\`userId\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
+        await queryRunner.query(`CREATE TABLE \`job_entity\` (\`id\` int NOT NULL AUTO_INCREMENT, \`addressStreet\` varchar(255) NOT NULL, \`salaryMin\` int NULL, \`salaryMax\` int NULL, \`yoe\` int NULL, \`name\` varchar(255) NOT NULL, \`endDate\` datetime NOT NULL, \`descriptionContent\` text NOT NULL, \`requirementContent\` text NOT NULL, \`reasonContent\` text NULL, \`status\` int NOT NULL, \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deletedAt\` datetime(6) NULL, \`userId\` int NULL, \`addressProvinceId\` int NULL, \`addressDistrictId\` int NULL, \`addressVillageId\` int NULL, \`companyTagId\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
+        await queryRunner.query(`CREATE TABLE \`job_certificate_entity\` (\`id\` int NOT NULL AUTO_INCREMENT, \`levelMin\` int NOT NULL DEFAULT '1', \`levelMax\` int NOT NULL DEFAULT '10', \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deletedAt\` datetime(6) NULL, \`jobId\` int NULL, \`certificateId\` int NULL, UNIQUE INDEX \`IDX_bbe5a7d3d0cad0f881e44b1b1b\` (\`certificateId\`, \`jobId\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`ALTER TABLE \`address_entity\` ADD CONSTRAINT \`FK_d96e5f9914d0f80c787b8da289b\` FOREIGN KEY (\`parentId\`) REFERENCES \`address_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`user_info_entity\` ADD CONSTRAINT \`FK_9c391e2018f807b6843cdee35ca\` FOREIGN KEY (\`userId\`) REFERENCES \`user_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`user_info_entity\` ADD CONSTRAINT \`FK_165d4ff9dcabc15def46ffa8c20\` FOREIGN KEY (\`addressProvinceId\`) REFERENCES \`address_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
@@ -53,10 +53,6 @@ export class mg1656063402961 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE \`cv_work_experience_position_entity\` ADD CONSTRAINT \`FK_88e7580f6462c6b098083daeba1\` FOREIGN KEY (\`positionId\`) REFERENCES \`position_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`user_tagged_company_tag_entity\` ADD CONSTRAINT \`FK_5cb06862a9b92d9f8639209d162\` FOREIGN KEY (\`userId\`) REFERENCES \`user_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`user_tagged_company_tag_entity\` ADD CONSTRAINT \`FK_d0f523287bb6a13d53905962391\` FOREIGN KEY (\`companyTagId\`) REFERENCES \`company_tag_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`company_info_entity\` ADD CONSTRAINT \`FK_bbd7576066b053fc16f76617e00\` FOREIGN KEY (\`userId\`) REFERENCES \`user_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`company_info_entity\` ADD CONSTRAINT \`FK_5e416a6fdc03f66de9b51d6e96a\` FOREIGN KEY (\`addressProvinceId\`) REFERENCES \`address_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`company_info_entity\` ADD CONSTRAINT \`FK_a30325f01e55247deb78498649a\` FOREIGN KEY (\`addressDistrictId\`) REFERENCES \`address_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`company_info_entity\` ADD CONSTRAINT \`FK_e23e7775e939d1ae14b4e7ee473\` FOREIGN KEY (\`addressVillageId\`) REFERENCES \`address_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`company_tag_entity\` ADD CONSTRAINT \`FK_0abbd4350f976aabf730c5ba4c7\` FOREIGN KEY (\`companyInfoId\`) REFERENCES \`company_info_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`cv_work_experience_entity\` ADD CONSTRAINT \`FK_5c10cf491690ed4d710718060b3\` FOREIGN KEY (\`companyTagId\`) REFERENCES \`company_tag_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`cv_work_experience_entity\` ADD CONSTRAINT \`FK_1b3900fd8753c2ca7f5daaf0afd\` FOREIGN KEY (\`jobLevelId\`) REFERENCES \`job_level_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
@@ -79,16 +75,18 @@ export class mg1656063402961 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE \`cv_honors_awards_entity\` ADD CONSTRAINT \`FK_7652c87043fce32940a34c20153\` FOREIGN KEY (\`userId\`) REFERENCES \`user_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`cv_certificate_entity\` ADD CONSTRAINT \`FK_02fcbe5517ce42bbf470ab1d7ae\` FOREIGN KEY (\`certificateId\`) REFERENCES \`certificate_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`cv_certificate_entity\` ADD CONSTRAINT \`FK_7ace3a698f0341fa84d6558e828\` FOREIGN KEY (\`userId\`) REFERENCES \`user_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`user_certificate_entity\` ADD CONSTRAINT \`FK_789640cfc0373a2d3442c1c5bbf\` FOREIGN KEY (\`userId\`) REFERENCES \`user_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`user_certificate_entity\` ADD CONSTRAINT \`FK_cbcff6bccb35fe0a22d56c88b5d\` FOREIGN KEY (\`certificateId\`) REFERENCES \`certificate_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`user_tagged_certificate_entity\` ADD CONSTRAINT \`FK_48c0503ac7bbf1d96d26fb9c356\` FOREIGN KEY (\`userId\`) REFERENCES \`user_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`user_tagged_certificate_entity\` ADD CONSTRAINT \`FK_c312553cc0e1a4328d69eb4d449\` FOREIGN KEY (\`certificateId\`) REFERENCES \`certificate_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE \`user_certificate_entity\` ADD CONSTRAINT \`FK_789640cfc0373a2d3442c1c5bbf\` FOREIGN KEY (\`userId\`) REFERENCES \`user_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE \`user_certificate_entity\` ADD CONSTRAINT \`FK_cbcff6bccb35fe0a22d56c88b5d\` FOREIGN KEY (\`certificateId\`) REFERENCES \`certificate_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE \`company_info_entity\` ADD CONSTRAINT \`FK_bbd7576066b053fc16f76617e00\` FOREIGN KEY (\`userId\`) REFERENCES \`user_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE \`company_info_entity\` ADD CONSTRAINT \`FK_5e416a6fdc03f66de9b51d6e96a\` FOREIGN KEY (\`addressProvinceId\`) REFERENCES \`address_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE \`company_info_entity\` ADD CONSTRAINT \`FK_a30325f01e55247deb78498649a\` FOREIGN KEY (\`addressDistrictId\`) REFERENCES \`address_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE \`company_info_entity\` ADD CONSTRAINT \`FK_e23e7775e939d1ae14b4e7ee473\` FOREIGN KEY (\`addressVillageId\`) REFERENCES \`address_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`job_position_entity\` ADD CONSTRAINT \`FK_14b89fc9363ab5e7a24d3cbf68d\` FOREIGN KEY (\`jobId\`) REFERENCES \`job_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`job_position_entity\` ADD CONSTRAINT \`FK_0d6c53d3773e6fc2bc58f5d8ee6\` FOREIGN KEY (\`positionId\`) REFERENCES \`position_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`job_skill_entity\` ADD CONSTRAINT \`FK_0ccb9640a99a5a1b1ef61a7a9c8\` FOREIGN KEY (\`jobId\`) REFERENCES \`job_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`job_skill_entity\` ADD CONSTRAINT \`FK_123bc46f5a98eaad8e083f655eb\` FOREIGN KEY (\`skillId\`) REFERENCES \`skill_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`job_certificate_entity\` ADD CONSTRAINT \`FK_c7e7454d57196a0a45ef7f831b3\` FOREIGN KEY (\`jobId\`) REFERENCES \`job_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`job_certificate_entity\` ADD CONSTRAINT \`FK_cc2fa255984afb0caf06adb894b\` FOREIGN KEY (\`certificateId\`) REFERENCES \`certificate_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`job_school_entity\` ADD CONSTRAINT \`FK_0ba090486bdf94172c9c311c48e\` FOREIGN KEY (\`jobId\`) REFERENCES \`job_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`job_school_entity\` ADD CONSTRAINT \`FK_042c92168187e89aefc533970ed\` FOREIGN KEY (\`schoolId\`) REFERENCES \`school_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`job_work_from_entity\` ADD CONSTRAINT \`FK_6dd9110f27148afbb255670dc85\` FOREIGN KEY (\`jobId\`) REFERENCES \`job_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
@@ -100,9 +98,13 @@ export class mg1656063402961 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE \`job_entity\` ADD CONSTRAINT \`FK_1e0e53f3416a441f10bd24d1911\` FOREIGN KEY (\`addressDistrictId\`) REFERENCES \`address_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`job_entity\` ADD CONSTRAINT \`FK_18361f42e9acfaa020b6b6a0605\` FOREIGN KEY (\`addressVillageId\`) REFERENCES \`address_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`job_entity\` ADD CONSTRAINT \`FK_8467a42b34d3812298311ba0a4b\` FOREIGN KEY (\`companyTagId\`) REFERENCES \`company_tag_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE \`job_certificate_entity\` ADD CONSTRAINT \`FK_c7e7454d57196a0a45ef7f831b3\` FOREIGN KEY (\`jobId\`) REFERENCES \`job_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE \`job_certificate_entity\` ADD CONSTRAINT \`FK_cc2fa255984afb0caf06adb894b\` FOREIGN KEY (\`certificateId\`) REFERENCES \`certificate_entity\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.query(`ALTER TABLE \`job_certificate_entity\` DROP FOREIGN KEY \`FK_cc2fa255984afb0caf06adb894b\``);
+        await queryRunner.query(`ALTER TABLE \`job_certificate_entity\` DROP FOREIGN KEY \`FK_c7e7454d57196a0a45ef7f831b3\``);
         await queryRunner.query(`ALTER TABLE \`job_entity\` DROP FOREIGN KEY \`FK_8467a42b34d3812298311ba0a4b\``);
         await queryRunner.query(`ALTER TABLE \`job_entity\` DROP FOREIGN KEY \`FK_18361f42e9acfaa020b6b6a0605\``);
         await queryRunner.query(`ALTER TABLE \`job_entity\` DROP FOREIGN KEY \`FK_1e0e53f3416a441f10bd24d1911\``);
@@ -114,16 +116,18 @@ export class mg1656063402961 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE \`job_work_from_entity\` DROP FOREIGN KEY \`FK_6dd9110f27148afbb255670dc85\``);
         await queryRunner.query(`ALTER TABLE \`job_school_entity\` DROP FOREIGN KEY \`FK_042c92168187e89aefc533970ed\``);
         await queryRunner.query(`ALTER TABLE \`job_school_entity\` DROP FOREIGN KEY \`FK_0ba090486bdf94172c9c311c48e\``);
-        await queryRunner.query(`ALTER TABLE \`job_certificate_entity\` DROP FOREIGN KEY \`FK_cc2fa255984afb0caf06adb894b\``);
-        await queryRunner.query(`ALTER TABLE \`job_certificate_entity\` DROP FOREIGN KEY \`FK_c7e7454d57196a0a45ef7f831b3\``);
         await queryRunner.query(`ALTER TABLE \`job_skill_entity\` DROP FOREIGN KEY \`FK_123bc46f5a98eaad8e083f655eb\``);
         await queryRunner.query(`ALTER TABLE \`job_skill_entity\` DROP FOREIGN KEY \`FK_0ccb9640a99a5a1b1ef61a7a9c8\``);
         await queryRunner.query(`ALTER TABLE \`job_position_entity\` DROP FOREIGN KEY \`FK_0d6c53d3773e6fc2bc58f5d8ee6\``);
         await queryRunner.query(`ALTER TABLE \`job_position_entity\` DROP FOREIGN KEY \`FK_14b89fc9363ab5e7a24d3cbf68d\``);
-        await queryRunner.query(`ALTER TABLE \`user_tagged_certificate_entity\` DROP FOREIGN KEY \`FK_c312553cc0e1a4328d69eb4d449\``);
-        await queryRunner.query(`ALTER TABLE \`user_tagged_certificate_entity\` DROP FOREIGN KEY \`FK_48c0503ac7bbf1d96d26fb9c356\``);
+        await queryRunner.query(`ALTER TABLE \`company_info_entity\` DROP FOREIGN KEY \`FK_e23e7775e939d1ae14b4e7ee473\``);
+        await queryRunner.query(`ALTER TABLE \`company_info_entity\` DROP FOREIGN KEY \`FK_a30325f01e55247deb78498649a\``);
+        await queryRunner.query(`ALTER TABLE \`company_info_entity\` DROP FOREIGN KEY \`FK_5e416a6fdc03f66de9b51d6e96a\``);
+        await queryRunner.query(`ALTER TABLE \`company_info_entity\` DROP FOREIGN KEY \`FK_bbd7576066b053fc16f76617e00\``);
         await queryRunner.query(`ALTER TABLE \`user_certificate_entity\` DROP FOREIGN KEY \`FK_cbcff6bccb35fe0a22d56c88b5d\``);
         await queryRunner.query(`ALTER TABLE \`user_certificate_entity\` DROP FOREIGN KEY \`FK_789640cfc0373a2d3442c1c5bbf\``);
+        await queryRunner.query(`ALTER TABLE \`user_tagged_certificate_entity\` DROP FOREIGN KEY \`FK_c312553cc0e1a4328d69eb4d449\``);
+        await queryRunner.query(`ALTER TABLE \`user_tagged_certificate_entity\` DROP FOREIGN KEY \`FK_48c0503ac7bbf1d96d26fb9c356\``);
         await queryRunner.query(`ALTER TABLE \`cv_certificate_entity\` DROP FOREIGN KEY \`FK_7ace3a698f0341fa84d6558e828\``);
         await queryRunner.query(`ALTER TABLE \`cv_certificate_entity\` DROP FOREIGN KEY \`FK_02fcbe5517ce42bbf470ab1d7ae\``);
         await queryRunner.query(`ALTER TABLE \`cv_honors_awards_entity\` DROP FOREIGN KEY \`FK_7652c87043fce32940a34c20153\``);
@@ -146,10 +150,6 @@ export class mg1656063402961 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE \`cv_work_experience_entity\` DROP FOREIGN KEY \`FK_1b3900fd8753c2ca7f5daaf0afd\``);
         await queryRunner.query(`ALTER TABLE \`cv_work_experience_entity\` DROP FOREIGN KEY \`FK_5c10cf491690ed4d710718060b3\``);
         await queryRunner.query(`ALTER TABLE \`company_tag_entity\` DROP FOREIGN KEY \`FK_0abbd4350f976aabf730c5ba4c7\``);
-        await queryRunner.query(`ALTER TABLE \`company_info_entity\` DROP FOREIGN KEY \`FK_e23e7775e939d1ae14b4e7ee473\``);
-        await queryRunner.query(`ALTER TABLE \`company_info_entity\` DROP FOREIGN KEY \`FK_a30325f01e55247deb78498649a\``);
-        await queryRunner.query(`ALTER TABLE \`company_info_entity\` DROP FOREIGN KEY \`FK_5e416a6fdc03f66de9b51d6e96a\``);
-        await queryRunner.query(`ALTER TABLE \`company_info_entity\` DROP FOREIGN KEY \`FK_bbd7576066b053fc16f76617e00\``);
         await queryRunner.query(`ALTER TABLE \`user_tagged_company_tag_entity\` DROP FOREIGN KEY \`FK_d0f523287bb6a13d53905962391\``);
         await queryRunner.query(`ALTER TABLE \`user_tagged_company_tag_entity\` DROP FOREIGN KEY \`FK_5cb06862a9b92d9f8639209d162\``);
         await queryRunner.query(`ALTER TABLE \`cv_work_experience_position_entity\` DROP FOREIGN KEY \`FK_88e7580f6462c6b098083daeba1\``);
@@ -164,7 +164,8 @@ export class mg1656063402961 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE \`user_info_entity\` DROP FOREIGN KEY \`FK_165d4ff9dcabc15def46ffa8c20\``);
         await queryRunner.query(`ALTER TABLE \`user_info_entity\` DROP FOREIGN KEY \`FK_9c391e2018f807b6843cdee35ca\``);
         await queryRunner.query(`ALTER TABLE \`address_entity\` DROP FOREIGN KEY \`FK_d96e5f9914d0f80c787b8da289b\``);
-        await queryRunner.query(`DROP INDEX \`REL_41535e84680fcc7f28198e6afe\` ON \`job_entity\``);
+        await queryRunner.query(`DROP INDEX \`IDX_bbe5a7d3d0cad0f881e44b1b1b\` ON \`job_certificate_entity\``);
+        await queryRunner.query(`DROP TABLE \`job_certificate_entity\``);
         await queryRunner.query(`DROP TABLE \`job_entity\``);
         await queryRunner.query(`DROP INDEX \`IDX_84d28c725e0f8845014442498e\` ON \`job_job_level_entity\``);
         await queryRunner.query(`DROP TABLE \`job_job_level_entity\``);
@@ -172,22 +173,22 @@ export class mg1656063402961 implements MigrationInterface {
         await queryRunner.query(`DROP TABLE \`job_work_from_entity\``);
         await queryRunner.query(`DROP INDEX \`IDX_1809ecb64455fb2a512419fb9e\` ON \`job_school_entity\``);
         await queryRunner.query(`DROP TABLE \`job_school_entity\``);
-        await queryRunner.query(`DROP INDEX \`IDX_bbe5a7d3d0cad0f881e44b1b1b\` ON \`job_certificate_entity\``);
-        await queryRunner.query(`DROP TABLE \`job_certificate_entity\``);
         await queryRunner.query(`DROP INDEX \`IDX_c6de5a25fc41035a07621a0c4c\` ON \`job_skill_entity\``);
         await queryRunner.query(`DROP TABLE \`job_skill_entity\``);
         await queryRunner.query(`DROP INDEX \`IDX_7405bb9f695d402ca4ec626dbe\` ON \`job_position_entity\``);
         await queryRunner.query(`DROP TABLE \`job_position_entity\``);
+        await queryRunner.query(`DROP INDEX \`REL_bbd7576066b053fc16f76617e0\` ON \`company_info_entity\``);
+        await queryRunner.query(`DROP TABLE \`company_info_entity\``);
+        await queryRunner.query(`DROP INDEX \`IDX_158f20832b16ead19dcd50c743\` ON \`user_entity\``);
+        await queryRunner.query(`DROP INDEX \`IDX_415c35b9b3b6fe45a3b065030f\` ON \`user_entity\``);
+        await queryRunner.query(`DROP TABLE \`user_entity\``);
+        await queryRunner.query(`DROP INDEX \`IDX_88a1485872bf594d91855aaf99\` ON \`user_certificate_entity\``);
+        await queryRunner.query(`DROP TABLE \`user_certificate_entity\``);
         await queryRunner.query(`DROP INDEX \`IDX_ee4950f4e4c1764b45288bd631\` ON \`certificate_entity\``);
         await queryRunner.query(`DROP INDEX \`IDX_f181a76457aa6dd62fd6b99c72\` ON \`certificate_entity\``);
         await queryRunner.query(`DROP TABLE \`certificate_entity\``);
         await queryRunner.query(`DROP INDEX \`IDX_137366505dda765a2502e46f2f\` ON \`user_tagged_certificate_entity\``);
         await queryRunner.query(`DROP TABLE \`user_tagged_certificate_entity\``);
-        await queryRunner.query(`DROP INDEX \`IDX_88a1485872bf594d91855aaf99\` ON \`user_certificate_entity\``);
-        await queryRunner.query(`DROP TABLE \`user_certificate_entity\``);
-        await queryRunner.query(`DROP INDEX \`IDX_158f20832b16ead19dcd50c743\` ON \`user_entity\``);
-        await queryRunner.query(`DROP INDEX \`IDX_415c35b9b3b6fe45a3b065030f\` ON \`user_entity\``);
-        await queryRunner.query(`DROP TABLE \`user_entity\``);
         await queryRunner.query(`DROP INDEX \`IDX_17047910dd948275a7fbaec3ff\` ON \`cv_certificate_entity\``);
         await queryRunner.query(`DROP TABLE \`cv_certificate_entity\``);
         await queryRunner.query(`DROP TABLE \`cv_honors_awards_entity\``);
@@ -215,8 +216,6 @@ export class mg1656063402961 implements MigrationInterface {
         await queryRunner.query(`DROP INDEX \`IDX_3a8a95361d972896b371bf6ca6\` ON \`company_tag_entity\``);
         await queryRunner.query(`DROP INDEX \`IDX_6b90e9608014c63667263159ca\` ON \`company_tag_entity\``);
         await queryRunner.query(`DROP TABLE \`company_tag_entity\``);
-        await queryRunner.query(`DROP INDEX \`REL_bbd7576066b053fc16f76617e0\` ON \`company_info_entity\``);
-        await queryRunner.query(`DROP TABLE \`company_info_entity\``);
         await queryRunner.query(`DROP INDEX \`IDX_fdb82033eaa6d2f4cf7a44bbd3\` ON \`user_tagged_company_tag_entity\``);
         await queryRunner.query(`DROP TABLE \`user_tagged_company_tag_entity\``);
         await queryRunner.query(`DROP INDEX \`IDX_edea0cf6b6e524794e2324de90\` ON \`cv_work_experience_position_entity\``);

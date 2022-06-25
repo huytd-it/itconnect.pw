@@ -37,10 +37,10 @@ export class UserEntity {
     @Index()
     role: AppRole;
 
-    @OneToOne(type => UserInfoEntity)
+    @OneToOne(type => UserInfoEntity, db => db.user)
     userInfo: UserInfoEntity;
 
-    @OneToOne(type => CompanyInfoEntity)
+    @OneToOne(type => CompanyInfoEntity, db => db.user)
     companyInfo: CompanyInfoEntity;
 
     @OneToMany(type => UserSkillEntity, userSkill => userSkill.user)

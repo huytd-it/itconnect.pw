@@ -64,7 +64,7 @@ import { JobModule } from './modules/job/job.module';
       CvEducationModule,
       JobModule
   ],
-  controllers: [],
+  controllers: [AppController],
   providers: [
       AppService,
       {

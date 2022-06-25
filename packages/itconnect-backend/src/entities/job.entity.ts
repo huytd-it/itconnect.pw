@@ -34,8 +34,7 @@ export class JobEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @OneToOne(type => UserEntity, user => user.userInfo)
-    @JoinColumn()
+    @ManyToOne(type => UserEntity)
     user: UserEntity;
 
     @ManyToOne(type => AddressEntity)

@@ -203,6 +203,7 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.PROFILE_DATA_BOOSTRAP,
         AppPermission.PROFILE_USER_CE,
         AppPermission.PROFILE_COMPUTE_YOE,
+        AppPermission.PROFILE_READ,
         AppPermission.POST_FEED,
         AppPermission.FRIEND,
         AppPermission.NOTIFICATION,

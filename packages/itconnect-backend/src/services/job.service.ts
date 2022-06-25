@@ -89,7 +89,7 @@ export class JobService {
         return this.jobRepository.softRemove(data);
     }
 
-    async createOrEdit(data: JobCreateOrEditDto, hasResponseEntity: boolean) {
+    async createOrEdit(data: JobCreateOrEditDto, hasResponseEntity: boolean, draft: boolean) {
         // decrease cpu, not validate owner tagged skill, position, certificate, school
         const user = this.request['user'] as UserEntity;
         let id = data.id;
@@ -139,10 +139,12 @@ export class JobService {
         // basic data
         dataEntity.name = data.name;
         dataEntity.salaryMin = data.salaryMin || null;
-        dataEntity.salaryMax = data.salaryMin || null;
+        dataEntity.salaryMax = data.salaryMax || null;
         dataEntity.descriptionContent = data.descriptionContent;
         dataEntity.requirementContent = data.requirementContent;
         dataEntity.reasonContent = data.reasonContent || null;
+        dataEntity.yoe = data.yoe || null;
+        dataEntity.endDate = data.endDate;
 
         try {
             if (id) {
@@ -152,9 +154,28 @@ export class JobService {
                 if (!jobEntity) {
                     throw new ForbiddenException();
                 }
-                await queryRunner.manager.update(JobEntity, { id }, dataEntity);
+
+                // only update when status is Draft or WaitSystem or WaitApprove
+                if (
+                    jobEntity.status === JobStatus.Draft ||
+                    jobEntity.status === JobStatus.WaitSystem ||
+                    jobEntity.status === JobStatus.WaitApprove
+                ) {
+                    await queryRunner.manager.update(JobEntity, { id }, dataEntity);
+                } else {
+                    throw new BadRequestException(`status: ${jobEntity.status} is refuse`)
+                }
+
             } else {
                 // create
+                if (draft) {
+                    dataEntity.status = JobStatus.Draft;
+                } else {
+                    // not wait approve because, it not module approve on role moder
+                    // updated: If it has role moder change to WaitApprove
+                    dataEntity.status = JobStatus.WaitSystem;
+                }
+                dataEntity.user = Id(user.id);
                 const result = await queryRunner.manager.save(JobEntity, dataEntity);
                 id = result.id;
             }
@@ -193,34 +214,23 @@ export class JobService {
                 }
             ];
             for (let config of configJobForeign) {
-                const jobForeign = config.data as any;
-                await queryRunner.manager.delete(config.target, {
-                    where: {
-                        job: Id(id),
-                        position: Not(In(jobForeign.map(item => item[config.foreignKey])))
-                    }
-                })
-                const [listUpdate, listCreate] = jobForeign.reduce(
-                    (val, item) => {
-                        if (item.id) {
-                            val[0].push(item);
-                        } else {
-                            val[1].push(item);
-                        }
-                        return val;
-                    },
-                    [[], []]
-                )
-                for (let item of listUpdate) {
-                    await queryRunner.manager.update(
-                        config.target,
-                        { id: Id(item.id) },
-                        item
-                    );
+                let jobForeign = config.data as any;
+                if (!jobForeign) {
+                    continue;
                 }
+
+                // add job id
+                jobForeign = jobForeign.map(({name, ...item}) => {
+                   return {...item, job: Id(id) };
+                });
+                // remove all
+                await queryRunner.manager.delete(config.target, {
+                    job: Id(id)
+                })
+                // re insert
                 await queryRunner.manager.save(
                     config.target,
-                    listCreate
+                    jobForeign
                 );
             }
 

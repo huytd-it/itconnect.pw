@@ -7,7 +7,7 @@ import {
     IsNotEmpty,
     IsOptional,
     Max, MaxLength,
-    Min,
+    Min, MinDate,
     MinLength,
     ValidateNested
 } from "class-validator";
@@ -30,6 +30,7 @@ import {WorkFromEntity} from "../entities/workFrom.entity";
 import {JobLevelEntity} from "../entities/jobLevel.entity";
 import {CompanyTagEntity} from "../entities/companyTag.entity";
 import {UserDto} from "./user.dto";
+import {Type} from "class-transformer";
 
 export class JobRangePropCreateOrEdit {
     @ApiPropertyOptional()
@@ -264,36 +265,42 @@ export class JobCreateOrEditDto {
     addressStreet: string;
 
     @ApiPropertyOptional({ type: JobPositionCreateOrEditDto, isArray: true })
+    @IsOptional()
     @IsArray()
     @ArrayMaxSize(10)
     @ValidateNested({ each: true })
     jobPositions: JobPositionCreateOrEditDto[];
 
     @ApiPropertyOptional({ type: JobSkillCreateOrEditDto, isArray: true })
+    @IsOptional()
     @IsArray()
     @ArrayMaxSize(10)
     @ValidateNested({ each: true })
     jobSkills: JobSkillCreateOrEditDto[];
 
     @ApiPropertyOptional({ type: JobCertificateCreateOrEditDto, isArray: true })
+    @IsOptional()
     @IsArray()
     @ArrayMaxSize(10)
     @ValidateNested({ each: true })
     jobCertificates: JobCertificateCreateOrEditDto[];
 
     @ApiPropertyOptional({ type: JobSchoolCreateOrEditDto, isArray: true })
+    @IsOptional()
     @IsArray()
     @ArrayMaxSize(10)
     @ValidateNested({ each: true })
     jobSchools: JobSchoolCreateOrEditDto[];
 
     @ApiPropertyOptional({ type: JobWorkFromCreateOrEditDto, isArray: true })
+    @IsOptional()
     @IsArray()
     @ArrayMaxSize(10)
     @ValidateNested({ each: true })
     jobWorkFrom: JobWorkFromCreateOrEditDto[];
 
     @ApiPropertyOptional({ type: JobJobLevelCreateOrEditDto, isArray: true })
+    @IsOptional()
     @IsArray()
     @ArrayMaxSize(10)
     @ValidateNested({ each: true })
@@ -306,11 +313,15 @@ export class JobCreateOrEditDto {
     companyTag: number;
 
     @ApiPropertyOptional()
+    @IsOptional()
     @IsInt()
+    @Max(9999999999)
     salaryMin: number;
 
     @ApiPropertyOptional()
+    @IsOptional()
     @IsInt()
+    @Max(9999999999)
     salaryMax: number;
 
     @ApiProperty()
@@ -319,16 +330,30 @@ export class JobCreateOrEditDto {
     @MaxLength(255)
     name: string;
 
-    @ApiPropertyOptional()
+    @ApiProperty()
+    @Type(() => Date)
+    @MinDate(new Date())
     endDate: Date;
 
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsInt()
+    @Min(1)
+    @Max(10)
+    yoe: number;
+
     @ApiProperty()
+    @IsNotEmpty()
+    @MaxLength(65000)
     descriptionContent: string;
 
     @ApiProperty()
+    @IsNotEmpty()
+    @MaxLength(65000)
     requirementContent: string;
 
     @ApiPropertyOptional()
+    @IsOptional()
     reasonContent: string;
 }
 
@@ -336,4 +361,8 @@ export class JobCreateOrEditQueryDto {
     @ApiPropertyOptional()
     @IsOptional()
     hasResponseEntity: boolean;
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    saveDraft: boolean;
 }
