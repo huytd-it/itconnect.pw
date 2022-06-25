@@ -2,6 +2,7 @@ import {BaseTable} from "./common";
 import {AppRole} from "./permission.model";
 import {JobLevel} from "./job-level.model";
 import {Address} from "./address.model";
+import {CompanyInfo} from "./company-info.model";
 
 export class UserInfo {
   id: number;
@@ -26,6 +27,7 @@ export class User extends BaseTable {
   email: string;
   role: AppRole;
   userInfo: UserInfo;
+  companyInfo: CompanyInfo;
 }
 
 

@@ -3,12 +3,20 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PositionService} from "../../../../services/position.service";
 import {SkillService} from "../../../../services/skill.service";
 import {AppService} from "../../../../services/app.service";
-import {SearchPageOutput, TaggedInput} from "../../../../models/common";
+import {CreateTaggedOutput, SearchPageOutput, TaggedInput} from "../../../../models/common";
 import {PositionSearchOutput} from "../../../../models/position.model";
 import {SkillSearchOutput} from "../../../../models/skill.model";
 import {WorkFromService} from "../../../../services/work-from.service";
 import {WorkFromSearchOutput} from "../../../../models/work-from.model";
-import {JobCertificate, JobJobLevel, JobPosition, JobSchool, JobSkill, JobWorkFrom} from "../../../../models/job.model";
+import {
+  JobCertificateCreateOrEdit,
+  JobCreateOrEditOutput,
+  JobJobLevelCreateOrEdit,
+  JobPositionCreateOrEdit,
+  JobSchoolCreateOrEdit,
+  JobSkillCreateOrEdit,
+  JobWorkFromCreateOrEdit
+} from "../../../../models/job.model";
 import {CertificateSearchOutput} from "../../../../models/certificate.model";
 import {CertificateService} from "../../../../services/certificate.service";
 import {SchoolService} from "../../../../services/school.service";
@@ -20,7 +28,9 @@ import {JobLevelSearchOutput} from "../../../../models/job-level.model";
 import {CompanyTagService} from "../../../../services/company-tag.service";
 import {CompanyTagSearchOutput} from "../../../../models/company-tag.model";
 import {EasySelectComponent} from "../../../../components/easy-select/easy-select.component";
-import {finalize} from "rxjs";
+import {catchError, finalize} from "rxjs";
+import * as moment from "moment";
+import {JobService} from "../../../../services/job.service";
 
 export enum FormField {
   skills = "skills",
@@ -58,6 +68,14 @@ export class CreateComponent implements OnInit {
 
   readonly FormField = FormField;
 
+  get minDate() {
+    return moment().add(1, 'day').toDate();
+  }
+
+  get isSubmitting() {
+    return this.appService.headLoading$;
+  }
+
   constructor(
     private formBuilder: FormBuilder,
     private positionService: PositionService,
@@ -67,7 +85,8 @@ export class CreateComponent implements OnInit {
     private schoolService: SchoolService,
     private jobLevelService: JobLevelService,
     private companyTagService: CompanyTagService,
-    private appService: AppService
+    private appService: AppService,
+    private jobService: JobService
   ) {
     this.form = this.formBuilder.group({
       [FormField.skills]: [null],
@@ -76,20 +95,37 @@ export class CreateComponent implements OnInit {
       [FormField.school]: [null],
       [FormField.workFrom]: [null],
       [FormField.jobLevel]: [null],
-      [FormField.name]: [null, Validators.required],
+      [FormField.name]: [null, [Validators.required, Validators.maxLength(255), Validators.minLength(1)]],
       [FormField.dateEnd]: [null, Validators.required],
-      [FormField.salaryFrom]: [null],
+      [FormField.salaryFrom]: [null, Validators.min(0)],
       [FormField.salaryTo]: [null],
       [FormField.yoe]: [null],
-      [FormField.companyTag]: [null],
-      [FormField.address]: [null],
+      [FormField.companyTag]: [null, Validators.required],
+      [FormField.address]: [null, Validators.required],
       [FormField.SkillExperience]: [null, Validators.required],
       [FormField.Description]: [null, Validators.required],
       [FormField.Reason]: [null],
+    }, {
+      validators: this.customValidate
     })
   }
 
   ngOnInit(): void {
+  }
+
+  private customValidate(formGroup: FormGroup) {
+    const salaryMinControl = formGroup.controls[FormField.salaryFrom];
+    const salaryMaxControl = formGroup.controls[FormField.salaryTo];
+    if (salaryMaxControl.value) {
+      if (
+        !salaryMinControl.value ||
+        Number(salaryMaxControl.value) < Number(salaryMinControl.value)
+      ) {
+        salaryMaxControl.setErrors({ minSalary: true })
+      } else {
+        salaryMaxControl.setErrors(null)
+      }
+    }
   }
 
   isControlError(field: FormField, ...types: string[]) {
@@ -109,9 +145,13 @@ export class CreateComponent implements OnInit {
     return this.positionService.search(qr);
   }
 
+  fnAddUserTaggedPosition = (data: CreateTaggedOutput) => {
+    return this.positionService.createTag(data);
+  }
+
   onAddDataPosition = (item: TaggedInput) => {
     const control = this.form.controls[FormField.positions];
-    const value: JobPosition[] = control.value || [];
+    const value: JobPositionCreateOrEdit[] = control.value || [];
     const exists = value.find(it => it.position === item.id);
     if (exists) {
       return;
@@ -126,12 +166,12 @@ export class CreateComponent implements OnInit {
     control.setValue(value);
   }
 
-  onChangeDataPosition = (item: JobPosition) => {
+  onChangeDataPosition = (item: JobPositionCreateOrEdit) => {
   }
 
-  onRemoveDataPosition = (item: JobPosition) => {
+  onRemoveDataPosition = (item: JobPositionCreateOrEdit) => {
     const control = this.form.controls[FormField.positions];
-    const value: JobPosition[] = control.value || [];
+    const value: JobPositionCreateOrEdit[] = control.value || [];
     control.setValue(value.filter(it => it.position != item.position));
   }
 
@@ -144,9 +184,13 @@ export class CreateComponent implements OnInit {
     return this.skillService.search(qr);
   }
 
+  fnAddUserTaggedSkill = (data: CreateTaggedOutput) => {
+    return this.skillService.createTag(data);
+  }
+
   onAddDataSkill = (item: TaggedInput) => {
     const control = this.form.controls[FormField.skills];
-    const value: JobSkill[] = control.value || [];
+    const value: JobSkillCreateOrEdit[] = control.value || [];
     const exists = value.find(it => it.skill === item.id);
     if (exists) {
       return;
@@ -161,12 +205,12 @@ export class CreateComponent implements OnInit {
     control.setValue(value);
   }
 
-  onChangeDataSkill = (item: JobSkill) => {
+  onChangeDataSkill = (item: JobSkillCreateOrEdit) => {
   }
 
-  onRemoveDataSkill = (item: JobSkill) => {
+  onRemoveDataSkill = (item: JobSkillCreateOrEdit) => {
     const control = this.form.controls[FormField.skills];
-    const value: JobSkill[] = control.value || [];
+    const value: JobSkillCreateOrEdit[] = control.value || [];
     control.setValue(value.filter(it => it.skill != item.skill));
   }
 
@@ -179,9 +223,13 @@ export class CreateComponent implements OnInit {
     return this.certificateService.search(qr);
   }
 
+  fnAddUserTaggedCertificate = (data: CreateTaggedOutput) => {
+    return this.certificateService.createTag(data);
+  }
+
   onAddDataCertificate = (item: TaggedInput) => {
     const control = this.form.controls[FormField.certificate];
-    const value: JobCertificate[] = control.value || [];
+    const value: JobCertificateCreateOrEdit[] = control.value || [];
     const exists = value.find(it => it.certificate === item.id);
     if (exists) {
       return;
@@ -196,12 +244,12 @@ export class CreateComponent implements OnInit {
     control.setValue(value);
   }
 
-  onChangeDataCertificate = (item: JobCertificate) => {
+  onChangeDataCertificate = (item: JobCertificateCreateOrEdit) => {
   }
 
-  onRemoveDataCertificate = (item: JobCertificate) => {
+  onRemoveDataCertificate = (item: JobCertificateCreateOrEdit) => {
     const control = this.form.controls[FormField.certificate];
-    const value: JobCertificate[] = control.value || [];
+    const value: JobCertificateCreateOrEdit[] = control.value || [];
     control.setValue(value.filter(it => it.certificate != item.certificate));
   }
 
@@ -214,9 +262,13 @@ export class CreateComponent implements OnInit {
     return this.schoolService.search(qr);
   }
 
+  fnAddUserTaggedSchool = (data: CreateTaggedOutput) => {
+    return this.schoolService.createTag(data);
+  }
+
   onAddDataSchool = (item: TaggedInput) => {
     const control = this.form.controls[FormField.school];
-    const value: JobSchool[] = control.value || [];
+    const value: JobSchoolCreateOrEdit[] = control.value || [];
     const exists = value.find(it => it.school === item.id);
     if (exists) {
       return;
@@ -224,19 +276,17 @@ export class CreateComponent implements OnInit {
 
     value.push({
       school: item.id,
-      levelMin: 1,
-      levelMax: 10,
       name: item.name
     })
     control.setValue(value);
   }
 
-  onChangeDataSchool = (item: JobSchool) => {
+  onChangeDataSchool = (item: JobSchoolCreateOrEdit) => {
   }
 
-  onRemoveDataSchool = (item: JobSchool) => {
+  onRemoveDataSchool = (item: JobSchoolCreateOrEdit) => {
     const control = this.form.controls[FormField.school];
-    const value: JobSchool[] = control.value || [];
+    const value: JobSchoolCreateOrEdit[] = control.value || [];
     control.setValue(value.filter(it => it.school != item.school));
   }
 
@@ -253,7 +303,7 @@ export class CreateComponent implements OnInit {
 
   onAddDataWorkFrom(e: TaggedInput) {
     const control = this.form.controls[FormField.workFrom];
-    const value: JobWorkFrom[] = control.value || [];
+    const value: JobWorkFromCreateOrEdit[] = control.value || [];
     const exists = value.find(it => it.workFrom === e.id);
     if (exists) {
       return;
@@ -266,9 +316,9 @@ export class CreateComponent implements OnInit {
     control.setValue(value);
   }
 
-  onRemoveDataWorkFrom(e: JobWorkFrom) {
+  onRemoveDataWorkFrom(e: JobWorkFromCreateOrEdit) {
     const control = this.form.controls[FormField.workFrom];
-    const value: JobWorkFrom[] = control.value || [];
+    const value: JobWorkFromCreateOrEdit[] = control.value || [];
     control.setValue(value.filter(it => it.workFrom != e.workFrom));
   }
 
@@ -283,7 +333,7 @@ export class CreateComponent implements OnInit {
 
   onAddDataJobLevel = (item: TaggedInput) => {
     const control = this.form.controls[FormField.jobLevel];
-    const value: JobJobLevel[] = control.value || [];
+    const value: JobJobLevelCreateOrEdit[] = control.value || [];
     const exists = value.find(it => it.jobLevel === item.id);
     if (exists) {
       return;
@@ -296,12 +346,12 @@ export class CreateComponent implements OnInit {
     control.setValue(value);
   }
 
-  onChangeDataJobLevel = (item: JobJobLevel) => {
+  onChangeDataJobLevel = (item: JobJobLevelCreateOrEdit) => {
   }
 
-  onRemoveDataJobLevel = (item: JobJobLevel) => {
+  onRemoveDataJobLevel = (item: JobJobLevelCreateOrEdit) => {
     const control = this.form.controls[FormField.jobLevel];
-    const value: JobJobLevel[] = control.value || [];
+    const value: JobJobLevelCreateOrEdit[] = control.value || [];
     control.setValue(value.filter(it => it.jobLevel != item.jobLevel));
   }
 
@@ -321,6 +371,57 @@ export class CreateComponent implements OnInit {
       .subscribe((data) => {
         this.form.controls[FormField.companyTag].setValue(data);
         this.selectCompany.close();
+      })
+  }
+
+  onSubmit() {
+    this.save(false);
+  }
+
+  onSaveDraft() {
+    this.save(true);
+  }
+
+  onReset() {
+    this.form.reset();
+  }
+
+  private save(isDraft: boolean) {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    const value = this.form.value;
+    const address = value[FormField.address];
+    const data: JobCreateOrEditOutput = {
+      addressStreet: address.street,
+      addressVillage: address.villageId.id,
+      addressProvince: address.provinceId.id,
+      addressDistrict: address.districtId.id,
+      jobPositions: value[FormField.positions],
+      jobSkills: value[FormField.skills],
+      jobCertificates: value[FormField.certificate],
+      jobSchools: value[FormField.school],
+      jobWorkFrom: value[FormField.workFrom],
+      companyTag: value[FormField.companyTag]?.id,
+      salaryMin: value[FormField.salaryTo] && Number(value[FormField.salaryFrom]),
+      salaryMax: value[FormField.salaryTo] && Number(value[FormField.salaryTo]),
+      name: value[FormField.name],
+      yoe: value[FormField.yoe]?.id,
+      endDate: value[FormField.dateEnd],
+      descriptionContent: value[FormField.Description],
+      requirementContent: value[FormField.SkillExperience],
+      reasonContent: value[FormField.Reason]
+    }
+
+    this.appService.setHeadLoading(true);
+    this.jobService.createOrEdit(data, true, isDraft)
+      .pipe(finalize(() => {
+        this.appService.setHeadLoading(false);
+      }))
+      .subscribe((data) => {
+        console.log(data);
       })
   }
 }

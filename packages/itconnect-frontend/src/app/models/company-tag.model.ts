@@ -1,10 +1,11 @@
 import {PageInput, PageOutput, SearchPageOutput} from "./common";
+import {CompanyInfo} from "./company-info.model";
 
 export class CompanyTag {
   id: number;
   name: string;
-
-  // add more
+  isApprove: boolean;
+  companyInfo: CompanyInfo;
 }
 
 export class CompanyTagSearchInput extends PageInput<CompanyTag> {}

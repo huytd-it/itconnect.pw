@@ -14,6 +14,7 @@
         <app-input-skill-level-range
           [items]="form.controls[FormField.positions].value || []"
           [loadMoreFn]="fetchDataPosition"
+          [createTagFn]="fnAddUserTaggedPosition"
           (onRemove)="onRemoveDataPosition($event)"
           (onAdd)="onAddDataPosition($event)"
           (onChange)="onChangeDataPosition($event)"
@@ -32,6 +33,7 @@
         <app-input-skill-level-range
           [items]="form.controls[FormField.skills].value || []"
           [loadMoreFn]="fetchDataSkill"
+          [createTagFn]="fnAddUserTaggedSkill"
           (onRemove)="onRemoveDataSkill($event)"
           (onAdd)="onAddDataSkill($event)"
           (onChange)="onChangeDataSkill($event)"
@@ -50,6 +52,7 @@
         <app-input-skill-level-range
           [items]="form.controls[FormField.certificate].value || []"
           [loadMoreFn]="fetchDataCertificate"
+          [createTagFn]="fnAddUserTaggedCertificate"
           (onRemove)="onRemoveDataCertificate($event)"
           (onAdd)="onAddDataCertificate($event)"
           (onChange)="onChangeDataCertificate($event)"
@@ -65,13 +68,13 @@
         </div>
       </div>
       <div class="tw-p-3">
-        <app-input-skill-level-range
+        <app-input-skill
           [items]="form.controls[FormField.school].value || []"
           [loadMoreFn]="fetchDataSchool"
+          [createTagFn]="fnAddUserTaggedSchool"
           (onRemove)="onRemoveDataSchool($event)"
           (onAdd)="onAddDataSchool($event)"
-          (onChange)="onChangeDataSchool($event)"
-        ></app-input-skill-level-range>
+        ></app-input-skill>
       </div>
     </div>
 
@@ -138,11 +141,17 @@
     <mat-form-field appearance="outline" class="tw-flex-1">
       <mat-label>Tên công việc</mat-label>
       <input matInput type="text" [formControlName]="FormField.name">
+      <mat-error *ngIf="isControlError(FormField.name, 'required')">
+        Tên công việc là bắt buộc
+      </mat-error>
+      <mat-error *ngIf="isControlError(FormField.name, 'minlength', 'maxlength')">
+        Tên công việc có độ dài từ 1 đên 255
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="tw-mb-3">
       <mat-label>Ngày kết thúc nhận hồ sơ</mat-label>
-      <input matInput [matDatepicker]="picker" [formControlName]="FormField.dateEnd">
+      <input matInput [matDatepicker]="picker" [formControlName]="FormField.dateEnd" min="{{minDate | date:'yyyy-MM-dd'}}">
       <mat-hint>DD/MM/YYYY</mat-hint>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
@@ -160,8 +169,18 @@
     (addTag)="onAddCompanyTag($event)"
     appendTo="body"
   ></app-easy-select>
+  <div class="tw-text-left tw-text-[10px] tw-mt-[-16px] tw-mb-2 tw-ml-3">
+    <mat-error *ngIf="isControlError(FormField.companyTag, 'required')">
+      Công ty là bắt buộc
+    </mat-error>
+  </div>
 
   <app-input-address [formControlName]="FormField.address"></app-input-address>
+  <div class="tw-text-left tw-text-[10px] tw-mt-[-16px] tw-mb-2 tw-ml-3">
+    <mat-error *ngIf="isControlError(FormField.address, 'required')">
+      Địa chỉ là bắt buộc
+    </mat-error>
+  </div>
 
 
   <div class="tw-text-left">
@@ -171,6 +190,9 @@
           <mat-label>Lương (từ)</mat-label>
           <input matInput appNumberOnly [formControlName]="FormField.salaryFrom">
           <mat-hint>{{ form.value[FormField.salaryFrom] | currency: 'VND' }}</mat-hint>
+          <mat-error *ngIf="isControlError(FormField.salaryFrom, 'min')">
+            Lương không thể nhỏ hơn 0
+          </mat-error>
         </mat-form-field>
       </div>
       <span class="tw-mt-[-16px] md:tw-mt-5 tw-w-full md:tw-w-auto tw-flex tw-items-center tw-justify-center md:tw-inline-block">
@@ -182,6 +204,9 @@
           <mat-label>Lương (đến)</mat-label>
           <input matInput appNumberOnly [formControlName]="FormField.salaryTo">
           <mat-hint>{{ form.value[FormField.salaryTo] | currency: 'VND' }}</mat-hint>
+          <mat-error *ngIf="isControlError(FormField.salaryTo, 'minSalary')">
+            Lương không hợp lệ
+          </mat-error>
         </mat-form-field>
       </div>
     </div>
@@ -192,12 +217,22 @@
       </div>
       <app-editor-c1 [form]="form" [name]="FormField.Description"></app-editor-c1>
     </div>
+    <div class="tw-text-left tw-text-[10px] tw-ml-3">
+      <mat-error *ngIf="isControlError(FormField.Description, 'required')">
+        Giới thiệu công việc là bắt buộc
+      </mat-error>
+    </div>
 
     <div class="tw-text-left tw-mt-10">
       <div class="tw-mb-2 tw-ml-1">
         Yêu cầu & kinh nghiệm
       </div>
       <app-editor-c1 [form]="form" [name]="FormField.SkillExperience"></app-editor-c1>
+    </div>
+    <div class="tw-text-left tw-text-[10px] tw-ml-3">
+      <mat-error *ngIf="isControlError(FormField.SkillExperience, 'required')">
+        Yêu cầu & kinh nghiệm là bắt buộc
+      </mat-error>
     </div>
 
     <div class="tw-text-left tw-mt-10">
@@ -209,17 +244,28 @@
 
     <div class="tw-mt-[50px] tw-flex tw-justify-center tw-pb-6">
       <button
-        mat-stroked-button
+        mat-button
         class="!tw-mr-2"
         type="button"
+        (click)="onReset()"
       >
         Reset
       </button>
       <button
         mat-stroked-button
+        class="!tw-mr-2"
+        type="button"
+        [disabled]="isSubmitting | async"
+        (click)="onSaveDraft()"
+      >
+        Lưu nháp
+      </button>
+      <button
+        mat-stroked-button
         color="primary"
         type="button"
-        [disabled]="form.invalid"
+        [disabled]="isSubmitting | async"
+        (click)="onSubmit()"
       >
         Đăng
       </button>
