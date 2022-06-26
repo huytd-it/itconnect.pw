@@ -29,6 +29,7 @@ import {UserSkillModule} from "./modules/user-skill/user-skill.module";
 import {RankedAcademicModule} from "./modules/ranked-academic/ranked-academic.module";
 import {CvEducationModule} from "./modules/cv-education/cv-education.module";
 import { JobModule } from './modules/job/job.module';
+import {JobTypeModule} from "./modules/job-type/job-type.module";
 
 @Module({
   imports: [
@@ -62,7 +63,8 @@ import { JobModule } from './modules/job/job.module';
       CvCertificateModule,
       RankedAcademicModule,
       CvEducationModule,
-      JobModule
+      JobModule,
+      JobTypeModule
   ],
   controllers: [AppController],
   providers: [

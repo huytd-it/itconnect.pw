@@ -11,10 +11,10 @@ import {JobTypeDto, JobTypeSearchInputDto} from "../../dtos/jobType.dto";
 import {ApiPaginatedQueryOrder} from "../../utils/decorators/api-paginated-query-order.decorator";
 import {JobTypeEntity} from "../../entities/jobType.entity";
 
-@ApiTags('job-level')
+@ApiTags('job-type')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
-@Controller('job-level')
+@Controller('job-type')
 export class JobTypeController {
 
     constructor(

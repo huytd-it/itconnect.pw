@@ -10,6 +10,7 @@ import {ExistsRowField} from "../validators/exists-row-field.validate";
 import {CompanyTagEntity} from "../entities/companyTag.entity";
 import {JobLevelEntity} from "../entities/jobLevel.entity";
 import {MAX_WORK_EXPERIENCE_LENGTH} from "../entities/cvWorkExperience.entity";
+import {JobTypeEntity} from "../entities/jobType.entity";
 
 export class CvWorkExperiencePositionDto extends EntityDto {
     @ApiProperty()
@@ -84,6 +85,12 @@ export class CreateOrEditCvWorkExperienceDto {
     @IsOptional()
     @ExistsRowField(JobLevelEntity, 'id', true)
     jobLevel: number;
+
+    @ApiPropertyOptional()
+    @IsInt()
+    @IsOptional()
+    @ExistsRowField(JobTypeEntity, 'id', true)
+    jobType: number;
 
     @ApiPropertyOptional()
     @IsInt()

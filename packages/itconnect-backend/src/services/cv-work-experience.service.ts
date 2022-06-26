@@ -43,6 +43,7 @@ export class CvWorkExperienceService {
             relations: [
                 'companyTag',
                 'jobLevel',
+                'jobType',
                 'workFrom',
                 'cvWorkExperienceSkills',
                 'cvWorkExperienceSkills.skill',
@@ -60,6 +61,7 @@ export class CvWorkExperienceService {
             startDate: data.startDate,
             endDate: data.endDate || null,
             jobLevel: data.jobLevel ? { id: data.jobLevel } : null,
+            jobType: data.jobType ? { id: data.jobType } : null,
             workFrom: data.workFrom ? { id: data.workFrom } : null,
             content: data.content,
         };
@@ -106,6 +108,7 @@ export class CvWorkExperienceService {
             relations: [
                 'companyTag',
                 'jobLevel',
+                'jobType',
                 'workFrom',
                 'cvWorkExperienceSkills',
                 'cvWorkExperienceSkills.skill',
