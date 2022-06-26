@@ -24,6 +24,8 @@ import {WorkFromSearchOutput} from "../../../../models/work-from.model";
 import {JobLevelSearchOutput} from "../../../../models/job-level.model";
 import {Address} from "../../../../models/address.model";
 import {EasySelectCheckboxComponent} from "../../../../components/easy-select-checkbox/easy-select-checkbox.component";
+import {JobTypeService} from "../../../../services/job-type.service";
+import {JobTypeSearchOutput} from "../../../../models/job-type.model";
 
 @Injectable()
 export class FiltersProvider {
@@ -38,6 +40,7 @@ export class FiltersProvider {
   companyTag: OptionItem[] = [];
   workFrom: OptionItem[] = [];
   jobLevel: OptionItem[] = [];
+  jobType: OptionItem[] = [];
   yoe: OptionItem;
   salaryMin: number;
   salaryMax: number;
@@ -60,6 +63,7 @@ export class FiltersProvider {
     private schoolService: SchoolService,
     private workFromService: WorkFromService,
     private jobLevelService: JobLevelService,
+    private jobTypeService: JobTypeService,
     private appService: AppService,
   ) { }
 
@@ -75,6 +79,7 @@ export class FiltersProvider {
       company: this.companyTag.map(item => item.name),
       workFrom: this.workFrom.map(item => item.id),
       jobLevel: this.jobLevel.map(item => item.id),
+      jobType: this.jobType.map(item => item.id),
       yoe: this.yoe?.id,
       addressDistrict: this.address?.districtId?.id,
       addressProvince: this.address?.provinceId?.id,
@@ -294,5 +299,29 @@ export class FiltersProvider {
 
   onRemoveDataJobLevel = (item: JobJobLevelCreateOrEdit) => {
     this.jobLevel = this.jobLevel.filter(it => it.id != item.id);
+  }
+
+  /**
+   * Job Type
+   *
+   */
+  fetchDataJobType = (query: SearchPageOutput) => {
+    const qr: JobTypeSearchOutput = query;
+    return this.jobTypeService.search(qr);
+  }
+
+  onAddDataJobType = (item: TaggedInput) => {
+    const exists = this.jobType.find(it => it.id === item.id);
+    if (exists) {
+      return;
+    }
+    this.jobType.push({
+      id: item.id,
+      name: item.name
+    })
+  }
+
+  onRemoveDataJobType = (item: OptionItem) => {
+    this.jobType = this.jobType.filter(it => it.id != item.id);
   }
 }

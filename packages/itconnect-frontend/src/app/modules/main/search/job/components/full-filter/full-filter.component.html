@@ -63,6 +63,24 @@
   <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[600px] tw-mt-3">
     <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
       <div class="tw-flex tw-items-center">
+        <mat-icon>schedule</mat-icon>
+        <span class="tw-ml-2">Loại</span>
+      </div>
+    </div>
+    <div class="tw-p-3">
+      <app-input-skill
+        [items]="filters.jobType"
+        [loadMoreFn]="filters.fetchDataJobType"
+        [hasAddTag]="false"
+        (onAdd)="filters.onAddDataJobType($event)"
+        (onRemove)="filters.onRemoveDataJobType($event)"
+      ></app-input-skill>
+    </div>
+  </div>
+
+  <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[600px] tw-mt-3">
+    <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
+      <div class="tw-flex tw-items-center">
         <mat-icon>hail</mat-icon>
         <span class="tw-ml-2">Hình thức làm việc</span>
       </div>

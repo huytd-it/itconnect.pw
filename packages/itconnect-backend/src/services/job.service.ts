@@ -480,6 +480,15 @@ export class JobService {
             queryExists(qr, queryCompanyTag);
         }
 
+        // job type
+        if (body.jobType?.length) {
+            qr.andWhere({
+                jobType: {
+                    id: In(body.jobType)
+                }
+            })
+        }
+
         // yoe
         if (body.yoe) {
             qr.andWhere({

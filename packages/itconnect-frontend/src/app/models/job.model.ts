@@ -146,6 +146,7 @@ export class JobSearchLevelRange {
 export class JobSearchBodyOutput {
   yoe: number;
   jobLevel: number[];
+  jobType: number[];
   workFrom: number[];
   school: string[];
   company: string[];

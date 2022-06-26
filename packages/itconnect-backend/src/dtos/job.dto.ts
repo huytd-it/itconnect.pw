@@ -422,6 +422,12 @@ export class JobSearchBodyInputDto {
     @IsOptional()
     @IsArray()
     @IsInt({ each: true })
+    jobType: number[];
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsArray()
+    @IsInt({ each: true })
     workFrom: number[];
 
     @ApiPropertyOptional()
