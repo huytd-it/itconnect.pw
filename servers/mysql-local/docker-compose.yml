@@ -13,6 +13,7 @@ services:
     environment:
       - MYSQL_DATABASE=itconnect
       - MYSQL_ROOT_PASSWORD=toor
+      - TZ=Asia/Ho_Chi_Minh
 
 networks:
   default:
