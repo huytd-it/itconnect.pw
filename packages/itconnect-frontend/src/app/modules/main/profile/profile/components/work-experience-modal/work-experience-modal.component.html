@@ -29,6 +29,15 @@
     appendTo="body"
   ></app-easy-select>
 
+  <app-easy-select
+    [label]="'Loại công việc (Tùy chọn)'"
+    [isAddTag]="false"
+    [loadMoreFn]="fetchJobType"
+    [formControlName]="FormField.JobType"
+    appendTo="body"
+  ></app-easy-select>
+
+
   <div class="tw-flex tw-flex-wrap tw-gap-3">
     <app-input-month-year
       class="tw-flex-1"

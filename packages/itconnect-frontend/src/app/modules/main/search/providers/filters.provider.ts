@@ -27,7 +27,10 @@ import {EasySelectCheckboxComponent} from "../../../../components/easy-select-ch
 
 @Injectable()
 export class FiltersProvider {
-  query: JobSearchOutput = {};
+  query: JobSearchOutput = {
+    order: 'DESC',
+    order_field: 'job.updatedAt'
+  };
   position: JobSearchLevelRange[] = [];
   skill: JobSearchLevelRange[] = [];
   certificate: JobSearchLevelRange[] = [];

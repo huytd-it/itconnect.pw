@@ -45,7 +45,7 @@ export class PageInput<T> {
 export class PageOutput {
   page?: number;
   take?: number;
-  order?: 'asc' | 'desc';
+  order?: 'ASC' | 'DESC';
   order_field?: string;
 }
 

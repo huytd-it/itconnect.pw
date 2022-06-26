@@ -12,11 +12,13 @@ import * as moment from "moment";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {CreateOrEditCvWorkExperience, CvWorkExperience} from "../../../../../../models/cv-work-experience.model";
 import {CvWorkExperienceService} from "../../../../../../services/cv-work-experience.service";
+import {JobTypeService} from "../../../../../../services/job-type.service";
 
 enum FormField {
   Company = 'companyTag',
   WorkFrom = 'workFrom',
   JobLevel = 'jobLevel',
+  JobType = 'jobType',
   StartDate = 'startDate',
   EndDate = 'endDate',
   Content = 'content'
@@ -49,6 +51,7 @@ export class WorkExperienceModalComponent implements OnInit {
 
   constructor(
     private jobLevelService: JobLevelService,
+    private jobTypeService: JobTypeService,
     private companyTagService: CompanyTagService,
     private workFromService: WorkFromService,
     private cvWorkExperienceService: CvWorkExperienceService,
@@ -60,6 +63,7 @@ export class WorkExperienceModalComponent implements OnInit {
     this.form = this.formBuilder.group({
       [FormField.Company]: [null, [Validators.required]],
       [FormField.JobLevel]: [null],
+      [FormField.JobType]: [null],
       [FormField.WorkFrom]: [null],
       [FormField.Content]: [null],
       [FormField.StartDate]: [null, [Validators.required]],
@@ -73,6 +77,7 @@ export class WorkExperienceModalComponent implements OnInit {
         [FormField.Company]: this.data.companyTag,
         [FormField.WorkFrom]: this.data.workFrom,
         [FormField.JobLevel]: this.data.jobLevel,
+        [FormField.JobType]: this.data.jobType,
         [FormField.StartDate]: this.data.startDate ? moment(this.data.startDate) : null,
         [FormField.EndDate]: this.data.endDate ? moment(this.data.endDate) : null,
         [FormField.Content]: this.data.content
@@ -88,6 +93,10 @@ export class WorkExperienceModalComponent implements OnInit {
 
   fetchJobLevel = (query: SearchPageOutput) => {
     return this.jobLevelService.search(query);
+  }
+
+  fetchJobType = (query: SearchPageOutput) => {
+    return this.jobTypeService.search(query);
   }
 
   fetchCompanyTag = (query: SearchPageOutput) => {
@@ -133,6 +142,7 @@ export class WorkExperienceModalComponent implements OnInit {
       content: value[FormField.Content],
       workFrom: value[FormField.WorkFrom]?.id,
       jobLevel: value[FormField.JobLevel]?.id,
+      jobType: value[FormField.JobType]?.id,
       startDate: value[FormField.StartDate],
       endDate: value[FormField.EndDate],
       companyTag: value[FormField.Company]?.id,

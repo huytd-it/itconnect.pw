@@ -3,6 +3,7 @@ import {Skill} from "./skill.model";
 import {JobLevel} from "./job-level.model";
 import {WorkFrom} from "./work-from.model";
 import {CompanyTag} from "./company-tag.model";
+import {JobType} from "./job-type.model";
 
 export class CvWorkExperiencePosition {
     id: number
@@ -23,6 +24,7 @@ export class CvWorkExperience {
     content: string;
     companyTag: CompanyTag;
     jobLevel: JobLevel;
+    jobType: JobType;
     workFrom: WorkFrom;
     cvWorkExperienceSkills: CvWorkExperienceSkill[];
     cvWorkExperiencePositions: CvWorkExperiencePosition[];
@@ -35,5 +37,6 @@ export class CreateOrEditCvWorkExperience {
     content: string;
     companyTag: number;
     jobLevel: number;
+    jobType: number;
     workFrom: number;
 }

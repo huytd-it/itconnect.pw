@@ -1,21 +1,20 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {httpOptions, objectToParams} from "../utils/common";
-import {WorkFromSearchInput, WorkFromSearchOutput} from '../models/work-from.model';
-import {JobLevelSearchInput, JobLevelSearchOutput} from "../models/job-level.model";
+import {JobTypeSearchInput, JobTypeSearchOutput} from "../models/job-type.model";
 
 @Injectable({
   providedIn: 'root'
 })
-export class JobLevelService {
+export class JobTypeService {
 
   constructor(
     private httpClient: HttpClient
   ) {}
 
-  search(query: JobLevelSearchOutput) {
-    const uri = 'job-level/search'
-    return this.httpClient.get<JobLevelSearchInput>(uri,
+  search(query: JobTypeSearchOutput) {
+    const uri = 'job-type/search'
+    return this.httpClient.get<JobTypeSearchInput>(uri,
       {
         ...httpOptions,
         params: objectToParams(query)

@@ -18,20 +18,26 @@
     </div>
   </div>
   <div class="tw-text-[13px]">
+    <div class="tw-my-4 tw-flex tw-flex-wrap tw-gap-3 tw-items-center" *ngIf="data.jobType">
+      <span class="tw-min-w-[60px] tw-font-medium">
+        Loại
+      </span>
+      <span class="tw-ml-2">{{data.jobType.name}}</span>
+    </div>
     <div class="tw-my-4 tw-flex tw-flex-wrap tw-gap-3 tw-items-center" *ngIf="data.jobLevel">
-      <span class="tw-min-w-[50px] tw-font-medium">
+      <span class="tw-min-w-[60px] tw-font-medium">
         Trình độ
       </span>
       <span class="tw-ml-2">{{data.jobLevel.name}}</span>
     </div>
     <div class="tw-my-4 tw-flex tw-flex-wrap tw-gap-3 tw-items-center" *ngIf="data.workFrom">
-      <span class="tw-min-w-[50px] tw-font-medium">
+      <span class="tw-min-w-[60px] tw-font-medium">
         Hình thức
       </span>
       <span class="tw-ml-2">{{data.workFrom.name}}</span>
     </div>
     <div class="tw-mt-2 tw-flex tw-flex-wrap tw-gap-3 tw-items-center">
-      <span class="tw-pt-3.5 tw-min-w-[50px]  tw-font-medium">
+      <span class="tw-pt-3.5 tw-min-w-[60px]  tw-font-medium">
         Kĩ năng
       </span>
       <app-input-skill
@@ -44,7 +50,7 @@
       ></app-input-skill>
     </div>
     <div class="tw-mt-2 tw-flex tw-flex-wrap tw-gap-3 tw-items-center">
-      <span class="tw-pt-3.5 tw-min-w-[50px] tw-font-medium">
+      <span class="tw-pt-3.5 tw-min-w-[60px] tw-font-medium">
         Vị trí
       </span>
       <app-input-skill
@@ -57,7 +63,7 @@
       ></app-input-skill>
     </div>
     <div class="tw-mt-6"  *ngIf="data.content">
-      <div class="tw-my-2 tw-min-w-[50px] tw-font-medium">
+      <div class="tw-my-2 tw-min-w-[60px] tw-font-medium">
         Mô Tả
       </div>
       <div [innerHTML]="data.content | sanitizeHtml"></div>

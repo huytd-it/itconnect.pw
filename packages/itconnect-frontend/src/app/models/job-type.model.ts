@@ -1,11 +1,11 @@
 import {PageInput, PageOutput, SearchPageOutput} from "./common";
 
-export class JobLevel {
+export class JobType {
   id: number;
   name: string;
 }
 
-export class JobLevelSearchInput extends PageInput<JobLevel> {}
+export class JobTypeSearchInput extends PageInput<JobType> {}
 
-export class JobLevelSearchOutput extends SearchPageOutput {
+export class JobTypeSearchOutput extends SearchPageOutput {
 }

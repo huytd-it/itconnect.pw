@@ -9,6 +9,7 @@ import {
   CUSTOM_MAT_PAGINATOR_PER_PAGE_TOKEN,
   CustomMatPaginatorIntl
 } from "../../../../utils/providers/custom-page.provider";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-job',
@@ -35,6 +36,8 @@ export class JobComponent implements OnInit {
   constructor(
     private filters: FiltersProvider,
     private jobService: JobService,
+    private router: Router,
+    private route: ActivatedRoute,
     public appService: AppService,
   ) {
   }
@@ -59,6 +62,17 @@ export class JobComponent implements OnInit {
       .subscribe(data => {
         this.containerList.nativeElement.scrollTop = 0;
         this.data = data;
+
+        // redirect to job top
+        if (
+          !this.router.url.match(/[0-9]+$/g) &&
+          data.data?.length
+        ) {
+          this.router.navigate(
+            [data.data[0].id.toString()],
+            { relativeTo: this.route }
+          ).then(() => {})
+        }
       })
   }
 
