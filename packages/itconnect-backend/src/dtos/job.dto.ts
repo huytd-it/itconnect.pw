@@ -1,13 +1,15 @@
 import {ApiProperty, ApiPropertyOptional} from "@nestjs/swagger";
 import {
     ArrayMaxSize,
-    IsArray,
-    IsIn,
+    IsArray, IsEnum,
     IsInt,
     IsNotEmpty,
-    IsOptional, IsString,
-    Max, MaxLength,
-    Min, MinDate,
+    IsOptional,
+    IsString,
+    Max,
+    MaxLength,
+    Min,
+    MinDate,
     MinLength,
     ValidateNested
 } from "class-validator";
@@ -31,6 +33,7 @@ import {JobLevelEntity} from "../entities/jobLevel.entity";
 import {CompanyTagEntity} from "../entities/companyTag.entity";
 import {UserDto} from "./user.dto";
 import {Type} from "class-transformer";
+import {ApiEnumValue} from "../utils/decorators/api-enum-value.decorator";
 
 export class JobRangePropCreateOrEdit {
     @ApiPropertyOptional()
@@ -373,6 +376,27 @@ export class JobSearchQueryInputDto {
     search: string;
 }
 
+export class JobSearchLevelRangeInputDto {
+    @ApiProperty()
+    @MinLength(1)
+    @MaxLength(255)
+    name: string;
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsInt()
+    @Min(1)
+    @Max(10)
+    levelMin: number;
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsInt()
+    @Min(1)
+    @Max(10)
+    levelMax: number;
+}
+
 export class JobSearchBodyInputDto {
     @ApiPropertyOptional()
     @IsOptional()
@@ -401,4 +425,76 @@ export class JobSearchBodyInputDto {
     @MinLength(1, { each: true })
     @MaxLength(255, { each: true })
     school: string[];
+
+    @ApiPropertyOptional({
+        type: JobSearchLevelRangeInputDto,
+        isArray: true
+    })
+    @IsOptional()
+    @IsArray()
+    @ArrayMaxSize(10)
+    @ValidateNested({ each: true })
+    certificate: JobSearchLevelRangeInputDto[];
+
+    @ApiPropertyOptional({
+        type: JobSearchLevelRangeInputDto,
+        isArray: true
+    })
+    @IsOptional()
+    @IsArray()
+    @ArrayMaxSize(10)
+    @ValidateNested({ each: true })
+    skill: JobSearchLevelRangeInputDto[];
+
+    @ApiPropertyOptional({
+        type: JobSearchLevelRangeInputDto,
+        isArray: true
+    })
+    @IsOptional()
+    @IsArray()
+    @ArrayMaxSize(10)
+    @ValidateNested({ each: true })
+    position: JobSearchLevelRangeInputDto[];
+
+    @ApiEnumValue(
+        ApiPropertyOptional,
+        {
+            enum: JobStatus
+        }
+    )
+    @IsOptional()
+    @IsEnum(JobStatus)
+    status: JobStatus;
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    includeJobExpired: boolean;
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsInt()
+    salaryMin: number;
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsInt()
+    salaryMax: number;
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsInt()
+    @ExistsRowField(AddressEntity, 'id', true)
+    addressProvince: number;
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsInt()
+    @ExistsRowField(AddressEntity, 'id', true)
+    addressDistrict: number;
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsInt()
+    @ExistsRowField(AddressEntity, 'id', true)
+    addressVillage: number;
 }

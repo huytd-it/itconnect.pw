@@ -1,7 +1,16 @@
 import {BadRequestException, ForbiddenException, Inject, Injectable, Logger, Request, Scope} from '@nestjs/common';
-import {JobCreateOrEditDto, JobSearchBodyInputDto, JobSearchQueryInputDto} from "../dtos/job.dto";
+import {JobCreateOrEditDto, JobDto, JobSearchBodyInputDto, JobSearchQueryInputDto} from "../dtos/job.dto";
 import {JobEntity, JobStatus} from "../entities/job.entity";
-import {DataSource, DeepPartial, In, LessThanOrEqual, Like, MoreThanOrEqual, Not, Repository} from "typeorm";
+import {
+    DataSource,
+    DeepPartial,
+    FindManyOptions,
+    In,
+    LessThanOrEqual,
+    Like,
+    MoreThanOrEqual,
+    Repository
+} from "typeorm";
 import {InjectRepository} from "@nestjs/typeorm";
 import {JobPositionEntity} from "../entities/jobPosition.entity";
 import {JobSkillEntity} from "../entities/jobSkill.entity";
@@ -9,15 +18,20 @@ import {JobSchoolEntity} from "../entities/jobSchool.entity";
 import {JobCertificateEntity} from "../entities/jobCertificate.entity";
 import {JobWorkFromEntity} from "../entities/jobWorkFrom.entity";
 import {JobJobLevelEntity} from "../entities/jobJobLevel.entity";
-import {Id, queryExists} from "../utils/function";
+import {Id, queryExists, queryExistsMulti} from "../utils/function";
 import {REQUEST} from "@nestjs/core";
 import {UserEntity} from "../entities/user.entity";
 import {AppRole} from "../polices/permission.enum";
 import {CompanyInfoEntity} from "../entities/companyInfo.entity";
 import {CompanyTagEntity} from "../entities/companyTag.entity";
-import {JobLevelEntity} from "../entities/jobLevel.entity";
-import {PageOptionsDto} from "../dtos/page.dto";
+import {PageDto, PageMetaDto, PageOptionsDto} from "../dtos/page.dto";
 import {SchoolEntity} from "../entities/school.entity";
+import {CertificateEntity} from "../entities/certificate.entity";
+import {SkillEntity} from "../entities/skill.entity";
+import {PositionEntity} from "../entities/position.entity";
+import * as moment from "moment";
+import {DateUtils} from "typeorm/util/DateUtils";
+import {JobLevelDto} from "../dtos/jobLevel.dto";
 
 @Injectable({ scope: Scope.REQUEST })
 export class JobService {
@@ -39,6 +53,12 @@ export class JobService {
         private jobJobLevelRepository: Repository<JobJobLevelEntity>,
         @InjectRepository(SchoolEntity)
         private schoolRepository: Repository<SchoolEntity>,
+        @InjectRepository(CertificateEntity)
+        private certificateRepository: Repository<CertificateEntity>,
+        @InjectRepository(SkillEntity)
+        private skillRepository: Repository<SkillEntity>,
+        @InjectRepository(PositionEntity)
+        private positionRepository: Repository<PositionEntity>,
         @Inject(REQUEST) private request: Request,
         private dataSource: DataSource
     ) {
@@ -271,7 +291,7 @@ export class JobService {
         return job;
     }
 
-    search(query: JobSearchQueryInputDto, body: JobSearchBodyInputDto, page: PageOptionsDto) {
+    async search(query: JobSearchQueryInputDto, body: JobSearchBodyInputDto, page: PageOptionsDto) {
         const qr = this.jobRepository.createQueryBuilder('job');
 
         // job level, map id
@@ -280,10 +300,13 @@ export class JobService {
             qrJobJobLevel.select('jobJobLevel.id')
             qrJobJobLevel.where('jobJobLevel.jobId = job.id');
             qrJobJobLevel.andWhere({
-                // or where
                 jobLevel: In(body.jobLevel)
             });
-            // qr.andWhere(`exists (${qrJobJobLevel.getQuery()})`, qrJobJobLevel.getParameters());
+            /**
+             * build query
+             * where exists jobJobLevel.jobLevelId in (....)
+             *
+             */
             queryExists(qr, qrJobJobLevel);
         }
 
@@ -293,9 +316,13 @@ export class JobService {
             qrJobWorkFrom.select('jobWorkFrom.id')
             qrJobWorkFrom.where('jobWorkFrom.jobId = job.id');
             qrJobWorkFrom.andWhere({
-                // or where
                 workFrom: In(body.workFrom)
             });
+            /**
+             * build query
+             * where exists jobWorkFrom.jobId in (.....)
+             *
+             */
             queryExists(qr, qrJobWorkFrom);
         }
 
@@ -313,7 +340,136 @@ export class JobService {
             qrJobSchool.select('jobSchool.id');
             qrJobSchool.where('jobSchool.jobId = job.id')
             queryExists(qrJobSchool, qrSchool);
+
+            /**
+             * build query
+             * where exists jobSchool (exists school.name like(... or .... or ...))
+             *
+             */
             queryExists(qr, qrJobSchool);
+        }
+
+        // certificate, map text
+        if (body.certificate?.length) {
+            const groupQuery = body.certificate.map(g => {
+                const keyword = {
+                    name: Like(`%${g.name}%`)
+                };
+                const qrCertificate = this.certificateRepository.createQueryBuilder('certificate');
+                qrCertificate.select('certificate.id');
+                qrCertificate.where('jobCertificate.certificateId = certificate.id');
+                qrCertificate.andWhere(keyword);
+
+                const qrJobCertificate =  this.jobCertificateRepository.createQueryBuilder('jobCertificate');
+                qrJobCertificate.select('jobCertificate.id');
+                qrJobCertificate.where('jobCertificate.jobId = job.id')
+                if (g.levelMin) {
+                    qrJobCertificate.andWhere({
+                        levelMin: LessThanOrEqual(g.levelMin)
+                    })
+                }
+                if (g.levelMax) {
+                    qrJobCertificate.andWhere({
+                        levelMax: MoreThanOrEqual(g.levelMax)
+                    })
+                }
+
+                queryExists(qrJobCertificate, qrCertificate);
+                return qrJobCertificate;
+            })
+
+            /**
+             * build query
+             * where (
+             *  exists jobCertificate (levelMin, levelMax) and (exists certificate.name like ...)
+             *  or
+             *  exists jobCertificate (levelMin, levelMax) and (exists certificate.name like ...)
+             *  ...)
+             *
+             */
+            queryExistsMulti(qr, groupQuery, 'or');
+        }
+
+        // skill, map text
+        if (body.skill?.length) {
+            const groupQuery = body.skill.map(g => {
+                const keyword = {
+                    name: Like(`%${g.name}%`)
+                };
+                const qrSkill = this.skillRepository.createQueryBuilder('skill');
+                qrSkill.select('skill.id');
+                qrSkill.where('jobSkill.skillId = skill.id');
+                qrSkill.andWhere(keyword);
+
+                const qrJobSkill =  this.jobSkillRepository.createQueryBuilder('jobSkill');
+                qrJobSkill.select('jobSkill.id');
+                qrJobSkill.where('jobSkill.jobId = job.id')
+                if (g.levelMin) {
+                    qrJobSkill.andWhere({
+                        levelMin: LessThanOrEqual(g.levelMin)
+                    })
+                }
+                if (g.levelMax) {
+                    qrJobSkill.andWhere({
+                        levelMax: MoreThanOrEqual(g.levelMax)
+                    })
+                }
+
+                queryExists(qrJobSkill, qrSkill);
+                return qrJobSkill;
+            })
+
+            /**
+             * build query
+             * where (
+             *  exists jobSkill (levelMin, levelMax) and (exists skill.name like ...)
+             *  or
+             *  exists jobSkill (levelMin, levelMax) and (exists skill.name like ...)
+             *  ...)
+             *
+             */
+            queryExistsMulti(qr, groupQuery, 'or');
+        }
+
+        // position, map text
+        if (body.position?.length) {
+            const groupQuery = body.position.map(g => {
+                const keyword = {
+                    name: Like(`%${g.name}%`)
+                };
+                const qrPosition = this.positionRepository.createQueryBuilder('position');
+                qrPosition.select('position.id');
+                qrPosition.where('jobPosition.positionId = position.id');
+                qrPosition.andWhere(keyword);
+
+                const qrJobPosition =  this.jobPositionRepository.createQueryBuilder('jobPosition');
+                qrJobPosition.select('jobPosition.id');
+                qrJobPosition.where('jobPosition.jobId = job.id')
+                if (g.levelMin) {
+                    qrJobPosition.andWhere({
+                        levelMin: LessThanOrEqual(g.levelMin)
+                    })
+                }
+                if (g.levelMax) {
+                    qrJobPosition.andWhere({
+                        levelMax: MoreThanOrEqual(g.levelMax)
+                    })
+                }
+
+                queryExists(qrJobPosition, qrPosition);
+                return qrJobPosition;
+            })
+
+            /**
+             * build query
+             * where (
+             *  exists jobPosition (levelMin, levelMax) and (exists position.name like ...)
+             *  or
+             *  exists jobPosition (levelMin, levelMax) and (exists position.name like ...)
+             *  ...)
+             *
+             */
+            queryExistsMulti(qr, groupQuery, 'or');
         }
 
         // yoe
@@ -323,8 +479,87 @@ export class JobService {
             })
         }
 
-        console.log(qr.getQuery(), qr.getParameters());
+        // salary min
+        if (body.salaryMin) {
+            qr.andWhere({
+                status: body.salaryMin
+            })
+        }
+        if (body.salaryMax) {
+            qr.andWhere({
+                status: body.salaryMax
+            })
+        }
 
-        return qr.getMany();
+        // address
+        if (body.addressDistrict) {
+            qr.andWhere({
+                addressDistrict: body.addressDistrict
+            })
+        }
+        if (body.addressProvince) {
+            qr.andWhere({
+                addressProvince: body.addressProvince
+            })
+        }
+        if (body.addressVillage) {
+            qr.andWhere({
+                addressProvince: body.addressVillage
+            })
+        }
+
+        // status
+        if (body.status) {
+            qr.andWhere({
+                status: body.status
+            })
+        }
+
+        // expired
+        if (!body.includeJobExpired) {
+            qr.andWhere({
+                endDate: MoreThanOrEqual(DateUtils.mixedDateToUtcDatetimeString(
+                    moment().utc().startOf('date').toDate()
+                ))
+            })
+        }
+
+        /**
+         * Valid owner when
+         *  + status filter different Publish
+         *  +
+         *  +
+         *
+         */
+        if (
+            !body.status ||
+            body.status !== JobStatus.Publish ||
+            body.includeJobExpired
+        ) {
+            const user = this.request['user'] as UserEntity;
+            qr.andWhere({
+                user: Id(user.id)
+            })
+        }
+
+        // page
+        if (query.search) {
+            qr.andWhere({
+                name: Like(`%${query.search}%`)
+            })
+        }
+
+        if (page.order_field && page.order) {
+            qr.orderBy(page.order_field, page.order)
+        }
+
+        const total = await qr.getCount();
+
+        qr.skip(page.skip);
+        qr.take(page.take);
+        const result = await qr.getMany();
+
+        const meta = new PageMetaDto({ itemCount: total, pageOptionDto: page });
+        return new PageDto(result, meta)
     }
 }

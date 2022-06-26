@@ -1,11 +1,12 @@
 import {
     Column,
     CreateDateColumn,
-    DeleteDateColumn, Entity,
+    DeleteDateColumn, Entity, Index,
     ManyToOne,
     OneToMany,
     PrimaryGeneratedColumn,
-    UpdateDateColumn
+    UpdateDateColumn,
+    Unique
 } from "typeorm";
 import {CvEducationEntity} from "./cvEducation.entity";
 
@@ -15,6 +16,8 @@ export class RankedAcademicEntity {
     id: number
 
     @Column()
+    @Unique(['name'])
+    @Index({ fulltext: true })
     name: string
 
     @OneToMany(type => CvEducationEntity, db => db.rankedAcademic)

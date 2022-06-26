@@ -24,6 +24,7 @@ export class PositionEntity {
 
     @Column()
     @Unique(['name'])
+    @Index({ fulltext: true })
     name: string;
 
     @Column({ default: false })

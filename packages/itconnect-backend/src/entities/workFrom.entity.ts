@@ -7,7 +7,6 @@ import {
     PrimaryGeneratedColumn, Unique,
     UpdateDateColumn
 } from "typeorm";
-import {UserPositionEntity} from "./userPosition.entity";
 import {CvWorkExperienceEntity} from "./cvWorkExperience.entity";
 
 export const MAX_WORK_FROM_NAME_LENGTH = 20;
@@ -18,8 +17,9 @@ export class WorkFromEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ default: false })
+    @Column()
     @Unique(['name'])
+    @Index({ fulltext: true })
     name: string;
 
     @OneToMany(type => CvWorkExperienceEntity, db => db.jobLevel)

@@ -1,7 +1,7 @@
 import {
     Column,
     CreateDateColumn, DeleteDateColumn,
-    Entity,
+    Entity, Index,
     JoinColumn,
     ManyToOne, OneToMany,
     OneToOne,
@@ -74,18 +74,23 @@ export class JobEntity {
     companyTag: CompanyTagEntity;
 
     @Column({ nullable: true })
+    @Index()
     salaryMin: number;
 
     @Column({ nullable: true })
+    @Index()
     salaryMax: number;
 
     @Column({ nullable: true })
+    @Index()
     yoe: number;
 
     @Column()
+    @Index({ fulltext: true })
     name: string;
 
     @Column()
+    @Index()
     endDate: Date;
 
     @Column({ type: 'text' })
@@ -98,6 +103,7 @@ export class JobEntity {
     reasonContent: string;
 
     @Column()
+    @Index()
     status: JobStatus;
 
     @CreateDateColumn()

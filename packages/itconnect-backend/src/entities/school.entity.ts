@@ -23,6 +23,7 @@ export class SchoolEntity {
 
     @Column()
     @Unique(['name'])
+    @Index({ fulltext: true })
     name: string;
 
     @Column({ default: false })
