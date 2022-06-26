@@ -25,7 +25,7 @@ export class JobService {
     });
   }
 
-  search(query: JobSearchOutput, body: JobSearchBodyOutput) {
+  search(query: JobSearchOutput, body: Partial<JobSearchBodyOutput>) {
     const uri = 'job/search'
     return this.httpClient.post<JobSearchInput>(uri,
       body,
@@ -34,5 +34,10 @@ export class JobService {
         params: objectToParams(query)
       }
     );
+  }
+
+  getById(id: number) {
+    const uri = 'job/' + id;
+    return this.httpClient.get<Job>(uri, httpOptions);
   }
 }

@@ -7,17 +7,21 @@ import {MatIconModule} from "@angular/material/icon";
 import {FormsModule} from "@angular/forms";
 import {MainComponentsModule} from "../../../components/components.module";
 import {NgSelectModule} from "@ng-select/ng-select";
+import { ViewJobComponent } from './view-job/view-job.component';
+import {RouterModule} from "@angular/router";
 
 
 
 @NgModule({
   declarations: [
     BasicFilterComponent,
-    FullFilterComponent
+    FullFilterComponent,
+    ViewJobComponent
   ],
   exports: [
     FullFilterComponent,
-    BasicFilterComponent
+    BasicFilterComponent,
+    ViewJobComponent
   ],
     imports: [
         CommonModule,
@@ -25,7 +29,8 @@ import {NgSelectModule} from "@ng-select/ng-select";
         MatIconModule,
         FormsModule,
         MainComponentsModule,
-        NgSelectModule
+        NgSelectModule,
+        RouterModule
     ],
 })
 export class JobSearchComponentsModule { }

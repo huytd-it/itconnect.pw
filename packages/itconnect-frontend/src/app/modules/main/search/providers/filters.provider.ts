@@ -3,14 +3,15 @@ import {CompanyTagService} from "../../../../services/company-tag.service";
 import {AppService} from "../../../../services/app.service";
 import {CreateTaggedOutput, OptionItem, SearchPageOutput, TaggedInput} from "../../../../models/common";
 import {CompanyTagSearchOutput} from "../../../../models/company-tag.model";
-import {BehaviorSubject, finalize} from "rxjs";
-import {PositionSearchOutput} from "../../../../models/position.model";
+import {finalize} from "rxjs";
 import {
   JobJobLevelCreateOrEdit,
-  JobPositionCreateOrEdit,
   JobSchoolCreateOrEdit,
+  JobSearchBodyOutput,
   JobSearchLevelRange,
-  JobSearchOutput, JobWorkFromCreateOrEdit
+  JobSearchOutput,
+  JobStatus,
+  JobWorkFromCreateOrEdit
 } from "../../../../models/job.model";
 import {PositionService} from "../../../../services/position.service";
 import {SkillService} from "../../../../services/skill.service";
@@ -22,6 +23,7 @@ import {JobLevelService} from "../../../../services/job-level.service";
 import {WorkFromSearchOutput} from "../../../../models/work-from.model";
 import {JobLevelSearchOutput} from "../../../../models/job-level.model";
 import {Address} from "../../../../models/address.model";
+import {EasySelectCheckboxComponent} from "../../../../components/easy-select-checkbox/easy-select-checkbox.component";
 
 @Injectable()
 export class FiltersProvider {
@@ -33,7 +35,7 @@ export class FiltersProvider {
   companyTag: OptionItem[] = [];
   workFrom: OptionItem[] = [];
   jobLevel: OptionItem[] = [];
-  yoe: number;
+  yoe: OptionItem;
   salaryMin: number;
   salaryMax: number;
   address: {
@@ -59,6 +61,25 @@ export class FiltersProvider {
   ) { }
 
   ngOnInit(): void {
+  }
+
+  getBody(): Partial<JobSearchBodyOutput> {
+    return {
+      position: this.position,
+      skill: this.skill,
+      certificate: this.certificate,
+      school: this.school.map(item => item.name),
+      company: this.companyTag.map(item => item.name),
+      workFrom: this.workFrom.map(item => item.id),
+      jobLevel: this.jobLevel.map(item => item.id),
+      yoe: this.yoe?.id,
+      addressDistrict: this.address?.districtId?.id,
+      addressProvince: this.address?.provinceId?.id,
+      addressVillage: this.address?.villageId?.id,
+      salaryMax: this.salaryMax,
+      salaryMin: this.salaryMin,
+      status: JobStatus.Publish,
+    }
   }
 
   /**
@@ -209,7 +230,14 @@ export class FiltersProvider {
     this.companyTag = [...this.companyTag];
   }
 
-  onAddCompanyTagString = (item: string) => {
+  onAddCompanyTagString = (name: string, refCompany: EasySelectCheckboxComponent) => {
+    this.appService.setHeadLoading(true);
+    this.companyTagService.createTag({ name })
+      .pipe(finalize(() => this.appService.setHeadLoading(false)))
+      .subscribe((data) => {
+        this.onAddDataCompanyTag(data);
+        refCompany.close();
+      })
   }
 
   onRemoveDataCompanyTag = (item: OptionItem) => {

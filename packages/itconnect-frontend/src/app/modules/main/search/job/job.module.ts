@@ -9,6 +9,8 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {JobSearchComponentsModule} from "./components/job-search-components.module";
 import {MatButtonModule} from "@angular/material/button";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {UtilsModule} from "../../../../utils/utils.module";
 
 
 @NgModule({
@@ -22,6 +24,8 @@ import {MatButtonModule} from "@angular/material/button";
         MatIconModule,
         JobSearchComponentsModule,
         MatButtonModule,
+        MatPaginatorModule,
+        UtilsModule,
     ]
 })
 export class JobModule { }

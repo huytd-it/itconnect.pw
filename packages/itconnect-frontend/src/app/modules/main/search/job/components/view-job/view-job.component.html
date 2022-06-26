@@ -1,0 +1,64 @@
+<div *ngIf="data" class="tw-p-3 tw-h-full tw-overflow-x-hidden tw-overflow-y-auto c-scrollbar">
+  <a class="tw-text-2xl tw-leading-8 tw-font-medium">
+    {{data.name}}
+  </a>
+  <div class="tw-mt-2 tw-flex tw-items-center">
+    <span>
+      {{data.companyTag.name}}
+    </span>
+    <span class="tw-w-[5px] tw-h-[5px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-2"></span>
+    <span>
+      {{data.addressStreet}}, {{data.addressVillage.name}}, {{data.addressDistrict.name}}, {{data.addressProvince.name}}
+    </span>
+    <span class="tw-w-[5px] tw-h-[5px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-2"></span>
+    <span class="tw-font-thin">
+      {{data.updatedAt | dateFromNow}}
+    </span>
+  </div>
+
+  <div class="tw-mt-10">
+    <button mat-raised-button color="primary">Ứng tuyển</button>
+    <button mat-stroked-button class="!tw-ml-3">Lưu</button>
+  </div>
+
+  <div class="tw-mt-10">
+    <div class="tw-font-thin">Đăng bởi</div>
+    <div *ngIf="data.user.userInfo" class="tw-mt-5 tw-flex tw-gap-3 tw-cursor-pointer" [routerLink]="'/'">
+      <app-avatar [radius]="70" [name]="data.user.userInfo.fullName"></app-avatar>
+      <div class="tw-p-2">
+        <div class="tw-font-medium">{{data.user.userInfo.fullName}}</div>
+        <div class="tw-font-thin line-2 tw-mt-2">
+          {{data.user.userInfo.interest || 'Tôi là thành viên của ITConnect'}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tw-mt-10">
+    <div class="tw-font-medium tw-text-lg">
+      Giới thiệu công việc
+    </div>
+    <div class="tw-mt-1 tw-px-3 tw-font-thin">
+      <div [innerHTML]="data.descriptionContent | sanitizeHtml"></div>
+    </div>
+  </div>
+
+  <div class="tw-mt-10">
+    <div class="tw-font-medium tw-text-lg">
+      Yêu cầu & Kinh nghiệm
+    </div>
+    <div class="tw-mt-1 tw-px-3 tw-font-thin">
+      <div [innerHTML]="data.requirementContent | sanitizeHtml"></div>
+    </div>
+  </div>
+
+  <div class="tw-mt-10">
+    <div class="tw-font-medium tw-text-lg">
+      Lý do chọn chúng tôi
+    </div>
+    <div class="tw-mt-1 tw-px-3 tw-font-thin">
+      <div [innerHTML]="data.reasonContent | sanitizeHtml"></div>
+    </div>
+  </div>
+
+</div>

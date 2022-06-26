@@ -1,24 +1,18 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {AuthService} from "../../services/auth.service";
-import {AppPermission} from "../../models/permission.model";
-import {PermissionService} from "../../services/permission.service";
-import {isArray} from "lodash";
+import * as moment from "moment";
+import 'moment/locale/vi'
 
 @Pipe({
-  name: 'permission'
+  name: 'dateFromNow'
 })
-export class PermissionPipe implements PipeTransform {
+export class DateFromNowPipe implements PipeTransform {
 
   constructor(
-    private permissionService: PermissionService
   ) {
   }
 
-  transform(value: AppPermission | AppPermission[], ...args: unknown[]): boolean {
-    if (isArray(value)) {
-      return value.every(p => this.permissionService.hasPermission(p))
-    }
-    return this.permissionService.hasPermission(value);
+  transform(value: Date, ...args: unknown[]): string {
+    return moment(value).locale('vi').fromNow();
   }
 
 }

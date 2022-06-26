@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FiltersProvider} from "../../../providers/filters.provider";
 import {JobSearchBodyOutput, JobSearchOutput} from "../../../../../../models/job.model";
 import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
@@ -10,14 +10,12 @@ import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
 })
 export class FullFilterComponent implements OnInit {
   faArrowDown = faArrowDown;
+  @Output() onSearch = new EventEmitter();
 
   constructor(
     public filters: FiltersProvider
   ) { }
 
   ngOnInit(): void {
-  }
-
-  onSearch() {
   }
 }

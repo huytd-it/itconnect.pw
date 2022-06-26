@@ -9,6 +9,8 @@ import {FiltersProvider} from "../../../providers/filters.provider";
   styleUrls: ['./basic-filter.component.scss']
 })
 export class BasicFilterComponent implements OnInit {
+  @Output() onSearch = new EventEmitter();
+
   constructor(
     public filters: FiltersProvider
   ) { }

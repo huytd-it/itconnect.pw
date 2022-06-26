@@ -1,4 +1,4 @@
-import {Component, forwardRef, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, forwardRef, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {AddressService} from "../../../../services/address.service";
 import {OptionItem, SearchPageOutput} from "../../../../models/common";
 import {AddressSearchOutput, EAddressType} from "../../../../models/address.model";
@@ -59,6 +59,7 @@ export class InputAddressComponent implements OnInit, OnDestroy, ControlValueAcc
   @Input() hideStreet: boolean;
   @Input() hideVillage: boolean;
   @Input() hideDistrict: boolean;
+  @Output() onChangeE = new EventEmitter();
 
   form: FormGroup;
 
@@ -154,6 +155,8 @@ export class InputAddressComponent implements OnInit, OnDestroy, ControlValueAcc
         controlVillage.setValue(null);
         controlVillage.setErrors(null);
     }
+
+    this.onChangeE.emit();
   }
 
   writeValue(obj: any): void {

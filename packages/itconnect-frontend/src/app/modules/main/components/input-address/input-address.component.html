@@ -5,6 +5,7 @@
   </mat-form-field>
   <div class="tw-flex-1 tw-min-w-[200px]" *ngIf="!hideVillage">
     <app-easy-select
+      [isAddTag]="false"
       [label]="'Phường/Xã'"
       [loadMoreFn]="fetchData(FormField.village)"
       [formControlName]="FormField.village"
@@ -13,6 +14,7 @@
   </div>
   <div class="tw-flex-1 tw-min-w-[200px]" *ngIf="!hideDistrict">
     <app-easy-select
+      [isAddTag]="false"
       [label]="'Quận/Huyện'"
       [loadMoreFn]="fetchData(FormField.district)"
       [formControlName]="FormField.district"
@@ -22,6 +24,7 @@
   </div>
   <div class="tw-flex-1 tw-min-w-[200px]">
     <app-easy-select
+      [isAddTag]="false"
       [label]="'Thành Phố/Tỉnh'"
       [loadMoreFn]="fetchData(FormField.province)"
       [formControlName]="FormField.province"
