@@ -22,6 +22,7 @@ import {SkillEntity} from "../entities/skill.entity";
 import {PositionEntity} from "../entities/position.entity";
 import * as moment from "moment";
 import {DateUtils} from "typeorm/util/DateUtils";
+import {JobTypeEntity} from "../entities/jobType.entity";
 
 @Injectable({ scope: Scope.REQUEST })
 export class JobService {
@@ -51,6 +52,8 @@ export class JobService {
         private positionRepository: Repository<PositionEntity>,
         @InjectRepository(CompanyTagEntity)
         private companyTagRepository: Repository<CompanyTagEntity>,
+        @InjectRepository(JobTypeEntity)
+        private jobTypeRepository: Repository<JobTypeEntity>,
         @Inject(REQUEST) private request: Request,
         private dataSource: DataSource
     ) {
@@ -79,6 +82,7 @@ export class JobService {
                 'jobWorkFrom.workFrom',
                 'jobJobLevels',
                 'jobJobLevels.jobLevel',
+                'jobType',
                 'companyTag',
                 'companyTag.companyInfo',
                 'user',
@@ -161,6 +165,7 @@ export class JobService {
         dataEntity.reasonContent = data.reasonContent || null;
         dataEntity.yoe = data.yoe || null;
         dataEntity.endDate = data.endDate;
+        dataEntity.jobType = data.jobType ? Id(data.jobType) : null;
 
         try {
             if (id) {

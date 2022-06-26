@@ -31,6 +31,8 @@ import {EasySelectComponent} from "../../../../components/easy-select/easy-selec
 import {catchError, finalize} from "rxjs";
 import * as moment from "moment";
 import {JobService} from "../../../../services/job.service";
+import {JobTypeService} from "../../../../services/job-type.service";
+import {JobTypeSearchOutput} from "../../../../models/job-type.model";
 
 export enum FormField {
   skills = "skills",
@@ -39,6 +41,7 @@ export enum FormField {
   school = "school",
   workFrom = "workFrom",
   jobLevel = "jobLevel",
+  jobType = "jobType",
   name = "name",
   salaryFrom = "salaryFrom",
   salaryTo = "salaryTo",
@@ -85,6 +88,7 @@ export class CreateComponent implements OnInit {
     private schoolService: SchoolService,
     private jobLevelService: JobLevelService,
     private companyTagService: CompanyTagService,
+    private jobTypeService: JobTypeService,
     private appService: AppService,
     private jobService: JobService
   ) {
@@ -95,6 +99,7 @@ export class CreateComponent implements OnInit {
       [FormField.school]: [null],
       [FormField.workFrom]: [null],
       [FormField.jobLevel]: [null],
+      [FormField.jobType]: [null],
       [FormField.name]: [null, [Validators.required, Validators.maxLength(255), Validators.minLength(1)]],
       [FormField.dateEnd]: [null, Validators.required],
       [FormField.salaryFrom]: [null, Validators.min(0)],
@@ -374,6 +379,15 @@ export class CreateComponent implements OnInit {
       })
   }
 
+  /**
+   * Job type
+   *
+   */
+  fetchDataJobType = (query: SearchPageOutput) => {
+    const qr: JobTypeSearchOutput = query;
+    return this.jobTypeService.search(qr);
+  }
+
   onSubmit() {
     this.save(false);
   }
@@ -405,6 +419,7 @@ export class CreateComponent implements OnInit {
       jobSchools: value[FormField.school],
       jobWorkFrom: value[FormField.workFrom],
       jobJobLevels: value[FormField.jobLevel],
+      jobType: value[FormField.jobType]?.id,
       companyTag: value[FormField.companyTag]?.id,
       salaryMin: value[FormField.salaryTo] && Number(value[FormField.salaryFrom]),
       salaryMax: value[FormField.salaryTo] && Number(value[FormField.salaryTo]),

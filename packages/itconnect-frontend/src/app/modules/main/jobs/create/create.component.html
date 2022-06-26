@@ -126,11 +126,19 @@
       <div class="tw-p-3">
         <ng-select
           #ngSelect
+          appearance="outline"
           bindLabel="name"
           placeholder="Năm kinh nghiệm"
           [items]="yoeList"
           [formControlName]="FormField.yoe"
         ></ng-select>
+        <app-easy-select
+          #selectCompany
+          [label]="'Loại công việc'"
+          [loadMoreFn]="fetchDataJobType"
+          [formControlName]="FormField.jobType"
+          [isAddTag]="false"
+        ></app-easy-select>
       </div>
     </div>
 

@@ -8,6 +8,7 @@ import {School} from "./school.model";
 import {WorkFrom} from "./work-from.model";
 import {User} from "./user.model";
 import {JobLevel} from "./job-level.model";
+import {JobType} from "./job-type.model";
 
 export class jobTagRange {
   id?: number;
@@ -89,6 +90,7 @@ export class Job extends BaseTable {
   jobSchools: JobSchool[];
   jobWorkFrom: JobWorkFrom[];
   jobJobLevels: JobJobLevel[];
+  jobType: JobType;
   companyTag: CompanyTag;
   salaryMin: number;
   salaryMax: number;
@@ -113,6 +115,7 @@ export class JobCreateOrEditOutput {
   jobSchools?: JobSchoolCreateOrEdit[];
   jobWorkFrom?: JobWorkFromCreateOrEdit[];
   jobJobLevels?: JobJobLevelCreateOrEdit[];
+  jobType?: number;
   companyTag?: number;
   salaryMin?: number;
   salaryMax?: number;

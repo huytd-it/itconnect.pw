@@ -34,6 +34,7 @@ import {CompanyTagEntity} from "../entities/companyTag.entity";
 import {UserDto} from "./user.dto";
 import {Type} from "class-transformer";
 import {ApiEnumValue} from "../utils/decorators/api-enum-value.decorator";
+import {JobTypeEntity} from "../entities/jobType.entity";
 
 export class JobRangePropCreateOrEdit {
     @ApiPropertyOptional()
@@ -314,6 +315,12 @@ export class JobCreateOrEditDto {
     @IsInt()
     @ExistsRowField(CompanyTagEntity, 'id', true)
     companyTag: number;
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsInt()
+    @ExistsRowField(JobTypeEntity, 'id', true)
+    jobType: number;
 
     @ApiPropertyOptional()
     @IsOptional()
