@@ -1,16 +1,7 @@
 import {BadRequestException, ForbiddenException, Inject, Injectable, Logger, Request, Scope} from '@nestjs/common';
-import {JobCreateOrEditDto, JobDto, JobSearchBodyInputDto, JobSearchQueryInputDto} from "../dtos/job.dto";
+import {JobCreateOrEditDto, JobSearchBodyInputDto, JobSearchQueryInputDto} from "../dtos/job.dto";
 import {JobEntity, JobStatus} from "../entities/job.entity";
-import {
-    DataSource,
-    DeepPartial,
-    FindManyOptions,
-    In,
-    LessThanOrEqual,
-    Like,
-    MoreThanOrEqual,
-    Repository
-} from "typeorm";
+import {DataSource, DeepPartial, In, LessThanOrEqual, Like, MoreThanOrEqual, Repository} from "typeorm";
 import {InjectRepository} from "@nestjs/typeorm";
 import {JobPositionEntity} from "../entities/jobPosition.entity";
 import {JobSkillEntity} from "../entities/jobSkill.entity";
@@ -31,7 +22,6 @@ import {SkillEntity} from "../entities/skill.entity";
 import {PositionEntity} from "../entities/position.entity";
 import * as moment from "moment";
 import {DateUtils} from "typeorm/util/DateUtils";
-import {JobLevelDto} from "../dtos/jobLevel.dto";
 
 @Injectable({ scope: Scope.REQUEST })
 export class JobService {
@@ -199,7 +189,7 @@ export class JobService {
                 } else {
                     // not wait approve because, it not module approve on role moder
                     // updated: If it has role moder change to WaitApprove
-                    dataEntity.status = JobStatus.WaitSystem;
+                    dataEntity.status = JobStatus.Publish; // WaitSystem
                 }
                 dataEntity.user = Id(user.id);
                 const result = await queryRunner.manager.save(JobEntity, dataEntity);
@@ -568,6 +558,24 @@ export class JobService {
 
         const total = await qr.getCount();
 
+        qr.leftJoinAndSelect('job.companyTag', 'companyTag');
+        qr.leftJoinAndSelect('job.addressProvince', 'addressProvince');
+        qr.leftJoinAndSelect('job.addressDistrict', 'addressDistrict');
+        qr.leftJoinAndSelect('job.addressVillage', 'addressVillage');
+
+        qr.select([
+            'job.id',
+            'job.name',
+            'job.addressStreet',
+            'job.updatedAt',
+            'companyTag.id',
+            'companyTag.name',
+            'addressProvince.id',
+            'addressProvince.name',
+            'addressDistrict.id',
+            'addressDistrict.name',
+            'addressVillage',
+        ])
         qr.skip(page.skip);
         qr.take(page.take);
         const result = await qr.getMany();
