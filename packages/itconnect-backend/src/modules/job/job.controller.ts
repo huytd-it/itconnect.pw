@@ -64,7 +64,6 @@ export class JobController {
     @UseGuards(PermissionsGuard)
     @RequirePermissions(AppPermission.JOB_SEARCH)
     @ApiPaginatedResponse(JobDto)
-    @ApiPaginatedQueryOrder(JobEntity)
     @Post('search')
     search(
         @Query() searchQuery: JobSearchQueryInputDto,

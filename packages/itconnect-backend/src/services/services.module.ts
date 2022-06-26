@@ -53,6 +53,8 @@ import {JobSkillEntity} from "../entities/jobSkill.entity";
 import {JobWorkFromEntity} from "../entities/jobWorkFrom.entity";
 import {JobCertificateEntity} from "../entities/jobCertificate.entity";
 import {JobSchoolEntity} from "../entities/jobSchool.entity";
+import {JobTypeService} from "./jobType.service";
+import {JobTypeEntity} from "../entities/jobType.entity";
 
 @Module({
   imports: [
@@ -90,6 +92,7 @@ import {JobSchoolEntity} from "../entities/jobSchool.entity";
         JobWorkFromEntity,
         JobCertificateEntity,
         JobSchoolEntity,
+        JobTypeEntity
     ])
   ],
   providers: [
@@ -111,7 +114,8 @@ import {JobSchoolEntity} from "../entities/jobSchool.entity";
       CvCertificateService,
       RankedAcademicService,
       CvEducationService,
-      JobService
+      JobService,
+      JobTypeService
   ],
   exports: [
       UserService,
@@ -132,7 +136,8 @@ import {JobSchoolEntity} from "../entities/jobSchool.entity";
       CvCertificateService,
       RankedAcademicService,
       CvEducationService,
-      JobService
+      JobService,
+      JobTypeService
   ]
 })
 export class ServicesModule {}

@@ -20,6 +20,7 @@ import {JobCertificateEntity} from "./jobCertificate.entity";
 import {JobSchoolEntity} from "./jobSchool.entity";
 import {JobWorkFromEntity} from "./jobWorkFrom.entity";
 import {JobJobLevelEntity} from "./jobJobLevel.entity";
+import {JobTypeEntity} from "./jobType.entity";
 
 export enum JobStatus {
     Draft = 1,
@@ -69,6 +70,9 @@ export class JobEntity {
 
     @OneToMany(type => JobJobLevelEntity, db => db.job)
     jobJobLevels: JobJobLevelEntity[];
+
+    @ManyToOne(type => JobTypeEntity)
+    jobType: JobTypeEntity;
 
     @ManyToOne(type => CompanyTagEntity)
     companyTag: CompanyTagEntity;

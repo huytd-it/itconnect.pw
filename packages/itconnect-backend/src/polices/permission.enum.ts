@@ -182,6 +182,13 @@ export enum AppPermission {
     CV_EDUCATION_DELETE = 'cv_education_delete',
     CV_EDUCATION_GET_OWNER = 'cv_education_get_owner',
     CV_EDUCATION_CE = 'cv_education_ce',
+
+    /**
+     * Job Type
+     *
+     */
+    JOB_TYPE = 'job_type',
+    JOB_TYPE_SEARCH = 'job_type_search',
 }
 
 
@@ -264,6 +271,8 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.CV_EDUCATION_CE,
         AppPermission.CV_EDUCATION_DELETE,
         AppPermission.CV_EDUCATION_GET_OWNER,
+        AppPermission.JOB_TYPE,
+        AppPermission.JOB_TYPE_SEARCH,
     ],
 
     /***

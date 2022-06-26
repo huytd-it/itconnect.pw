@@ -62,6 +62,7 @@ async function bootstrap() {
       .addTag('user-certificate')
       .addTag('work-from')
       .addTag('job-level')
+      .addTag('job-type')
       .addTag('ranked-academic')
       .addTag('company-tag')
       .addTag('cv-work-experience')
