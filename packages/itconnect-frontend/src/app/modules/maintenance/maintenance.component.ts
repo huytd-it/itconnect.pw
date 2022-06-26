@@ -20,6 +20,10 @@ export class MaintenanceComponent implements OnInit {
 
   onReCheck() {
     this.appService.setFsLoading(true);
-    this.appService.checkStatusServer();
+    this.appService.checkStatusServer(() => {
+      setTimeout(() => {
+        this.appService.setFsLoading(false);
+      }, 1000);
+    });
   }
 }

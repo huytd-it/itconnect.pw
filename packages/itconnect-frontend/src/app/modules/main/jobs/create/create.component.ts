@@ -404,6 +404,7 @@ export class CreateComponent implements OnInit {
       jobCertificates: value[FormField.certificate],
       jobSchools: value[FormField.school],
       jobWorkFrom: value[FormField.workFrom],
+      jobJobLevels: value[FormField.jobLevel],
       companyTag: value[FormField.companyTag]?.id,
       salaryMin: value[FormField.salaryTo] && Number(value[FormField.salaryFrom]),
       salaryMax: value[FormField.salaryTo] && Number(value[FormField.salaryTo]),

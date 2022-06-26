@@ -20,11 +20,9 @@ export class MainComponent implements OnInit, OnDestroy {
     private authService: AuthService
   ) {
     this.renderer.addClass(document.body, 'main-module');
-    this.appService.setFsLoading(true);
     this.userSubscription = this.authService.data$.subscribe((val) => {
       if (this.authService.token) {
         this.isLoaded = !!val;
-        this.setLoadingDebounce(!val);
       }
     })
   }

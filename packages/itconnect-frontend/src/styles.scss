@@ -289,3 +289,17 @@ body > .ng-dropdown-panel {
     margin-top: 40px;
   }
 }
+
+.custom-filter {
+  .mat-form-field-wrapper {
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  ng-select {
+    padding-bottom: 0.25rem !important;
+    > ng-dropdown-panel {
+      margin-top: 14px;
+    }
+  }
+}

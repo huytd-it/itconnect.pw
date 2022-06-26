@@ -1,3 +1,180 @@
-<div class="tw-p-3">
+<div class="tw-p-3 tw-overflow-y-auto c-scrollbar tw-h-full tw-overflow-x-hidden">
+  <mat-form-field class="tw-w-full" appearance="outline">
+    <mat-label>Tên công việc</mat-label>
+    <input matInput [maxLength]="255" [(ngModel)]="filters.query.search">
+    <mat-icon matPrefix>search</mat-icon>
+  </mat-form-field>
+
+  <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[600px]">
+    <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
+      <div class="tw-flex tw-items-center">
+        <mat-icon>difference</mat-icon>
+        <span class="tw-ml-2">Cơ bản</span>
+      </div>
+    </div>
+    <div class="tw-p-3">
+      <ng-select
+        #ngSelect
+        appearance="outline"
+        bindLabel="name"
+        placeholder="Năm kinh nghiệm"
+        [items]="filters.yoeList"
+        [(ngModel)]="filters.yoe"
+      ></ng-select>
+    </div>
+
+    <div class="tw-px-3">
+      <mat-form-field appearance="outline" class="tw-w-full">
+        <mat-label>Lương (từ)</mat-label>
+        <input matInput appNumberOnly [(ngModel)]="filters.salaryMin" type="number" [min]="0" [max]="99999999999">
+        <mat-hint>{{ filters.salaryMin | currency: 'VND' }}</mat-hint>
+      </mat-form-field>
+      <span class="tw-flex tw-justify-center tw-mt-[-16px]">
+        <fa-icon [icon]="faArrowDown" class="tw-inline-block"></fa-icon>
+      </span>
+      <mat-form-field appearance="outline" class="tw-w-full">
+        <mat-label>Lương (đến)</mat-label>
+        <input matInput appNumberOnly [(ngModel)]="filters.salaryMax" type="number" [min]="0" [max]="99999999999">
+        <mat-hint>{{ filters.salaryMax | currency: 'VND' }}</mat-hint>
+      </mat-form-field>
+
+      <app-input-address [(ngModel)]="filters.address" [hideStreet]="true"></app-input-address>
+    </div>
+  </div>
+
+  <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[600px] tw-mt-3">
+    <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
+      <div class="tw-flex tw-items-center">
+        <mat-icon>apartment</mat-icon>
+        <span class="tw-ml-2">Công ty</span>
+      </div>
+    </div>
+    <div class="tw-p-3">
+      <app-input-skill
+        [items]="filters.companyTag"
+        [loadMoreFn]="filters.fetchDataCompanyTag"
+        [createTagFn]="filters.fnAddUserTaggedCompanyTag"
+        (onRemove)="filters.onRemoveDataCompanyTag($event)"
+        (onAdd)="filters.onAddDataCompanyTag($event)"
+      ></app-input-skill>
+    </div>
+  </div>
+
+  <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[600px] tw-mt-3">
+    <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
+      <div class="tw-flex tw-items-center">
+        <mat-icon>hail</mat-icon>
+        <span class="tw-ml-2">Hình thức làm việc</span>
+      </div>
+    </div>
+    <div class="tw-p-3">
+      <app-input-skill
+        [items]="filters.workFrom"
+        [loadMoreFn]="filters.fetchDataWorkFrom"
+        [hasAddTag]="false"
+        (onAdd)="filters.onAddDataWorkFrom($event)"
+        (onRemove)="filters.onRemoveDataWorkFrom($event)"
+      ></app-input-skill>
+    </div>
+  </div>
+
+  <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[600px] tw-mt-3">
+    <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
+      <div class="tw-flex tw-items-center">
+        <mat-icon>psychology_alt</mat-icon>
+        <span class="tw-ml-2">Cấp độ nghề nghiệp</span>
+      </div>
+    </div>
+    <div class="tw-p-3">
+      <app-input-skill
+        [items]="filters.jobLevel"
+        [loadMoreFn]="filters.fetchDataJobLevel"
+        [hasAddTag]="false"
+        (onAdd)="filters.onAddDataJobLevel($event)"
+        (onRemove)="filters.onRemoveDataJobLevel($event)"
+      ></app-input-skill>
+    </div>
+  </div>
+
+  <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[600px] tw-mt-3">
+    <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
+      <div class="tw-flex tw-items-center">
+        <mat-icon>groups</mat-icon>
+        <span class="tw-ml-2">Vị trí</span>
+      </div>
+    </div>
+    <div class="tw-p-3">
+      <app-input-skill-level-range
+        [items]="filters.position"
+        [loadMoreFn]="filters.fetchDataPosition"
+        [createTagFn]="filters.fnAddUserTaggedPosition"
+        (onRemove)="filters.onRemoveDataPosition($event)"
+        (onAdd)="filters.onAddDataPosition($event)"
+      ></app-input-skill-level-range>
+    </div>
+  </div>
+
+  <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[600px] tw-mt-3">
+    <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
+      <div class="tw-flex tw-items-center">
+        <mat-icon>hub</mat-icon>
+        <span class="tw-ml-2">Kỹ năng</span>
+      </div>
+    </div>
+    <div class="tw-p-3">
+      <app-input-skill-level-range
+        [items]="filters.skill"
+        [loadMoreFn]="filters.fetchDataSkill"
+        [createTagFn]="filters.fnAddUserTaggedSkill"
+        (onRemove)="filters.onRemoveDataSkill($event)"
+        (onAdd)="filters.onAddDataSkill($event)"
+      ></app-input-skill-level-range>
+    </div>
+  </div>
+
+  <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[600px] tw-mt-3">
+    <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
+      <div class="tw-flex tw-items-center">
+        <mat-icon>card_membership</mat-icon>
+        <span class="tw-ml-2">Văn bằng / Chứng chỉ</span>
+      </div>
+    </div>
+    <div class="tw-p-3">
+      <app-input-skill-level-range
+        [items]="filters.certificate"
+        [loadMoreFn]="filters.fetchDataCertificate"
+        [createTagFn]="filters.fnAddUserTaggedCertificate"
+        (onRemove)="filters.onRemoveDataCertificate($event)"
+        (onAdd)="filters.onAddDataCertificate($event)"
+      ></app-input-skill-level-range>
+    </div>
+  </div>
+
+  <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[600px] tw-mt-3">
+    <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
+      <div class="tw-flex tw-items-center">
+        <mat-icon>school</mat-icon>
+        <span class="tw-ml-2">Học vấn</span>
+      </div>
+    </div>
+    <div class="tw-p-3">
+      <app-input-skill
+        [items]="filters.school"
+        [loadMoreFn]="filters.fetchDataSchool"
+        [createTagFn]="filters.fnAddUserTaggedSchool"
+        (onRemove)="filters.onRemoveDataSchool($event)"
+        (onAdd)="filters.onAddDataSchool($event)"
+      ></app-input-skill>
+    </div>
+  </div>
+
+  <div class="tw-h-[100px]"></div>
+
+  <div class="tw-absolute tw-bottom-0 tw-left-0 tw-border-t tw-z-20 tw-bg-white tw-p-3 tw-flex tw-justify-end tw-items-center tw-w-full">
+    <button mat-raised-button class="!tw-mr-4" color="primary">
+      <mat-icon>filter_alt</mat-icon>
+      Lọc
+    </button>
+  </div>
 
 </div>

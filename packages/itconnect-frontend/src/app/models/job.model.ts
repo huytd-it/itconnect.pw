@@ -1,4 +1,4 @@
-import {BaseTable} from "./common";
+import {BaseTable, PageInput, SearchPageOutput} from "./common";
 import {Address} from "./address.model";
 import {CompanyTag} from "./company-tag.model";
 import {Position} from "./position.model";
@@ -7,6 +7,7 @@ import {Certificate} from "./certificate.model";
 import {School} from "./school.model";
 import {WorkFrom} from "./work-from.model";
 import {User} from "./user.model";
+import {JobLevel} from "./job-level.model";
 
 export class jobTagRange {
   id?: number;
@@ -121,4 +122,44 @@ export class JobCreateOrEditOutput {
   descriptionContent: string;
   requirementContent: string;
   reasonContent?: string;
+}
+
+export enum JobStatus {
+  Draft = 1,
+  WaitApprove = 2,
+  WaitSystem = 3,
+  Publish = 4,
+  Hide = 5
+}
+
+
+export class JobSearchLevelRange {
+  id?: number; // refactor code
+  name: string;
+  levelMin: number;
+  levelMax: number;
+}
+
+export class JobSearchBodyOutput {
+  yoe: number;
+  jobLevel: number[];
+  workFrom: number[];
+  school: string[];
+  company: string[];
+  certificate: JobSearchLevelRange[];
+  skill: JobSearchLevelRange[];
+  position: JobSearchLevelRange[];
+  status: JobStatus;
+  includeJobExpired: boolean;
+  salaryMin: number;
+  salaryMax: number;
+  addressProvince: number;
+  addressDistrict: number;
+  addressVillage: number;
+}
+
+
+export class JobSearchInput extends PageInput<Job> {}
+
+export class JobSearchOutput extends SearchPageOutput {
 }

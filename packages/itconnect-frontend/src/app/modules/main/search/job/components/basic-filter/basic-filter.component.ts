@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {PageInput, SearchPageOutput} from "../../../../../../models/common";
 import {Observable} from "rxjs";
+import {FiltersProvider} from "../../../providers/filters.provider";
 
 @Component({
   selector: 'app-basic-filter',
@@ -8,10 +9,9 @@ import {Observable} from "rxjs";
   styleUrls: ['./basic-filter.component.scss']
 })
 export class BasicFilterComponent implements OnInit {
-  @Input() fetchDataCompanyTag: (query: SearchPageOutput) => Observable<PageInput<any>>;
-  @Output() onAddCompanyTag = new EventEmitter<string>();
-
-  constructor() { }
+  constructor(
+    public filters: FiltersProvider
+  ) { }
 
   ngOnInit(): void {
   }

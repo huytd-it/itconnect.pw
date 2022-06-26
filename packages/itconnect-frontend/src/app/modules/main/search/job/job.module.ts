@@ -8,18 +8,20 @@ import {CommonComponentsModule} from "../../../../components/common-components.m
 import {MatIconModule} from "@angular/material/icon";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {JobSearchComponentsModule} from "./components/job-search-components.module";
+import {MatButtonModule} from "@angular/material/button";
 
 
 @NgModule({
   declarations: [
     JobComponent
   ],
-  imports: [
-    CommonModule,
-    JobRoutingModule,
-    SearchComponentModule,
-    MatIconModule,
-    JobSearchComponentsModule,
-  ]
+    imports: [
+        CommonModule,
+        JobRoutingModule,
+        SearchComponentModule,
+        MatIconModule,
+        JobSearchComponentsModule,
+        MatButtonModule,
+    ]
 })
 export class JobModule { }

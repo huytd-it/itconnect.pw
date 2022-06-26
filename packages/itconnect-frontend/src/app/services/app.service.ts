@@ -35,22 +35,24 @@ export class AppService {
     return this.httpClient.get('');
   }
 
-  checkStatusServer() {
+  checkStatusServer(callback?: () => void) {
     this.status()
       .pipe(catchError((e) => {
         if (!this.router.url.match(/\/maintenance/)) {
           this.router.navigate(['/maintenance']).then(() => {});
         }
-        setTimeout(() => {
-          this.setFsLoading(false);
-        }, 1000);
+        if (callback) {
+          callback();
+        }
         return throwError(e);
       }))
       .subscribe(() => {
         if (this.router.url.match(/\/maintenance/)) {
           this.router.navigate(['/']).then(() => {});
         }
-        this.setFsLoading(false);
+        if (callback) {
+          callback();
+        }
       });
   }
 }

@@ -10,6 +10,7 @@ import {AppPermission, AppPermissionHashMap, AppRole} from "../models/permission
 import {PermissionService} from "./permission.service";
 import {Router} from "@angular/router";
 import {AppService} from "./app.service";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -78,10 +79,13 @@ export class AuthService {
     if (!this.token) {
       return;
     }
+    const minTimeLoad = new Promise(res => setTimeout(res, environment.production ? 500 : 0));
     this.appService.setFsLoading(true);
     this.profileService.dataBoostrap()
       .pipe(finalize(() => {
-        this.appService.setFsLoading(false);
+        Promise.all([minTimeLoad]).then(() => {
+          this.appService.setFsLoading(false);
+        })
       }))
       .pipe(catchError((e) => {
         this.router.navigate(['/maintenance']).then(() => {});

@@ -1,4 +1,4 @@
-import {Component, forwardRef, OnDestroy, OnInit} from '@angular/core';
+import {Component, forwardRef, Input, OnDestroy, OnInit} from '@angular/core';
 import {AddressService} from "../../../../services/address.service";
 import {OptionItem, SearchPageOutput} from "../../../../models/common";
 import {AddressSearchOutput, EAddressType} from "../../../../models/address.model";
@@ -12,6 +12,7 @@ import {
   Validators
 } from "@angular/forms";
 import {Subscription} from "rxjs";
+import * as _ from "lodash";
 
 enum FormField {
   street = 'street',
@@ -55,6 +56,10 @@ export function validateInputAddressRequired(c: FormControl) {
   ]
 })
 export class InputAddressComponent implements OnInit, OnDestroy, ControlValueAccessor {
+  @Input() hideStreet: boolean;
+  @Input() hideVillage: boolean;
+  @Input() hideDistrict: boolean;
+
   form: FormGroup;
 
   private formChangeSubscription: Subscription;
@@ -153,8 +158,9 @@ export class InputAddressComponent implements OnInit, OnDestroy, ControlValueAcc
 
   writeValue(obj: any): void {
     if (obj) {
-      console.log(obj);
-      this.form.setValue(obj);
+      if (!_.isEqual(obj, this.form.value)) {
+        this.form.setValue(obj);
+      }
     }
   }
 
