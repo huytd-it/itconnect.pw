@@ -19,7 +19,7 @@ export class WorkFromEntity {
 
     @Column()
     @Unique(['name'])
-    @Index({ fulltext: true })
+    // @Index({ fulltext: true })
     name: string;
 
     @OneToMany(type => CvWorkExperienceEntity, db => db.jobLevel)

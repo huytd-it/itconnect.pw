@@ -21,7 +21,7 @@ export class JobLevelEntity {
 
     @Column()
     @Unique(['name'])
-    @Index({ fulltext: true })
+    // @Index({ fulltext: true })
     name: string;
 
     @OneToMany(type => UserInfoEntity, db => db.jobLevel)

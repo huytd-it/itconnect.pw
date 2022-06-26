@@ -2,7 +2,7 @@ import {
     Column,
     CreateDateColumn,
     DeleteDateColumn,
-    Entity, JoinColumn,
+    Entity, Index, JoinColumn,
     ManyToOne, OneToMany,
     OneToOne,
     PrimaryColumn, PrimaryGeneratedColumn,
@@ -45,6 +45,7 @@ export class CompanyInfoEntity {
     phone: string;
 
     @Column()
+    // @Index({ fulltext: true })
     companyName: string;
 
     @Column()

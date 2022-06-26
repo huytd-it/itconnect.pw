@@ -86,7 +86,7 @@ export class JobEntity {
     yoe: number;
 
     @Column()
-    @Index({ fulltext: true })
+    // @Index({ fulltext: true })
     name: string;
 
     @Column()

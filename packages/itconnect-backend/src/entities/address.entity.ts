@@ -21,6 +21,7 @@ export class AddressEntity {
     id: number
 
     @Column()
+    // @Index({ fulltext: true })
     name: string;
 
     @Column()

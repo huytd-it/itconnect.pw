@@ -426,6 +426,15 @@ export class JobSearchBodyInputDto {
     @MaxLength(255, { each: true })
     school: string[];
 
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsArray()
+    @ArrayMaxSize(10)
+    @IsString({ each: true })
+    @MinLength(1, { each: true })
+    @MaxLength(255, { each: true })
+    company: string[];
+
     @ApiPropertyOptional({
         type: JobSearchLevelRangeInputDto,
         isArray: true

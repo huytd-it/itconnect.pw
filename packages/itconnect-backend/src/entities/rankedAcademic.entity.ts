@@ -17,7 +17,7 @@ export class RankedAcademicEntity {
 
     @Column()
     @Unique(['name'])
-    @Index({ fulltext: true })
+    // @Index({ fulltext: true })
     name: string
 
     @OneToMany(type => CvEducationEntity, db => db.rankedAcademic)

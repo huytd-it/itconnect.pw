@@ -25,6 +25,7 @@ export class CompanyTagEntity {
 
     @Column()
     @Unique(['name'])
+    // @Index({ fulltext: true })
     name: string;
 
     @Column({ default: false })

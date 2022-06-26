@@ -59,6 +59,8 @@ export class JobService {
         private skillRepository: Repository<SkillEntity>,
         @InjectRepository(PositionEntity)
         private positionRepository: Repository<PositionEntity>,
+        @InjectRepository(CompanyTagEntity)
+        private companyTagRepository: Repository<CompanyTagEntity>,
         @Inject(REQUEST) private request: Request,
         private dataSource: DataSource
     ) {
@@ -470,6 +472,17 @@ export class JobService {
              *
              */
             queryExistsMulti(qr, groupQuery, 'or');
+        }
+
+        // company
+        if (body.company?.length) {
+            const keyword = body.company.map(search => ({
+                name: Like(`%${search}%`)
+            }));
+            const queryCompanyTag = this.companyTagRepository.createQueryBuilder('companyTag');
+            queryCompanyTag.where('companyTag.id = job.companyTagId')
+            queryCompanyTag.andWhere(keyword)
+            queryExists(qr, queryCompanyTag);
         }
 
         // yoe
