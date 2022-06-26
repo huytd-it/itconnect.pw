@@ -522,7 +522,7 @@ export class JobService {
         if (!body.includeJobExpired) {
             qr.andWhere({
                 endDate: MoreThanOrEqual(DateUtils.mixedDateToUtcDatetimeString(
-                    moment().utc().startOf('date').toDate()
+                    moment().startOf('date').toDate()
                 ))
             })
         }
