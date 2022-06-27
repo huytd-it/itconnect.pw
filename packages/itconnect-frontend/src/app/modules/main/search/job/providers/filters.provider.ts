@@ -1,8 +1,8 @@
 import {Injectable} from "@angular/core";
-import {CompanyTagService} from "../../../../services/company-tag.service";
-import {AppService} from "../../../../services/app.service";
-import {CreateTaggedOutput, OptionItem, SearchPageOutput, TaggedInput} from "../../../../models/common";
-import {CompanyTagSearchOutput} from "../../../../models/company-tag.model";
+import {CompanyTagService} from "../../../../../services/company-tag.service";
+import {AppService} from "../../../../../services/app.service";
+import {CreateTaggedOutput, OptionItem, SearchPageOutput, TaggedInput} from "../../../../../models/common";
+import {CompanyTagSearchOutput} from "../../../../../models/company-tag.model";
 import {finalize} from "rxjs";
 import {
   JobJobLevelCreateOrEdit,
@@ -12,20 +12,20 @@ import {
   JobSearchOutput,
   JobStatus,
   JobWorkFromCreateOrEdit
-} from "../../../../models/job.model";
-import {PositionService} from "../../../../services/position.service";
-import {SkillService} from "../../../../services/skill.service";
-import {CertificateService} from "../../../../services/certificate.service";
-import {SchoolSearchOutput} from "../../../../models/school.model";
-import {SchoolService} from "../../../../services/school.service";
-import {WorkFromService} from "../../../../services/work-from.service";
-import {JobLevelService} from "../../../../services/job-level.service";
-import {WorkFromSearchOutput} from "../../../../models/work-from.model";
-import {JobLevelSearchOutput} from "../../../../models/job-level.model";
-import {Address} from "../../../../models/address.model";
-import {EasySelectCheckboxComponent} from "../../../../components/easy-select-checkbox/easy-select-checkbox.component";
-import {JobTypeService} from "../../../../services/job-type.service";
-import {JobTypeSearchOutput} from "../../../../models/job-type.model";
+} from "../../../../../models/job.model";
+import {PositionService} from "../../../../../services/position.service";
+import {SkillService} from "../../../../../services/skill.service";
+import {CertificateService} from "../../../../../services/certificate.service";
+import {SchoolSearchOutput} from "../../../../../models/school.model";
+import {SchoolService} from "../../../../../services/school.service";
+import {WorkFromService} from "../../../../../services/work-from.service";
+import {JobLevelService} from "../../../../../services/job-level.service";
+import {WorkFromSearchOutput} from "../../../../../models/work-from.model";
+import {JobLevelSearchOutput} from "../../../../../models/job-level.model";
+import {Address} from "../../../../../models/address.model";
+import {EasySelectCheckboxComponent} from "../../../../../components/easy-select-checkbox/easy-select-checkbox.component";
+import {JobTypeService} from "../../../../../services/job-type.service";
+import {JobTypeSearchOutput} from "../../../../../models/job-type.model";
 
 @Injectable()
 export class FiltersProvider {

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {PageInput, SearchPageOutput} from "../../../../../../models/common";
 import {Observable} from "rxjs";
-import {FiltersProvider} from "../../../providers/filters.provider";
+import {FiltersProvider} from "../../providers/filters.provider";
 
 @Component({
   selector: 'app-basic-filter',

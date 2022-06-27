@@ -49,7 +49,11 @@ export class JobController {
         @Body() data: JobCreateOrEditDto,
         @Query() query: JobCreateOrEditQueryDto
     ) {
-        return this.jobService.createOrEdit(data, query.hasResponseEntity, query.saveDraft);
+        return this.jobService.createOrEdit(
+            data,
+            (<any>query.hasResponseEntity == 'true'),
+            (<any>query.saveDraft == 'true')
+        );
     }
 
     @UseGuards(PermissionsGuard)

@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {FiltersProvider} from "../../../providers/filters.provider";
+import {FiltersProvider} from "../../providers/filters.provider";
 import {JobSearchBodyOutput, JobSearchOutput} from "../../../../../../models/job.model";
 import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
 

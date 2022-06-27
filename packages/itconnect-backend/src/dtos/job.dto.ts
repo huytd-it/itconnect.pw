@@ -1,7 +1,7 @@
 import {ApiProperty, ApiPropertyOptional} from "@nestjs/swagger";
 import {
     ArrayMaxSize,
-    IsArray, IsEnum,
+    IsArray, IsBoolean, IsEnum,
     IsInt,
     IsNotEmpty,
     IsOptional,
@@ -32,7 +32,7 @@ import {WorkFromEntity} from "../entities/workFrom.entity";
 import {JobLevelEntity} from "../entities/jobLevel.entity";
 import {CompanyTagEntity} from "../entities/companyTag.entity";
 import {UserDto} from "./user.dto";
-import {Type} from "class-transformer";
+import {Transform, Type} from "class-transformer";
 import {ApiEnumValue} from "../utils/decorators/api-enum-value.decorator";
 import {JobTypeEntity} from "../entities/jobType.entity";
 

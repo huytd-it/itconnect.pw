@@ -1,5 +1,11 @@
-<div *ngIf="data" class="tw-p-3 tw-h-full tw-overflow-x-hidden tw-overflow-y-auto c-scrollbar">
-  <a class="tw-text-2xl tw-leading-8 tw-font-medium">
+<div
+  [ngClass]="{
+    'tw-p-5': isJobModule
+  }"
+  *ngIf="data"
+  class="tw-p-3 tw-h-full tw-overflow-x-hidden tw-overflow-y-auto c-scrollbar"
+>
+  <a class="tw-text-2xl tw-leading-8 tw-font-medium hover:tw-underline" [routerLink]="'/u/jobs/view/' + data.id">
     {{data.name}}
   </a>
   <div class="tw-mt-2 tw-flex tw-items-center">
@@ -28,7 +34,7 @@
       <div class="tw-p-2">
         <div class="tw-font-medium">{{data.user.userInfo.fullName}}</div>
         <div class="tw-font-thin line-2 tw-mt-2">
-          {{data.user.userInfo.interest || 'Tôi là thành viên của ITConnect'}}
+          {{(data.user.userInfo.interest | removeHtml) || 'Tôi là thành viên của ITConnect'}}
         </div>
       </div>
     </div>

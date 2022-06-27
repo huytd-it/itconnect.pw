@@ -33,6 +33,7 @@ import * as moment from "moment";
 import {JobService} from "../../../../services/job.service";
 import {JobTypeService} from "../../../../services/job-type.service";
 import {JobTypeSearchOutput} from "../../../../models/job-type.model";
+import {ActivatedRoute, Router} from "@angular/router";
 
 export enum FormField {
   skills = "skills",
@@ -90,7 +91,9 @@ export class CreateComponent implements OnInit {
     private companyTagService: CompanyTagService,
     private jobTypeService: JobTypeService,
     private appService: AppService,
-    private jobService: JobService
+    private jobService: JobService,
+    private router: Router,
+    private route: ActivatedRoute,
   ) {
     this.form = this.formBuilder.group({
       [FormField.skills]: [null],
@@ -437,7 +440,7 @@ export class CreateComponent implements OnInit {
         this.appService.setHeadLoading(false);
       }))
       .subscribe((data) => {
-        console.log(data);
+        this.router.navigate(['..', 'view', data.id.toString()], { relativeTo: this.route }).then(() => {})
       })
   }
 }

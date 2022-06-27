@@ -16,9 +16,17 @@ const routes: Routes = [
         data: {
           permission: AppPermission.JOB_CE
         }
+      },
+      {
+        path: 'view',
+        loadChildren: () => import('./view/view.module').then(m => m.ViewModule),
+        canActivate: [PermissionGuard],
+        data: {
+          permission: AppPermission.JOB
+        }
       }
     ]
-  }
+  },
 ];
 
 @NgModule({

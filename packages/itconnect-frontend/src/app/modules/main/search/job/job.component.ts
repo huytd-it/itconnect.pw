@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {AppService} from "../../../../services/app.service";
-import {FiltersProvider} from "../providers/filters.provider";
+import {FiltersProvider} from "./providers/filters.provider";
 import {JobService} from "../../../../services/job.service";
 import {JobSearchInput} from "../../../../models/job.model";
 import {finalize} from "rxjs";
