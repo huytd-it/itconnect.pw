@@ -1,0 +1,82 @@
+<app-head-filter>
+  <div class="tw-flex tw-w-full">
+    <app-basic-filter (onSearch)="onSearch()"></app-basic-filter>
+    <div class="tw-border-l tw-flex tw-items-center">
+      <button
+        mat-button
+        color="primary"
+        class="!tw-ml-2 tw-flex tw-items-center"
+        (click)="expandFilter = !expandFilter"
+      >
+        <span class="tw-mx-1 tw-whitespace-nowrap tw-text-[11px] sm:tw-text-[14px]">Nâng cao</span>
+        <mat-icon>more_horiz</mat-icon>
+      </button>
+    </div>
+  </div>
+</app-head-filter>
+
+<div class="tw-flex tw-justify-center tw-relative">
+  <div
+    class="tw-w-full tw-h-full tw-absolute tw-z-10 tw-bg-[#ccc] tw-bg-opacity-40"
+    *ngIf="expandFilter"
+    (click)="expandFilter = false"
+  ></div>
+  <div
+    class="tw-absolute tw-right-0 tw-bg-white tw-w-full md:tw-w-[600px] tw-h-full tw-shadow-xl tw-border-t tw-z-20"
+    *ngIf="expandFilter"
+  >
+    <app-full-filter (onSearch)="onSearch(); expandFilter = false"></app-full-filter>
+  </div>
+  <div class="tw-mx-3 tw-border-t tw-w-full tw-max-w-[1000px]">
+    <div class="tw-p-3 tw-text-[11px] tw-text-[#888]" *ngIf="data">
+      {{data.meta.itemCount}} thành viên qua tìm kiếm
+    </div>
+    <div
+      #containerList
+      class="
+        tw-w-full tw-h-[calc(100vh-170px)] tw-overflow-y-auto tw-overflow-x-hidden c-scrollbar
+        tw-bg-white tw-rounded tw-shadow tw-pl-3
+      "
+    >
+      <ng-container *ngIf="data">
+        <ng-container *ngFor="let item of data.data || []">
+          <div
+            class="tw-cursor-pointer tw-flex tw-gap-4"
+            [routerLink]="item.id.toString()"
+          >
+            <div class="tw-py-3 tw-pl-3">
+              <app-avatar [radius]="70" [name]="item.fullName"></app-avatar>
+            </div>
+            <div class="tw-flex-auto tw-border-b tw-p-3 tw-pt-4 tw-pl-1">
+              <a
+                [routerLink]="item.id.toString()"
+                class="tw-text-lg tw-text-primaryColor line-2 tw-inline-block"
+              >
+                {{item.fullName}}
+              </a>
+              <div class="tw-text-[13px] tw-mt-1 tw-font-thin">
+                {{item.addressStreet}}, {{item.addressVillage.name}}, {{item.addressDistrict.name}}, {{item.addressProvince.name}}
+              </div>
+              <div class="tw-text-[11px] tw-mt-1 tw-font-thin" *ngIf="item.computeYoe">
+                <span class="tw-font-medium">{{getYoe(item)}}</span> kinh nghiệm làm việc
+              </div>
+              <div class="tw-text-[10px] tw-mt-1 tw-font-thin">
+                Thành viên của ITConnect {{item.createdAt | dateFromNow}}
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <div class="tw-flex tw-justify-center tw-p-4">
+          <mat-paginator
+            [disabled]="appService.headLoading$ | async"
+            [length]="data.meta.itemCount"
+            [pageSize]="data.meta.take"
+            [pageSizeOptions]="[5, 10, 25]"
+            (page)="onChangePage($event)"
+          ></mat-paginator>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
+

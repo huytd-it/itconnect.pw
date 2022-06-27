@@ -1,0 +1,35 @@
+<div class="tw-py-1 tw-px-2 tw-flex tw-gap-3">
+  <div class="tw-w-auto">
+    <mat-form-field class="tw-w-full" appearance="outline" class="custom-filter tw-w-[100px] sm:tw-w-auto">
+      <mat-label>Tên thành viên</mat-label>
+      <input
+        matInput
+        [maxLength]="255"
+        [(ngModel)]="filters.query.search"
+        (change)="onSearch.emit()"
+        (keyup.enter)="onSearch.emit()"
+      >
+      <mat-icon matPrefix>search</mat-icon>
+    </mat-form-field>
+  </div>
+  <div class="tw-w-auto tw-hidden sm:tw-block">
+    <app-easy-select-checkbox
+      #refCompany
+      [(ngModel)]="filters.companyTag"
+      [loadMoreFn]="filters.fetchDataCompanyTag"
+      [paddingBottomMin]="true"
+      [label]="'Công ty'"
+      (addTag)="filters.onAddCompanyTagString($event, refCompany)"
+      (onChangeE)="onSearch.emit()"
+    ></app-easy-select-checkbox>
+  </div>
+  <div class="tw-w-auto custom-filter tw-hidden md:tw-block">
+    <app-input-address
+      [(ngModel)]="filters.address"
+      [hideStreet]="true"
+      [hideVillage]="true"
+      [hideDistrict]="true"
+      (onChangeE)="onSearch.emit()"
+    ></app-input-address>
+  </div>
+</div>

@@ -15,6 +15,14 @@ const routes: Routes = [
     data: {
       permission: AppPermission.JOB_SEARCH
     }
+  },
+  {
+    path: 'people',
+    loadChildren: () => import('./people/people.module').then(m => m.PeopleModule),
+    canActivate: [PermissionGuard],
+    data: {
+      permission: AppPermission.PEOPLE_SEARCH
+    }
   }
 ];
 

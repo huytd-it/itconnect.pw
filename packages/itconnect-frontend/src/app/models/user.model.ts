@@ -4,7 +4,7 @@ import {JobLevel} from "./job-level.model";
 import {Address} from "./address.model";
 import {CompanyInfo} from "./company-info.model";
 
-export class UserInfo {
+export class UserInfo extends BaseTable {
   id: number;
   userId: number;
   addressProvince: Address;
