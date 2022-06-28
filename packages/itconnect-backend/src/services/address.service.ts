@@ -27,7 +27,7 @@ export class AddressService {
 
         options.where = {}
         if (dtoSearch.search) {
-            options.where.companyName = Like(`%${dtoSearch.search}%`)
+            options.where.name = Like(`%${dtoSearch.search}%`)
         }
 
         if (dtoSearch.type) {
