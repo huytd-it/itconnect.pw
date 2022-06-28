@@ -37,12 +37,16 @@
     </div>
     <div class="tw-p-3">
       <app-input-skill
+        [hasAddTag]="false"
         [items]="filters.companyTag"
         [loadMoreFn]="filters.fetchDataCompanyTag"
         [createTagFn]="filters.fnAddUserTaggedCompanyTag"
         (onRemove)="filters.onRemoveDataCompanyTag($event)"
         (onAdd)="filters.onAddDataCompanyTag($event)"
       ></app-input-skill>
+      <div class="tw-mt-3 tw-pt-2 tw-border-t">
+        <app-add-company [label]="'Không tìm được công ty?'" (onAdd)="filters.onSelectCompany($event)"></app-add-company>
+      </div>
     </div>
   </div>
 

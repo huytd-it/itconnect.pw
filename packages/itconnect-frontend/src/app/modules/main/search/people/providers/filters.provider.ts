@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {CompanyTagService} from "../../../../../services/company-tag.service";
 import {AppService} from "../../../../../services/app.service";
 import {CreateTaggedOutput, OptionItem, SearchPageOutput, TaggedInput} from "../../../../../models/common";
-import {CompanyTagSearchOutput} from "../../../../../models/company-tag.model";
+import {CompanyTag, CompanyTagSearchOutput} from "../../../../../models/company-tag.model";
 import {finalize} from "rxjs";
 import {
   JobJobLevelCreateOrEdit,
@@ -226,6 +226,10 @@ export class FiltersProvider {
       name: item.name
     })
     this.companyTag = [...this.companyTag];
+  }
+
+  onSelectCompany(item: CompanyTag) {
+    this.companyTag.push(item);
   }
 
   onAddCompanyTagString = (name: string, refCompany: EasySelectCheckboxComponent) => {

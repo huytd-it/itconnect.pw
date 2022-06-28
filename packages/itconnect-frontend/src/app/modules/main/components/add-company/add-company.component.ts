@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {SearchPageOutput} from "../../../../models/common";
 import {Company3rdService} from "../../../../services/company-3rd.service";
 import {Company3rd} from "../../../../models/company-3rd.model";
@@ -13,6 +13,7 @@ import {CompanyTag} from "../../../../models/company-tag.model";
   styleUrls: ['./add-company.component.scss']
 })
 export class AddCompanyComponent implements OnInit {
+  @Input() label: string = '+ Thêm công ty';
   @Output() onAdd = new EventEmitter<CompanyTag>();
   infoAny: any;
   isAdd: boolean = false;
