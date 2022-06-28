@@ -15,7 +15,7 @@ export enum EAddressType {
 }
 
 @Entity()
-@Unique(['name', 'type'])
+@Unique(['name', 'type', 'parent'])
 export class AddressEntity {
     @PrimaryGeneratedColumn()
     id: number

@@ -5,12 +5,11 @@ import {
     Entity, Index, JoinColumn,
     ManyToOne, OneToMany,
     OneToOne,
-    PrimaryColumn, PrimaryGeneratedColumn,
+    PrimaryColumn, PrimaryGeneratedColumn, Unique,
     UpdateDateColumn
 } from "typeorm";
 import {UserEntity} from "./user.entity";
 import {AddressEntity} from "./address.entity";
-import {CvWorkExperienceEntity} from "./cvWorkExperience.entity";
 import {CompanyTagEntity} from "./companyTag.entity";
 
 
@@ -43,6 +42,10 @@ export class CompanyInfoEntity {
 
     @Column()
     phone: string;
+
+    @Column({ nullable: true })
+    @Unique(['mst'])
+    mst: string;
 
     @Column()
     // @Index({ fulltext: true })

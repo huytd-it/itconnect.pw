@@ -1,4 +1,12 @@
-import {ConflictException, Inject, Injectable, Request, Scope} from '@nestjs/common';
+import {
+    ConflictException,
+    HttpException,
+    Inject,
+    Injectable,
+    Request,
+    Scope,
+    ServiceUnavailableException
+} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {UserEntity} from "../entities/user.entity";
 import {DataSource, In, Repository} from "typeorm";
@@ -18,6 +26,11 @@ import {JobLevelEntity} from "../entities/jobLevel.entity";
 import {CvWorkExperienceEntity} from "../entities/cvWorkExperience.entity";
 import * as moment from "moment";
 import {Moment} from "moment";
+import {AddressService} from "./address.service";
+import {Company3Rd} from "../dtos/company-3rd.dto";
+import {Company3rdService} from "./company-3rd.service";
+import {CompanyTagEntity} from "../entities/companyTag.entity";
+import {Id} from "../utils/function";
 
 interface ComputeYoeData {
     data: {
@@ -45,6 +58,8 @@ export class UserService {
         @InjectRepository(CvWorkExperienceEntity)
         private cvWorkExperienceRepository: Repository<CvWorkExperienceEntity>,
         private dataSource: DataSource,
+        private addressService: AddressService,
+        private company3rdService: Company3rdService
     ) {
     }
 
@@ -165,22 +180,8 @@ export class UserService {
              *
              */
             companyInfoEntity.user = user;
-            companyInfoEntity.companyName = dto.companyName;
             companyInfoEntity.phone = dto.phone;
-            companyInfoEntity.dayEstablish = dto.dayEstablish;
-            companyInfoEntity.addressStreet = dto.addressStreet;
 
-            const aVillage = new AddressEntity();
-            aVillage.id = dto.addressVillage;
-            companyInfoEntity.addressVillage = aVillage;
-
-            const aDistrict = new AddressEntity();
-            aDistrict.id = dto.addressDistrict;
-            companyInfoEntity.addressDistrict = aDistrict;
-
-            const aProvince = new AddressEntity();
-            aProvince.id = dto.addressProvince;
-            companyInfoEntity.addressProvince = aProvince;
 
             if (companyInfoEntity.id) {
                 await queryRunner.manager.update(
@@ -189,7 +190,46 @@ export class UserService {
                     companyInfoEntity
                 );
             } else {
-                await queryRunner.manager.save(companyInfoEntity);
+                // 3rd
+                const company3rd = await this.company3rdService.findMst(dto.companyMst).toPromise();
+                if (!company3rd) {
+                    throw new ServiceUnavailableException('Oop! Không thể đồng bộ công ty');
+                }
+
+                const address = await this.addressService.mapStringToAddress(company3rd.address);
+                if (!address) {
+                    throw new RuntimeException('Oop! address không hợp lệ')
+                }
+
+                companyInfoEntity.mst = company3rd.code;
+                companyInfoEntity.companyName = company3rd.name;
+                companyInfoEntity.addressStreet = address.street;
+                companyInfoEntity.addressVillage = address.village;
+                companyInfoEntity.addressDistrict = address.district;
+                companyInfoEntity.addressProvince = address.province;
+
+                // save company info
+                const infoOutput = await queryRunner.manager.save(companyInfoEntity);
+
+                // link or update company tag
+                const companyTag = await queryRunner.manager.findOne(CompanyTagEntity, {
+                    where: {
+                        mst: company3rd.code
+                    }
+                })
+                if (!companyTag) {
+                    const dt = new CompanyTagEntity();
+                    dt.mst = company3rd.code;
+                    dt.name = company3rd.name;
+                    dt.isApprove = true;
+                    dt.companyInfo = <any>Id(infoOutput.id);
+                    await queryRunner.manager.save(CompanyTagEntity, dt)
+                } else {
+                    await queryRunner.manager.update(CompanyTagEntity, Id(companyTag.id), {
+                        isApprove: true,
+                        companyInfo: Id(infoOutput.id)
+                    })
+                }
 
                 // update user role
                 await queryRunner.manager.update(UserEntity, { id: user.id }, {
@@ -204,7 +244,7 @@ export class UserService {
         } catch (err) {
             console.log(err);
             await queryRunner.rollbackTransaction();
-            throw new RuntimeException();
+            throw err;
         } finally {
             await queryRunner.release();
         }

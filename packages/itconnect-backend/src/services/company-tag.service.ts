@@ -1,14 +1,16 @@
-import {ConflictException, Inject, Injectable, Request, Scope} from '@nestjs/common';
+import {ConflictException, Inject, Injectable, Request, Scope, ServiceUnavailableException} from '@nestjs/common';
 import {PageDto, PageMetaDto, PageOptionsDto} from "../dtos/page.dto";
 import {FindManyOptions, FindOptionsWhere, In, Like, Repository} from "typeorm";
 import {InjectRepository} from "@nestjs/typeorm";
 import {CompanyTagEntity} from "../entities/companyTag.entity";
-import {CompanyTagCreateDto, CompanyTagSearchInputDto} from "../dtos/company-tag.dto";
+import {CompanyTagAddMstDto, CompanyTagCreateDto, CompanyTagSearchInputDto} from "../dtos/company-tag.dto";
 import {REQUEST} from "@nestjs/core";
 import {UserTaggedCompanyTagEntity} from "../entities/userTaggedCompanyTag.entity";
 import {Approve} from "../dtos/abstract.dto";
 import {UserEntity} from "../entities/user.entity";
 import {hasUserTagged} from "../polices/permission.enum";
+import {Company3Rd} from "../dtos/company-3rd.dto";
+import {Company3rdService} from "./company-3rd.service";
 
 @Injectable({ scope: Scope.REQUEST })
 export class CompanyTagService {
@@ -18,7 +20,8 @@ export class CompanyTagService {
         private companyTagRepository: Repository<CompanyTagEntity>,
         @InjectRepository(UserTaggedCompanyTagEntity)
         private userTaggedCompanyTagRepository: Repository<UserTaggedCompanyTagEntity>,
-        @Inject(REQUEST) private request: Request
+        @Inject(REQUEST) private request: Request,
+        private company3rd: Company3rdService
     ) {
     }
 
@@ -109,6 +112,48 @@ export class CompanyTagService {
         if (hasUserTagged(currentUser)) {
             if (!companyTag) {
                 companyTag = await this.companyTagRepository.save({ name });
+            }
+            const data = {
+                user: {
+                    id: currentUser.id
+                },
+                companyTag: {
+                    id: companyTag.id
+                }
+            };
+            const companyTagTagged = await this.userTaggedCompanyTagRepository.findOne({
+                where: data
+            })
+            if (companyTagTagged) {
+                throw new ConflictException('Company Tag is exists');
+            }
+            await this.userTaggedCompanyTagRepository.save(data)
+        } else {
+            throw new ConflictException('Company Tag is exists');
+        }
+
+        return companyTag;
+    }
+
+    async addMst(data: CompanyTagAddMstDto) {
+        const mst = data.mst;
+        let companyTag = await this.companyTagRepository.findOne({
+            where: { mst }
+        })
+
+        const currentUser = this.request['user'] as UserEntity;
+
+        // create owner
+        if (hasUserTagged(currentUser)) {
+            if (!companyTag) {
+                const company3rd = await this.company3rd.findMst(mst).toPromise();
+                if (!company3rd) {
+                    throw new ServiceUnavailableException('Không thể đồng bộ công ty');
+                }
+                companyTag = await this.companyTagRepository.save({
+                    mst: company3rd.code,
+                    name: company3rd.name
+                });
             }
             const data = {
                 user: {

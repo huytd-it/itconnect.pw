@@ -150,6 +150,7 @@ export enum AppPermission {
      */
     COMPANY_TAG_SEARCH = 'company_tag_search',
     COMPANY_TAG_CREATE_TAG = "company_tag_create_tag",
+    COMPANY_TAG_ADD_MST = "company_tag_add_mst",
 
 
     /**
@@ -189,6 +190,14 @@ export enum AppPermission {
      */
     JOB_TYPE = 'job_type',
     JOB_TYPE_SEARCH = 'job_type_search',
+
+    /**
+     * Company 3Rd
+     *
+     */
+    COMPANY_3RD = 'company_3rd',
+    COMPANY_3RD_SEARCH = 'company_3rd_search',
+
 }
 
 
@@ -205,7 +214,9 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.COMPLETE_PROFILE,
         AppPermission.ADDRESS_SEARCH,
         AppPermission.PERMISSION_OWNER,
-        AppPermission.JOB_LEVEL_SEARCH
+        AppPermission.JOB_LEVEL_SEARCH,
+        AppPermission.COMPANY_3RD,
+        AppPermission.COMPANY_3RD_SEARCH,
     ],
 
     /**
@@ -226,8 +237,8 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.PEOPLE,
         AppPermission.PEOPLE_SEARCH,
         AppPermission.JOB,
-        AppPermission.JOB_CREATE,
-        AppPermission.JOB_CE,
+        // AppPermission.JOB_CREATE,
+        // AppPermission.JOB_CE,
         AppPermission.JOB_DELETE,
         AppPermission.JOB_SEARCH,
         AppPermission.ADDRESS_SEARCH,
@@ -253,7 +264,7 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.SCHOOL_SEARCH,
         AppPermission.SCHOOL_CREATE_TAG,
         AppPermission.COMPANY_TAG_SEARCH,
-        AppPermission.COMPANY_TAG_CREATE_TAG,
+        AppPermission.COMPANY_TAG_ADD_MST,
         AppPermission.CV_WORK_EXPERIENCE,
         AppPermission.CV_WORK_EXPERIENCE_DELETE,
         AppPermission.CV_WORK_EXPERIENCE_GET_OWNER,
@@ -273,6 +284,8 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.CV_EDUCATION_GET_OWNER,
         AppPermission.JOB_TYPE,
         AppPermission.JOB_TYPE_SEARCH,
+        AppPermission.COMPANY_3RD,
+        AppPermission.COMPANY_3RD_SEARCH,
     ],
 
     /***
@@ -302,7 +315,7 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.SCHOOL_SEARCH,
         AppPermission.SCHOOL_CREATE_TAG,
         AppPermission.COMPANY_TAG_SEARCH,
-        AppPermission.COMPANY_TAG_CREATE_TAG,
+        AppPermission.COMPANY_TAG_ADD_MST,
     ],
 
     /**

@@ -31,6 +31,7 @@ import {CvEducationModule} from "./modules/cv-education/cv-education.module";
 import { JobModule } from './modules/job/job.module';
 import {JobTypeModule} from "./modules/job-type/job-type.module";
 import {PeopleModule} from "./modules/people/people.module";
+import { Company3rdModule } from './modules/company-3rd/company-3rd.module';
 
 @Module({
   imports: [
@@ -66,7 +67,8 @@ import {PeopleModule} from "./modules/people/people.module";
       CvEducationModule,
       JobModule,
       JobTypeModule,
-      PeopleModule
+      PeopleModule,
+      Company3rdModule,
   ],
   controllers: [AppController],
   providers: [

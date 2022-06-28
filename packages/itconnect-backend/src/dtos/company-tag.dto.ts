@@ -14,6 +14,9 @@ export class CompanyTagDto extends EntityDto {
     name: string;
 
     @ApiProperty()
+    mst: string;
+
+    @ApiProperty()
     isApprove: boolean;
 
     @ApiProperty()
@@ -42,4 +45,9 @@ export class CompanyTagCreateDto {
     @MaxLength(MAX_COMPANY_TAG_NAME_LENGTH)
     @MinLength(MIN_COMPANY_TAG_NAME_LENGTH)
     name: string
+}
+
+export class CompanyTagAddMstDto {
+    @ApiProperty()
+    mst: string
 }

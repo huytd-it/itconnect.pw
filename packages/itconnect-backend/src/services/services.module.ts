@@ -56,6 +56,9 @@ import {JobSchoolEntity} from "../entities/jobSchool.entity";
 import {JobTypeService} from "./jobType.service";
 import {JobTypeEntity} from "../entities/jobType.entity";
 import {PeopleService} from "./people.service";
+import { Company3rdService } from './company-3rd.service';
+import {HttpModule} from "@nestjs/axios";
+import {ConfigModule, ConfigService} from "@nestjs/config";
 
 @Module({
   imports: [
@@ -94,7 +97,15 @@ import {PeopleService} from "./people.service";
         JobCertificateEntity,
         JobSchoolEntity,
         JobTypeEntity
-    ])
+    ]),
+      HttpModule.registerAsync({
+          imports: [ConfigModule],
+          useFactory: async (configService: ConfigService) => ({
+              timeout: configService.get('HTTP_TIMEOUT'),
+              maxRedirects: configService.get('HTTP_MAX_REDIRECTS'),
+          }),
+          inject: [ConfigService],
+      })
   ],
   providers: [
       UserService,
@@ -117,7 +128,8 @@ import {PeopleService} from "./people.service";
       CvEducationService,
       JobService,
       JobTypeService,
-      PeopleService
+      PeopleService,
+      Company3rdService,
   ],
   exports: [
       UserService,
@@ -140,7 +152,8 @@ import {PeopleService} from "./people.service";
       CvEducationService,
       JobService,
       JobTypeService,
-      PeopleService
+      PeopleService,
+      Company3rdService
   ]
 })
 export class ServicesModule {}

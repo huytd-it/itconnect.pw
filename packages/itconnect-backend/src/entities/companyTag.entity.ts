@@ -7,11 +7,6 @@ import {
     PrimaryGeneratedColumn, Unique,
     UpdateDateColumn
 } from "typeorm";
-import {UserPositionEntity} from "./userPosition.entity";
-import {CvEducationEntity} from "./cvEducation.entity";
-import {UserSkillEntity} from "./userSkill.entity";
-import {UserSchoolEntity} from "./userSchool.entity";
-import {UserTaggedSchoolEntity} from "./userTaggedSchool.entity";
 import {UserTaggedCompanyTagEntity} from "./userTaggedCompanyTag.entity";
 import {CompanyInfoEntity} from "./companyInfo.entity";
 
@@ -27,6 +22,10 @@ export class CompanyTagEntity {
     @Unique(['name'])
     // @Index({ fulltext: true })
     name: string;
+
+    @Column({ nullable: true })
+    @Unique(['mst'])
+    mst: string;
 
     @Column({ default: false })
     @Index()

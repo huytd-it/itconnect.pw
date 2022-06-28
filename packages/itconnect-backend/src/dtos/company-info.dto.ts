@@ -1,10 +1,39 @@
-import {ApiProperty, ApiPropertyOptional} from "@nestjs/swagger";
-import {IsOptional, MaxLength, MinLength} from "class-validator";
-import {Approve, EntityDto} from "./abstract.dto";
-import {ApiEnumValue} from "../utils/decorators/api-enum-value.decorator";
-import {Type} from "class-transformer";
-import {MAX_COMPANY_TAG_NAME_LENGTH, MIN_COMPANY_TAG_NAME_LENGTH} from "../entities/companyTag.entity";
+import {EntityDto} from "./abstract.dto";
+import {ApiProperty} from "@nestjs/swagger";
+import {AddressDto} from "./address.dto";
+import {CompanyTagDto} from "./company-tag.dto";
 
 export class CompanyInfoDto extends EntityDto {
-    // need update
+    @ApiProperty()
+    id: number;
+
+    @ApiProperty()
+    userId: number;
+
+    @ApiProperty()
+    addressProvince: AddressDto;
+
+    @ApiProperty()
+    addressDistrict: AddressDto;
+
+    @ApiProperty()
+    addressVillage: AddressDto;
+
+    @ApiProperty()
+    addressStreet: string;
+
+    @ApiProperty()
+    companyTagId: number;
+
+    @ApiProperty()
+    phone: string;
+
+    @ApiProperty()
+    mst: string;
+
+    @ApiProperty()
+    companyName: string;
+
+    @ApiProperty()
+    dayEstablish: Date;
 }

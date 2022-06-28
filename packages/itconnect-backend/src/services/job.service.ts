@@ -263,6 +263,8 @@ export class JobService {
             logger.error(e)
             await queryRunner.rollbackTransaction();
             throw e;
+        } finally {
+            await queryRunner.release();
         }
 
         if (hasResponseEntity) {
