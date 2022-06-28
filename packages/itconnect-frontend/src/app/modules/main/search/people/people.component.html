@@ -54,7 +54,7 @@
               >
                 {{item.fullName}}
               </a>
-              <div class="tw-text-[13px] tw-mt-1 tw-font-thin">
+              <div class="tw-text-[13px] tw-mt-1 tw-font-thin" *ngIf="!!item.addressProvince">
                 {{item.addressStreet}}, {{item.addressVillage.name}}, {{item.addressDistrict.name}}, {{item.addressProvince.name}}
               </div>
               <div class="tw-text-[11px] tw-mt-1 tw-font-thin" *ngIf="item.computeYoe">

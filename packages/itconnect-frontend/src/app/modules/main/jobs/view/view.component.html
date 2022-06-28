@@ -8,15 +8,15 @@
   <a class="tw-text-2xl tw-leading-8 tw-font-medium hover:tw-underline" [routerLink]="'/u/jobs/view/' + data.id">
     {{data.name}}
   </a>
-  <div class="tw-mt-2 tw-flex tw-items-center">
+  <div class="tw-mt-2 tw-leading-7 tw-text-[13px]">
     <span>
       {{data.companyTag.name}}
     </span>
-    <span class="tw-w-[5px] tw-h-[5px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-2"></span>
+    <i class="tw-w-[5px] tw-h-[5px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-2"></i>
     <span>
       {{data.addressStreet}}, {{data.addressVillage.name}}, {{data.addressDistrict.name}}, {{data.addressProvince.name}}
     </span>
-    <span class="tw-w-[5px] tw-h-[5px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-2"></span>
+    <i class="tw-w-[5px] tw-h-[5px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-2"></i>
     <span class="tw-font-thin">
       {{data.updatedAt | dateFromNow}}
     </span>

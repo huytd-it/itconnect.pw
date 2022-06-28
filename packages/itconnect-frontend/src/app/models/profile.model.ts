@@ -26,13 +26,8 @@ export class CompleteUserProfileInput {
 }
 
 export class CompleteCompanyProfileOutput {
-  companyName: string;
+  companyMst: string;
   phone: string;
-  dayEstablish: Date;
-  addressProvince: EAddressType;
-  addressDistrict: number;
-  addressVillage: number;
-  addressStreet: string;
 }
 
 export class CompleteCompanyProfileInput {

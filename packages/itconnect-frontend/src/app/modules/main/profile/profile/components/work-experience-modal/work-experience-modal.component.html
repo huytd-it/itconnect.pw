@@ -6,12 +6,16 @@
     [label]="'Công ty'"
     [loadMoreFn]="fetchCompanyTag"
     [formControlName]="FormField.Company"
+    [isAddTag]="false"
     (addTag)="onAddCompanyTag($event)"
     appendTo="body"
   ></app-easy-select>
   <mat-error *ngIf="isControlError(FormField.Company, 'required')" class="tw-mt-[-14px] tw-text-[11px] tw-ml-2">
     Công ty là bắt buộc
   </mat-error>
+  <div class="tw-mb-3 tw-mt-[-14px]">
+    <app-add-company (onAdd)="onSelectCompany($event)"></app-add-company>
+  </div>
 
   <app-easy-select
     [label]="'Trình độ (Tùy chọn)'"

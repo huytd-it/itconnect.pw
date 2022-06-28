@@ -19,7 +19,7 @@
         [disabled]="!(permission.all.PROFILE | permission)"
       >
         <app-avatar [name]="name" [radius]="45"></app-avatar>
-        <span class="tw-p-3">{{name}}</span>
+        <span class="tw-p-3 tw-text-left">{{name}}</span>
       </button>
       <div class="tw-border-t tw-p-3">
         <button (click)="logout()" class="tw-flex tw-items-center">

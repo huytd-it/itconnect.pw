@@ -3,7 +3,9 @@
     <div class="tw-flex tw-items-center tw-mr-3 lg:tw-mr-7">
       <app-logo [onlyLogo]="!isFullLogo"></app-logo>
       <div class="tw-ml-4">
-        <app-search></app-search>
+        <app-search
+          *ngIf="(permission.all.JOB_SEARCH | permission) || (permission.all.PEOPLE_SEARCH | permission)"
+        ></app-search>
       </div>
     </div>
 

@@ -13,6 +13,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {CreateOrEditCvWorkExperience, CvWorkExperience} from "../../../../../../models/cv-work-experience.model";
 import {CvWorkExperienceService} from "../../../../../../services/cv-work-experience.service";
 import {JobTypeService} from "../../../../../../services/job-type.service";
+import {CompanyTag} from "../../../../../../models/company-tag.model";
 
 enum FormField {
   Company = 'companyTag',
@@ -111,6 +112,10 @@ export class WorkExperienceModalComponent implements OnInit {
         this.form.controls[FormField.Company].setValue(data);
         this.selectCompany.close();
       })
+  }
+
+  onSelectCompany(data: CompanyTag) {
+    this.form.controls[FormField.Company].setValue(data);
   }
 
   onChangeToggleWorking() {

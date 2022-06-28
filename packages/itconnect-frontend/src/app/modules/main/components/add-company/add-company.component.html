@@ -1,0 +1,33 @@
+<button
+  mat-button
+  color="primary"
+  *ngIf="!isAdd"
+  (click)="isAdd = true"
+>
+  + Thêm công ty
+</button>
+<div class="tw-border tw-p-3" *ngIf="isAdd">
+  <div class="tw-text-[11px] tw-mb-2 tw-ml-1">Vui lòng nhập mã số thuê hoặc tên công ty vào ô bên dưới</div>
+  <app-easy-select
+    [label]="'Công ty'"
+    [loadMoreFn]="loadMoreFn"
+    [isAddTag]="false"
+    [(ngModel)]="infoAny"
+  ></app-easy-select>
+  <div *ngIf="info" class="tw-shadow tw-border tw-text-left tw-p-3 tw-mb-5 tw-rounded">
+    <div class="tw-mb-2">
+      <b>Tên công ty:</b> {{info.realName}}
+    </div>
+    <div class="tw-mb-2">
+      <b>Địa chỉ:</b> {{info.address}}
+    </div>
+    <div class="tw-mb-2">
+      <b>Mã số thuế:</b> {{info.code}}
+    </div>
+    <div class="tw-mb-2">
+      <b>Ngày thành lập:</b> {{info.date | date: 'dd-MM-yyyy'}}
+    </div>
+  </div>
+  <button mat-stroked-button color="primary" class="!tw-mr-3" *ngIf="info" (click)="onSubmit()">Thêm</button>
+  <button mat-button (click)="isAdd = false">Đóng</button>
+</div>

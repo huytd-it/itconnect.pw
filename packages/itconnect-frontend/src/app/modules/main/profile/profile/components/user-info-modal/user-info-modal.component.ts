@@ -107,7 +107,7 @@ export class UserInfoModalComponent implements OnInit {
     this.profileService.createOrEditUser(dto)
       .pipe(finalize(() => this.appService.setHeadLoading(false)))
       .subscribe(val => {
-        this.authService.preLoadUser();
+        this.authService.preLoadUser(false);
         this.dialogRef.close();
       })
   }

@@ -75,16 +75,16 @@ export class AuthService {
     this.preLoadUser();
   }
 
-  preLoadUser() {
+  preLoadUser(hasLoading: boolean = true) {
     if (!this.token) {
       return;
     }
     const minTimeLoad = new Promise(res => setTimeout(res, environment.production ? 500 : 0));
-    this.appService.setFsLoading(true);
+    this.appService.setFsLoading(hasLoading && true);
     this.profileService.dataBoostrap()
       .pipe(finalize(() => {
         Promise.all([minTimeLoad]).then(() => {
-          this.appService.setFsLoading(false);
+          this.appService.setFsLoading(hasLoading && false);
         })
       }))
       .pipe(catchError((e) => {

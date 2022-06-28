@@ -1,19 +1,32 @@
 <div class="tw-justify-center tw-flex">
-  <form [formGroup]="form" class="tw-w-[60%] tw-text-center tw-block tw-max-w-[500px]">
-    <app-line-text>
-      <fa-icon [icon]="faBuilding"></fa-icon>
-      <span class="tw-ml-2 tw-text-[10px]">Thông tin cơ bản</span>
-    </app-line-text>
-    <mat-form-field appearance="outline" class="tw-w-full">
-      <mat-label>Tên công ty</mat-label>
-      <input matInput placeholder="Ex. YUH" value="" [formControlName]="FormField.companyName">
-      <mat-error *ngIf="isControlError(FormField.companyName, 'required')">
-        Tên công ty là bắt buộc
-      </mat-error>
-      <mat-error *ngIf="isControlError(FormField.companyName, 'maxlength', 'minlength')">
-        Tên công ty phải có ít nhất 3, tối đa 255 ký tự
-      </mat-error>
-    </mat-form-field>
+  <form [formGroup]="form" class="tw-text-center tw-block tw-max-w-[600px] md:tw-w-[600px]">
+
+    <app-easy-select
+      class="tw-w-full"
+      [label]="'Công ty'"
+      [loadMoreFn]="loadMoreCompany3rd"
+      [formControlName]="FormField.companyMst"
+      [isAddTag]="false"
+    ></app-easy-select>
+    <mat-error *ngIf="isControlError(FormField.companyMst, 'required')" class="tw-text-left tw-mt-[-14px] tw-text-[11px] tw-ml-2">
+      Công ty là bắt buộc
+    </mat-error>
+
+    <div *ngIf="info" class="tw-shadow tw-border tw-text-left tw-p-3 tw-mb-5 tw-rounded">
+      <div class="tw-mb-2">
+        <b>Tên công ty:</b> {{info.realName}}
+      </div>
+      <div class="tw-mb-2">
+        <b>Địa chỉ:</b> {{info.address}}
+      </div>
+      <div class="tw-mb-2">
+        <b>Mã số thuế:</b> {{info.code}}
+      </div>
+      <div class="tw-mb-2">
+        <b>Ngày thành lập:</b> {{info.date | date: 'dd-MM-yyyy'}}
+      </div>
+    </div>
+
     <mat-form-field appearance="outline" class="tw-w-full">
       <mat-label>Số điện thoại</mat-label>
       <input matInput placeholder="Ex. 090123456" value="" [formControlName]="FormField.phone" appNumberOnly>
@@ -24,25 +37,6 @@
         Số điện thoại không hợp lệ
       </mat-error>
     </mat-form-field>
-    <mat-form-field appearance="outline" class="tw-w-full tw-mb-3">
-      <mat-label>Ngày thành lập</mat-label>
-      <input matInput [matDatepicker]="picker" [formControlName]="FormField.dayEstablish">
-      <mat-hint>DD/MM/YYYY</mat-hint>
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-      <mat-error *ngIf="isControlError(FormField.dayEstablish, 'required')">
-        Ngày thành lập là bắt buộc
-      </mat-error>
-    </mat-form-field>
-    <div>
-      <app-input-address [formControlName]="FormField.address"></app-input-address>
-      <div class="tw-text-left tw-text-[11px]">
-        <mat-error *ngIf="isControlError(FormField.address, 'required')">
-          Địa chỉ là bắt buộc
-        </mat-error>
-      </div>
-    </div>
-    <div class="tw-w-full md:tw-h-[100px]"></div>
 
     <div class="tw-mt-[50px] tw-flex tw-justify-center tw-pb-6">
         <button

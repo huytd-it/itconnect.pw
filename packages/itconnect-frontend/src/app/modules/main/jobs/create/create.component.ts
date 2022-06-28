@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PositionService} from "../../../../services/position.service";
 import {SkillService} from "../../../../services/skill.service";
 import {AppService} from "../../../../services/app.service";
-import {CreateTaggedOutput, SearchPageOutput, TaggedInput} from "../../../../models/common";
+import {Approve, CreateTaggedOutput, SearchPageOutput, TaggedInput} from "../../../../models/common";
 import {PositionSearchOutput} from "../../../../models/position.model";
 import {SkillSearchOutput} from "../../../../models/skill.model";
 import {WorkFromService} from "../../../../services/work-from.service";
@@ -21,14 +21,12 @@ import {CertificateSearchOutput} from "../../../../models/certificate.model";
 import {CertificateService} from "../../../../services/certificate.service";
 import {SchoolService} from "../../../../services/school.service";
 import {SchoolSearchOutput} from "../../../../models/school.model";
-import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import {faArrowDown, faArrowRight} from '@fortawesome/free-solid-svg-icons';
 import {JobLevelService} from "../../../../services/job-level.service";
 import {JobLevelSearchOutput} from "../../../../models/job-level.model";
 import {CompanyTagService} from "../../../../services/company-tag.service";
-import {CompanyTagSearchOutput} from "../../../../models/company-tag.model";
 import {EasySelectComponent} from "../../../../components/easy-select/easy-select.component";
-import {catchError, finalize} from "rxjs";
+import {finalize} from "rxjs";
 import * as moment from "moment";
 import {JobService} from "../../../../services/job.service";
 import {JobTypeService} from "../../../../services/job-type.service";
@@ -48,8 +46,6 @@ export enum FormField {
   salaryTo = "salaryTo",
   dateEnd = "dateEnd",
   yoe = "yoe",
-  companyTag = "companyTag",
-  address = "address",
   Description = 'Description',
   SkillExperience = 'SkillExperience',
   Reason = 'Reason'
@@ -108,8 +104,6 @@ export class CreateComponent implements OnInit {
       [FormField.salaryFrom]: [null, Validators.min(0)],
       [FormField.salaryTo]: [null],
       [FormField.yoe]: [null],
-      [FormField.companyTag]: [null, Validators.required],
-      [FormField.address]: [null, Validators.required],
       [FormField.SkillExperience]: [null, Validators.required],
       [FormField.Description]: [null, Validators.required],
       [FormField.Reason]: [null],
@@ -150,6 +144,7 @@ export class CreateComponent implements OnInit {
    */
   fetchDataPosition = (query: SearchPageOutput) => {
     const qr: PositionSearchOutput = query;
+    qr.approve = Approve.True;
     return this.positionService.search(qr);
   }
 
@@ -189,6 +184,7 @@ export class CreateComponent implements OnInit {
    */
   fetchDataSkill = (query: SearchPageOutput) => {
     const qr: SkillSearchOutput = query;
+    qr.approve = Approve.True;
     return this.skillService.search(qr);
   }
 
@@ -228,6 +224,7 @@ export class CreateComponent implements OnInit {
    */
   fetchDataCertificate = (query: SearchPageOutput) => {
     const qr: CertificateSearchOutput = query;
+    qr.approve = Approve.True;
     return this.certificateService.search(qr);
   }
 
@@ -267,6 +264,7 @@ export class CreateComponent implements OnInit {
    */
   fetchDataSchool = (query: SearchPageOutput) => {
     const qr: SchoolSearchOutput = query;
+    qr.approve = Approve.True;
     return this.schoolService.search(qr);
   }
 
@@ -364,25 +362,6 @@ export class CreateComponent implements OnInit {
   }
 
   /**
-   * Company name
-   *
-   */
-  fetchDataCompanyTag = (query: SearchPageOutput) => {
-    const qr: CompanyTagSearchOutput = query;
-    return this.companyTagService.search(qr);
-  }
-
-  onAddCompanyTag(e: string) {
-    this.appService.setHeadLoading(true);
-    this.companyTagService.createTag({ name: e })
-      .pipe(finalize(() => this.appService.setHeadLoading(false)))
-      .subscribe((data) => {
-        this.form.controls[FormField.companyTag].setValue(data);
-        this.selectCompany.close();
-      })
-  }
-
-  /**
    * Job type
    *
    */
@@ -410,12 +389,7 @@ export class CreateComponent implements OnInit {
     }
 
     const value = this.form.value;
-    const address = value[FormField.address];
     const data: JobCreateOrEditOutput = {
-      addressStreet: address.street,
-      addressVillage: address.villageId.id,
-      addressProvince: address.provinceId.id,
-      addressDistrict: address.districtId.id,
       jobPositions: value[FormField.positions],
       jobSkills: value[FormField.skills],
       jobCertificates: value[FormField.certificate],
@@ -423,7 +397,6 @@ export class CreateComponent implements OnInit {
       jobWorkFrom: value[FormField.workFrom],
       jobJobLevels: value[FormField.jobLevel],
       jobType: value[FormField.jobType]?.id,
-      companyTag: value[FormField.companyTag]?.id,
       salaryMin: value[FormField.salaryTo] && Number(value[FormField.salaryFrom]),
       salaryMax: value[FormField.salaryTo] && Number(value[FormField.salaryTo]),
       name: value[FormField.name],

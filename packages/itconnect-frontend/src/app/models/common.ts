@@ -49,8 +49,16 @@ export class PageOutput {
   order_field?: string;
 }
 
+
+export enum Approve {
+  Both = 1,
+  False = 2,
+  True = 3
+}
+
 export class SearchPageOutput extends PageOutput {
   search?: string;
+  approve?: Approve;
 }
 
 export class CreateTaggedOutput {

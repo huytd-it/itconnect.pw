@@ -19,6 +19,10 @@ export class ArtdecoComponent implements OnInit {
       return this.authService.data?.user.email || 'N/A';
     }
 
+    if (this.authService.isRole(AppRole.Company)) {
+      return this.authService.data?.user?.companyInfo?.companyName || 'N/A';
+    }
+
     return this.authService.data?.user?.userInfo?.fullName || 'N/A';
   }
 

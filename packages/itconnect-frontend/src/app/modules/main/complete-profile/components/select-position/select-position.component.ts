@@ -12,14 +12,14 @@ export class SelectPositionComponent implements OnInit {
   positionSelected: EPosition;
   list = [
     {
-      id: EPosition.Company,
-      name: 'Nhà tuyển dụng',
-      tooltip: 'Doanh nghiệp, tổ chức,...'
+      id: EPosition.User,
+      name: 'Cá nhân',
+      tooltip: ''
     },
     {
-      id: EPosition.User,
-      name: 'Người tìm việc',
-      tooltip: ''
+      id: EPosition.Company,
+      name: 'Công ty',
+      tooltip: 'Doanh nghiệp, tổ chức,...'
     },
   ]
 

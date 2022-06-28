@@ -26,6 +26,7 @@ export class InputSkillLevelRangeComponent implements OnInit {
   @Input() bindLevelMax: string = 'levelMax';
   @Input() appendTo: string;
   @Input() items: any[] = [];
+  @Input() isAddTag: boolean = true;
   @Output() onAdd = new EventEmitter<TaggedInput>();
   @Output() onChange = new EventEmitter<any>();
   @Output() onRemove = new EventEmitter();

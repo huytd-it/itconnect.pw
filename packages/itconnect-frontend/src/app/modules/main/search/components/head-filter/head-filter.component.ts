@@ -19,7 +19,7 @@ export class HeadFilterComponent implements OnInit {
       path: '/u/search/job'
     },
     {
-      name: 'Tài khoản',
+      name: 'Mọi người',
       path: '/u/search/people'
     },
   ]

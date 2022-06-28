@@ -3,7 +3,12 @@ import {HttpClient} from "@angular/common/http";
 import {httpOptions, objectToParams} from "../utils/common";
 import {SkillSearchInput, SkillSearchOutput} from "../models/skill.model";
 import {CreateTaggedOutput, TaggedInput} from "../models/common";
-import {CompanyTag, CompanyTagSearchInput, CompanyTagSearchOutput} from "../models/company-tag.model";
+import {
+  CompanyTag,
+  CompanyTagAddMstOutput,
+  CompanyTagSearchInput,
+  CompanyTagSearchOutput
+} from "../models/company-tag.model";
 
 @Injectable({
   providedIn: 'root'
@@ -27,5 +32,10 @@ export class CompanyTagService {
   createTag(data: CreateTaggedOutput) {
     const uri = 'company-tag/create-tag';
     return this.httpClient.post<TaggedInput>(uri, data, httpOptions);
+  }
+
+  addMst(data: CompanyTagAddMstOutput) {
+    const uri = 'company-tag/add-mst';
+    return this.httpClient.post<CompanyTag>(uri, data, httpOptions);
   }
 }

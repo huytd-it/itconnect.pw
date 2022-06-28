@@ -49,7 +49,7 @@ export class ProfileStaffComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       [FormField.fullName]: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]],
-      [FormField.phone]: [null, Validators.pattern(/([\+84|84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\b/)],
+      [FormField.phone]: [null, [Validators.required, Validators.pattern(/([\+84|84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\b/)]],
       [FormField.birthday]: [null, Validators.required],
       [FormField.address]: [null, validateInputAddressRequired],
       [FormField.interest]: [''],

@@ -1,13 +1,15 @@
 import {PageInput, PageOutput, SearchPageOutput} from "./common";
 
-export class WorkFrom {
+export class Company3rd {
   id: number;
   name: string;
-
-  // add more
+  code: string;
+  date: Date;
+  address: string;
+  realName: string;
 }
 
-export class WorkFromSearchInput extends PageInput<WorkFrom> {}
+export class Company3rdSearchInput extends PageInput<Company3rd> {}
 
-export class WorkFromSearchOutput extends SearchPageOutput {
+export class Company3rdSearchOutput extends SearchPageOutput {
 }
