@@ -60,7 +60,7 @@ export class SchoolService {
 
         // owner tag
         const currentUser = this.request['user'] as UserEntity;
-        if (hasUserTagged(currentUser)) {
+        if (hasUserTagged(currentUser) && !whereClause.isApprove) {
             const userTagged = await this.userTaggedSchoolRepository.find({
                 where: {
                     user: {

@@ -59,7 +59,7 @@ export class PositionService {
 
         // owner tag
         const currentUser = this.request['user'] as UserEntity;
-        if (hasUserTagged(currentUser)) {
+        if (hasUserTagged(currentUser) && !whereClause.isApprove) {
             const userTagged = await this.userTaggedPositionRepository.find({
                 where: {
                     user: {
@@ -69,7 +69,6 @@ export class PositionService {
                 loadRelationIds: true
             });
             if (userTagged.length) {
-                console.log(userTagged);
                 query.andWhere((clause) => {
                     clause.where({
                         id: In(userTagged.map(item => item.position))

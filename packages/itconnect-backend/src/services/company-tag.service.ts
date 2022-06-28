@@ -152,7 +152,7 @@ export class CompanyTagService {
                 }
                 companyTag = await this.companyTagRepository.save({
                     mst: company3rd.code,
-                    name: company3rd.name
+                    name: company3rd.realName
                 });
             }
             const data = {

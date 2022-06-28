@@ -63,12 +63,22 @@ export class UserService {
     ) {
     }
 
-    findOneUserInfoFull(id: number) {
-        return this.userInfoRepository.findOne({
+    findOneFull(id: number) {
+        return this.usersRepository.findOne({
             where: {
                 id
             },
-            relations: ['jobLevel', 'addressProvince', 'addressDistrict', 'addressVillage']
+            relations: [
+                'userInfo',
+                'userInfo.jobLevel',
+                'userInfo.addressProvince',
+                'userInfo.addressDistrict',
+                'userInfo.addressVillage',
+                'companyInfo',
+                'companyInfo.addressProvince',
+                'companyInfo.addressDistrict',
+                'companyInfo.addressVillage',
+            ]
         });
     }
 
@@ -198,15 +208,25 @@ export class UserService {
 
                 const address = await this.addressService.mapStringToAddress(company3rd.address);
                 if (!address) {
-                    throw new RuntimeException('Oop! address không hợp lệ')
+                    throw new ServiceUnavailableException('Oop! address không hợp lệ')
+                }
+
+                const exists = await queryRunner.manager.findOne(CompanyInfoEntity, {
+                    where: {
+                        mst: company3rd.code
+                    }
+                })
+                if (exists) {
+                    throw new ConflictException('Doanh nghiệp của bạn đã được đăng kí, vui lòng contact với support@itconnect.pw để được giúp đỡ');
                 }
 
                 companyInfoEntity.mst = company3rd.code;
-                companyInfoEntity.companyName = company3rd.name;
+                companyInfoEntity.companyName = company3rd.realName;
                 companyInfoEntity.addressStreet = address.street;
                 companyInfoEntity.addressVillage = address.village;
                 companyInfoEntity.addressDistrict = address.district;
                 companyInfoEntity.addressProvince = address.province;
+                companyInfoEntity.dayEstablish = company3rd.date;
 
                 // save company info
                 const infoOutput = await queryRunner.manager.save(companyInfoEntity);

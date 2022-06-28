@@ -35,7 +35,7 @@ export class CompanyTagController {
     }
 
     @UseGuards(PermissionsGuard)
-    @RequirePermissions(AppPermission.COMPANY_TAG_SEARCH)
+    @RequirePermissions(AppPermission.COMPANY_TAG_CREATE_TAG)
     @Post('create-tag')
     create(
         @Body() data: CompanyTagDto,

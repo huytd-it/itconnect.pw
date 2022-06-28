@@ -34,7 +34,7 @@ export class CompanyInfoEntity {
     @JoinColumn()
     addressVillage: AddressEntity;
 
-    @OneToOne(type => CompanyTagEntity)
+    @OneToOne(type => CompanyTagEntity, db => db.companyInfo)
     companyTag: CompanyTagEntity;
 
     @Column()

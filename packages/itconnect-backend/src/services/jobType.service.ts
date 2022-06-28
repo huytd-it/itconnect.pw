@@ -22,7 +22,7 @@ export class JobTypeService {
 
         options.where = {}
         if (dtoSearch.search) {
-            options.where.name = Like(`%${dtoSearch.search}%`)
+            options.where.companyName = Like(`%${dtoSearch.search}%`)
         }
 
         if (dtoPage.order_field && dtoPage.order) {

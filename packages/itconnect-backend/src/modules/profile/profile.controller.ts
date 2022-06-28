@@ -49,8 +49,7 @@ export class ProfileController {
         @GetUser() userFull: UserEntity
     ) {
         const permissions = appRolesConfig[userFull.role];
-        const {password, ...user} = userFull;
-        user.userInfo = await this.userService.findOneUserInfoFull(userFull.id);
+        const {password, ...user} = await this.userService.findOneFull(userFull.id);
         return {
             permissions,
             user

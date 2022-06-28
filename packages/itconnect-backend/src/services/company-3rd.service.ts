@@ -57,7 +57,8 @@ export class Company3rdService {
             }
             return {
                 code: item['MaSoThue'],
-                name: item['Title'],
+                name: `[${item['MaSoThue']}] ` + item['Title'],
+                realName: item['Title'],
                 address: item['DiaChiCongTy'],
                 date: moment(item['NgayCap']).toDate()
             }

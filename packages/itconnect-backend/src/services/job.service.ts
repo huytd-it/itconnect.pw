@@ -129,31 +129,33 @@ export class JobService {
                 },
                 loadRelationIds: true
             });
-            const companyTag = await queryRunner.manager.findOne(CompanyTagEntity, {
-                where: {
-                    companyInfo: Id(companyInfo.id)
-                },
-            })
+            // const companyTag = await queryRunner.manager.findOne(CompanyTagEntity, {
+            //     where: {
+            //         companyInfo: Id(companyInfo.id)
+            //     },
+            // })
             dataEntity = {
                 addressProvince: Id(companyInfo.addressProvince as unknown as number),
                 addressDistrict: Id(companyInfo.addressDistrict as unknown as number),
                 addressVillage: Id(companyInfo.addressVillage as unknown as number),
                 addressStreet: companyInfo.addressStreet,
-                companyTag: Id(companyTag.id)
+                companyTag: Id(companyInfo.companyTag as unknown as number)
             }
         } else {
             // valid address & companyTag is required
-            if (!(data.addressProvince && data.addressDistrict &&
-                data.addressVillage && data.addressStreet && data.companyTag)) {
-                throw new BadRequestException();
-            }
-            dataEntity = {
-                addressProvince: Id(data.addressProvince),
-                addressDistrict: Id(data.addressDistrict),
-                addressVillage: Id(data.addressVillage),
-                addressStreet: data.addressStreet,
-                companyTag: Id(data.companyTag)
-            }
+            // if (!(data.addressProvince && data.addressDistrict &&
+            //     data.addressVillage && data.addressStreet && data.companyTag)) {
+            //     throw new BadRequestException();
+            // }
+            // dataEntity = {
+            //     addressProvince: Id(data.addressProvince),
+            //     addressDistrict: Id(data.addressDistrict),
+            //     addressVillage: Id(data.addressVillage),
+            //     addressStreet: data.addressStreet,
+            //     companyTag: Id(data.companyTag)
+            // }
+            // not support logic
+            throw new ForbiddenException('Chưa support logic')
         }
 
         // basic data

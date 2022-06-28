@@ -27,7 +27,7 @@ export class AddressService {
 
         options.where = {}
         if (dtoSearch.search) {
-            options.where.name = Like(`%${dtoSearch.search}%`)
+            options.where.companyName = Like(`%${dtoSearch.search}%`)
         }
 
         if (dtoSearch.type) {
@@ -59,15 +59,15 @@ export class AddressService {
         return str.trim()
             .replace(/(tính)|(thành phố)|(tp)/gmi, '')
             .replace(/(huyện)|(thị trấn)/gmi, '')
-            .replace(/(xã)|(phường)/gmi, '');
+            .replace(/(xã)|(phường)|(khu phố)/gmi, '');
     }
 
     async mapStringToAddress(addressStr: string) {
         const stringSplit = addressStr.split(',');
-        const provinceStr = this.trimAddress(stringSplit[3]);
-        const districtStr = this.trimAddress(stringSplit[2]);
-        const villageStr = this.trimAddress(stringSplit[1]);
-        const street = stringSplit[0].trim();
+        const provinceStr = this.trimAddress(stringSplit[stringSplit.length - 1]);
+        const districtStr = this.trimAddress(stringSplit[stringSplit.length - 2]);
+        const villageStr = this.trimAddress(stringSplit[stringSplit.length - 3]);
+        const street = stringSplit.slice(0, stringSplit.length - 3).join(',').trim();
 
         // find province
         const province = await this.addressRepository.findOne({

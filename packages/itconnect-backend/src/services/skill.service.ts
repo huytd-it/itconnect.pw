@@ -57,7 +57,7 @@ export class SkillService {
 
         // owner tag
         const currentUser = this.request['user'] as UserEntity;
-        if (hasUserTagged(currentUser)) {
+        if (hasUserTagged(currentUser) && !whereClause.isApprove) {
             const userTagged = await this.userTaggedSkillRepository.find({
                 where: {
                     user: {

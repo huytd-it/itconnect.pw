@@ -25,8 +25,7 @@ export class CreateOrEditUserProfileInputDto {
     @MinLength(MIN_LENGTH_FULL_NAME)
     fullName: string;
 
-    @ApiPropertyOptional()
-    @IsOptional()
+    @ApiProperty()
     @Matches(/^$|([\+84|84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\b/)
     phone: string;
 
@@ -79,8 +78,7 @@ export class CreateOrEditCompanyProfileInputDto {
     @ApiProperty()
     companyMst: string;
 
-    @ApiPropertyOptional()
-    @IsOptional()
+    @ApiProperty()
     @Matches(/([\+84|84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\b/)
     phone: string;
 }
