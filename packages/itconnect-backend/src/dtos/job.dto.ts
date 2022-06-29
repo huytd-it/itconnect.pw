@@ -232,6 +232,15 @@ export class JobDto extends EntityDto {
 
     @ApiProperty()
     user: UserDto;
+
+    @ApiProperty()
+    jobApplyCount: number;
+
+    @ApiProperty()
+    jobApplySelf: number;
+
+    @ApiProperty()
+    jobSavedSelf: number;
 }
 
 export class JobIdParamDto {

@@ -19,6 +19,8 @@ import {CvHonorsAwardsEntity} from "./cvHonorsAwards.entity";
 import {UserCertificateEntity} from "./userCertificate.entity";
 import {CvCertificateEntity} from "./cvCertificate.entity";
 import {UserSchoolEntity} from "./userSchool.entity";
+import {JobApplyEntity} from "./jobApply.entity";
+import {JobSavedEntity} from "./jobSaved.entity";
 
 
 @Entity()
@@ -66,6 +68,12 @@ export class UserEntity {
 
     @OneToMany(type => CvCertificateEntity, db => db.user)
     cvCertificates: CvCertificateEntity[];
+
+    @OneToMany(type => JobApplyEntity, db => db.user)
+    jobApply: JobApplyEntity[];
+
+    @OneToMany(type => JobSavedEntity, db => db.user)
+    jobSaved: JobApplyEntity[];
 
     @CreateDateColumn()
     createdAt: Date;

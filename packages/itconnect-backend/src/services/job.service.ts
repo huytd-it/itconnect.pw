@@ -62,34 +62,47 @@ export class JobService {
 
     async getById(id: number, hasCheckIsOwner = false) {
         const user = this.request['user'] as UserEntity;
-        const data = await this.jobRepository.findOne({
-            where: {
-                id
-            },
-            relations: [
-                'addressProvince',
-                'addressDistrict',
-                'addressVillage',
-                'jobPositions',
-                'jobPositions.position',
-                'jobSkills',
-                'jobSkills.skill',
-                'jobCertificates',
-                'jobCertificates.certificate',
-                'jobSchools',
-                'jobSchools.school',
-                'jobWorkFrom',
-                'jobWorkFrom.workFrom',
-                'jobJobLevels',
-                'jobJobLevels.jobLevel',
-                'jobType',
-                'companyTag',
-                'companyTag.companyInfo',
-                'user',
-                'user.userInfo',
-                'user.companyInfo'
-            ]
-        })
+        const qr = this.jobRepository.createQueryBuilder('job');
+        qr.where({ id });
+        qr.leftJoinAndSelect('job.addressProvince', 'addressProvince');
+        qr.leftJoinAndSelect('job.addressDistrict', 'addressDistrict');
+        qr.leftJoinAndSelect('job.addressVillage', 'addressVillage');
+        qr.leftJoinAndSelect('job.jobPositions', 'jobPositions');
+        qr.leftJoinAndSelect('jobPositions.position', 'jobPositions.position');
+        qr.leftJoinAndSelect('job.jobSkills', 'jobSkills');
+        qr.leftJoinAndSelect('jobSkills.skill', 'jobSkills.skill');
+        qr.leftJoinAndSelect('job.jobCertificates', 'jobCertificates');
+        qr.leftJoinAndSelect('jobCertificates.certificate', 'jobCertificates.certificate');
+        qr.leftJoinAndSelect('job.jobSchools', 'jobSchools');
+        qr.leftJoinAndSelect('jobSchools.school', 'jobSchools.school');
+        qr.leftJoinAndSelect('job.jobWorkFrom', 'jobWorkFrom');
+        qr.leftJoinAndSelect('jobWorkFrom.workFrom', 'jobWorkFrom.workFrom');
+        qr.leftJoinAndSelect('job.jobJobLevels', 'jobJobLevels');
+        qr.leftJoinAndSelect('jobJobLevels.jobLevel', 'jobJobLevels.jobLevel');
+        qr.leftJoinAndSelect('job.jobType', 'jobType');
+        qr.leftJoinAndSelect('job.companyTag', 'companyTag');
+        qr.leftJoinAndSelect('companyTag.companyInfo', 'companyTag.companyInfo');
+        qr.leftJoinAndSelect('job.user', 'user');
+        qr.leftJoinAndSelect('user.userInfo', 'user.userInfo');
+        qr.leftJoinAndSelect('user.companyInfo', 'user.companyInfo');
+        qr.loadRelationCountAndMap('job.jobApplyCount', 'job.jobApply', 'jobApplyCount');
+        qr.loadRelationCountAndMap(
+            'job.jobApplySelf',
+            'job.jobApply',
+            'jobApplySelf',
+            (qr) => qr.where({
+                user: Id(user.id)
+            })
+        )
+        qr.loadRelationCountAndMap(
+            'job.jobSavedSelf',
+            'job.jobSaved',
+            'jobSavedSelf',
+            (qr) => qr.where({
+                user: Id(user.id)
+            })
+        )
+        const data = await qr.getOne();
         if (!hasCheckIsOwner) {
                if (
                    data.status !== JobStatus.Publish &&
@@ -293,6 +306,7 @@ export class JobService {
     }
 
     async search(query: JobSearchQueryInputDto, body: JobSearchBodyInputDto, page: PageOptionsDto) {
+        const user = this.request['user'] as UserEntity;
         const qr = this.jobRepository.createQueryBuilder('job');
 
         // job level, map id
@@ -580,7 +594,23 @@ export class JobService {
         qr.leftJoinAndSelect('job.addressProvince', 'addressProvince');
         qr.leftJoinAndSelect('job.addressDistrict', 'addressDistrict');
         qr.leftJoinAndSelect('job.addressVillage', 'addressVillage');
-
+        qr.loadRelationCountAndMap('job.jobApplyCount', 'job.jobApply', 'jobApplyCount')
+        qr.loadRelationCountAndMap(
+            'job.jobApplySelf',
+            'job.jobApply',
+            'jobApplySelf',
+            (qr) => qr.where({
+               user: Id(user.id)
+            })
+        )
+        qr.loadRelationCountAndMap(
+            'job.jobSavedSelf',
+            'job.jobSaved',
+            'jobSavedSelf',
+            (qr) => qr.where({
+                user: Id(user.id)
+            })
+        )
         qr.select([
             'job.id',
             'job.name',

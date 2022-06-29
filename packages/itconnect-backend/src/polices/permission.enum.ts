@@ -198,6 +198,24 @@ export enum AppPermission {
     COMPANY_3RD = 'company_3rd',
     COMPANY_3RD_SEARCH = 'company_3rd_search',
 
+
+    /**
+     * JOB APPLY
+     *
+     */
+    JOB_APPLY = 'JOB_APPLY',
+    JOB_APPLY_SEARCH = 'JOB_APPLY_SEARCH',
+    JOB_APPLY_CREATE = 'JOB_APPLY_CREATE',
+    JOB_APPLY_DELETE = 'JOB_APPLY_DELETE',
+
+    /**
+     * JOB SAVED
+     * 
+     */
+    JOB_SAVED = 'JOB_SAVED',
+    JOB_SAVED_SEARCH = 'JOB_SAVED_SEARCH',
+    JOB_SAVED_CREATE = 'JOB_SAVED_CREATE',
+    JOB_SAVED_DELETE = 'JOB_SAVED_DELETE',
 }
 
 
@@ -283,6 +301,14 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.JOB_TYPE_SEARCH,
         AppPermission.COMPANY_3RD,
         AppPermission.COMPANY_3RD_SEARCH,
+        AppPermission.JOB_APPLY,
+        AppPermission.JOB_APPLY_SEARCH,
+        AppPermission.JOB_APPLY_CREATE,
+        AppPermission.JOB_APPLY_DELETE,
+        AppPermission.JOB_SAVED,
+        AppPermission.JOB_SAVED_SEARCH,
+        AppPermission.JOB_SAVED_CREATE,
+        AppPermission.JOB_SAVED_DELETE,
     ],
 
     /***
@@ -319,6 +345,7 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.PEOPLE_SEARCH,
         AppPermission.JOB_TYPE,
         AppPermission.JOB_TYPE_SEARCH,
+        AppPermission.JOB_APPLY_SEARCH,
     ],
 
     /**

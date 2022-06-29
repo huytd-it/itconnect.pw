@@ -59,6 +59,10 @@ import {PeopleService} from "./people.service";
 import { Company3rdService } from './company-3rd.service';
 import {HttpModule} from "@nestjs/axios";
 import {ConfigModule, ConfigService} from "@nestjs/config";
+import { JobApplyService } from './job-apply.service';
+import {JobApplyEntity} from "../entities/jobApply.entity";
+import {JobSavedEntity} from "../entities/jobSaved.entity";
+import {JobSavedService} from "./job-saved.service";
 
 @Module({
   imports: [
@@ -96,7 +100,9 @@ import {ConfigModule, ConfigService} from "@nestjs/config";
         JobWorkFromEntity,
         JobCertificateEntity,
         JobSchoolEntity,
-        JobTypeEntity
+        JobTypeEntity,
+        JobApplyEntity,
+        JobSavedEntity
     ]),
       HttpModule.registerAsync({
           imports: [ConfigModule],
@@ -130,6 +136,8 @@ import {ConfigModule, ConfigService} from "@nestjs/config";
       JobTypeService,
       PeopleService,
       Company3rdService,
+      JobApplyService,
+      JobSavedService
   ],
   exports: [
       UserService,
@@ -153,7 +161,9 @@ import {ConfigModule, ConfigService} from "@nestjs/config";
       JobService,
       JobTypeService,
       PeopleService,
-      Company3rdService
+      Company3rdService,
+      JobApplyService,
+      JobSavedService
   ]
 })
 export class ServicesModule {}
