@@ -5,7 +5,7 @@ import {CompanyTagService} from "../../../../../../services/company-tag.service"
 import {WorkFromService} from "../../../../../../services/work-from.service";
 import {SearchPageOutput} from "../../../../../../models/common";
 import {AppService} from "../../../../../../services/app.service";
-import {finalize} from "rxjs";
+import {catchError, finalize, throwError} from "rxjs";
 import {EasySelectComponent} from "../../../../../../components/easy-select/easy-select.component";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import * as moment from "moment";
@@ -35,6 +35,8 @@ export class WorkExperienceModalComponent implements OnInit {
   faArrowRight = faArrowRight;
   faArrowDown = faArrowDown;
   isToggleWorking: boolean;
+  isAddForce: boolean;
+  msgForce: string;
   form: FormGroup;
   readonly FormField = FormField;
 
@@ -84,6 +86,7 @@ export class WorkExperienceModalComponent implements OnInit {
         [FormField.Content]: this.data.content
       })
       this.isToggleWorking = !this.data.endDate;
+      this.isAddForce = false;
       this.onChangeToggleWorking();
     }
   }
@@ -151,6 +154,7 @@ export class WorkExperienceModalComponent implements OnInit {
       startDate: value[FormField.StartDate],
       endDate: value[FormField.EndDate],
       companyTag: value[FormField.Company]?.id,
+      force: this.isAddForce
     }
 
     if (this.data) {
@@ -159,13 +163,21 @@ export class WorkExperienceModalComponent implements OnInit {
 
     this.appService.setHeadLoading(true);
     this.cvWorkExperienceService.createOrEdit(data)
+      .pipe(catchError(e => {
+        const msg = e?.error?.message;
+        if (msg && msg.match(/___/gmi)) {
+          this.isAddForce = true;
+          this.msgForce = msg;
+        }
+        return throwError(e);
+      }))
       .pipe(finalize(() => this.appService.setHeadLoading(false)))
       .subscribe(data => {
-        this.onClose(data);
+        this.onClose({ reload: this.isAddForce, data });
       })
   }
 
-  onClose(data?: CvWorkExperience) {
+  onClose(data?: { data: CvWorkExperience, reload: boolean }) {
     this.dialogRef.close(data);
   }
 }

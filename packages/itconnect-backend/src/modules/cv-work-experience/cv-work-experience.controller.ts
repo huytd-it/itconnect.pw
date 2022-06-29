@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Post, UseGuards} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Post, UseGuards} from '@nestjs/common';
 import {ApiBearerAuth, ApiOkResponse, ApiTags} from "@nestjs/swagger";
 import {JwtAuthGuard} from "../../utils/guards/jwt.guard";
 import {CvWorkExperienceService} from "../../services/cv-work-experience.service";
@@ -48,7 +48,7 @@ export class CvWorkExperienceController {
     @ApiOkResponse({ type: CvWorkExperienceDto })
     @Delete('/:id')
     delete(
-        @Body() data: CvWorkExperienceDeleteDto
+        @Param() data: CvWorkExperienceDeleteDto
     ) {
         return this.cvWorkExperienceService.delete(data.id);
     }

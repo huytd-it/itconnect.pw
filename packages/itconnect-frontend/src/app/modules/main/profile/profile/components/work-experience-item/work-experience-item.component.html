@@ -13,7 +13,7 @@
         (click)="onRemove.emit(data)"
       ></button>
       <div class="tw-rounded-2xl tw-bg-primaryColor200 tw-p-2 tw-text-primaryColor tw-text-[12px]">
-        {{data.startDate | date: 'MM/YYYY'}} - {{data.endDate ? (data.endDate | date: 'MM/YYYY') : 'Hiện tại'}}
+        {{data.startDate | date: 'MM/yyyy'}} - {{data.endDate ? (data.endDate | date: 'MM/yyyy') : 'Hiện tại'}}
       </div>
     </div>
   </div>

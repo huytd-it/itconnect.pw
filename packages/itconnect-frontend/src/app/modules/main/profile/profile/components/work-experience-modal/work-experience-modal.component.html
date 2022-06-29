@@ -84,7 +84,24 @@
 </div>
 <div mat-dialog-actions>
   <div class="tw-flex tw-justify-center tw-w-full tw-mt-10 tw-mb-3">
-    <button mat-button (click)="onClose()">Đóng</button>
-    <button mat-stroked-button cdkFocusInitial color="primary" (click)="onSubmit()">Lưu</button>
+    <ng-container *ngIf="!isAddForce">
+      <button mat-button (click)="onClose()">Đóng</button>
+      <button mat-stroked-button cdkFocusInitial color="primary" (click)="onSubmit()">Lưu</button>
+    </ng-container>
+    <ng-container *ngIf="isAddForce">
+      <div>
+        <div class="tw-text-red-500 tw-text-[13px]">
+          {{msgForce}}
+        </div>
+        <div class="tw-text-[13px]">
+          Bạn có muốn kết thúc làm việc ở công ty bị trùng lập không ?
+        </div>
+        <div class="tw-my-3 tw-text-center">
+          <button mat-button (click)="onClose()">Đóng</button>
+          <button mat-button (click)="isAddForce = false">Không</button>
+          <button mat-stroked-button cdkFocusInitial color="warn" (click)="onSubmit()">Có, tiếp tục</button>
+        </div>
+      </div>
+    </ng-container>
   </div>
 </div>

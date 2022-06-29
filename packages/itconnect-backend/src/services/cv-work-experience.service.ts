@@ -1,13 +1,15 @@
-import {ForbiddenException, Inject, Injectable, Request, Scope} from '@nestjs/common';
+import {ConflictException, ForbiddenException, Inject, Injectable, Request, Scope} from '@nestjs/common';
 import {CreateOrEditCvWorkExperienceDto} from "../dtos/cv-work-experience.dto";
 import {UserEntity} from "../entities/user.entity";
 import {REQUEST} from "@nestjs/core";
 import {InjectRepository} from "@nestjs/typeorm";
 import {CvWorkExperienceEntity} from "../entities/cvWorkExperience.entity";
-import {DeepPartial, Repository} from "typeorm";
+import {DeepPartial, LessThanOrEqual, MoreThanOrEqual, Not, Repository} from "typeorm";
 import {QueryDeepPartialEntity} from "typeorm/query-builder/QueryPartialEntity";
 import {CompanyTagService} from "./company-tag.service";
 import {UserService} from "./user.service";
+import * as moment from "moment";
+import {Id} from "../utils/function";
 
 @Injectable({ scope: Scope.REQUEST })
 export class CvWorkExperienceService {
@@ -58,14 +60,61 @@ export class CvWorkExperienceService {
         let upId = data.id;
 
         const dataUpdate: DeepPartial<CvWorkExperienceEntity> = {
-            startDate: data.startDate,
-            endDate: data.endDate || null,
+            startDate: moment(data.startDate).startOf('month').toDate(),
+            endDate: data.endDate ? moment(data.endDate).startOf('month').toDate() : null,
             jobLevel: data.jobLevel ? { id: data.jobLevel } : null,
             jobType: data.jobType ? { id: data.jobType } : null,
             workFrom: data.workFrom ? { id: data.workFrom } : null,
             content: data.content,
         };
 
+        // valid contain or overlap time
+        const qr = this.cvWorkExperienceRepository.createQueryBuilder('cv');
+        qr.where(`(
+                (
+                    (startDate <= :param_start_date and (endDate >= :param_start_date or endDate is null)) or
+                    (startDate <= :param_end_date and (endDate >= :param_end_date or endDate is null))    
+                ) 
+                or startDate >= :param_start_date and (endDate <= :param_end_date or (endDate is null and :is_null_end_date = 1))
+            )`, {
+            param_end_date: dataUpdate.endDate || moment().startOf('month').toDate(),
+            param_start_date: dataUpdate.startDate,
+            is_null_end_date: !dataUpdate.endDate ? 1 : 0
+        })
+        qr.andWhere({
+            user: Id(currentUser.id)
+        })
+        if (upId) {
+            qr.andWhere({
+                id: Not(upId)
+            })
+        }
+        qr.leftJoinAndSelect('cv.companyTag', 'companyTag')
+        const resultCvValid = await qr.getOne();
+        if (resultCvValid) {
+            let supportForce = false;
+            if (!resultCvValid.endDate) {
+                supportForce = moment(<any>resultCvValid.startDate).isBefore(
+                    moment(<any>dataUpdate.startDate)
+                )
+            }
+            if (!(!resultCvValid.endDate && data.force && supportForce)) {
+                const s = moment(resultCvValid.startDate).startOf('month').format('MM/YYYY');
+                const e = resultCvValid.endDate ? moment(resultCvValid.endDate).startOf('month').format('MM/YYYY') : 'hiện tại';
+                throw new ConflictException(`Trùng lập công ty ${resultCvValid.companyTag.name} từ ${s} đến ${e} ${supportForce ? '___' : ''}`)
+            }
+        }
+        // update old cv experience to prev current month
+        if (resultCvValid) {
+            await this.cvWorkExperienceRepository.update(
+                { id: resultCvValid.id },
+                {
+                    endDate: moment(<any>dataUpdate.startDate).subtract(1, 'month').toDate()
+                });
+        }
+
+
+        // check owner company tag
         if (data.companyTag) {
             const tGlobal = await this.companyTagService.isApprove(data.companyTag);
             if (!tGlobal) {

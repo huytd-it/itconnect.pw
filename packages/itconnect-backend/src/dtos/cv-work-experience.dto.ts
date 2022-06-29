@@ -97,6 +97,10 @@ export class CreateOrEditCvWorkExperienceDto {
     @IsOptional()
     @ExistsRowField(JobLevelEntity, 'id', true)
     workFrom: number;
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    force: boolean;
 }
 
 export class CvWorkExperienceDeleteDto {

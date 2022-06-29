@@ -22,12 +22,7 @@ export class WorkExperienceComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    let flag = 1;
-    this.cvWorkExperienceService.getOwner()
-      .pipe(finalize(() => !--flag && this.appService.setHeadLoading(false)))
-      .subscribe(data => {
-        this.data = data;
-      })
+    this.load()
   }
 
   onAdd() {
@@ -36,11 +31,16 @@ export class WorkExperienceComponent implements OnInit {
       maxHeight: '95vh',
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result: {reload: boolean, data: CvWorkExperience}) => {
       if (!result) {
         return
       }
-      this.data = [result, ...this.data];
+      if (result.reload) {
+        this.load();
+        return;
+      }
+      const r = result.data;
+      this.data = [r, ...this.data];
       this.onUpdate.emit();
     });
   }
@@ -52,12 +52,17 @@ export class WorkExperienceComponent implements OnInit {
       data: item
     });
 
-    dialogRef.afterClosed().subscribe((result: CvWorkExperience)=> {
+    dialogRef.afterClosed().subscribe((result: {reload: boolean, data: CvWorkExperience})=> {
       if (!result) {
         return
       }
-      const index = this.data.findIndex(item => item.id === result.id);
-      this.data[index] = result;
+      if (result.reload) {
+        this.load();
+        return;
+      }
+      const r = result.data;
+      const index = this.data.findIndex(item => item.id === r.id);
+      this.data[index] = r;
       this.onUpdate.emit();
     });
   }
@@ -69,6 +74,15 @@ export class WorkExperienceComponent implements OnInit {
       .subscribe(data => {
         this.data = this.data.filter(item => item.id !== e.id);
         this.onUpdate.emit();
+      })
+  }
+
+  private load() {
+    let flag = 1;
+    this.cvWorkExperienceService.getOwner()
+      .pipe(finalize(() => !--flag && this.appService.setHeadLoading(false)))
+      .subscribe(data => {
+        this.data = data;
       })
   }
 }

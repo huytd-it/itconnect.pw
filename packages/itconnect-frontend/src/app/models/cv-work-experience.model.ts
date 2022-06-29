@@ -39,4 +39,5 @@ export class CreateOrEditCvWorkExperience {
     jobLevel: number;
     jobType: number;
     workFrom: number;
+    force?: boolean;
 }
