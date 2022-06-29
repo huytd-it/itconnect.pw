@@ -100,7 +100,7 @@ export class Job extends BaseTable {
   descriptionContent: string;
   requirementContent: string;
   reasonContent: string;
-  status: 0;
+  status: JobStatus;
   user: User;
   jobApplyCount: number;
   jobApplySelf: number;

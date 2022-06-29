@@ -32,10 +32,33 @@ const routes: Routes = [
         data: {
           permission: AppPermission.JOB_APPLY
         }
+      },
+      {
+        path: 'saved',
+        loadChildren: () => import('./job-saved/job-saved.module').then(m => m.JobSavedModule),
+        canActivate: [PermissionGuard],
+        data: {
+          permission: AppPermission.JOB_SAVED
+        }
+      },
+      {
+        path: 'owner',
+        loadChildren: () => import('./job-owner/job-owner.module').then(m => m.JobOwnerModule),
+        canActivate: [PermissionGuard],
+        data: {
+          permission: AppPermission.JOB_CE
+        }
+      },
+      {
+        path: 'manage',
+        loadChildren: () => import('./manage/manage.module').then(m => m.ManageModule),
+        canActivate: [PermissionGuard],
+        data: {
+          permission: AppPermission.JOB_CE
+        }
       }
     ]
   },
-  { path: 'job-apply', loadChildren: () => import('./job-apply/job-apply.module').then(m => m.JobApplyModule) },
 ];
 
 @NgModule({

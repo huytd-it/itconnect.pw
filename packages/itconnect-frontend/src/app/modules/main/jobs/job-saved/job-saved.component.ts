@@ -5,18 +5,20 @@ import {finalize} from "rxjs";
 import {JobApply, JobApplySearchInput} from "../../../../models/job-apply.model";
 import {PageEvent} from "@angular/material/paginator";
 import { AppPermission } from 'src/app/models/permission.model';
+import {JobSavedService} from "../../../../services/job-saved.service";
+import {JobSavedSearchInput} from "../../../../models/job-saved.model";
 
 @Component({
-  selector: 'app-job-apply',
-  templateUrl: './job-apply.component.html',
-  styleUrls: ['./job-apply.component.scss']
+  selector: 'app-job-saved',
+  templateUrl: './job-saved.component.html',
+  styleUrls: ['./job-saved.component.scss']
 })
-export class JobApplyComponent implements OnInit {
+export class JobSavedComponent implements OnInit {
   orderField = [
     {
       id: 1,
       name: 'Ngày Thêm',
-      value: 'jobApply.createdAt',
+      value: 'jobSaved.createdAt',
     },
     {
       id: 2,
@@ -41,11 +43,11 @@ export class JobApplyComponent implements OnInit {
   orderSelected = this.order[1];
 
   search: string;
-  data: JobApplySearchInput;
+  data: JobSavedSearchInput;
   readonly AppPermission = AppPermission;
 
   constructor(
-    private jobApplyService: JobApplyService,
+    private jobSavedService: JobSavedService,
     public appService: AppService
   ) { }
 
@@ -55,7 +57,7 @@ export class JobApplyComponent implements OnInit {
 
   load(page: number = 1, take: number = 10) {
     this.appService.setHeadLoading(true);
-    this.jobApplyService.search({
+    this.jobSavedService.search({
       search: this.search,
       order_field: this.orderFieldSelected.value,
       order: <any>this.orderSelected.value,
@@ -77,7 +79,7 @@ export class JobApplyComponent implements OnInit {
 
   onCancel(item: JobApply) {
     this.appService.setHeadLoading(true);
-    this.jobApplyService.delete(item.id)
+    this.jobSavedService.delete(item.id)
       .pipe(finalize(() => this.appService.setHeadLoading(false)))
       .subscribe(data => {
         this.data.data = this.data.data.filter(it => it.id != item.id);

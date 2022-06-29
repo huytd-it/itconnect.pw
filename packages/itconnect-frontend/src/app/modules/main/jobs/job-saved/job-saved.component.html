@@ -1,5 +1,5 @@
 <div class="tw-shadow-sm tw-p-5">
-  <h2 class="!tw-mb-0">Công việc ứng tuyển</h2>
+  <h2 class="!tw-mb-0">Công việc yêu thích</h2>
 </div>
 <div class="tw-p-5">
   <div class="tw-flex tw-gap-3 tw-flex-wrap">
@@ -85,9 +85,9 @@
                 mat-stroked-button
                 color="warn"
                 (click)="onCancel(item); $event.stopPropagation()"
-                *ngIf="AppPermission.JOB_APPLY_DELETE | permission"
+                *ngIf="AppPermission.JOB_SAVED_DELETE | permission"
               >
-                Hủy ứng tuyển
+                Hủy lưu
               </button>
             </div>
           </div>
@@ -96,9 +96,9 @@
               mat-stroked-button
               color="warn"
               (click)="onCancel(item); $event.stopPropagation()"
-              *ngIf="AppPermission.JOB_APPLY_DELETE | permission"
+              *ngIf="AppPermission.JOB_SAVED_DELETE | permission"
             >
-              Hủy ứng tuyển
+              Hủy lưu
             </button>
           </div>
         </div>

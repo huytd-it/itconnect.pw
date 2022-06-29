@@ -12,9 +12,9 @@ export class JobSavedService {
     private httpClient: HttpClient
   ) {}
 
-  search(query: JobSavedSearchInput) {
+  search(query: JobSavedSearchOutput) {
     const uri = 'job-saved/search'
-    return this.httpClient.get<JobSavedSearchOutput>(uri,
+    return this.httpClient.get<JobSavedSearchInput>(uri,
       {
         ...httpOptions,
         params: objectToParams(query)

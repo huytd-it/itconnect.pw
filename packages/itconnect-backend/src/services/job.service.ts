@@ -191,10 +191,9 @@ export class JobService {
                     throw new ForbiddenException();
                 }
 
-                // only update when status is Draft or WaitSystem or WaitApprove
+                // only update when status is Draft or WaitApprove
                 if (
                     jobEntity.status === JobStatus.Draft ||
-                    jobEntity.status === JobStatus.WaitSystem ||
                     jobEntity.status === JobStatus.WaitApprove
                 ) {
                     await queryRunner.manager.update(JobEntity, { id }, dataEntity);
@@ -612,10 +611,7 @@ export class JobService {
             })
         )
         qr.select([
-            'job.id',
-            'job.name',
-            'job.addressStreet',
-            'job.updatedAt',
+            'job',
             'companyTag.id',
             'companyTag.name',
             'addressProvince.id',

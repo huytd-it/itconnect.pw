@@ -29,6 +29,12 @@ export class JobsComponent implements OnInit {
   private getMenu(): MenuItem[] {
     return [
       {
+        name: "Dành cho bạn",
+        class: 'assistant',
+        link: '/u/search/suggest',
+        permission: AppPermission.JOB_SEARCH
+      },
+      {
         name: "Tìm việc",
         class: 'search',
         link: '/u/search/job',
@@ -41,10 +47,16 @@ export class JobsComponent implements OnInit {
         permission: AppPermission.JOB_APPLY
       },
       {
-        name: "Công việc đã lưu",
+        name: "Công việc yêu thích",
         class: 'folder_special',
         link: '/u/jobs/saved',
         permission: AppPermission.JOB_SAVED
+      },
+      {
+        name: "Công việc đã đăng",
+        class: 'topic',
+        link: '/u/jobs/owner',
+        permission: AppPermission.JOB_CE
       },
       {
         name: "Tạo việc làm",

@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { JobApplyRoutingModule } from './job-apply-routing.module';
-import { JobApplyComponent } from './job-apply.component';
+import { JobSavedRoutingModule } from './job-saved-routing.module';
+import { JobSavedComponent } from './job-saved.component';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {NgSelectModule} from "@ng-select/ng-select";
@@ -15,11 +15,11 @@ import {MatButtonModule} from "@angular/material/button";
 
 @NgModule({
   declarations: [
-    JobApplyComponent
+    JobSavedComponent
   ],
     imports: [
         CommonModule,
-        JobApplyRoutingModule,
+        JobSavedRoutingModule,
         MatFormFieldModule,
         MatInputModule,
         NgSelectModule,
@@ -30,4 +30,4 @@ import {MatButtonModule} from "@angular/material/button";
         MatButtonModule
     ]
 })
-export class JobApplyModule { }
+export class JobSavedModule { }

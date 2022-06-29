@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { JobSavedComponent } from './job-saved.component';
+import { JobOwnerComponent } from './job-owner.component';
 
-const routes: Routes = [{ path: '', component: JobSavedComponent }];
+const routes: Routes = [{ path: '', component: JobOwnerComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class JobSavedRoutingModule { }
+export class JobOwnerRoutingModule { }

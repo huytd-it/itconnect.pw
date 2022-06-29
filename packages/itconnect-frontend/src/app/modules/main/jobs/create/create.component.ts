@@ -413,7 +413,7 @@ export class CreateComponent implements OnInit {
         this.appService.setHeadLoading(false);
       }))
       .subscribe((data) => {
-        this.router.navigate(['..', 'view', data.id.toString()], { relativeTo: this.route }).then(() => {})
+        this.router.navigate(['..', 'manage', data.id.toString()], { relativeTo: this.route }).then(() => {})
       })
   }
 }

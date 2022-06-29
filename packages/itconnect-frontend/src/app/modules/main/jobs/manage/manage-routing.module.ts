@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { JobSavedComponent } from './job-saved.component';
+import { ManageComponent } from './manage.component';
 
-const routes: Routes = [{ path: '', component: JobSavedComponent }];
+const routes: Routes = [{ path: ':id', component: ManageComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class JobSavedRoutingModule { }
+export class ManageRoutingModule { }

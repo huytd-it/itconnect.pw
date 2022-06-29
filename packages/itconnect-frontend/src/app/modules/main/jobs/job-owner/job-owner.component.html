@@ -1,0 +1,94 @@
+<div class="tw-shadow-sm tw-p-5">
+  <h2 class="!tw-mb-0">Công việc đã đăng</h2>
+</div>
+<div class="tw-p-5">
+  <div class="tw-flex tw-gap-3 tw-flex-wrap">
+    <mat-form-field appearance="outline" class="tw-w-full sm:tw-w-[300px]">
+      <mat-label>Tìm kiếm</mat-label>
+      <input matInput [(ngModel)]="query.search" (change)="onSearch()">
+      <mat-icon matPrefix>search</mat-icon>
+    </mat-form-field>
+    <ng-select
+      class="tw-w-full sm:tw-w-[150px]"
+      appearance="outline"
+      [bindLabel]="'name'"
+      [placeholder]="'Sắp xếp theo'"
+      [items]="orderField"
+      [clearable]="false"
+      [(ngModel)]="orderFieldSelected"
+      (change)="onSearch()"
+    ></ng-select>
+    <ng-select
+      class="tw-w-full sm:tw-w-[100px]"
+      appearance="outline"
+      [bindLabel]="'name'"
+      [placeholder]="'Thứ tự'"
+      [items]="order"
+      [clearable]="false"
+      [(ngModel)]="orderSelected"
+      (change)="onSearch()"
+    ></ng-select>
+  </div>
+
+  <ng-container *ngIf="data">
+    <div class="tw-p-3 tw-text-[11px] tw-text-right tw-shadow-sm tw-text-[#888]">
+      {{data.meta.itemCount}} việc làm
+    </div>
+    <ng-container *ngFor="let item of data.data || []">
+      <div
+        class="tw-border-b tw-cursor-pointer tw-flex tw-gap-4 hover:tw-bg-[#f6f4f9] tw-items-stretch"
+        [routerLink]="'../manage/' + item.id.toString()"
+        [routerLinkActive]="'tw-bg-[#E2F0FE]'"
+      >
+        <div
+          class="tw-w-[10px]"
+          [ngClass]="{
+            'tw-bg-green-700': item.status == JobStatus.Publish,
+            'tw-bg-gray-500': item.status == JobStatus.Draft,
+            'tw-bg-orange-500': item.status != JobStatus.Publish && item.status != JobStatus.Draft
+          }"
+        ></div>
+        <div class="tw-w-[90px] tw-min-w-[90px] tw-p-3">
+          <img src="/assets/images/company-default.png">
+        </div>
+        <div class="tw-pt-1 tw-flex-auto tw-py-3">
+          <a
+            [routerLink]="item.id.toString()"
+            class="tw-text-lg tw-text-primaryColor line-2"
+          >
+            {{item.name}}
+          </a>
+          <div class="tw-flex tw-flex-wrap tw-gap-3 tw-items-center">
+            <div class="tw-text-[#057642] tw-text-[13px] tw-font-normal">
+              {{item.jobApplyCount}} ứng tuyển
+            </div>
+            <span class="tw-text-[13px] tw-p-0.5 tw-px-1 tw-border tw-rounded">
+              {{getStatusText(item.status)}}
+            </span>
+          </div>
+          <div class="tw-text-[12px]">
+            0 lượt xem
+          </div>
+          <div class="tw-text-[12px] tw-mt-3 tw-font-thin">
+            <span>
+              Khởi tạo {{item.createdAt | dateFromNow}}
+            </span>
+            <i class="tw-w-[4px] tw-h-[4px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-1"></i>
+            <span>
+              Cập nhật {{item.updatedAt | dateFromNow}}
+            </span>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <div class="tw-flex tw-justify-center tw-p-4">
+      <mat-paginator
+        [disabled]="appService.headLoading$ | async"
+        [length]="data.meta.itemCount"
+        [pageSize]="data.meta.take"
+        [pageSizeOptions]="[5, 10, 25]"
+        (page)="onChangePage($event)"
+      ></mat-paginator>
+    </div>
+  </ng-container>
+</div>
