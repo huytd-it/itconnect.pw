@@ -83,13 +83,6 @@ export class JobOwnerComponent implements OnInit {
   }
 
   getStatusText(status: JobStatus) {
-    switch (status) {
-      case JobStatus.Draft: return 'nháp';
-      case JobStatus.WaitApprove: return 'đang kiểm duyệt';
-      case JobStatus.WaitSystem: return 'đang xữ lý';
-      case JobStatus.Publish: return 'công khai';
-      case JobStatus.Hide: return 'ẩn';
-    }
-    return 'không xác định'
+    return this.jobService.getStatusText(status)
   }
 }

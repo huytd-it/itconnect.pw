@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Job, JobCreateOrEditOutput, JobSearchBodyOutput, JobSearchInput, JobSearchOutput} from "../models/job.model";
+import {
+  Job,
+  JobCreateOrEditOutput,
+  JobSearchBodyOutput,
+  JobSearchInput,
+  JobSearchOutput,
+  JobStatus
+} from "../models/job.model";
 import {httpOptions, objectToParams} from "../utils/common";
 import {JobLevelSearchInput, JobLevelSearchOutput} from "../models/job-level.model";
 
@@ -39,5 +46,16 @@ export class JobService {
   getById(id: number) {
     const uri = 'job/' + id;
     return this.httpClient.get<Job>(uri, httpOptions);
+  }
+
+  getStatusText(status: JobStatus) {
+    switch (status) {
+      case JobStatus.Draft: return 'nháp';
+      case JobStatus.WaitApprove: return 'đang kiểm duyệt';
+      case JobStatus.WaitSystem: return 'đang xữ lý';
+      case JobStatus.Publish: return 'công khai';
+      case JobStatus.Hide: return 'ẩn';
+    }
+    return 'không xác định'
   }
 }

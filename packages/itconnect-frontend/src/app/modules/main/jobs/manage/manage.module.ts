@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 
 import { ManageRoutingModule } from './manage-routing.module';
 import { ManageComponent } from './manage.component';
+import {MatTabsModule} from "@angular/material/tabs";
+import {MatIconModule} from "@angular/material/icon";
+import {MatButtonModule} from "@angular/material/button";
 
 
 @NgModule({
@@ -11,7 +14,10 @@ import { ManageComponent } from './manage.component';
   ],
   imports: [
     CommonModule,
-    ManageRoutingModule
+    ManageRoutingModule,
+    MatTabsModule,
+    MatIconModule,
+    MatButtonModule
   ]
 })
 export class ManageModule { }

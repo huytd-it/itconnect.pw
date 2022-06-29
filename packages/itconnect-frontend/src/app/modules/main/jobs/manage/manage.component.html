@@ -1,3 +1,48 @@
-<div class="tw-shadow-sm tw-p-5">
-  <h2 class="!tw-mb-0">Test Job 123/32</h2>
-</div>
+<div class="tw-h-4"></div>
+<mat-tab-group>
+  <mat-tab label="Tổng quan">
+    <div class="tw-p-5" *ngIf="data">
+      <div class="tw-text-medium tw-text-2xl tw-mt-5">
+        {{data.name}}
+      </div>
+      <div class="tw-flex tw-gap-3 tw-mt-10">
+        <button mat-stroked-button>
+          <mat-icon>edit</mat-icon>
+          Chỉnh sửa
+        </button>
+        <button mat-stroked-button color="warn">
+          <mat-icon>delete_outline</mat-icon>
+          Xóa
+        </button>
+        <button mat-stroked-button>
+          <mat-icon>hide_source</mat-icon>
+          Ẩn
+        </button>
+        <button mat-stroked-button color="primary">
+          <mat-icon>publish</mat-icon>
+          Công khai
+        </button>
+        <button mat-stroked-button color="warn">
+          <mat-icon>done</mat-icon>
+          Kết thúc nhận hồ sơ
+        </button>
+      </div>
+      <div class="tw-mt-10 tw-rounded tw-border">
+        <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
+          <div class="tw-flex tw-items-center">
+            <mat-icon>info</mat-icon>
+            <span class="tw-ml-2">Thông tin</span>
+          </div>
+        </div>
+        <div class="tw-space-y-3 tw-p-5">
+          <div>Thành viên ứng tuyển: {{data.jobApplyCount}}</div>
+          <div>Lượt xem: 0</div>
+          <div>Trạng thái: {{getStatusText(data.status)}}</div>
+          <div>Ngày kết thúc: <b>{{data.endDate | date: 'dd/MM/yyyy'}}</b></div>
+        </div>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab label="Ứng viên"></mat-tab>
+  <mat-tab label="Gợi ý"></mat-tab>
+</mat-tab-group>
