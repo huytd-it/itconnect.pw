@@ -22,7 +22,8 @@ export class ViewComponent implements OnInit {
   readonly AppPermission = AppPermission;
 
   get hasApply() {
-    return moment().isSameOrBefore(this.data.endDate) && this.permissionService.hasPermission(AppPermission.JOB_APPLY_CREATE);
+    return moment().startOf('date').isSameOrBefore(this.data.endDate) &&
+      this.permissionService.hasPermission(AppPermission.JOB_APPLY_CREATE);
   }
 
   constructor(

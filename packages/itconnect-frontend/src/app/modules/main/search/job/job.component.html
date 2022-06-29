@@ -65,18 +65,24 @@
                 <span>
                   {{item.updatedAt | dateFromNow}}
                 </span>
-                <i class="tw-w-[4px] tw-h-[4px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-1"></i>
-                <span class="tw-text-[#057642] tw-text-[13px] tw-font-normal" *ngIf="item.jobApplyCount > 0">
-                  {{item.jobApplyCount}} ứng tuyển
-                </span>
-                <i class="tw-w-[4px] tw-h-[4px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-1"></i>
-                <span class="tw-text-[#057642] tw-text-[13px] tw-font-normal" *ngIf="item.jobApplySelf > 0">
-                  Đã ứng tuyển
-                </span>
-                <i class="tw-w-[4px] tw-h-[4px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-1"></i>
-                <span class="tw-text-[13px] tw-font-normal" *ngIf="item.jobSavedSelf > 0">
-                  Đã lưu
-                </span>
+                <ng-container *ngIf="item.jobApplyCount > 0">
+                  <i class="tw-w-[4px] tw-h-[4px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-1"></i>
+                  <span class="tw-text-[#057642] tw-text-[13px] tw-font-normal">
+                    {{item.jobApplyCount}} ứng tuyển
+                  </span>
+                </ng-container>
+                <ng-container *ngIf="item.jobApplySelf > 0">
+                  <i class="tw-w-[4px] tw-h-[4px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-1"></i>
+                  <span class="tw-text-[#057642] tw-text-[13px] tw-font-normal">
+                    Đã ứng tuyển
+                  </span>
+                </ng-container>
+                <ng-container  *ngIf="item.jobSavedSelf > 0">
+                  <i class="tw-w-[4px] tw-h-[4px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-1"></i>
+                  <span class="tw-text-[13px] tw-font-normal">
+                    Đã lưu
+                  </span>
+                </ng-container>
               </div>
             </div>
           </div>

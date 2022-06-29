@@ -1,15 +1,15 @@
 <app-main-content>
   <div class="tw-flex tw-flex-wrap tw-gap-4 xl:tw-px-[100px]">
     <div class="tw-hidden md:tw-w-[20vw] md:tw-block tw-min-w-[250px]">
-      <div class="tw-bg-white tw-rounded tw-shadow tw-p-3">
+      <div class="tw-bg-white tw-rounded tw-shadow tw-p-3  tw-space-y-5">
         <ng-container *ngFor="let item of menu">
           <a
-            class="tw-block tw-font-medium tw-text-[16px] tw-flex tw-items-center tw-mb-2"
+            class="tw-block tw-font-medium tw-text-[16px] tw-flex tw-items-center"
             routerLinkActive="tw-text-primaryColor"
             [routerLink]="item.link"
             *ngIf="item.permission | permission"
           >
-            <i [class]="'c-icon tw-w-[40px] tw-h-[40px] tw-bg-[length:25px_25px] ' + item.class"></i>
+            <mat-icon>{{item.class}}</mat-icon>
             <span class="tw-ml-2">{{item.name}}</span>
           </a>
         </ng-container>
@@ -18,14 +18,14 @@
     <div class="tw-w-full md:tw-hidden">
       <div class="tw-bg-white tw-rounded tw-shadow tw-p-3 tw-flex tw-justify-between tw-items-center">
         <span class="tw-block tw-font-medium tw-text-[16px] tw-flex tw-items-center">
-          <i [class]="'c-icon tw-w-[40px] tw-h-[40px] tw-bg-[length:25px_25px] ' + menuActive.class"></i>
+          <mat-icon>{{menuActive.class}}</mat-icon>
           {{menuActive.name}}
         </span>
         <button mat-icon-button [matMenuTriggerFor]="menuRef" aria-label="Example icon-button with a menu">
           <mat-icon>more_vert</mat-icon>
         </button>
       </div>
-      <mat-menu #menuRef="matMenu" class="tw-px-1 tw-pr-4 tw-pl-2">
+      <mat-menu #menuRef="matMenu" class="tw-px-1 tw-pr-4 tw-pl-2 tw-space-y-5">
         <ng-container *ngFor="let item of menu">
           <button
             class="tw-block tw-font-medium tw-text-[16px] tw-flex tw-items-center tw-mb-2"
@@ -33,7 +33,7 @@
             [routerLink]="item.link"
             *ngIf="item.permission | permission"
           >
-            <i [class]="'c-icon tw-w-[40px] tw-h-[40px] tw-bg-[length:25px_25px] ' + item.class"></i>
+            <mat-icon>{{item.class}}</mat-icon>
             <span class="tw-ml-2">{{item.name}}</span>
           </button>
         </ng-container>

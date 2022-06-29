@@ -30,13 +30,25 @@ export class JobsComponent implements OnInit {
     return [
       {
         name: "Tìm việc",
-        class: 'icon-search',
+        class: 'search',
         link: '/u/search/job',
         permission: AppPermission.JOB_SEARCH
       },
-        {
+      {
+        name: "Công việc ứng tuyển",
+        class: 'approval',
+        link: '/u/jobs/apply',
+        permission: AppPermission.JOB_APPLY
+      },
+      {
+        name: "Công việc đã lưu",
+        class: 'folder_special',
+        link: '/u/jobs/saved',
+        permission: AppPermission.JOB_SAVED
+      },
+      {
         name: "Tạo việc làm",
-        class: 'icon-new-message',
+        class: 'add',
         link: 'create',
         permission: AppPermission.JOB_CE
       }

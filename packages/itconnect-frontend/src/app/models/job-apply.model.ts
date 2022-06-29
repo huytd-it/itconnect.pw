@@ -9,6 +9,7 @@ export class JobApply {
 }
 
 export class JobApplySearchInput extends PageInput<JobApply> {
+  search: string;
   jobId: number;
 }
 

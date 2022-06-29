@@ -13,9 +13,9 @@ export class JobApplyService {
     private httpClient: HttpClient
   ) {}
 
-  search(query: JobApplySearchInput) {
+  search(query: JobApplySearchOutput) {
     const uri = 'job-apply/search'
-    return this.httpClient.get<JobApplySearchOutput>(uri,
+    return this.httpClient.get<JobApplySearchInput>(uri,
       {
         ...httpOptions,
         params: objectToParams(query)

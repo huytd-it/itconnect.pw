@@ -24,9 +24,18 @@ const routes: Routes = [
         data: {
           permission: AppPermission.JOB
         }
+      },
+      {
+        path: 'apply',
+        loadChildren: () => import('./job-apply/job-apply.module').then(m => m.JobApplyModule),
+        canActivate: [PermissionGuard],
+        data: {
+          permission: AppPermission.JOB_APPLY
+        }
       }
     ]
   },
+  { path: 'job-apply', loadChildren: () => import('./job-apply/job-apply.module').then(m => m.JobApplyModule) },
 ];
 
 @NgModule({

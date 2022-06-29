@@ -38,26 +38,53 @@ export class JobSavedService {
     }
 
     async search(search: JobSavedSearchInputDto, page: PageOptionsDto) {
-        const query = this.jobSavedRepository.createQueryBuilder('jobSaved');
-        query.leftJoinAndSelect('jobSaved.job', 'job');
+        const qr = this.jobSavedRepository.createQueryBuilder('jobSaved');
+        qr.leftJoinAndSelect('jobSaved.job', 'job');
+        qr.leftJoinAndSelect('job.companyTag', 'companyTag');
+        qr.leftJoinAndSelect('job.addressProvince', 'addressProvince');
+        qr.leftJoinAndSelect('job.addressDistrict', 'addressDistrict');
+        qr.leftJoinAndSelect('job.addressVillage', 'addressVillage');
+        qr.loadRelationCountAndMap('job.jobApplyCount', 'job.jobApply', 'jobApplyCount')
+        qr.loadRelationCountAndMap(
+            'job.jobApplySelf',
+            'job.jobApply',
+            'jobApplySelf',
+            (qr) => qr.where({
+                user: Id(this.user.id)
+            })
+        )
+        qr.loadRelationCountAndMap(
+            'job.jobSavedSelf',
+            'job.jobSaved',
+            'jobSavedSelf',
+            (qr) => qr.where({
+                user: Id(this.user.id)
+            })
+        )
+
+        if (this.user.role === AppRole.user) {
+            qr.andWhere({
+                user: Id(this.user.id)
+            })
+        }
 
         if (search.search) {
-            query.where(`(job.name like :param_search)`, {
+            qr.where(`(job.name like :param_search)`, {
                 'param_search': `%${search.search}%`
             });
         }
 
         if (page.order && page.order_field) {
-            query.orderBy(page.order_field, page.order)
+            qr.orderBy(page.order_field, page.order)
         }
 
         // count all data
-        const total = await query.getCount();
+        const total = await qr.getCount();
 
         // query data
-        query.skip(page.skip);
-        query.take(page.take);
-        const result = await query.getMany();
+        qr.skip(page.skip);
+        qr.take(page.take);
+        const result = await qr.getMany();
 
         const meta = new PageMetaDto({ itemCount: total, pageOptionDto: page });
         return new PageDto(result, meta)
