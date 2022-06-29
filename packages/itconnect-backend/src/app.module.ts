@@ -33,6 +33,7 @@ import {JobTypeModule} from "./modules/job-type/job-type.module";
 import {PeopleModule} from "./modules/people/people.module";
 import { Company3rdModule } from './modules/company-3rd/company-3rd.module';
 import { JobApplyModule } from './modules/job-apply/job-apply.module';
+import {JobSavedModule} from "./modules/job-saved/job-saved.module";
 
 @Module({
   imports: [
@@ -71,6 +72,7 @@ import { JobApplyModule } from './modules/job-apply/job-apply.module';
       PeopleModule,
       Company3rdModule,
       JobApplyModule,
+      JobSavedModule
   ],
   controllers: [AppController],
   providers: [

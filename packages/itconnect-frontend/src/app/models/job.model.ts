@@ -74,7 +74,7 @@ export class JobJobLevelCreateOrEdit {
 
 export class JobJobLevel {
   id: number;
-  jobLevel: number;
+  jobLevel: JobLevel;
   name: string; // refactor
 }
 
@@ -102,6 +102,9 @@ export class Job extends BaseTable {
   reasonContent: string;
   status: 0;
   user: User;
+  jobApplyCount: number;
+  jobApplySelf: number;
+  jobSavedSelf: number;
 }
 export class JobCreateOrEditOutput {
   id?: number;

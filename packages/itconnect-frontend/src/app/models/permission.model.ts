@@ -145,6 +145,7 @@ export enum AppPermission {
    */
   COMPANY_TAG_SEARCH = 'company_tag_search',
   COMPANY_TAG_CREATE_TAG = "company_tag_create_tag",
+  COMPANY_TAG_ADD_MST = "company_tag_add_mst",
 
 
   /**
@@ -177,7 +178,39 @@ export enum AppPermission {
   CV_EDUCATION_DELETE = 'cv_education_delete',
   CV_EDUCATION_GET_OWNER = 'cv_education_get_owner',
   CV_EDUCATION_CE = 'cv_education_ce',
-}
 
+  /**
+   * Job Type
+   *
+   */
+  JOB_TYPE = 'job_type',
+  JOB_TYPE_SEARCH = 'job_type_search',
+
+  /**
+   * Company 3Rd
+   *
+   */
+  COMPANY_3RD = 'company_3rd',
+  COMPANY_3RD_SEARCH = 'company_3rd_search',
+
+
+  /**
+   * JOB APPLY
+   *
+   */
+  JOB_APPLY = 'JOB_APPLY',
+  JOB_APPLY_SEARCH = 'JOB_APPLY_SEARCH',
+  JOB_APPLY_CREATE = 'JOB_APPLY_CREATE',
+  JOB_APPLY_DELETE = 'JOB_APPLY_DELETE',
+
+  /**
+   * JOB SAVED
+   *
+   */
+  JOB_SAVED = 'JOB_SAVED',
+  JOB_SAVED_SEARCH = 'JOB_SAVED_SEARCH',
+  JOB_SAVED_CREATE = 'JOB_SAVED_CREATE',
+  JOB_SAVED_DELETE = 'JOB_SAVED_DELETE',
+}
 
 export type AppPermissionHashMap = Partial<{ [key in AppPermission]: boolean }>;

@@ -54,4 +54,13 @@ export class JobSavedController {
     ) {
         return this.jobSavedService.delete(data.id);
     }
+
+    @UseGuards(PermissionsGuard)
+    @RequirePermissions(AppPermission.JOB_SAVED_DELETE)
+    @Delete('byJobId/:id')
+    deleteJobId(
+        @Param() data: JobSavedDeleteInputDto
+    ) {
+        return this.jobSavedService.deleteByJobId(data.id);
+    }
 }

@@ -8,23 +8,94 @@
   <a class="tw-text-2xl tw-leading-8 tw-font-medium hover:tw-underline" [routerLink]="'/u/jobs/view/' + data.id">
     {{data.name}}
   </a>
-  <div class="tw-mt-2 tw-leading-7 tw-text-[13px]">
+  <div class="tw-mt-3 tw-leading-7 tw-text-[14px]">
     <span>
       {{data.companyTag.name}}
     </span>
     <i class="tw-w-[5px] tw-h-[5px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-2"></i>
-    <span>
-      {{data.addressStreet}}, {{data.addressVillage.name}}, {{data.addressDistrict.name}}, {{data.addressProvince.name}}
+    <span class="tw-text-[#057642] tw-font-medium">
+      {{data.jobApplyCount}} ứng tuyển
     </span>
     <i class="tw-w-[5px] tw-h-[5px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-2"></i>
     <span class="tw-font-thin">
       {{data.updatedAt | dateFromNow}}
     </span>
   </div>
+  <div class="tw-my-4 tw-flex tw-items-center tw-gap-3">
+    <mat-icon class="tw-text-textColor">sell_outline</mat-icon>
+    <ng-container *ngFor="let item of data.jobSkills || []">
+      <span class="tw-border tw-rounded tw-p-2 tw-text-[#888]">
+        {{item.skill.name}}
+      </span>
+    </ng-container>
+    <ng-container *ngFor="let item of data.jobPositions || []">
+      <span class="tw-border tw-rounded tw-p-2 tw-text-[#888]">
+        {{item.position.name}}
+      </span>
+    </ng-container>
+    <ng-container *ngFor="let item of data.jobCertificates || []">
+      <span class="tw-border tw-rounded tw-p-2 tw-text-[#888]">
+        {{item.certificate.name}}
+      </span>
+    </ng-container>
+    <ng-container *ngFor="let item of data.jobSchools || []">
+      <span class="tw-border tw-rounded tw-p-2 tw-text-[#888]">
+        {{item.school.name}}
+      </span>
+    </ng-container>
+    <ng-container *ngFor="let item of data.jobJobLevels || []">
+      <span class="tw-border tw-rounded tw-p-2 tw-text-[#888]">
+        {{item.jobLevel.name}}
+      </span>
+    </ng-container>
+    <ng-container *ngFor="let item of data.jobWorkFrom || []">
+      <span class="tw-border tw-rounded tw-p-2 tw-text-[#888]">
+        {{item.workFrom.name}}
+      </span>
+    </ng-container>
+  </div>
+  <div class="tw-mt-10">
+    <div class="tw-flex tw-items-center tw-gap-4"  *ngIf="data.jobType">
+      <mat-icon>work_outline</mat-icon>
+      <span>{{data.jobType.name}}</span>
+    </div>
+    <div class="tw-flex tw-items-center tw-gap-4 tw-mt-3" *ngIf="data.addressProvince">
+      <mat-icon>import_contacts_outline</mat-icon>
+      <span>
+        {{data.addressStreet}}, {{data.addressVillage.name}}, {{data.addressDistrict.name}}, {{data.addressProvince.name}}
+      </span>
+    </div>
+    <div class="tw-flex tw-items-center tw-gap-4 tw-mt-3" *ngIf="data.salaryMin">
+      <mat-icon>payments_outline</mat-icon>
+      <span>
+        <ng-container *ngIf="data.salaryMin">
+          {{data.salaryMin | currency: 'VND' }}
+        </ng-container>
+        <ng-container *ngIf="data.salaryMax">
+          - {{data.salaryMax | currency: 'VND' }}
+        </ng-container>
+      </span>
+    </div>
+  </div>
 
   <div class="tw-mt-10">
-    <button mat-raised-button color="primary">Ứng tuyển</button>
-    <button mat-stroked-button class="!tw-ml-3">Lưu</button>
+    <button
+      *ngIf="hasApply"
+      mat-raised-button
+      color="primary"
+      [disabled]="data.jobApplySelf > 0 || (appService.headLoading$ | async)"
+      (click)="apply()"
+    >
+      {{data.jobApplySelf > 0 ? 'Bạn đã ứng tuyển' : 'Ứng tuyển'}}
+    </button>
+    <button
+      *ngIf="AppPermission.JOB_SAVED | permission"
+      mat-stroked-button
+      class="!tw-ml-3"
+      (click)="save()"
+    >
+      {{ data.jobSavedSelf > 0 ? 'Hủy lưu' : 'Lưu' }}
+    </button>
   </div>
 
   <div class="tw-mt-10">
@@ -35,6 +106,15 @@
         <div class="tw-font-medium">{{data.user.userInfo.fullName}}</div>
         <div class="tw-font-thin line-2 tw-mt-2">
           {{(data.user.userInfo.interest | removeHtml) || 'Tôi là thành viên của ITConnect'}}
+        </div>
+      </div>
+    </div>
+    <div *ngIf="data.user.companyInfo" class="tw-mt-5 tw-flex tw-gap-3 tw-cursor-pointer" [routerLink]="'/'">
+      <app-avatar [radius]="70" [name]="data.user.companyInfo.companyName"></app-avatar>
+      <div class="tw-p-2">
+        <div class="tw-font-medium">{{data.user.companyInfo.companyName}}</div>
+        <div class="tw-font-thin line-2 tw-mt-2">
+          {{data.user.companyInfo.mst}} - {{data.user.companyInfo.mst | date: 'dd/MM/yyyy'}}
         </div>
       </div>
     </div>
@@ -58,7 +138,7 @@
     </div>
   </div>
 
-  <div class="tw-mt-10">
+  <div class="tw-mt-10" *ngIf="data.reasonContent">
     <div class="tw-font-medium tw-text-lg">
       Lý do chọn chúng tôi
     </div>

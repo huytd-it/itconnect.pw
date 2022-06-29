@@ -62,7 +62,21 @@
                 {{item.addressStreet}}, {{item.addressVillage.name}}, {{item.addressDistrict.name}}, {{item.addressProvince.name}}
               </div>
               <div class="tw-text-[12px] tw-mt-2 tw-font-thin">
-                {{item.updatedAt | dateFromNow}}
+                <span>
+                  {{item.updatedAt | dateFromNow}}
+                </span>
+                <i class="tw-w-[4px] tw-h-[4px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-1"></i>
+                <span class="tw-text-[#057642] tw-text-[13px] tw-font-normal" *ngIf="item.jobApplyCount > 0">
+                  {{item.jobApplyCount}} ứng tuyển
+                </span>
+                <i class="tw-w-[4px] tw-h-[4px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-1"></i>
+                <span class="tw-text-[#057642] tw-text-[13px] tw-font-normal" *ngIf="item.jobApplySelf > 0">
+                  Đã ứng tuyển
+                </span>
+                <i class="tw-w-[4px] tw-h-[4px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-1"></i>
+                <span class="tw-text-[13px] tw-font-normal" *ngIf="item.jobSavedSelf > 0">
+                  Đã lưu
+                </span>
               </div>
             </div>
           </div>

@@ -28,10 +28,10 @@ export class JobSavedService {
         return this.request['user'] as UserEntity;
     }
 
-    owner(jobId: number) {
+    owner(id: number) {
         return this.jobSavedRepository.findOne({
             where: {
-                id: jobId,
+                id: id,
                 user: Id(this.user.id)
             }
         })
@@ -87,6 +87,21 @@ export class JobSavedService {
     async delete(id: number) {
         // only user owner
         const owner = await this.owner(id);
+        if (owner) {
+            return this.jobSavedRepository.remove(owner);
+        }
+
+        throw new ForbiddenException()
+    }
+
+    async deleteByJobId(id: number) {
+        const owner = await this.jobSavedRepository.findOne({
+            where: {
+                job: Id(id),
+                user: Id(this.user.id)
+            }
+        })
+
         if (owner) {
             return this.jobSavedRepository.remove(owner);
         }
