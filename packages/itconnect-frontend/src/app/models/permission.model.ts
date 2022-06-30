@@ -211,6 +211,12 @@ export enum AppPermission {
   JOB_SAVED_SEARCH = 'JOB_SAVED_SEARCH',
   JOB_SAVED_CREATE = 'JOB_SAVED_CREATE',
   JOB_SAVED_DELETE = 'JOB_SAVED_DELETE',
+
+  /**
+   * JOB_SUGGEST
+   *
+   */
+  JOB_SUGGEST = 'job_suggest',
 }
 
 export type AppPermissionHashMap = Partial<{ [key in AppPermission]: boolean }>;

@@ -36,72 +36,13 @@
         {{data.meta.itemCount}} việc làm thông qua tìm kiếm
       </div>
       <ng-container *ngFor="let item of data.data || []">
-        <div
-          class="tw-p-3 tw-border-b tw-cursor-pointer tw-flex tw-gap-4 hover:tw-bg-[#f6f4f9]"
-          [routerLink]="'../view/' + item.job.id.toString()"
-          [routerLinkActive]="'tw-bg-[#E2F0FE]'"
-        >
-          <div class="tw-w-[90px] tw-min-w-[90px]">
-            <img src="/assets/images/company-default.png">
-          </div>
-          <div class="tw-pt-1 tw-flex-auto">
-            <a
-              [routerLink]="item.id.toString()"
-              class="tw-text-lg tw-text-primaryColor line-2"
-            >
-              {{item.job.name}}
-            </a>
-            <div class="tw-text-[13px]">
-              {{item.job.companyTag.name}}
-            </div>
-            <div class="tw-text-[13px] tw-mt-1 tw-font-thin">
-              {{item.job.addressStreet}}, {{item.job.addressVillage.name}}, {{item.job.addressDistrict.name}}, {{item.job.addressProvince.name}}
-            </div>
-            <div class="tw-text-[12px] tw-mt-2 tw-font-thin">
-                <span>
-                  {{item.job.updatedAt | dateFromNow}}
-                </span>
-              <ng-container *ngIf="item.job.jobApplyCount > 0">
-                <i class="tw-w-[4px] tw-h-[4px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-1"></i>
-                <span class="tw-text-[#057642] tw-text-[13px] tw-font-normal">
-                    {{item.job.jobApplyCount}} ứng tuyển
-                  </span>
-              </ng-container>
-              <ng-container *ngIf="item.job.jobApplySelf > 0">
-                <i class="tw-w-[4px] tw-h-[4px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-1"></i>
-                <span class="tw-text-[#057642] tw-text-[13px] tw-font-normal">
-                    Đã ứng tuyển
-                  </span>
-              </ng-container>
-              <ng-container  *ngIf="item.job.jobSavedSelf > 0">
-                <i class="tw-w-[4px] tw-h-[4px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-1"></i>
-                <span class="tw-text-[13px] tw-font-normal">
-                    Đã lưu
-                  </span>
-              </ng-container>
-            </div>
-            <div class="tw-block tw-mt-3 md:tw-hidden">
-              <button
-                mat-stroked-button
-                color="warn"
-                (click)="onCancel(item); $event.stopPropagation()"
-                *ngIf="AppPermission.JOB_SAVED_DELETE | permission"
-              >
-                Hủy lưu
-              </button>
-            </div>
-          </div>
-          <div class="tw-hidden md:tw-block">
-            <button
-              mat-stroked-button
-              color="warn"
-              (click)="onCancel(item); $event.stopPropagation()"
-              *ngIf="AppPermission.JOB_SAVED_DELETE | permission"
-            >
-              Hủy lưu
-            </button>
-          </div>
-        </div>
+        <app-job-item
+          [link]="'../view/' + item.job.id.toString()"
+          [job]="item.job"
+          [showButton]="AppPermission.JOB_APPLY_DELETE | permission"
+          [labelButton]="'Hủy lưu'"
+          (clickButton)="onCancel(item)"
+        ></app-job-item>
       </ng-container>
       <div class="tw-flex tw-justify-center tw-p-4">
         <mat-paginator

@@ -21,6 +21,9 @@ import { GroupControlTimeTextModalComponent } from './group-control-time-text-mo
 import {NgxSliderModule} from "@angular-slider/ngx-slider";
 import {InputSkillLevelRangeComponent} from "./input-skill-level-range/input-skill-level-range.component";
 import { AddCompanyComponent } from './add-company/add-company.component';
+import { JobSuggestMiniComponent } from './job-suggest-mini/job-suggest-mini.component';
+import { JobItemComponent } from './job-item/job-item.component';
+import {JobItemMinComponent} from "./job-item-min/job-item-min.component";
 
 @NgModule({
   declarations: [
@@ -34,6 +37,9 @@ import { AddCompanyComponent } from './add-company/add-company.component';
     GroupControlTimeTextModalComponent,
     InputSkillLevelRangeComponent,
     AddCompanyComponent,
+    JobSuggestMiniComponent,
+    JobItemComponent,
+    JobItemMinComponent
   ],
   imports: [
     CommonModule,
@@ -57,7 +63,10 @@ import { AddCompanyComponent } from './add-company/add-company.component';
     InputSkillComponent,
     InputSkillLevelComponent,
     InputSkillLevelRangeComponent,
-    AddCompanyComponent
+    AddCompanyComponent,
+    JobSuggestMiniComponent,
+    JobItemComponent,
+    JobItemMinComponent
   ]
 })
 export class MainComponentsModule { }

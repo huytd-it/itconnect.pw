@@ -40,52 +40,10 @@
           {{data.meta.itemCount}} việc làm thông qua tìm kiếm
         </div>
         <ng-container *ngFor="let item of data.data || []">
-          <div
-            class="tw-p-3 tw-border-b tw-cursor-pointer tw-flex tw-gap-4 hover:tw-bg-[#f6f4f9]"
-            [routerLink]="item.id.toString()"
-            [routerLinkActive]="'tw-bg-[#E2F0FE]'"
-          >
-            <div class="tw-w-[90px] tw-min-w-[90px]">
-              <img src="/assets/images/company-default.png">
-            </div>
-            <div class="tw-pt-1 tw-flex-auto">
-              <a
-                [routerLink]="item.id.toString()"
-                class="tw-text-lg tw-text-primaryColor line-2"
-              >
-                {{item.name}}
-              </a>
-              <div class="tw-text-[13px]">
-                {{item.companyTag.name}}
-              </div>
-              <div class="tw-text-[13px] tw-mt-1 tw-font-thin">
-                {{item.addressStreet}}, {{item.addressVillage.name}}, {{item.addressDistrict.name}}, {{item.addressProvince.name}}
-              </div>
-              <div class="tw-text-[12px] tw-mt-2 tw-font-thin">
-                <span>
-                  {{item.updatedAt | dateFromNow}}
-                </span>
-                <ng-container *ngIf="item.jobApplyCount > 0">
-                  <i class="tw-w-[4px] tw-h-[4px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-1"></i>
-                  <span class="tw-text-[#057642] tw-text-[13px] tw-font-normal">
-                    {{item.jobApplyCount}} ứng tuyển
-                  </span>
-                </ng-container>
-                <ng-container *ngIf="item.jobApplySelf > 0">
-                  <i class="tw-w-[4px] tw-h-[4px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-1"></i>
-                  <span class="tw-text-[#057642] tw-text-[13px] tw-font-normal">
-                    Đã ứng tuyển
-                  </span>
-                </ng-container>
-                <ng-container  *ngIf="item.jobSavedSelf > 0">
-                  <i class="tw-w-[4px] tw-h-[4px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-1"></i>
-                  <span class="tw-text-[13px] tw-font-normal">
-                    Đã lưu
-                  </span>
-                </ng-container>
-              </div>
-            </div>
-          </div>
+          <app-job-item
+            [link]="item.id.toString()"
+            [job]="item"
+          ></app-job-item>
         </ng-container>
         <div class="tw-flex tw-justify-center tw-p-4">
           <mat-paginator

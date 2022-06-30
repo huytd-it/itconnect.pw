@@ -216,6 +216,12 @@ export enum AppPermission {
     JOB_SAVED_SEARCH = 'JOB_SAVED_SEARCH',
     JOB_SAVED_CREATE = 'JOB_SAVED_CREATE',
     JOB_SAVED_DELETE = 'JOB_SAVED_DELETE',
+
+    /**
+     * JOB_SUGGEST
+     *
+     */
+    JOB_SUGGEST = 'job_suggest',
 }
 
 
@@ -309,6 +315,7 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.JOB_SAVED_SEARCH,
         AppPermission.JOB_SAVED_CREATE,
         AppPermission.JOB_SAVED_DELETE,
+        AppPermission.JOB_SUGGEST
     ],
 
     /***

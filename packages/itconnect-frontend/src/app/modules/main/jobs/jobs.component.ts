@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MenuItem} from "../../../models/common";
 import {AppPermission} from "../../../models/permission.model";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {PermissionService} from "../../../services/permission.service";
 
 @Component({
   selector: 'app-jobs',
@@ -19,11 +20,22 @@ export class JobsComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
+    private permissionService: PermissionService
   ) {
     this.menu = this.getMenu();
   }
 
   ngOnInit(): void {
+    if (this.router.url.endsWith('/u/jobs')) {
+      let p: string[] = [];
+      if (this.permissionService.hasPermission(AppPermission.JOB_SUGGEST)) {
+        p = ['suggest'];
+      } else if (this.permissionService.hasPermission(AppPermission.JOB_CE)) {
+        p = ['owner'];
+      }
+      this.router.navigate(p, { relativeTo: this.route }).then(() => {});
+    }
   }
 
   private getMenu(): MenuItem[] {
@@ -31,8 +43,8 @@ export class JobsComponent implements OnInit {
       {
         name: "Dành cho bạn",
         class: 'assistant',
-        link: '/u/search/suggest',
-        permission: AppPermission.JOB_SEARCH
+        link: '/u/jobs/suggest',
+        permission: AppPermission.JOB_SUGGEST
       },
       {
         name: "Tìm việc",

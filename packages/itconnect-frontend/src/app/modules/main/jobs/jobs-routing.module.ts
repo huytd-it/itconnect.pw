@@ -56,6 +56,14 @@ const routes: Routes = [
         data: {
           permission: AppPermission.JOB_CE
         }
+      },
+      {
+        path: 'suggest',
+        loadChildren: () => import('./job-suggest/job-suggest.module').then(m => m.JobSuggestModule),
+        canActivate: [PermissionGuard],
+        data: {
+          permission: AppPermission.JOB_SUGGEST
+        }
       }
     ]
   },

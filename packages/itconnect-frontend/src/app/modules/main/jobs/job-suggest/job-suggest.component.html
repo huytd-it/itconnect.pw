@@ -1,0 +1,23 @@
+<div class="tw-shadow-sm tw-p-5">
+  <h2 class="!tw-mb-0">Dành cho bạn</h2>
+</div>
+
+<div>
+  <ng-container *ngIf="data">
+    <ng-container *ngFor="let item of data.data || []">
+      <app-job-item
+        [link]="'../view/' + item.job.id.toString()"
+        [job]="item.job"
+      ></app-job-item>
+    </ng-container>
+    <div class="tw-flex tw-justify-center tw-p-4">
+      <mat-paginator
+        [disabled]="appService.headLoading$ | async"
+        [length]="data.meta.itemCount"
+        [pageSize]="data.meta.take"
+        [pageSizeOptions]="[5, 10, 25]"
+        (page)="onChangePage($event)"
+      ></mat-paginator>
+    </div>
+  </ng-container>
+</div>

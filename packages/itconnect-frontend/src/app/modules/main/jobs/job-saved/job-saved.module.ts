@@ -11,6 +11,7 @@ import {FormsModule} from "@angular/forms";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {UtilsModule} from "../../../../utils/utils.module";
 import {MatButtonModule} from "@angular/material/button";
+import {MainComponentsModule} from "../../components/components.module";
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import {MatButtonModule} from "@angular/material/button";
         FormsModule,
         MatPaginatorModule,
         UtilsModule,
-        MatButtonModule
+        MatButtonModule,
+        MainComponentsModule
     ]
 })
 export class JobSavedModule { }

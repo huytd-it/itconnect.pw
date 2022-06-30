@@ -1,0 +1,23 @@
+<div class="tw-border tw-rounded-lg tw-shadow-sm tw-bg-white tw-mb-3">
+  <h3 class="!tw-font-medium tw-p-3 !tw-text-[18px]">Công việc dành cho bạn</h3>
+
+  <div class="tw-text-center tw-text-[#ccc] tw-my-10" *ngIf="false">
+    đang cập nhật
+  </div>
+
+  <div class="tw-mb-2" *ngFor="let item of [job, job, job, job, job]">
+    <app-job-item-min
+      [link]="'../jobs/view/' + item.id"
+      [job]="item"
+    ></app-job-item-min>
+  </div>
+
+  <div class="tw-my-5 tw-text-center">
+    <a
+      class="tw-text-[13px] tw-text-primaryColor"
+      [routerLink]="'/u/jobs/suggest'"
+    >
+      Xem thêm
+    </a>
+  </div>
+</div>

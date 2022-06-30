@@ -1,0 +1,31 @@
+<div
+  class="tw-p-3 tw-border-b tw-cursor-pointer tw-flex tw-gap-4 hover:tw-bg-[#f6f4f9]"
+  [routerLink]="link"
+  [routerLinkActive]="'tw-bg-[#E2F0FE]'"
+>
+  <div class="tw-w-[90px] tw-min-w-[90px]">
+    <img src="/assets/images/company-default.png">
+  </div>
+  <div class="tw-pt-1 tw-flex-auto">
+    <a
+      class="tw-text-lg tw-text-primaryColor line-1"
+      [matTooltip]="job.name"
+    >
+      {{job.name}}
+    </a>
+    <div class="tw-text-[13px] line-1" [matTooltip]="job.companyTag.name">
+      {{job.companyTag.name}}
+    </div>
+    <div class="tw-text-[12px] tw-mt-2 tw-font-thin">
+      <span>
+        {{job.updatedAt | dateFromNow}}
+      </span>
+      <ng-container *ngIf="job.jobApplyCount > 0">
+        <i class="tw-w-[4px] tw-h-[4px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-1"></i>
+        <span class="tw-text-[#057642] tw-text-[13px] tw-font-normal">
+          {{job.jobApplyCount}} ứng tuyển
+        </span>
+      </ng-container>
+    </div>
+  </div>
+</div>
