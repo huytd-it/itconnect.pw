@@ -63,6 +63,10 @@ import { JobApplyService } from './job-apply.service';
 import {JobApplyEntity} from "../entities/jobApply.entity";
 import {JobSavedEntity} from "../entities/jobSaved.entity";
 import {JobSavedService} from "./job-saved.service";
+import {PointConfigEntity} from "../entities/pointConfig.entity";
+import {PointJobUserEntity} from "../entities/pointJobUser.entity";
+import { PointJobUserService } from './point-job-user.service';
+import { PointConfigService } from './point-config.service';
 
 @Module({
   imports: [
@@ -102,7 +106,9 @@ import {JobSavedService} from "./job-saved.service";
         JobSchoolEntity,
         JobTypeEntity,
         JobApplyEntity,
-        JobSavedEntity
+        JobSavedEntity,
+        PointConfigEntity,
+        PointJobUserEntity
     ]),
       HttpModule.registerAsync({
           imports: [ConfigModule],
@@ -137,7 +143,9 @@ import {JobSavedService} from "./job-saved.service";
       PeopleService,
       Company3rdService,
       JobApplyService,
-      JobSavedService
+      JobSavedService,
+      PointJobUserService,
+      PointConfigService
   ],
   exports: [
       UserService,
@@ -163,7 +171,9 @@ import {JobSavedService} from "./job-saved.service";
       PeopleService,
       Company3rdService,
       JobApplyService,
-      JobSavedService
+      JobSavedService,
+      PointJobUserService,
+      PointConfigService
   ]
 })
 export class ServicesModule {}

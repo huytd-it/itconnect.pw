@@ -21,6 +21,8 @@ import {CvCertificateEntity} from "./cvCertificate.entity";
 import {UserSchoolEntity} from "./userSchool.entity";
 import {JobApplyEntity} from "./jobApply.entity";
 import {JobSavedEntity} from "./jobSaved.entity";
+import {PositionEntity} from "./position.entity";
+import {UserPositionEntity} from "./userPosition.entity";
 
 
 @Entity()
@@ -45,10 +47,13 @@ export class UserEntity {
     @OneToOne(type => CompanyInfoEntity, db => db.user)
     companyInfo: CompanyInfoEntity;
 
-    @OneToMany(type => UserSkillEntity, userSkill => userSkill.user)
+    @OneToMany(type => UserSkillEntity, db => db.user)
     userSkills: SkillEntity[];
 
-    @OneToMany(type => UserSchoolEntity, userSkill => userSkill.user)
+    @OneToMany(type => UserPositionEntity, db => db.user)
+    userPositions: UserPositionEntity[];
+
+    @OneToMany(type => UserSchoolEntity, db => db.user)
     userSchools: UserSchoolEntity[];
 
     @OneToMany(type => UserCertificateEntity, db => db.user)
