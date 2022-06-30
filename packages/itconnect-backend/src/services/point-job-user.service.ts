@@ -1,29 +1,28 @@
 import {Injectable, Logger} from '@nestjs/common';
-import {PointConfigService} from "./point-config.service";
+import {PointConfigKV, PointConfigService} from "./point-config.service";
 import {DataSource, DeepPartial, In, QueryRunner} from "typeorm";
-import {UserService} from "./user.service";
 import {POINT_MAX_USER_PER_TICK} from "../entities/pointConfig.entity";
 import {PointJobUserEntity} from "../entities/pointJobUser.entity";
-import {UserInfoEntity} from "../entities/userInfo.entity";
 import {UserEntity} from "../entities/user.entity";
 import {AppRole} from "../polices/permission.enum";
 import * as util from "util";
 import {JobEntity} from "../entities/job.entity";
-import {JobSkillEntity} from "../entities/jobSkill.entity";
+import {Id} from "../utils/function";
+import * as moment from "moment";
 
 @Injectable()
 export class PointJobUserService {
+    private pointConfig: PointConfigKV;
 
     constructor(
         private dataSource: DataSource,
         private pointConfigService: PointConfigService
     ) {
-        this.computeWithJob(42).then(() => {});
     }
 
     async computeWithJob(jobId: number) {
+        this.pointConfig = await this.pointConfigService.getConfig();
         const logger = new Logger();
-        const pointConfig = await this.pointConfigService.getConfig();
         const queryRunner = this.dataSource.createQueryRunner();
         await queryRunner.connect();
         await queryRunner.startTransaction();
@@ -32,13 +31,39 @@ export class PointJobUserService {
             let totalUser = await this.countUserCanMapping(queryRunner, job);
             let currentIndex = 0;
             let userTake = POINT_MAX_USER_PER_TICK;
-            let pointInserts: DeepPartial<PointJobUserEntity>[] = [];
-            // logger.log(totalUser);
 
             // compute per page
             while (currentIndex < totalUser) {
                 let users = await this.getUserCanMapping(queryRunner, job, currentIndex, userTake);
-                // console.log(util.inspect(users, false, null, true /* enable colors */))
+                let pointInserts: DeepPartial<PointJobUserEntity>[] = [];
+
+                for (let user of users) {
+                    // console.log(util.inspect(user, false, null, true /* enable colors */))
+                    const point: DeepPartial<PointJobUserEntity> = {
+                        user: Id(user.id),
+                        job: Id(job.id)
+                    };
+
+                    point.pointPosition = this.computePointPosition(job, user);
+                    point.pointSkill = this.computePointSkill(job, user);
+                    point.pointCertificate = this.computePointCertificate(job, user);
+                    point.pointSchool = this.computePointSchool(job, user);
+                    point.pointWorkFrom = this.computePointWorkFrom(job, user);
+                    point.pointLevelJob = this.computePointJobLevel(job, user);
+                    point.pointLevelType = this.computePointJobType(job, user);
+                    point.pointYoe = this.computePointYoe(job, user);
+
+                    // total
+                    point.pointTotal = point.pointPosition + point.pointSkill + point.pointCertificate +
+                        point.pointSchool + point.pointWorkFrom + point.pointLevelJob +
+                        point.pointLevelType + point.pointYoe;
+
+                    // logger.log(`user:${user.id} - job:${job.id} - ${point.pointTotal} point`);
+                    pointInserts.push(point);
+                }
+
+                // insert
+                await queryRunner.manager.save(PointJobUserEntity, pointInserts);
 
                 // next page
                 currentIndex += userTake;
@@ -155,7 +180,7 @@ export class PointJobUserService {
         makeCondLevelRange('userSkills', 'skill', job.jobSkills as any);
         makeCondLevelRange('userPositions', 'position', job.jobPositions as any);
         makeCondLevelRange('userCertificates', 'certificate', job.jobCertificates as any);
-        makeCondLevelRange('userSchools', 'school', job.jobSchools as any);
+        makeCondExists('userSchools', 'school', job.jobSchools as any);
 
         // check job level
         // on 'userInfo'
@@ -169,26 +194,31 @@ export class PointJobUserService {
 
         // check work from
         // on 'cvWorkExperience'
-        let whereJoinCvExp: string[] = [];
-        let paramJoinCvExp = {};
-        if (job.jobWorkFrom?.length) {
-            whereJoinCvExp.push(`cvWorkExperiences.workFrom in (:prm_work_from)`);
-            paramJoinCvExp['prm_work_from'] = job.jobWorkFrom.map(item => item.workFrom).join(',');
-        }
-        if (job.jobJobLevels?.length) {
-            whereJoinCvExp.push(`cvWorkExperiences.jobLevel in (:prm_job_level)`);
-            paramJoinCvExp['prm_job_level'] = job.jobJobLevels.map(item => item.jobLevel).join(',');
-        }
-        if (job.jobType) {
-            whereJoinCvExp.push(`cvWorkExperiences.jobType = :prm_job_type`);
-            paramJoinCvExp['prm_job_type'] = job.jobType;
-        }
+        qr.leftJoinAndSelect('user.cvWorkExperiences',  'cvWorkExperiences');
         qr.leftJoinAndSelect(
-            'user.cvWorkExperiences',
-            'cvWorkExperiences',
-            `(${whereJoinCvExp.join(' or ')})`,
-            paramJoinCvExp
-        );
+            'cvWorkExperiences.jobLevel',
+            'jobLevel',
+            'jobLevel.id in (:prm_job_level)',
+            {
+                'prm_job_level': job.jobJobLevels.map(item => item.jobLevel).join(',')
+            }
+        )
+        qr.leftJoinAndSelect(
+            'cvWorkExperiences.workFrom',
+            'workFrom',
+            'workFrom.id in (:prm_work_from)',
+            {
+                'prm_work_from': job.jobWorkFrom.map(item => item.workFrom).join(',')
+            }
+        )
+        qr.leftJoinAndSelect(
+            'cvWorkExperiences.jobType',
+            'jobType',
+            'jobType.id = :prm_job_type',
+            {
+                'prm_job_type': job.jobType
+            }
+        )
 
         // exists one
         qr.andWhere(`(
@@ -196,7 +226,9 @@ export class PointJobUserService {
             userPositions.id is not null or
             userCertificates.id is not null or
             userSchools.id is not null or
-            cvWorkExperiences.id is not null
+            cvWorkExperiences.workFrom.id is not null or
+            cvWorkExperiences.jobLevel.id is not null or
+            cvWorkExperiences.jobType.id is not null
         )`)
 
         return qr;
@@ -257,5 +289,74 @@ export class PointJobUserService {
         return {
             ['prm_approve_' + name.toLowerCase()]: true
         };
+    }
+
+    private computePointPosition(job: JobEntity, user: UserEntity) {
+        return user.userPositions.reduce((val, item) => {
+            val += this.pointConfig.position;
+            return val;
+        }, 0);
+    }
+
+    private computePointSkill(job: JobEntity, user: UserEntity) {
+        return user.userSkills.reduce((val, item) => {
+            val += this.pointConfig.skill;
+            return val;
+        }, 0);
+    }
+
+    private computePointCertificate(job: JobEntity, user: UserEntity) {
+        return user.userCertificates.reduce((val, item) => {
+            val += this.pointConfig.certificate;
+            return val;
+        }, 0);
+    }
+
+    private computePointSchool(job: JobEntity, user: UserEntity) {
+        return user.userSchools.reduce((val, item) => {
+            val += this.pointConfig.school;
+            return val;
+        }, 0);
+    }
+
+    private computePointWorkFrom(job: JobEntity, user: UserEntity) {
+        return user.cvWorkExperiences.reduce((val, item) => {
+            if (item.workFrom) {
+                val += this.pointConfig.workFrom;
+            }
+            return val;
+        }, 0);
+    }
+
+    private computePointJobLevel(job: JobEntity, user: UserEntity) {
+        return user.cvWorkExperiences.reduce((val, item) => {
+            if (item.jobLevel) {
+                val += this.pointConfig.jobLevel;
+            }
+            return val;
+        }, 0);
+    }
+
+    private computePointYoe(job: JobEntity, user: UserEntity) {
+        if (user.userInfo && job.yoe) {
+            let info = user.userInfo;
+            let month = info.computeYoe;
+            if (info.computeYoeCurrent) {
+                month += moment().diff(moment(info.computeYoeDate), 'month');
+            }
+            if (month/12 >= job.yoe) {
+                return this.pointConfig.yoe;
+            }
+        }
+        return 0;
+    }
+
+    private computePointJobType(job: JobEntity, user: UserEntity) {
+        return user.cvWorkExperiences.reduce((val, item) => {
+            if (item.jobType) {
+                val += this.pointConfig.jobType;
+            }
+            return val;
+        }, 0);
     }
 }
