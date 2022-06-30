@@ -2,6 +2,7 @@ import {EntityDto} from "./abstract.dto";
 import {ApiProperty} from "@nestjs/swagger";
 import {UserInfoDto} from "./user-info.dto";
 import {CompanyInfoDto} from "./company-info.dto";
+import {Exclude} from "class-transformer";
 
 export class UserDto extends EntityDto {
     @ApiProperty()

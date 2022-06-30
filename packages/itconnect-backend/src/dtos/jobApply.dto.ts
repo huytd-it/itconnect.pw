@@ -3,6 +3,7 @@ import {IsInt, IsOptional} from "class-validator";
 import {EntityDto} from "./abstract.dto";
 import {JobDto} from "./job.dto";
 import {UserDto} from "./user.dto";
+import {Type} from "class-transformer";
 
 export class JobApplyDto extends EntityDto {
     @ApiProperty()
@@ -22,6 +23,7 @@ export class JobApplySearchInputDto {
     search: string;
 
     @ApiPropertyOptional()
+    @Type(() => Number)
     @IsOptional()
     @IsInt()
     jobId: number;

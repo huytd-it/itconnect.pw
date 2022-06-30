@@ -1,11 +1,15 @@
 <div class="tw-h-4"></div>
-<mat-tab-group>
+<mat-tab-group #tabGroup (selectedIndexChange)="changeTab($event)">
   <mat-tab label="Tổng quan">
     <div class="tw-p-5" *ngIf="data">
       <div class="tw-text-medium tw-text-2xl tw-mt-5">
         {{data.name}}
       </div>
       <div class="tw-flex tw-gap-3 tw-mt-10">
+        <button mat-stroked-button>
+          <mat-icon>visibility</mat-icon>
+          Xem
+        </button>
         <button mat-stroked-button>
           <mat-icon>edit</mat-icon>
           Chỉnh sửa
@@ -46,3 +50,4 @@
   <mat-tab label="Ứng viên"></mat-tab>
   <mat-tab label="Gợi ý"></mat-tab>
 </mat-tab-group>
+<router-outlet></router-outlet>

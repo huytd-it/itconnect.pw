@@ -62,9 +62,25 @@ export class JobApplyService {
 
         if (this.user.role === AppRole.company) {
             qr.leftJoinAndSelect('jobApply.user', 'user');
+            qr.leftJoinAndSelect('user.userInfo', 'userInfo');
+            qr.leftJoinAndSelect('userInfo.addressProvince', 'addressProvinceUI');
+            qr.leftJoinAndSelect('userInfo.addressDistrict', 'addressDistrictUI');
+            qr.leftJoinAndSelect('userInfo.addressVillage', 'addressVillageUI');
+            qr.leftJoinAndSelect(
+                'user.cvWorkExperiences',
+                'cvWorkExperiences',
+                'cvWorkExperiences.endDate is null'
+            )
+            qr.leftJoinAndSelect('cvWorkExperiences.companyTag', 'companyTagCV');
         } else if (this.user.role === AppRole.user) {
             qr.andWhere({
                 user: Id(this.user.id)
+            })
+        }
+
+        if (search.jobId) {
+            qr.andWhere({
+                job: Id(search.jobId)
             })
         }
 

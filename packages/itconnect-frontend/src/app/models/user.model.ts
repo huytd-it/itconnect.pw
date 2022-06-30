@@ -3,6 +3,7 @@ import {AppRole} from "./permission.model";
 import {JobLevel} from "./job-level.model";
 import {Address} from "./address.model";
 import {CompanyInfo} from "./company-info.model";
+import {CvWorkExperience} from "./cv-work-experience.model";
 
 export class UserInfo extends BaseTable {
   id: number;
@@ -28,6 +29,7 @@ export class User extends BaseTable {
   role: AppRole;
   userInfo: UserInfo;
   companyInfo: CompanyInfo;
+  cvWorkExperiences: CvWorkExperience[]
 }
 
 

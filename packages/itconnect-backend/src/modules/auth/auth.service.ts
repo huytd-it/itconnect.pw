@@ -23,6 +23,11 @@ export class AuthService {
         let user = await this.usersRepository.findOne({
             where: {
                 email: dto.email
+            },
+            select: {
+                email: true,
+                password: true,
+                id: true
             }
         });
 

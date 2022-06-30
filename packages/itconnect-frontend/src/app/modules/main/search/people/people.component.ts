@@ -77,17 +77,6 @@ export class PeopleComponent implements OnInit {
   }
 
   getYoe(item: UserInfo) {
-    let month = item.computeYoe;
-    if (item.computeYoeCurrent) {
-
-    }
-    let y = month / 12;
-    let m = month % 12;
-    let str = [];
-    if (y >= 1) {
-      str.push(`${Math.round(y)} năm`)
-    }
-    str.push(`${m} tháng`);
-    return str.join(' ')
+    return this.peopleService.getYoe(item);
   }
 }

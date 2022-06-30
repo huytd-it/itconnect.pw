@@ -1,8 +1,8 @@
-import {PageInput, PageOutput, SearchPageOutput} from "./common";
+import {BaseTable, PageInput, PageOutput, SearchPageOutput} from "./common";
 import {Job} from "./job.model";
 import {User} from "./user.model";
 
-export class JobSaved {
+export class JobSaved extends BaseTable {
   id: number;
   job: Job;
   user: User;

@@ -1,0 +1,84 @@
+<div class="tw-p-5">
+  <div class="tw-flex tw-gap-3 tw-flex-wrap">
+    <mat-form-field appearance="outline" class="tw-w-full sm:tw-w-[300px]">
+      <mat-label>Tìm kiếm</mat-label>
+      <input matInput [(ngModel)]="search" (change)="onSearch()">
+      <mat-icon matPrefix>search</mat-icon>
+    </mat-form-field>
+    <ng-select
+      class="tw-w-full sm:tw-w-[150px]"
+      appearance="outline"
+      [bindLabel]="'name'"
+      [placeholder]="'Sắp xếp theo'"
+      [items]="orderField"
+      [clearable]="false"
+      [(ngModel)]="orderFieldSelected"
+      (change)="onSearch()"
+    ></ng-select>
+    <ng-select
+      class="tw-w-full sm:tw-w-[100px]"
+      appearance="outline"
+      [bindLabel]="'name'"
+      [placeholder]="'Thứ tự'"
+      [items]="order"
+      [clearable]="false"
+      [(ngModel)]="orderSelected"
+      (change)="onSearch()"
+    ></ng-select>
+  </div>
+
+  <div>
+    <ng-container *ngIf="data">
+      <div class="tw-p-3 tw-text-[11px] tw-text-right tw-shadow-sm tw-text-[#888]">
+        {{data.meta.itemCount}} ứng tuyển
+      </div>
+      <ng-container *ngIf="data">
+        <ng-container *ngFor="let item of data.data || []">
+          <div
+            class="tw-cursor-pointer tw-flex tw-gap-4"
+            [routerLink]="item.id.toString()"
+          >
+            <div class="tw-py-3 tw-pl-3">
+              <app-avatar [radius]="70" [name]="item.user.userInfo.fullName"></app-avatar>
+            </div>
+            <div class="tw-flex-auto tw-border-b tw-p-3 tw-pt-4 tw-pl-1">
+              <a
+                [routerLink]="item.id.toString()"
+                class="tw-text-lg tw-text-primaryColor line-2 tw-inline-block"
+              >
+                {{item.user.userInfo.fullName}}
+              </a>
+              <div class="tw-text-[13px] tw-mt-1 tw-font-thin" *ngIf="!!item.user.userInfo.addressProvince">
+                {{item.user.userInfo.addressStreet}}, {{item.user.userInfo.addressVillage.name}}, {{item.user.userInfo.addressDistrict.name}}, {{item.user.userInfo.addressProvince.name}}
+              </div>
+              <div class="tw-text-[11px] tw-mt-1 tw-font-thin" *ngIf="item.user.userInfo.computeYoe">
+                <span class="tw-font-medium">{{getYoe(item.user.userInfo)}}</span> kinh nghiệm
+                <ng-container *ngIf="item.user.cvWorkExperiences?.length">
+                  <i class="tw-w-[4px] tw-h-[4px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-1"></i>
+                  Đang làm việc tại
+                  <span class="tw-font-medium">
+                    {{item.user.cvWorkExperiences[0].companyTag.name}}
+                  </span>
+                </ng-container>
+              </div>
+              <div class="tw-text-[10px] tw-mt-1 tw-font-thin">
+                Ứng tuyển {{item.createdAt | dateFromNow}}
+                <i class="tw-w-[4px] tw-h-[4px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-1"></i>
+                Thành viên của ITConnect {{item.user.createdAt | dateFromNow}}
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <div class="tw-flex tw-justify-center tw-p-4">
+          <mat-paginator
+            [disabled]="appService.headLoading$ | async"
+            [length]="data.meta.itemCount"
+            [pageSize]="data.meta.take"
+            [pageSizeOptions]="[5, 10, 25]"
+            (page)="onChangePage($event)"
+          ></mat-paginator>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>

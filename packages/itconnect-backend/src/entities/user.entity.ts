@@ -32,7 +32,7 @@ export class UserEntity {
     @Index()
     email: string;
 
-    @Column()
+    @Column({ select: false })
     password: string;
 
     @Column({ default: AppRole.begin })
