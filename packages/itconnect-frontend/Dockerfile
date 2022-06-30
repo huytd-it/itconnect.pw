@@ -2,10 +2,6 @@ FROM node:14.18.1-alpine3.14
 
 WORKDIR /src/frontend
 
-# timezone vietnam
-ENV TZ=Asia/Ho_Chi_Minh
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-
 # cache node_modules
 COPY package*.json ./
 RUN npm install
