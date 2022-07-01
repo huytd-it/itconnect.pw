@@ -1,6 +1,6 @@
-import {Injectable, Logger} from '@nestjs/common';
+import {Inject, Injectable, Logger, Request, Scope} from '@nestjs/common';
 import {PointConfigKV, PointConfigService} from "./point-config.service";
-import {DataSource, DeepPartial, In, LessThanOrEqual, MoreThanOrEqual, QueryRunner} from "typeorm";
+import {DataSource, DeepPartial, In, MoreThanOrEqual, QueryRunner, Repository} from "typeorm";
 import {POINT_MAX_USER_PER_TICK} from "../entities/pointConfig.entity";
 import {PointJobUserEntity} from "../entities/pointJobUser.entity";
 import {UserEntity} from "../entities/user.entity";
@@ -8,19 +8,118 @@ import {AppRole} from "../polices/permission.enum";
 import {JobEntity, JobStatus} from "../entities/job.entity";
 import {Id} from "../utils/function";
 import * as moment from "moment";
-import {InjectQueue} from "@nestjs/bull";
-import {QueuePointWithJob, QueuePointWithUser} from "../queues/queue.enum";
-import {Queue} from "bull";
-import {PointWithJobProcess} from "../queues/point-with-job.processor";
+import {PointJobUserSearchInputDto} from "../dtos/point-job-user.dto";
+import {PageDto, PageMetaDto, PageOptionsDto} from "../dtos/page.dto";
+import {InjectRepository} from "@nestjs/typeorm";
+import {REQUEST} from "@nestjs/core";
 
-@Injectable()
+@Injectable({ scope: Scope.REQUEST })
 export class PointJobUserService {
     private pointConfig: PointConfigKV;
 
     constructor(
+        @InjectRepository(PointJobUserEntity)
+        private pointJobUserRepository: Repository<PointJobUserEntity>,
         private dataSource: DataSource,
         private pointConfigService: PointConfigService,
+        @Inject(REQUEST) private request: Request,
     ) {
+    }
+
+    get user() {
+        return this.request['user'] as UserEntity;
+    }
+
+
+    async search(search: PointJobUserSearchInputDto, page: PageOptionsDto) {
+        const qr = this.pointJobUserRepository.createQueryBuilder('pju');
+
+        if (this.user.role === AppRole.user) {
+            /**
+             * User
+             *
+             */
+            qr.leftJoinAndSelect('pju.job', 'job');
+            qr.leftJoinAndSelect('job.companyTag', 'companyTag');
+            qr.leftJoinAndSelect('job.addressProvince', 'addressProvince');
+            qr.leftJoinAndSelect('job.addressDistrict', 'addressDistrict');
+            qr.leftJoinAndSelect('job.addressVillage', 'addressVillage');
+            qr.loadRelationCountAndMap('job.jobApplyCount', 'job.jobApply', 'jobApplyCount')
+            qr.loadRelationCountAndMap(
+                'job.jobApplySelf',
+                'job.jobApply',
+                'jobApplySelf',
+                (qr) => qr.where({
+                    user: Id(this.user.id)
+                })
+            )
+            qr.loadRelationCountAndMap(
+                'job.jobSavedSelf',
+                'job.jobSaved',
+                'jobSavedSelf',
+                (qr) => qr.where({
+                    user: Id(this.user.id)
+                })
+            )
+            qr.select([
+                'pju',
+                'job',
+                'companyTag.id',
+                'companyTag.name',
+                'addressProvince.id',
+                'addressProvince.name',
+                'addressDistrict.id',
+                'addressDistrict.name',
+                'addressVillage',
+            ])
+            if (search.search) {
+                qr.andWhere(`job.name like :prm_search`, {
+                    prm_search: search.search
+                })
+            }
+            qr.andWhere({
+                user: Id(this.user.id)
+            })
+        } else if (this.user.role === AppRole.company) {
+            /**
+             * Company
+             *
+             *
+             */
+            qr.leftJoinAndSelect('pju.user', 'user');
+            qr.leftJoinAndSelect('user.userInfo', 'userInfo');
+            qr.leftJoinAndSelect('userInfo.addressProvince', 'addressProvinceUI');
+            qr.leftJoinAndSelect('userInfo.addressDistrict', 'addressDistrictUI');
+            qr.leftJoinAndSelect('userInfo.addressVillage', 'addressVillageUI');
+            qr.leftJoinAndSelect(
+                'user.cvWorkExperiences',
+                'cvWorkExperiences',
+                'cvWorkExperiences.endDate is null'
+            )
+            qr.leftJoinAndSelect('cvWorkExperiences.companyTag', 'companyTagCV');
+            if (search.jobId) {
+                qr.andWhere('user.jobId = :prm_job_id', {
+                    prm_job_id: search.jobId
+                })
+            }
+            if (search.search) {
+                qr.andWhere(`user.fullName like :prm_search`, {
+                    prm_search: search.search
+                })
+            }
+        }
+
+        const total = await qr.getCount();
+
+        if (page.order_field && page.order) {
+            qr.orderBy(page.order_field, page.order);
+        }
+        qr.take(page.take);
+        qr.skip(page.skip);
+        const result = await qr.getMany();
+
+        const meta = new PageMetaDto({ itemCount: total, pageOptionDto: page });
+        return new PageDto(result, meta)
     }
 
     async computeWithUser(userId: number) {

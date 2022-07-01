@@ -288,6 +288,12 @@ export class PeopleService {
         qr.leftJoinAndSelect('userInfo.addressProvince', 'addressProvince');
         qr.leftJoinAndSelect('userInfo.addressDistrict', 'addressDistrict');
         qr.leftJoinAndSelect('userInfo.addressVillage', 'addressVillage');
+        qr.leftJoinAndSelect(
+            'user.cvWorkExperiences',
+            'cvWorkExperiences',
+            'cvWorkExperiences.endDate is null'
+        )
+        qr.leftJoinAndSelect('cvWorkExperiences.companyTag', 'companyTagCV');
 
         qr.skip(page.skip);
         qr.take(page.take);

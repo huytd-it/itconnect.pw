@@ -82,6 +82,7 @@ async function bootstrap() {
       .addTag('job')
       .addTag('job-apply')
       .addTag('job-saved')
+      .addTag('point-job-user')
       .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('documentation', app, document);

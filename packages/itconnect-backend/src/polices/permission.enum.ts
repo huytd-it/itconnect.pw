@@ -222,6 +222,8 @@ export enum AppPermission {
      *
      */
     JOB_SUGGEST = 'job_suggest',
+
+    POINT_JOB_USER_SEARCH = 'point_job_user_search'
 }
 
 
@@ -315,7 +317,8 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.JOB_SAVED_SEARCH,
         AppPermission.JOB_SAVED_CREATE,
         AppPermission.JOB_SAVED_DELETE,
-        AppPermission.JOB_SUGGEST
+        AppPermission.JOB_SUGGEST,
+        AppPermission.POINT_JOB_USER_SEARCH,
     ],
 
     /***
@@ -353,6 +356,7 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.JOB_TYPE,
         AppPermission.JOB_TYPE_SEARCH,
         AppPermission.JOB_APPLY_SEARCH,
+        AppPermission.POINT_JOB_USER_SEARCH,
     ],
 
     /**

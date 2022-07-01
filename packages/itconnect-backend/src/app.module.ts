@@ -37,6 +37,7 @@ import {JobSavedModule} from "./modules/job-saved/job-saved.module";
 import {BullModule} from "@nestjs/bull";
 import {QueuePointWithJob, QueuePointWithUser} from "./queues/queue.enum";
 import { QueuesModule } from './queues/queues.module';
+import {PointJobUserModule} from "./modules/point-job-user/point-job-user.module";
 
 @Module({
   imports: [
@@ -76,7 +77,8 @@ import { QueuesModule } from './queues/queues.module';
       Company3rdModule,
       JobApplyModule,
       JobSavedModule,
-      QueuesModule
+      QueuesModule,
+      PointJobUserModule
   ],
   controllers: [AppController],
   providers: [

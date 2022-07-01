@@ -1,10 +1,12 @@
-import {Column, Entity, ManyToOne, PrimaryGeneratedColumn, Unique} from "typeorm";
+import {Column, Entity, Index, ManyToOne, PrimaryGeneratedColumn, Unique} from "typeorm";
 import {UserEntity} from "./user.entity";
 import {JobEntity} from "./job.entity";
 
 
 @Entity()
 @Unique(['job', 'user'])
+@Index(['job', 'pointTotal'])
+@Index(['user', 'pointTotal'])
 export class PointJobUserEntity {
     @PrimaryGeneratedColumn()
     id: number;
@@ -16,6 +18,7 @@ export class PointJobUserEntity {
     job: JobEntity;
 
     @Column()
+    @Index()
     pointTotal: number;
 
     @Column()
