@@ -1,18 +1,24 @@
 <div class="tw-border tw-rounded-lg tw-shadow-sm tw-bg-white tw-mb-3">
   <h3 class="!tw-font-medium tw-p-3 !tw-text-[18px]">Công việc dành cho bạn</h3>
 
-  <div class="tw-text-center tw-text-[#ccc] tw-my-10" *ngIf="false">
-    đang cập nhật
+  <div
+    class="tw-text-center tw-text-[#ccc] tw-my-10 tw-mx-3 tw-cursor-pointer"
+    [routerLink]="'../me'"
+    *ngIf="!data?.data"
+  >
+    Hãy cập nhật CV của bạn để có các công ty có thể nhìn thấy
   </div>
 
-  <div class="tw-mb-2" *ngFor="let item of [job, job, job, job, job]">
-    <app-job-item-min
-      [link]="'../jobs/view/' + item.id"
-      [job]="item"
-    ></app-job-item-min>
-  </div>
+  <ng-container *ngIf="data?.data">
+    <div class="tw-mb-2" *ngFor="let item of data.data">
+      <app-job-item-min
+        [link]="'../jobs/view/' + item.job.id"
+        [job]="item.job"
+      ></app-job-item-min>
+    </div>
+  </ng-container>
 
-  <div class="tw-my-5 tw-text-center">
+  <div class="tw-my-5 tw-text-center" *ngIf="data?.data">
     <a
       class="tw-text-[13px] tw-text-primaryColor"
       [routerLink]="'/u/jobs/suggest'"

@@ -4,6 +4,8 @@ import {JobApplyService} from "../../../../services/job-apply.service";
 import {AppService} from "../../../../services/app.service";
 import {finalize} from "rxjs";
 import {PageEvent} from "@angular/material/paginator";
+import {PointJobUserSearchInput} from "../../../../models/point-job-user.model";
+import {PointJobUserService} from "../../../../services/point-job-user.service";
 
 @Component({
   selector: 'app-job-suggest',
@@ -11,10 +13,10 @@ import {PageEvent} from "@angular/material/paginator";
   styleUrls: ['./job-suggest.component.scss']
 })
 export class JobSuggestComponent implements OnInit {
-  data: JobApplySearchInput;
+  data: PointJobUserSearchInput;
 
   constructor(
-    private jobApplyService: JobApplyService,
+    private pointJobUserService: PointJobUserService,
     public appService: AppService
   ) { }
 
@@ -24,9 +26,11 @@ export class JobSuggestComponent implements OnInit {
 
   load(page: number = 1, take: number = 10) {
     this.appService.setHeadLoading(true);
-    this.jobApplyService.search({
+    this.pointJobUserService.search({
       page,
-      take
+      take,
+      order: 'DESC',
+      order_field: 'pju.pointTotal'
     }).pipe(finalize(() => this.appService.setHeadLoading(false)))
       .subscribe(data => {
         this.data = data;
