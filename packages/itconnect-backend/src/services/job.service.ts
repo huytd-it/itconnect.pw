@@ -70,23 +70,23 @@ export class JobService {
         qr.leftJoinAndSelect('job.addressDistrict', 'addressDistrict');
         qr.leftJoinAndSelect('job.addressVillage', 'addressVillage');
         qr.leftJoinAndSelect('job.jobPositions', 'jobPositions');
-        qr.leftJoinAndSelect('jobPositions.position', 'jobPositions.position');
+        qr.leftJoinAndSelect('jobPositions.position', 'position');
         qr.leftJoinAndSelect('job.jobSkills', 'jobSkills');
-        qr.leftJoinAndSelect('jobSkills.skill', 'jobSkills.skill');
+        qr.leftJoinAndSelect('jobSkills.skill', 'skill');
         qr.leftJoinAndSelect('job.jobCertificates', 'jobCertificates');
-        qr.leftJoinAndSelect('jobCertificates.certificate', 'jobCertificates.certificate');
+        qr.leftJoinAndSelect('jobCertificates.certificate', 'certificate');
         qr.leftJoinAndSelect('job.jobSchools', 'jobSchools');
-        qr.leftJoinAndSelect('jobSchools.school', 'jobSchools.school');
+        qr.leftJoinAndSelect('jobSchools.school', 'school');
         qr.leftJoinAndSelect('job.jobWorkFrom', 'jobWorkFrom');
-        qr.leftJoinAndSelect('jobWorkFrom.workFrom', 'jobWorkFrom.workFrom');
+        qr.leftJoinAndSelect('jobWorkFrom.workFrom', 'workFrom');
         qr.leftJoinAndSelect('job.jobJobLevels', 'jobJobLevels');
-        qr.leftJoinAndSelect('jobJobLevels.jobLevel', 'jobJobLevels.jobLevel');
+        qr.leftJoinAndSelect('jobJobLevels.jobLevel', 'jobLevel');
         qr.leftJoinAndSelect('job.jobType', 'jobType');
         qr.leftJoinAndSelect('job.companyTag', 'companyTag');
-        qr.leftJoinAndSelect('companyTag.companyInfo', 'companyTag.companyInfo');
+        qr.leftJoinAndSelect('companyTag.companyInfo', 'companyInfo');
         qr.leftJoinAndSelect('job.user', 'user');
-        qr.leftJoinAndSelect('user.userInfo', 'user.userInfo');
-        qr.leftJoinAndSelect('user.companyInfo', 'user.companyInfo');
+        qr.leftJoinAndSelect('user.userInfo', 'userInfo');
+        qr.leftJoinAndSelect('user.companyInfo', 'companyInfoU');
         qr.loadRelationCountAndMap('job.jobApplyCount', 'job.jobApply', 'jobApplyCount');
         qr.loadRelationCountAndMap(
             'job.jobApplySelf',
