@@ -10,6 +10,7 @@ import * as expressBasicAuth from "express-basic-auth";
 import {createBullBoard} from "@bull-board/api";
 import {Queue} from "bull";
 import {BullAdapter} from "@bull-board/api/bullAdapter";
+import {QueuePointWithJob, QueuePointWithUser} from "./queues/queue.enum";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -92,8 +93,8 @@ async function bootstrap() {
   const serverAdapter = new ExpressAdapter()
   serverAdapter.setBasePath('/bull-board')
 
-  const pwjQueue = app.get<Queue>(`BullQueue_point_with_job`)
-  const pwuQueue = app.get<Queue>(`BullQueue_point_with_user`)
+  const pwjQueue = app.get<Queue>(`BullQueue_${QueuePointWithJob}`)
+  const pwuQueue = app.get<Queue>(`BullQueue_${QueuePointWithUser}`)
   createBullBoard({
     queues: [
       new BullAdapter(pwjQueue),

@@ -41,6 +41,9 @@ export class UserEntity {
     @Index()
     role: AppRole;
 
+    @Column({ nullable: true })
+    computePointQueueId: string;
+
     @OneToOne(type => UserInfoEntity, db => db.user)
     userInfo: UserInfoEntity;
 

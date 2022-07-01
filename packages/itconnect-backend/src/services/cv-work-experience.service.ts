@@ -10,6 +10,7 @@ import {CompanyTagService} from "./company-tag.service";
 import {UserService} from "./user.service";
 import * as moment from "moment";
 import {Id} from "../utils/function";
+import {PointJobUserQueue} from "../queues/point-job-user.queue";
 
 @Injectable({ scope: Scope.REQUEST })
 export class CvWorkExperienceService {
@@ -19,7 +20,8 @@ export class CvWorkExperienceService {
         private cvWorkExperienceRepository: Repository<CvWorkExperienceEntity>,
         @Inject(REQUEST) private request: Request,
         private companyTagService: CompanyTagService,
-        private userService: UserService
+        private userService: UserService,
+        private pointJobUserQueue: PointJobUserQueue,
     ) {
     }
 
@@ -150,6 +152,8 @@ export class CvWorkExperienceService {
         // re-compute yoe
         await this.userService.computeYoE(currentUser.id);
 
+        await this.pointJobUserQueue.registerComputeUser(currentUser.id);
+
         return this.cvWorkExperienceRepository.findOne({
             where: {
                 id: upId
@@ -177,6 +181,8 @@ export class CvWorkExperienceService {
             // re-compute yoe
             const currentUser = this.request['user'] as UserEntity;
             await this.userService.computeYoE(currentUser.id);
+
+            await this.pointJobUserQueue.registerComputeUser(currentUser.id);
 
             return result;
         }

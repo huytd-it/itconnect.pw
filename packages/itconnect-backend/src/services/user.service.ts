@@ -98,6 +98,12 @@ export class UserService {
         });
     }
 
+    updateComputePointQueue(userId: number, id: string) {
+        return this.usersRepository.update({ id: userId }, {
+            computePointQueueId: id
+        })
+    }
+
     async createOrEditUser(user: UserEntity, dto: CreateOrEditUserProfileInputDto): Promise<CreateOrUserProfileOutputDto> {
         const queryRunner = this.dataSource.createQueryRunner();
         await queryRunner.connect();

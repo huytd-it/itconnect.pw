@@ -1,4 +1,4 @@
-import {Global, Module} from '@nestjs/common';
+import {forwardRef, Global, Module} from '@nestjs/common';
 import { UserService } from './user.service';
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {UserEntity} from "../entities/user.entity";
@@ -67,6 +67,10 @@ import {PointConfigEntity} from "../entities/pointConfig.entity";
 import {PointJobUserEntity} from "../entities/pointJobUser.entity";
 import { PointJobUserService } from './point-job-user.service';
 import { PointConfigService } from './point-config.service';
+import {BullModule} from "@nestjs/bull";
+import {QueuesModule} from "../queues/queues.module";
+import {QueuePointWithJob, QueuePointWithUser} from "../queues/queue.enum";
+import {PointJobUserQueue} from "../queues/point-job-user.queue";
 
 @Module({
   imports: [
@@ -117,7 +121,8 @@ import { PointConfigService } from './point-config.service';
               maxRedirects: configService.get('HTTP_MAX_REDIRECTS'),
           }),
           inject: [ConfigService],
-      })
+      }),
+      forwardRef(() => QueuesModule)
   ],
   providers: [
       UserService,

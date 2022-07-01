@@ -23,6 +23,7 @@ import {PositionEntity} from "../entities/position.entity";
 import * as moment from "moment";
 import {DateUtils} from "typeorm/util/DateUtils";
 import {JobTypeEntity} from "../entities/jobType.entity";
+import {PointJobUserQueue} from "../queues/point-job-user.queue";
 
 @Injectable({ scope: Scope.REQUEST })
 export class JobService {
@@ -55,7 +56,8 @@ export class JobService {
         @InjectRepository(JobTypeEntity)
         private jobTypeRepository: Repository<JobTypeEntity>,
         @Inject(REQUEST) private request: Request,
-        private dataSource: DataSource
+        private dataSource: DataSource,
+        private pointWithJobQueue: PointJobUserQueue
     ) {
 
     }
@@ -279,6 +281,10 @@ export class JobService {
             throw e;
         } finally {
             await queryRunner.release();
+        }
+
+        if (dataEntity.status === JobStatus.Publish || dataEntity.status === JobStatus.WaitSystem) {
+            await this.pointWithJobQueue.registerComputeJob(id);
         }
 
         if (hasResponseEntity) {

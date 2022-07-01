@@ -35,6 +35,8 @@ import { Company3rdModule } from './modules/company-3rd/company-3rd.module';
 import { JobApplyModule } from './modules/job-apply/job-apply.module';
 import {JobSavedModule} from "./modules/job-saved/job-saved.module";
 import {BullModule} from "@nestjs/bull";
+import {QueuePointWithJob, QueuePointWithUser} from "./queues/queue.enum";
+import { QueuesModule } from './queues/queues.module';
 
 @Module({
   imports: [
@@ -45,24 +47,6 @@ import {BullModule} from "@nestjs/bull";
           imports: [ConfigModule],
           inject: [ConfigService],
           useClass: DatabaseConfigService,
-      }),
-      BullModule.forRootAsync({
-          imports: [ConfigModule],
-          inject: [ConfigService],
-          useFactory: (configService: ConfigService) => {
-              return {
-                  redis: {
-                      host: configService.get('REDIS_HOST'),
-                      port: configService.get('REDIS_PORT'),
-                  },
-              }
-          }
-      }),
-      BullModule.registerQueue({
-          name: 'point_with_job'
-      }),
-      BullModule.registerQueue({
-          name: 'point_with_user'
       }),
       AuthModule,
       ProfileModule,
@@ -91,7 +75,8 @@ import {BullModule} from "@nestjs/bull";
       PeopleModule,
       Company3rdModule,
       JobApplyModule,
-      JobSavedModule
+      JobSavedModule,
+      QueuesModule
   ],
   controllers: [AppController],
   providers: [

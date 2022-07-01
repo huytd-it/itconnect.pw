@@ -5,6 +5,7 @@ import {UserPositionEntity} from "../entities/userPosition.entity";
 import {Repository} from "typeorm";
 import {REQUEST} from "@nestjs/core";
 import {UserEntity} from "../entities/user.entity";
+import {PointJobUserQueue} from "../queues/point-job-user.queue";
 
 @Injectable({ scope: Scope.REQUEST })
 export class UserPositionService {
@@ -12,7 +13,8 @@ export class UserPositionService {
     constructor(
         @InjectRepository(UserPositionEntity)
         private userPositionEntity: Repository<UserPositionEntity>,
-        @Inject(REQUEST) private request: Request
+        @Inject(REQUEST) private request: Request,
+        private pointJobUserQueue: PointJobUserQueue,
     ) {
     }
 
@@ -77,6 +79,8 @@ export class UserPositionService {
             upId = r[0].id;
         }
 
+        await this.pointJobUserQueue.registerComputeUser(currentUser.id);
+
         return await this.userPositionEntity.findOne({
             where: { id: upId },
             relations: ['position']
@@ -92,7 +96,9 @@ export class UserPositionService {
             }
         })
         if (exists) {
-            return await this.userPositionEntity.delete(id);
+            const r = await this.userPositionEntity.delete(id);
+            await this.pointJobUserQueue.registerComputeUser(currentUser.id);
+            return r;
         }
 
         throw new ForbiddenException();

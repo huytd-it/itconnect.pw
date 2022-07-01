@@ -8,6 +8,10 @@ import {AppRole} from "../polices/permission.enum";
 import {JobEntity, JobStatus} from "../entities/job.entity";
 import {Id} from "../utils/function";
 import * as moment from "moment";
+import {InjectQueue} from "@nestjs/bull";
+import {QueuePointWithJob, QueuePointWithUser} from "../queues/queue.enum";
+import {Queue} from "bull";
+import {PointWithJobProcess} from "../queues/point-with-job.processor";
 
 @Injectable()
 export class PointJobUserService {
@@ -15,7 +19,7 @@ export class PointJobUserService {
 
     constructor(
         private dataSource: DataSource,
-        private pointConfigService: PointConfigService
+        private pointConfigService: PointConfigService,
     ) {
     }
 
@@ -25,13 +29,13 @@ export class PointJobUserService {
         const queryRunner = this.dataSource.createQueryRunner();
         await queryRunner.connect();
         await queryRunner.startTransaction();
+        let totalJob = 0;
         try {
             let user = await this.getUser(queryRunner, userId);
             // console.log(util.inspect(user, false, null, true /* enable colors */))
-            let totalJob = await this.countJobCanMapping(queryRunner, user);
             let currentIndex = 0;
             let jobTake = POINT_MAX_USER_PER_TICK;
-            // console.log(totalJob)
+            totalJob = await this.countJobCanMapping(queryRunner, user);
 
             // compute per page
             while (currentIndex < totalJob) {
@@ -41,7 +45,7 @@ export class PointJobUserService {
                 for (let job of jobs) {
                     // console.log(util.inspect(job, false, null, true /* enable colors */))
                     const point = this.computePointJob(job, user);
-                    logger.log(`user:${user.id} - job:${job.id} - ${point.pointTotal} point`);
+                    // logger.log(`user:${user.id} - job:${job.id} - ${point.pointTotal} point`);
                     pointInserts.push(point);
                 }
 
@@ -55,9 +59,12 @@ export class PointJobUserService {
         } catch (e) {
             console.log(e);
             await queryRunner.rollbackTransaction();
+            throw e;
         } finally {
             await queryRunner.release();
         }
+
+        return totalJob;
     }
 
     async computeWithJob(jobId: number) {
@@ -66,11 +73,12 @@ export class PointJobUserService {
         const queryRunner = this.dataSource.createQueryRunner();
         await queryRunner.connect();
         await queryRunner.startTransaction();
+        let totalUser = 0;
         try {
             let job = await this.getJob(queryRunner, jobId);
-            let totalUser = await this.countUserCanMapping(queryRunner, job);
             let currentIndex = 0;
             let userTake = POINT_MAX_USER_PER_TICK;
+            totalUser = await this.countUserCanMapping(queryRunner, job);
 
             // compute per page
             while (currentIndex < totalUser) {
@@ -94,9 +102,12 @@ export class PointJobUserService {
         } catch (e) {
             console.log(e);
             await queryRunner.rollbackTransaction();
+            throw e;
         } finally {
             await queryRunner.release();
         }
+
+        return totalUser;
     }
 
     private defaultField() {
