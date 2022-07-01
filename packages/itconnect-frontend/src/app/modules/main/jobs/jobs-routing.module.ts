@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { JobsComponent } from './jobs.component';
 import {PermissionGuard} from "../../../utils/guards/permission.guard";
 import {AppPermission} from "../../../models/permission.model";
+import {RedirectComponent} from "./redirect.component";
 
 const routes: Routes = [
   {
@@ -64,6 +65,9 @@ const routes: Routes = [
         data: {
           permission: AppPermission.JOB_SUGGEST
         }
+      },
+      {
+        path: '**', component: RedirectComponent
       }
     ]
   },

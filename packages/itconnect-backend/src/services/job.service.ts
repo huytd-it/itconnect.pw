@@ -310,7 +310,7 @@ export class JobService {
         return job;
     }
 
-    async search(query: JobSearchQueryInputDto, body: JobSearchBodyInputDto, page: PageOptionsDto) {
+    async searchOld(query: JobSearchQueryInputDto, body: JobSearchBodyInputDto, page: PageOptionsDto) {
         const user = this.request['user'] as UserEntity;
         const qr = this.jobRepository.createQueryBuilder('job');
 
@@ -633,4 +633,242 @@ export class JobService {
         const meta = new PageMetaDto({ itemCount: total, pageOptionDto: page });
         return new PageDto(result, meta)
     }
+
+    private makeCondSearch(field: string, data: string[]) {
+        const cond = data.map((item, index) => {
+            return `(\`${field}\`.\`name\` like :prm_${field}_${index})`
+        }).join(' or ');
+        const params = data.reduce((val, item, index) => {
+            val[`prm_${field}_${index}`] = `%${item}%`;
+            return val;
+        }, {});
+        return { cond, params };
+    }
+
+    private makeCondSearchOverlap(field: string, fieldLv: string, data: { name: string, levelMin: number, levelMax: number }[]) {
+        // overlap test https://stackoverflow.com/questions/3269434/whats-the-most-efficient-way-to-test-if-two-ranges-overlap
+        const cond = data.map((item, index) => {
+            const lvMin = `\`${fieldLv}\`.\`levelMin\``;
+            const lvMax = `\`${fieldLv}\`.\`levelMax\``;
+            return `(
+                \`${field}\`.\`name\` like :prm_name_${field}_${index} and
+                ${lvMin} <= :prm_max_${field}_${index} and
+                :prm_min_${field}_${index} <= ${lvMax}
+            )`
+        }).join(' or ');
+        const params = data.reduce((val, item, index) => {
+            val[`prm_name_${field}_${index}`] = `%${item.name}%`;
+            val[`prm_min_${field}_${index}`] = item.levelMin;
+            val[`prm_max_${field}_${index}`] = item.levelMax;
+            return val;
+        }, {});
+        return { cond, params };
+    }
+
+    async search(query: JobSearchQueryInputDto, body: JobSearchBodyInputDto, page: PageOptionsDto) {
+        const user = this.request['user'] as UserEntity;
+        const qr = this.jobRepository.createQueryBuilder('job');
+
+        // job level, map id
+        if (body.jobLevel?.length) {
+            qr.innerJoinAndSelect(
+                'job.jobJobLevels',
+                'jobJobLevels',
+                'jobJobLevels.jobLevelId in (:prm_job_level)',
+                {
+                    prm_job_level: body.jobLevel.join(',')
+                }
+            )
+        }
+
+        // work from, map id
+        if (body.workFrom?.length) {
+            qr.innerJoinAndSelect(
+                'job.jobWorkFrom',
+                'jobWorkFrom',
+                'jobWorkFrom.workFromId in (:prm_work_from)',
+                {
+                    prm_work_from: body.workFrom.join(',')
+                }
+            )
+        }
+
+        // school, map text
+        if (body.school?.length) {
+            const s = this.makeCondSearch('school', body.school);
+            qr.innerJoinAndSelect('job.jobSchools',  'jobSchools');
+            qr.innerJoinAndSelect('jobSchools.school', 'school', s.cond, s.params);
+        } else {
+            qr.leftJoinAndSelect('job.jobSchools',  'jobSchools');
+            qr.leftJoinAndSelect('jobSchools.school', 'school');
+        }
+
+        // certificate, map text
+        if (body.certificate?.length) {
+            const s = this.makeCondSearchOverlap('certificate', 'jobCertificates', body.certificate);
+            qr.innerJoinAndSelect('job.jobCertificates',  'jobCertificates');
+            qr.innerJoinAndSelect('jobCertificates.certificate', 'certificate', s.cond, s.params);
+        } else {
+            qr.leftJoinAndSelect('job.jobCertificates',  'jobCertificates');
+            qr.leftJoinAndSelect('jobCertificates.certificate', 'certificate');
+        }
+
+        // skill, map text
+        if (body.skill?.length) {
+            const s = this.makeCondSearchOverlap('skill', 'jobSkills', body.skill);
+            qr.innerJoinAndSelect('job.jobSkills',  'jobSkills');
+            qr.innerJoinAndSelect('jobSkills.skill', 'skill', s.cond, s.params);
+        } else {
+            qr.leftJoinAndSelect('job.jobSkills',  'jobSkills');
+            qr.leftJoinAndSelect('jobSkills.skill', 'skill');
+        }
+
+        // position, map text
+        if (body.position?.length) {
+            const s = this.makeCondSearchOverlap('position', 'jobPositions', body.position);
+            qr.innerJoinAndSelect('job.jobPositions',  'jobPositions');
+            qr.innerJoinAndSelect('jobPositions.position', 'position', s.cond, s.params);
+        } else {
+            qr.leftJoinAndSelect('job.jobPositions',  'jobPositions');
+            qr.leftJoinAndSelect('jobPositions.position', 'position');
+        }
+
+        // company, map text
+        if (body.company?.length) {
+            const s = this.makeCondSearch('companyTag', body.company);
+            qr.innerJoinAndSelect('job.companyTag',  'companyTag', s.cond, s.params);
+        } else {
+            qr.leftJoinAndSelect('job.companyTag', 'companyTag');
+        }
+
+        // address
+        if (body.addressDistrict) {
+            qr.andWhere({
+                addressDistrict: body.addressDistrict
+            })
+        }
+        if (body.addressProvince) {
+            qr.andWhere({
+                addressProvince: body.addressProvince
+            })
+        }
+        if (body.addressVillage) {
+            qr.andWhere({
+                addressProvince: body.addressVillage
+            })
+        }
+
+        // job type
+        if (body.jobType?.length) {
+            qr.andWhere({
+                jobType: {
+                    id: In(body.jobType)
+                }
+            })
+        }
+
+        // yoe
+        if (body.yoe) {
+            qr.andWhere({
+                yoe: MoreThanOrEqual(body.yoe)
+            })
+        }
+
+        // salary min
+        if (body.salaryMin) {
+            qr.andWhere({
+                status: body.salaryMin
+            })
+        }
+        if (body.salaryMax) {
+            qr.andWhere({
+                status: body.salaryMax
+            })
+        }
+
+        // status
+        if (body.status) {
+            qr.andWhere({
+                status: body.status
+            })
+        }
+
+        // expired
+        if (!body.includeJobExpired) {
+            qr.andWhere({
+                endDate: MoreThanOrEqual(DateUtils.mixedDateToUtcDatetimeString(
+                    moment().startOf('date').toDate()
+                ))
+            })
+        }
+
+        /**
+         * Valid owner when
+         *  + status filter different Publish
+         *  +
+         *  +
+         *
+         */
+        if (
+            !body.status ||
+            body.status !== JobStatus.Publish ||
+            body.includeJobExpired
+        ) {
+            const user = this.request['user'] as UserEntity;
+            qr.andWhere({
+                user: Id(user.id)
+            })
+        }
+
+        // page
+        if (query.search) {
+            qr.andWhere({
+                name: Like(`%${query.search}%`)
+            })
+        }
+
+        if (page.order_field && page.order) {
+            qr.orderBy(page.order_field, page.order)
+        }
+
+        const total = await qr.getCount();
+
+        qr.leftJoinAndSelect('job.addressProvince', 'addressProvince');
+        qr.leftJoinAndSelect('job.addressDistrict', 'addressDistrict');
+        qr.leftJoinAndSelect('job.addressVillage', 'addressVillage');
+        qr.loadRelationCountAndMap('job.jobApplyCount', 'job.jobApply', 'jobApplyCount')
+        qr.loadRelationCountAndMap(
+            'job.jobApplySelf',
+            'job.jobApply',
+            'jobApplySelf',
+            (qr) => qr.where({
+                user: Id(user.id)
+            })
+        )
+        qr.loadRelationCountAndMap(
+            'job.jobSavedSelf',
+            'job.jobSaved',
+            'jobSavedSelf',
+            (qr) => qr.where({
+                user: Id(user.id)
+            })
+        )
+        // qr.select([
+        //     'job',
+        //     'companyTag.id',
+        //     'companyTag.name',
+        //     'addressProvince.id',
+        //     'addressProvince.name',
+        //     'addressDistrict.id',
+        //     'addressDistrict.name',
+        //     'addressVillage',
+        // ])
+        qr.skip(page.skip);
+        qr.take(page.take);
+        const result = await qr.getMany();
+
+        const meta = new PageMetaDto({ itemCount: total, pageOptionDto: page });
+        return new PageDto(result, meta)
+    }
+
 }

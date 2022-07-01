@@ -110,6 +110,10 @@ export class PointJobUserService {
             }
         }
 
+        if (search.groupBy) {
+            qr.groupBy(search.groupBy);
+        }
+
         const total = await qr.getCount();
 
         if (page.order_field && page.order) {

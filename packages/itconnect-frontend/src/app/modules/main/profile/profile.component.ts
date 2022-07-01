@@ -30,13 +30,13 @@ export class ProfileComponent implements OnInit {
     return [
       {
         name: "Hồ sơ",
-        class: 'icon-profile',
+        class: 'account_circle',
         link: '',
         permission: AppPermission.PROFILE
       },
       {
         name: "Đăng xuất",
-        class: 'icon-logout tw-bg-[length:20px_20px]',
+        class: 'logout',
         link: '/logout',
         permission: AppPermission.LOGOUT
       },

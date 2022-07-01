@@ -1,16 +1,16 @@
 <app-main-content>
   <div class="tw-flex tw-flex-wrap tw-gap-4 xl:tw-px-[100px]">
-    <div class="tw-hidden md:tw-w-[20vw] md:tw-block tw-min-w-[250px]">
-      <div class="tw-bg-white tw-rounded tw-shadow tw-p-3">
+    <div class="tw-hidden md:tw-w-[20vw] md:tw-block tw-min-w-[250px] tw-self-start tw-sticky tw-top-[65px]">
+      <div class="tw-bg-white tw-rounded tw-shadow tw-p-3 tw-space-y-5">
         <ng-container *ngFor="let item of menu">
           <a
-            class="tw-block tw-font-medium tw-text-[16px] tw-flex tw-items-center tw-mb-2"
+            class="tw-block tw-font-medium tw-text-[16px] tw-flex tw-items-center"
             routerLinkActive="tw-text-primaryColor"
             [routerLink]="item.link"
             *ngIf="item.permission | permission"
           >
-            <i [class]="'c-icon tw-w-[40px] tw-h-[40px] tw-bg-[length:25px_25px] ' + item.class"></i>
-            <span class="tw-ml-2">{{item.name}}</span>
+            <mat-icon>{{item.class}}</mat-icon>
+            <span class="tw-ml-3">{{item.name}}</span>
           </a>
         </ng-container>
       </div>

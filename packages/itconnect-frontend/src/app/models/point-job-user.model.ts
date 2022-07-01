@@ -21,7 +21,8 @@ export class PointJobUserSearchInput extends PageInput<PointJobUser> {
   }
 
 export class PointJobUserSearchOutput extends SearchPageOutput {
-  jobId?: number
+  jobId?: number;
+  groupBy?: string;
 }
 
 

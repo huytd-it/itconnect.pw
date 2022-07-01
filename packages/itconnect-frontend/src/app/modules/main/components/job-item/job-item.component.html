@@ -18,6 +18,10 @@
     <div class="tw-text-[13px] tw-mt-1 tw-font-thin">
       {{job.addressStreet}}, {{job.addressVillage.name}}, {{job.addressDistrict.name}}, {{job.addressProvince.name}}
     </div>
+    <div class="tw-text-[11px] tw-mt-1 tw-font-thin tw-flex tw-items-center tw-text-green-700" *ngIf="job.salaryMin || job.salaryMax">
+      <span *ngIf="job.salaryMin">{{ job.salaryMin | currency: 'VND' }}<span class="tw-mx-1">-</span></span>
+      <span *ngIf="job.salaryMax">{{ job.salaryMax | currency: 'VND' }}</span>
+    </div>
     <div class="tw-text-[12px] tw-mt-2 tw-font-thin">
       <span>
         {{job.updatedAt | dateFromNow}}

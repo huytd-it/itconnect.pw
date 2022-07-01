@@ -30,4 +30,8 @@ export class PointJobUserSearchInputDto {
     @IsOptional()
     @IsInt()
     jobId: number;
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    groupBy: string;
 }

@@ -27,6 +27,7 @@ export class PeopleSuggestMiniComponent implements OnInit {
     this.pointJobUserService.search({
       order: 'DESC',
       order_field: 'pju.pointTotal',
+      groupBy: 'pju.user.id',
       take: 5,
       page: 1
     })

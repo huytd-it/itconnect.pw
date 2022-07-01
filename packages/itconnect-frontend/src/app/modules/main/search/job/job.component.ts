@@ -48,7 +48,7 @@ export class JobComponent implements OnInit {
 
 
   onSearch(firstPage: boolean = true) {
-    const query = this.filters.query;
+    const query = this.filters.getQuery();
     const body = this.filters.getBody();
 
     if (firstPage) {
@@ -77,7 +77,7 @@ export class JobComponent implements OnInit {
   }
 
   onChangePage(e: PageEvent) {
-    const query = this.filters.query;
+    const query = this.filters.getQuery();
     query.page = e.pageIndex + 1;
     query.take = e.pageSize;
     this.onSearch(false);

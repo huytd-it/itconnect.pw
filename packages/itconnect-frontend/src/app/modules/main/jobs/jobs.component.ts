@@ -27,15 +27,6 @@ export class JobsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.router.url.endsWith('/u/jobs')) {
-      let p: string[] = [];
-      if (this.permissionService.hasPermission(AppPermission.JOB_SUGGEST)) {
-        p = ['suggest'];
-      } else if (this.permissionService.hasPermission(AppPermission.JOB_CE)) {
-        p = ['owner'];
-      }
-      this.router.navigate(p, { relativeTo: this.route }).then(() => {});
-    }
   }
 
   private getMenu(): MenuItem[] {

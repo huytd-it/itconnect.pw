@@ -6,11 +6,13 @@ import { JobsComponent } from './jobs.component';
 import {CommonComponentsModule} from "../../../components/common-components.module";
 import {MatIconModule} from "@angular/material/icon";
 import {MatMenuModule} from "@angular/material/menu";
+import {RedirectComponent} from "./redirect.component";
 
 
 @NgModule({
   declarations: [
-    JobsComponent
+    JobsComponent,
+    RedirectComponent
   ],
   imports: [
     CommonModule,
