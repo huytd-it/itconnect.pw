@@ -1,0 +1,30 @@
+<div
+  class="tw-cursor-pointer tw-flex tw-gap-4"
+  [routerLink]="_link"
+>
+  <div class="tw-py-3 tw-pl-3">
+    <app-avatar [radius]="70" [name]="user.userInfo.fullName"></app-avatar>
+  </div>
+  <div class="tw-flex-auto tw-border-b tw-p-3 tw-pt-4 tw-pl-1">
+    <a
+      class="tw-text-lg tw-text-primaryColor line-2 tw-inline-block"
+    >
+      {{user.userInfo.fullName}}
+    </a>
+    <div class="tw-text-[11px] tw-mt-1 tw-font-thin line-1" *ngIf="user.cvWorkExperiences?.length">
+      Tại
+      <span class="tw-font-normal" [matTooltip]="user.cvWorkExperiences[0].companyTag.name">
+        {{user.cvWorkExperiences[0].companyTag.name}}
+      </span>
+    </div>
+    <div class="tw-text-[11px] tw-mt-1 tw-font-thin line-1" *ngIf="job" (click)="$event.stopPropagation()">
+      Từ
+      <span class="tw-font-medium" [matTooltip]="job.name" [routerLink]="'/u/jobs/manage/' + job.id">
+        {{job.name}}
+      </span>
+    </div>
+
+    <div class="tw-text-[10px] tw-mt-1 tw-font-thin">
+    </div>
+  </div>
+</div>

@@ -6,6 +6,7 @@ export enum AppRole {
 }
 
 
+
 export enum AppPermission {
   LOGOUT = 'logout',
 
@@ -217,6 +218,10 @@ export enum AppPermission {
    *
    */
   JOB_SUGGEST = 'job_suggest',
+
+  POINT_JOB_USER_SEARCH = 'point_job_user_search',
+
+  PEOPLE_SUGGEST = 'people_suggest',
 }
 
 export type AppPermissionHashMap = Partial<{ [key in AppPermission]: boolean }>;

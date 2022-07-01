@@ -24,6 +24,9 @@ import { AddCompanyComponent } from './add-company/add-company.component';
 import { JobSuggestMiniComponent } from './job-suggest-mini/job-suggest-mini.component';
 import { JobItemComponent } from './job-item/job-item.component';
 import {JobItemMinComponent} from "./job-item-min/job-item-min.component";
+import { PeopleItemComponent } from './people-item/people-item.component';
+import {PeopleSuggestMiniComponent} from "./people-suggest-mini/people-suggest-mini.component";
+import {PeopleItemMiniComponent} from "./people-item-mini/people-item-mini.component";
 
 @NgModule({
   declarations: [
@@ -39,7 +42,10 @@ import {JobItemMinComponent} from "./job-item-min/job-item-min.component";
     AddCompanyComponent,
     JobSuggestMiniComponent,
     JobItemComponent,
-    JobItemMinComponent
+    JobItemMinComponent,
+    PeopleItemComponent,
+    PeopleSuggestMiniComponent,
+    PeopleItemMiniComponent
   ],
   imports: [
     CommonModule,
@@ -56,17 +62,20 @@ import {JobItemMinComponent} from "./job-item-min/job-item-min.component";
     NgxSliderModule,
     FormsModule,
   ],
-  exports: [
-    HeaderComponent,
-    SearchComponent,
-    InputAddressComponent,
-    InputSkillComponent,
-    InputSkillLevelComponent,
-    InputSkillLevelRangeComponent,
-    AddCompanyComponent,
-    JobSuggestMiniComponent,
-    JobItemComponent,
-    JobItemMinComponent
-  ]
+    exports: [
+        HeaderComponent,
+        SearchComponent,
+        InputAddressComponent,
+        InputSkillComponent,
+        InputSkillLevelComponent,
+        InputSkillLevelRangeComponent,
+        AddCompanyComponent,
+        JobSuggestMiniComponent,
+        JobItemComponent,
+        JobItemMinComponent,
+        PeopleItemComponent,
+      PeopleSuggestMiniComponent,
+      PeopleItemMiniComponent
+    ]
 })
 export class MainComponentsModule { }

@@ -1,0 +1,35 @@
+<div
+  class="tw-cursor-pointer tw-flex tw-gap-4"
+  [routerLink]="_link"
+>
+  <div class="tw-py-3 tw-pl-3">
+    <app-avatar [radius]="70" [name]="user.userInfo.fullName"></app-avatar>
+  </div>
+  <div class="tw-flex-auto tw-border-b tw-p-3 tw-pt-4 tw-pl-1">
+    <a
+      class="tw-text-lg tw-text-primaryColor line-2 tw-inline-block"
+    >
+      {{user.userInfo.fullName}}
+    </a>
+    <div class="tw-text-[13px] tw-mt-1 tw-font-thin" *ngIf="!!user.userInfo.addressProvince">
+      {{user.userInfo.addressStreet}}, {{user.userInfo.addressVillage.name}}, {{user.userInfo.addressDistrict.name}}, {{user.userInfo.addressProvince.name}}
+    </div>
+    <div class="tw-text-[11px] tw-mt-1 tw-font-thin" *ngIf="user.userInfo.computeYoe">
+      <span class="tw-font-medium">{{getYoe(user.userInfo)}}</span> kinh nghiệm
+      <ng-container *ngIf="user.cvWorkExperiences?.length">
+        <i class="tw-w-[4px] tw-h-[4px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-1"></i>
+        Đang làm việc tại
+        <span class="tw-font-medium">
+          {{user.cvWorkExperiences[0].companyTag.name}}
+        </span>
+      </ng-container>
+    </div>
+    <div class="tw-text-[10px] tw-mt-1 tw-font-thin">
+      <ng-container *ngIf="applyTime">
+        Ứng tuyển {{applyTime| dateFromNow}}
+        <i class="tw-w-[4px] tw-h-[4px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-1"></i>
+      </ng-container>
+      Thành viên của ITConnect {{user.createdAt | dateFromNow}}
+    </div>
+  </div>
+</div>

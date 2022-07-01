@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ApplyRoutingModule } from './apply-routing.module';
-import { ApplyComponent } from './apply.component';
+import { SuggestRoutingModule } from './suggest-routing.module';
+import { SuggestComponent } from './suggest.component';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {NgSelectModule} from "@ng-select/ng-select";
@@ -17,21 +17,21 @@ import {MainComponentsModule} from "../../../components/components.module";
 
 @NgModule({
   declarations: [
-    ApplyComponent
+    SuggestComponent
   ],
-    imports: [
-        CommonModule,
-        ApplyRoutingModule,
-        MatFormFieldModule,
-        MatInputModule,
-        NgSelectModule,
-        MatIconModule,
-        FormsModule,
-        MatPaginatorModule,
-        UtilsModule,
-        MatButtonModule,
-        CommonComponentsModule,
-        MainComponentsModule
-    ]
+  imports: [
+    CommonModule,
+    SuggestRoutingModule,
+    MatFormFieldModule,
+    MatInputModule,
+    NgSelectModule,
+    MatIconModule,
+    FormsModule,
+    MatPaginatorModule,
+    UtilsModule,
+    MatButtonModule,
+    CommonComponentsModule,
+    MainComponentsModule
+  ]
 })
-export class ApplyModule { }
+export class SuggestModule { }

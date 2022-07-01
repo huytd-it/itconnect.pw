@@ -1,0 +1,29 @@
+<div class="tw-border tw-rounded-lg tw-shadow-sm tw-bg-white tw-mb-3">
+  <h3 class="!tw-font-medium tw-p-3 !tw-text-[18px]">Thành viên tiềm năng</h3>
+
+  <div
+    class="tw-text-center tw-text-[#ccc] tw-my-10 tw-mx-3 tw-cursor-pointer"
+    [routerLink]="'../jobs/create'"
+    *ngIf="!data?.data"
+  >
+    Hãy đăng công việc mới để tìm các ứng viên tìm năng
+  </div>
+
+  <ng-container *ngIf="data?.data">
+    <div class="tw-mb-2" *ngFor="let item of data.data">
+      <app-people-item-mini
+        [user]="item.user"
+        [job]="item.job"
+      ></app-people-item-mini>
+    </div>
+  </ng-container>
+
+  <div class="tw-my-5 tw-text-center" *ngIf="data?.data">
+    <a
+      class="tw-text-[13px] tw-text-primaryColor"
+      [routerLink]="'/u/jobs/suggest'"
+    >
+      Xem thêm
+    </a>
+  </div>
+</div>

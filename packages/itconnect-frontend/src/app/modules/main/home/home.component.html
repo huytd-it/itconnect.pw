@@ -8,6 +8,7 @@
     </div>
   </div>
   <div class="tw-w-[400px] tw-self-start tw-sticky tw-top-[65px] tw-pr-5">
-    <app-job-suggest-mini></app-job-suggest-mini>
+    <app-job-suggest-mini *ngIf="(AppPermission.JOB_SUGGEST | permission) && (AppRole.User | role)"></app-job-suggest-mini>
+    <app-people-suggest-mini *ngIf="(AppPermission.PEOPLE_SUGGEST | permission) && (AppRole.Company | role)"></app-people-suggest-mini>
   </div>
 </div>

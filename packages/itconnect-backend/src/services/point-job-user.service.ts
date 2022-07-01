@@ -86,6 +86,7 @@ export class PointJobUserService {
              *
              *
              */
+            qr.leftJoinAndSelect('pju.job', 'job');
             qr.leftJoinAndSelect('pju.user', 'user');
             qr.leftJoinAndSelect('user.userInfo', 'userInfo');
             qr.leftJoinAndSelect('userInfo.addressProvince', 'addressProvinceUI');
@@ -98,7 +99,7 @@ export class PointJobUserService {
             )
             qr.leftJoinAndSelect('cvWorkExperiences.companyTag', 'companyTagCV');
             if (search.jobId) {
-                qr.andWhere('user.jobId = :prm_job_id', {
+                qr.andWhere('pju.jobId = :prm_job_id', {
                     prm_job_id: search.jobId
                 })
             }

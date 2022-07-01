@@ -10,6 +10,10 @@ const routes: Routes = [
       {
         path: 'apply',
         loadChildren: () => import('./apply/apply.module').then(m => m.ApplyModule),
+      },
+      {
+        path: 'suggest',
+        loadChildren: () => import('./suggest/suggest.module').then(m => m.SuggestModule),
       }
     ]
   }
