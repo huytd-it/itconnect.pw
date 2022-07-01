@@ -5,9 +5,15 @@ import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
 import {Logger, ValidationPipe} from "@nestjs/common";
 import {useContainer} from "class-validator";
 import {ValidatorsModule} from "./validators/validators.module";
+import {ExpressAdapter} from "@bull-board/express";
+import * as expressBasicAuth from "express-basic-auth";
+import {createBullBoard} from "@bull-board/api";
+import {Queue} from "bull";
+import {BullAdapter} from "@bull-board/api/bullAdapter";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const configService = app.get(ConfigService);
 
   /**
    * Fix class validators
@@ -80,11 +86,38 @@ async function bootstrap() {
   SwaggerModule.setup('documentation', app, document);
 
   /**
+   * Config bull
+   *
+   */
+  const serverAdapter = new ExpressAdapter()
+  serverAdapter.setBasePath('/bull-board')
+
+  const pwjQueue = app.get<Queue>(`BullQueue_point_with_job`)
+  const pwuQueue = app.get<Queue>(`BullQueue_point_with_user`)
+  createBullBoard({
+    queues: [
+      new BullAdapter(pwjQueue),
+      new BullAdapter(pwuQueue),
+    ],
+    serverAdapter,
+  })
+
+  app.use(
+      '/bull-board',
+      expressBasicAuth({
+        users: {
+          [configService.get('BULL_USER')]: configService.get('BULL_PASSWORD'),
+        },
+        challenge: true,
+      }),
+      serverAdapter.getRouter()
+  )
+
+  /**
    * Listen
    *
    */
   const logger = new Logger('app');
-  const configService = app.get(ConfigService);
   await app.listen(configService.get<number>('APP_PORT'));
   logger.log('Server stated!');
 }

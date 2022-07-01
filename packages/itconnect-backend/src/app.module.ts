@@ -34,6 +34,7 @@ import {PeopleModule} from "./modules/people/people.module";
 import { Company3rdModule } from './modules/company-3rd/company-3rd.module';
 import { JobApplyModule } from './modules/job-apply/job-apply.module';
 import {JobSavedModule} from "./modules/job-saved/job-saved.module";
+import {BullModule} from "@nestjs/bull";
 
 @Module({
   imports: [
@@ -44,6 +45,24 @@ import {JobSavedModule} from "./modules/job-saved/job-saved.module";
           imports: [ConfigModule],
           inject: [ConfigService],
           useClass: DatabaseConfigService,
+      }),
+      BullModule.forRootAsync({
+          imports: [ConfigModule],
+          inject: [ConfigService],
+          useFactory: (configService: ConfigService) => {
+              return {
+                  redis: {
+                      host: configService.get('REDIS_HOST'),
+                      port: configService.get('REDIS_PORT'),
+                  },
+              }
+          }
+      }),
+      BullModule.registerQueue({
+          name: 'point_with_job'
+      }),
+      BullModule.registerQueue({
+          name: 'point_with_user'
       }),
       AuthModule,
       ProfileModule,
