@@ -1,5 +1,5 @@
 import {PageInput, SearchPageOutput} from "./common";
-import {UserInfo} from "./user.model";
+import {User, UserInfo} from "./user.model";
 
 export class PeopleSearchLevelRange {
   id?: number; // refactor code
@@ -23,7 +23,7 @@ export class PeopleSearchBodyOutput {
 }
 
 
-export class PeopleSearchInput extends PageInput<UserInfo> {}
+export class PeopleSearchInput extends PageInput<User> {}
 
 export class PeopleSearchOutput extends SearchPageOutput {
 }

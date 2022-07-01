@@ -67,11 +67,11 @@ export class JobApplyService {
             qr.leftJoinAndSelect('userInfo.addressDistrict', 'addressDistrictUI');
             qr.leftJoinAndSelect('userInfo.addressVillage', 'addressVillageUI');
             qr.leftJoinAndSelect(
-                'user.cvWorkExperiences',
-                'cvWorkExperiences',
-                'cvWorkExperiences.endDate is null'
+                'user.cvWorkExperienceCurrents',
+                'cvWorkExperienceCurrents',
+                'cvWorkExperienceCurrents.endDate is null'
             )
-            qr.leftJoinAndSelect('cvWorkExperiences.companyTag', 'companyTagCV');
+            qr.leftJoinAndSelect('cvWorkExperienceCurrents.companyTag', 'companyTagUV')
         } else if (this.user.role === AppRole.user) {
             qr.andWhere({
                 user: Id(this.user.id)

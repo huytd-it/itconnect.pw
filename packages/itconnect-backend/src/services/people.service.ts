@@ -19,6 +19,10 @@ import {PeopleSearchBodyInputDto, PeopleSearchQueryInputDto} from "../dtos/peopl
 import {CvWorkExperienceEntity} from "../entities/cvWorkExperience.entity";
 import {CvEducationService} from "./cv-education.service";
 import {CvEducationEntity} from "../entities/cvEducation.entity";
+import {JobSearchBodyInputDto, JobSearchQueryInputDto} from "../dtos/job.dto";
+import {DateUtils} from "typeorm/util/DateUtils";
+import * as moment from "moment";
+import {JobStatus} from "../entities/job.entity";
 
 @Injectable({ scope: Scope.REQUEST })
 export class PeopleService {
@@ -53,188 +57,102 @@ export class PeopleService {
         @Inject(REQUEST) private request: Request,
         private dataSource: DataSource
     ) {
+    }
 
+    private makeCondSearch(field: string, data: string[]) {
+        const cond = data.map((item, index) => {
+            return `(\`${field}\`.\`name\` like :prm_${field}_${index})`
+        }).join(' or ');
+        const params = data.reduce((val, item, index) => {
+            val[`prm_${field}_${index}`] = `%${item}%`;
+            return val;
+        }, {});
+        return { cond, params };
+    }
+
+    private makeCondSearchOverlap(field: string, fieldLv: string, data: { name: string, levelMin: number, levelMax: number }[]) {
+        // overlap test https://stackoverflow.com/questions/3269434/whats-the-most-efficient-way-to-test-if-two-ranges-overlap
+        const cond = data.map((item, index) => {
+            const lv = `\`${fieldLv}\`.\`level\``;
+            return `(
+                \`${field}\`.\`name\` like :prm_name_${field}_${index} and
+                ${lv} <= :prm_max_${field}_${index} and
+                :prm_min_${field}_${index} <= ${lv}
+            )`
+        }).join(' or ');
+        const params = data.reduce((val, item, index) => {
+            val[`prm_name_${field}_${index}`] = `%${item.name}%`;
+            val[`prm_min_${field}_${index}`] = item.levelMin;
+            val[`prm_max_${field}_${index}`] = item.levelMax;
+            return val;
+        }, {});
+        return { cond, params };
     }
 
     async search(query: PeopleSearchQueryInputDto, body: PeopleSearchBodyInputDto, page: PageOptionsDto) {
         const user = this.request['user'] as UserEntity;
-        const qr = this.userInfo.createQueryBuilder('userInfo');
-        qr.leftJoinAndSelect('userInfo.user', 'user')
+        const qr = this.userRepository.createQueryBuilder('user');
+        qr.innerJoinAndSelect('user.userInfo', 'userInfo')
 
         // user job level, map id
         if (body.jobLevel?.length) {
             qr.andWhere({
-                jobLevel: {
-                    id: In(body.jobLevel)
+                userInfo: {
+                    jobLevel: {
+                        id: In(body.jobLevel)
+                    }
                 }
             })
         }
 
         // school, map text
         if (body.school?.length) {
-            const keyword = body.school.map(search => ({
-                name: Like(`%${search}%`)
-            }));
-            const qrSchool = this.schoolRepository.createQueryBuilder('school');
-            qrSchool.select('school.id');
-            qrSchool.where('cvEducation.schoolId = school.id');
-            qrSchool.andWhere(keyword);
-
-            const qrCvEducation =  this.cvEducationRepository.createQueryBuilder('cvEducation');
-            qrCvEducation.select('cvEducation.id');
-            qrCvEducation.where('cvEducation.userId = user.id')
-            queryExists(qrCvEducation, qrSchool);
-
-            /**
-             * build query
-             * where exists userSchool (exists school.name like(... or .... or ...))
-             *
-             */
-            queryExists(qr, qrCvEducation);
+            const s = this.makeCondSearch('school', body.school);
+            qr.innerJoinAndSelect('user.cvEducations',  'cvEducations');
+            qr.innerJoinAndSelect('cvEducations.school', 'school', s.cond, s.params);
+        } else {
+            qr.leftJoinAndSelect('user.cvEducations',  'cvEducations');
+            qr.leftJoinAndSelect('cvEducations.school', 'school');
         }
 
         // certificate, map text
         if (body.certificate?.length) {
-            const groupQuery = body.certificate.map(g => {
-                const keyword = {
-                    name: Like(`%${g.name}%`)
-                };
-                const qrCertificate = this.certificateRepository.createQueryBuilder('certificate');
-                qrCertificate.select('certificate.id');
-                qrCertificate.where('userCertificate.certificateId = certificate.id');
-                qrCertificate.andWhere(keyword);
-
-                const qrUserCertificate =  this.userCertificateRepository.createQueryBuilder('userCertificate');
-                qrUserCertificate.select('userCertificate.id');
-                qrUserCertificate.where('userCertificate.userId = user.id')
-                if (g.levelMin) {
-                    qrUserCertificate.andWhere({
-                        levelMin: LessThanOrEqual(g.levelMin)
-                    })
-                }
-                if (g.levelMax) {
-                    qrUserCertificate.andWhere({
-                        levelMax: MoreThanOrEqual(g.levelMax)
-                    })
-                }
-
-                queryExists(qrUserCertificate, qrCertificate);
-                return qrUserCertificate;
-            })
-
-            /**
-             * build query
-             * where (
-             *  exists userCertificate (levelMin, levelMax) and (exists certificate.name like ...)
-             *  or
-             *  exists userCertificate (levelMin, levelMax) and (exists certificate.name like ...)
-             *  ...)
-             *
-             */
-            queryExistsMulti(qr, groupQuery, 'or');
+            const s = this.makeCondSearchOverlap('certificate', 'userCertificates', body.certificate);
+            qr.innerJoinAndSelect('user.userCertificates',  'userCertificates');
+            qr.innerJoinAndSelect('userCertificates.certificate', 'certificate', s.cond, s.params);
+        } else {
+            qr.leftJoinAndSelect('user.userCertificates',  'userCertificates');
+            qr.leftJoinAndSelect('userCertificates.certificate', 'certificate');
         }
 
         // skill, map text
         if (body.skill?.length) {
-            const groupQuery = body.skill.map(g => {
-                const keyword = {
-                    name: Like(`%${g.name}%`)
-                };
-                const qrSkill = this.skillRepository.createQueryBuilder('skill');
-                qrSkill.select('skill.id');
-                qrSkill.where('userSkill.skillId = skill.id');
-                qrSkill.andWhere(keyword);
-
-                const qrUserSkill =  this.userSkillRepository.createQueryBuilder('userSkill');
-                qrUserSkill.select('userSkill.id');
-                qrUserSkill.where('userSkill.userId = user.id')
-                if (g.levelMin) {
-                    qrUserSkill.andWhere({
-                        levelMin: LessThanOrEqual(g.levelMin)
-                    })
-                }
-                if (g.levelMax) {
-                    qrUserSkill.andWhere({
-                        levelMax: MoreThanOrEqual(g.levelMax)
-                    })
-                }
-
-                queryExists(qrUserSkill, qrSkill);
-                return qrUserSkill;
-            })
-
-            /**
-             * build query
-             * where (
-             *  exists userSkill (levelMin, levelMax) and (exists skill.name like ...)
-             *  or
-             *  exists userSkill (levelMin, levelMax) and (exists skill.name like ...)
-             *  ...)
-             *
-             */
-            queryExistsMulti(qr, groupQuery, 'or');
+            const s = this.makeCondSearchOverlap('skill', 'userSkills', body.skill);
+            qr.innerJoinAndSelect('user.userSkills',  'userSkills');
+            qr.innerJoinAndSelect('userSkills.skill', 'skill', s.cond, s.params);
+        } else {
+            qr.leftJoinAndSelect('user.userSkills',  'userSkills');
+            qr.leftJoinAndSelect('userSkills.skill', 'skill');
         }
 
         // position, map text
         if (body.position?.length) {
-            const groupQuery = body.position.map(g => {
-                const keyword = {
-                    name: Like(`%${g.name}%`)
-                };
-                const qrPosition = this.positionRepository.createQueryBuilder('position');
-                qrPosition.select('position.id');
-                qrPosition.where('userPosition.positionId = position.id');
-                qrPosition.andWhere(keyword);
-
-                const qrUserPosition =  this.userPositionRepository.createQueryBuilder('userPosition');
-                qrUserPosition.select('userPosition.id');
-                qrUserPosition.where('userPosition.userId = user.id')
-                if (g.levelMin) {
-                    qrUserPosition.andWhere({
-                        levelMin: LessThanOrEqual(g.levelMin)
-                    })
-                }
-                if (g.levelMax) {
-                    qrUserPosition.andWhere({
-                        levelMax: MoreThanOrEqual(g.levelMax)
-                    })
-                }
-
-                queryExists(qrUserPosition, qrPosition);
-                return qrUserPosition;
-            })
-
-            /**
-             * build query
-             * where (
-             *  exists userPosition (levelMin, levelMax) and (exists position.name like ...)
-             *  or
-             *  exists userPosition (levelMin, levelMax) and (exists position.name like ...)
-             *  ...)
-             *
-             */
-            queryExistsMulti(qr, groupQuery, 'or');
+            const s = this.makeCondSearchOverlap('position', 'userPositions', body.position);
+            qr.innerJoinAndSelect('user.userPositions',  'userPositions');
+            qr.innerJoinAndSelect('userPositions.position', 'position', s.cond, s.params);
+        } else {
+            qr.leftJoinAndSelect('user.userPositions',  'userPositions');
+            qr.leftJoinAndSelect('userPositions.position', 'position');
         }
 
         // company
         if (body.company?.length) {
-            const groupQuery = body.company.map(name => {
-                const keyword = {
-                    name: Like(`%${name}%`)
-                };
-                const qrCompanyTag = this.companyTagRepository.createQueryBuilder('companyTag');
-                qrCompanyTag.select('companyTag.id');
-                qrCompanyTag.where('cvExperience.companyTagId = companyTag.id');
-                qrCompanyTag.andWhere(keyword);
-
-                const qrCvExperience =  this.cvExperienceRepository.createQueryBuilder('cvExperience');
-                qrCvExperience.select('cvExperience.id');
-                qrCvExperience.where('cvExperience.userId = user.id')
-                queryExists(qrCvExperience, qrCompanyTag);
-                return qrCvExperience;
-            })
-
-            queryExistsMulti(qr, groupQuery, 'or');
+            const s = this.makeCondSearch('companyTag', body.company);
+            qr.innerJoinAndSelect('user.cvWorkExperiences',  'cvWorkExperiences');
+            qr.innerJoinAndSelect('cvWorkExperiences.companyTag', 'companyTag', s.cond, s.params);
+        } else {
+            qr.leftJoinAndSelect('user.cvWorkExperiences',  'cvWorkExperiences');
+            qr.leftJoinAndSelect('cvWorkExperiences.companyTag', 'companyTag');
         }
 
         // yoe
@@ -242,40 +160,48 @@ export class PeopleService {
             // not support current
             // need update
             qr.andWhere({
-                computeYoe: MoreThanOrEqual(body.yoe)
+                userInfo: {
+                    computeYoe: MoreThanOrEqual(body.yoe)
+                }
             })
         }
 
         // address
         if (body.addressDistrict) {
             qr.andWhere({
-                addressDistrict: body.addressDistrict
+                userInfo: {
+                    addressDistrict: body.addressDistrict
+                }
             })
         }
         if (body.addressProvince) {
             qr.andWhere({
-                addressProvince: body.addressProvince
+                userInfo: {
+                    addressProvince: body.addressProvince
+                }
             })
         }
         if (body.addressVillage) {
             qr.andWhere({
-                addressProvince: body.addressVillage
+                userInfo: {
+                    addressProvince: body.addressVillage
+                }
             })
         }
 
         // exclude user
         if (!body.includeSelf) {
             qr.andWhere({
-                user: {
-                    id: Not(user.id)
-                }
+                id: Not(user.id)
             })
         }
 
         // page
         if (query.search) {
             qr.andWhere({
-                fullName: Like(`%${query.search}%`)
+                userInfo: {
+                    fullName: Like(`%${query.search}%`)
+                }
             })
         }
 
@@ -289,11 +215,11 @@ export class PeopleService {
         qr.leftJoinAndSelect('userInfo.addressDistrict', 'addressDistrict');
         qr.leftJoinAndSelect('userInfo.addressVillage', 'addressVillage');
         qr.leftJoinAndSelect(
-            'user.cvWorkExperiences',
-            'cvWorkExperiences',
-            'cvWorkExperiences.endDate is null'
+            'user.cvWorkExperienceCurrents',
+            'cvWorkExperienceCurrents',
+            'cvWorkExperienceCurrents.endDate is null'
         )
-        qr.leftJoinAndSelect('cvWorkExperiences.companyTag', 'companyTagCV');
+        qr.leftJoinAndSelect('cvWorkExperienceCurrents.companyTag', 'companyTagUV')
 
         qr.skip(page.skip);
         qr.take(page.take);
@@ -302,4 +228,5 @@ export class PeopleService {
         const meta = new PageMetaDto({ itemCount: total, pageOptionDto: page });
         return new PageDto(result, meta)
     }
+
 }

@@ -40,31 +40,10 @@
     >
       <ng-container *ngIf="data">
         <ng-container *ngFor="let item of data.data || []">
-          <div
-            class="tw-cursor-pointer tw-flex tw-gap-4"
-            [routerLink]="item.id.toString()"
+          <app-people-item
+            [user]="item"
           >
-            <div class="tw-py-3 tw-pl-3">
-              <app-avatar [radius]="70" [name]="item.fullName"></app-avatar>
-            </div>
-            <div class="tw-flex-auto tw-border-b tw-p-3 tw-pt-4 tw-pl-1">
-              <a
-                [routerLink]="item.id.toString()"
-                class="tw-text-lg tw-text-primaryColor line-2 tw-inline-block"
-              >
-                {{item.fullName}}
-              </a>
-              <div class="tw-text-[13px] tw-mt-1 tw-font-thin" *ngIf="!!item.addressProvince">
-                {{item.addressStreet}}, {{item.addressVillage.name}}, {{item.addressDistrict.name}}, {{item.addressProvince.name}}
-              </div>
-              <div class="tw-text-[11px] tw-mt-1 tw-font-thin" *ngIf="item.computeYoe">
-                <span class="tw-font-medium">{{getYoe(item)}}</span> kinh nghiệm làm việc
-              </div>
-              <div class="tw-text-[10px] tw-mt-1 tw-font-thin">
-                Thành viên của ITConnect {{item.createdAt | dateFromNow}}
-              </div>
-            </div>
-          </div>
+          </app-people-item>
         </ng-container>
         <div class="tw-flex tw-justify-center tw-p-4">
           <mat-paginator

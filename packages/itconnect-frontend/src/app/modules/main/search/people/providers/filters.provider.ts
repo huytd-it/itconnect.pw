@@ -28,10 +28,7 @@ import {PeopleSearchBodyOutput, PeopleSearchOutput} from "../../../../../models/
 
 @Injectable()
 export class FiltersProvider {
-  query: PeopleSearchOutput = {
-    order: 'DESC',
-    order_field: 'user.createdAt'
-  };
+  query: PeopleSearchOutput = {};
   position: JobSearchLevelRange[] = [];
   skill: JobSearchLevelRange[] = [];
   certificate: JobSearchLevelRange[] = [];
@@ -50,6 +47,57 @@ export class FiltersProvider {
     name: `${index + 1}+`
   }))
 
+  orderFields = [
+    {
+      name: 'Ngày gia nhập',
+      value: 'user.createdAt'
+    },
+    {
+      name: 'Công ty',
+      value: 'companyTag.name'
+    },
+    {
+      name: 'Vị trí',
+      value: 'position.name'
+    },
+    {
+      name: 'Kỹ năng',
+      value: 'skill.name'
+    },
+    {
+      name: 'Văn bằng',
+      value: 'certificate.name'
+    },
+    {
+      name: 'Trường học',
+      value: 'school.name'
+    },
+    {
+      name: 'Địa chỉ (Thành phố/Tỉnh)',
+      value: 'addressProvince.name'
+    },
+    {
+      name: 'Địa chỉ (Quận/Huyện)',
+      value: 'addressDistrict.name'
+    },
+    {
+      name: 'Địa chỉ (Phường/Xã)',
+      value: 'addressVillage.name'
+    },
+  ]
+  orders = [
+    {
+      name: 'Tăng dần',
+      value: 'ASC'
+    },
+    {
+      name: 'Giảm dần',
+      value: 'DESC'
+    },
+  ]
+  orderFieldSelected: { value: string } = this.orderFields[0];
+  orderSelected: { value: string } = this.orders[1];
+
   constructor(
     private companyTagService: CompanyTagService,
     private positionService: PositionService,
@@ -63,6 +111,14 @@ export class FiltersProvider {
   ) { }
 
   ngOnInit(): void {
+  }
+
+  getQuery(): PeopleSearchOutput {
+    return {
+      ...this.query,
+      order: this.orderSelected.value as any,
+      order_field: this.orderFieldSelected.value
+    }
   }
 
   getBody(): Partial<PeopleSearchBodyOutput> {

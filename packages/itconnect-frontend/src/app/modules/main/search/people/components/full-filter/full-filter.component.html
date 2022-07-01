@@ -142,7 +142,27 @@
 
   <div class="tw-h-[100px]"></div>
 
-  <div class="tw-absolute tw-bottom-0 tw-left-0 tw-border-t tw-z-20 tw-bg-white tw-p-3 tw-flex tw-justify-end tw-items-center tw-w-full">
+  <div class="custom-filter tw-absolute tw-bottom-0 tw-left-0 tw-border-t tw-z-20 tw-bg-white tw-p-3 tw-flex tw-justify-between tw-items-center tw-w-full">
+    <div class="tw-gap-3 tw-flex">
+      <ng-select
+        class="tw-w-full sm:tw-w-[150px] tw-self-start"
+        appearance="outline"
+        [bindLabel]="'name'"
+        [placeholder]="'Sắp xếp theo'"
+        [items]="filters.orderFields"
+        [clearable]="false"
+        [(ngModel)]="filters.orderFieldSelected"
+      ></ng-select>
+      <ng-select
+        class="tw-w-full sm:tw-w-[100px]"
+        appearance="outline"
+        [bindLabel]="'name'"
+        [placeholder]="'Thứ tự'"
+        [items]="filters.orders"
+        [clearable]="false"
+        [(ngModel)]="filters.orderSelected"
+      ></ng-select>
+    </div>
     <button mat-raised-button class="!tw-mr-4" color="primary" (click)="onSearch.emit()">
       <mat-icon>filter_alt</mat-icon>
       Lọc

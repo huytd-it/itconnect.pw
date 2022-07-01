@@ -12,6 +12,7 @@ import {PeopleService} from "../../services/people.service";
 import {ApiPaginatedResponse} from "../../utils/decorators/api-paginated-response.decorator";
 import {PageOptionsDto} from "../../dtos/page.dto";
 import {UserInfoDto} from "../../dtos/user-info.dto";
+import {UserDto} from "../../dtos/user.dto";
 
 @ApiTags('people')
 @ApiBearerAuth()
@@ -26,7 +27,7 @@ export class PeopleController {
 
     @UseGuards(PermissionsGuard)
     @RequirePermissions(AppPermission.PEOPLE_SEARCH)
-    @ApiPaginatedResponse(UserInfoDto)
+    @ApiPaginatedResponse(UserDto)
     @Post('search')
     search(
         @Query() searchQuery: PeopleSearchQueryInputDto,

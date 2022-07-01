@@ -68,6 +68,9 @@ export class UserEntity {
     @OneToMany(type => CvWorkExperienceEntity, db => db.user)
     cvWorkExperiences: CvWorkExperienceEntity[];
 
+    @OneToMany(type => CvWorkExperienceEntity, db => db.user)
+    cvWorkExperienceCurrents: CvWorkExperienceEntity[];
+
     @OneToMany(type => CvHonorsAwardsEntity, db => db.user)
     cvHonorsAwards: CvHonorsAwardsEntity[];
 

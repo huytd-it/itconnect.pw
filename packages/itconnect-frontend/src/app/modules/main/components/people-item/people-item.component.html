@@ -16,11 +16,11 @@
     </div>
     <div class="tw-text-[11px] tw-mt-1 tw-font-thin" *ngIf="user.userInfo.computeYoe">
       <span class="tw-font-medium">{{getYoe(user.userInfo)}}</span> kinh nghiệm
-      <ng-container *ngIf="user.cvWorkExperiences?.length">
+      <ng-container *ngIf="user.cvWorkExperienceCurrents?.length">
         <i class="tw-w-[4px] tw-h-[4px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-1"></i>
         Đang làm việc tại
         <span class="tw-font-medium">
-          {{user.cvWorkExperiences[0].companyTag.name}}
+          {{user.cvWorkExperienceCurrents[0].companyTag.name}}
         </span>
       </ng-container>
     </div>

@@ -29,7 +29,8 @@ export class User extends BaseTable {
   role: AppRole;
   userInfo: UserInfo;
   companyInfo: CompanyInfo;
-  cvWorkExperiences: CvWorkExperience[]
+  cvWorkExperiences: CvWorkExperience[];
+  cvWorkExperienceCurrents: CvWorkExperience[];
 }
 
 
