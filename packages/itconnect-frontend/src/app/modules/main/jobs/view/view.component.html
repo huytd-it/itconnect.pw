@@ -101,7 +101,12 @@
   <div class="tw-mt-10">
     <div class="tw-font-thin">Đăng bởi</div>
     <div *ngIf="data.user.userInfo" class="tw-mt-5 tw-flex tw-gap-3 tw-cursor-pointer" [routerLink]="'/'">
-      <app-avatar [radius]="70" [name]="data.user.userInfo.fullName"></app-avatar>
+      <app-avatar
+        [name]="data.user.userInfo.fullName"
+        [cornerFull]="false"
+        [radius]="70"
+        [src]="data.user.userInfo?.avatar?.slug | urlBySlug"
+      ></app-avatar>
       <div class="tw-p-2">
         <div class="tw-font-medium">{{data.user.userInfo.fullName}}</div>
         <div class="tw-font-thin line-2 tw-mt-2">
@@ -110,7 +115,11 @@
       </div>
     </div>
     <div *ngIf="data.user.companyInfo" class="tw-mt-5 tw-flex tw-gap-3 tw-cursor-pointer" [routerLink]="'/'">
-      <app-avatar [radius]="70" [name]="data.user.companyInfo.companyName"></app-avatar>
+      <app-avatar
+        [cornerFull]="false"
+        [radius]="70"
+        [src]="(data.user.companyInfo?.avatar?.slug | urlBySlug) || '/assets/images/company-default.png'"
+      ></app-avatar>
       <div class="tw-p-2">
         <div class="tw-font-medium">{{data.user.companyInfo.companyName}}</div>
         <div class="tw-font-thin line-2 tw-mt-2">

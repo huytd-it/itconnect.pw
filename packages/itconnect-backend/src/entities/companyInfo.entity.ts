@@ -11,12 +11,24 @@ import {
 import {UserEntity} from "./user.entity";
 import {AddressEntity} from "./address.entity";
 import {CompanyTagEntity} from "./companyTag.entity";
+import {FileEntity} from "./file.entity";
 
 
 @Entity()
 export class CompanyInfoEntity {
     @PrimaryGeneratedColumn()
     id: number;
+
+    @Column({ type: 'text', nullable: true })
+    introduce: string;
+
+    @OneToOne(type => FileEntity)
+    @JoinColumn()
+    avatar: FileEntity;
+
+    @OneToOne(type => FileEntity)
+    @JoinColumn()
+    banner: FileEntity;
 
     @OneToOne(type => UserEntity, user => user.companyInfo)
     @JoinColumn()

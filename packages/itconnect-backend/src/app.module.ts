@@ -39,6 +39,7 @@ import {QueuePointWithJob, QueuePointWithUser} from "./queues/queue.enum";
 import { QueuesModule } from './queues/queues.module';
 import {PointJobUserModule} from "./modules/point-job-user/point-job-user.module";
 import {ServicesModule} from "./services/services.module";
+import { FileModule } from './modules/file/file.module';
 
 @Module({
   imports: [
@@ -79,7 +80,8 @@ import {ServicesModule} from "./services/services.module";
       JobApplyModule,
       JobSavedModule,
       QueuesModule,
-      PointJobUserModule
+      PointJobUserModule,
+      FileModule
   ],
   controllers: [AppController],
   providers: [

@@ -1,6 +1,6 @@
 <div class="tw-relative tw-inline-block">
   <button class="tw-flex tw-items-center" (click)="isOpenDropdown = !isOpenDropdown">
-    <app-avatar [name]="name"></app-avatar>
+    <app-avatar [name]="name" [src]="slugAvatar | urlBySlug"></app-avatar>
     <fa-icon [icon]="faCaretDown" class="tw-mx-2"></fa-icon>
   </button>
 
@@ -18,7 +18,11 @@
         routerLink="me"
         [disabled]="!(permission.all.PROFILE | permission)"
       >
-        <app-avatar [name]="name" [radius]="45"></app-avatar>
+        <app-avatar
+          [name]="name"
+          [radius]="45"
+          [src]="slugAvatar | urlBySlug"
+        ></app-avatar>
         <span class="tw-p-3 tw-text-left">{{name}}</span>
       </button>
       <div class="tw-border-t tw-p-3">

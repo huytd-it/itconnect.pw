@@ -7,6 +7,7 @@ import {NumberDecimalOnlyDirective} from "./directives/number-decimal-only.direc
 import {DateFromNowPipe} from "./pipes/dateFromNow.pipe";
 import {RemoveHtmlPipe} from "./pipes/removeHtml.pipe";
 import {RolePipe} from "./pipes/role.pipe";
+import {UrlBySlugPipe} from "./pipes/urlBySlug.pipe";
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import {RolePipe} from "./pipes/role.pipe";
     NumberDecimalOnlyDirective,
     DateFromNowPipe,
     RemoveHtmlPipe,
-    RolePipe
+    RolePipe,
+    UrlBySlugPipe
   ],
   imports: [
     CommonModule
@@ -29,7 +31,8 @@ import {RolePipe} from "./pipes/role.pipe";
     NumberDecimalOnlyDirective,
     DateFromNowPipe,
     RemoveHtmlPipe,
-    RolePipe
+    RolePipe,
+    UrlBySlugPipe
   ]
 })
 export class UtilsModule { }

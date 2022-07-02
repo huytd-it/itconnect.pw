@@ -3,7 +3,7 @@ import {
     CreateDateColumn,
     DeleteDateColumn,
     Entity,
-    Index, JoinColumn, OneToMany, OneToOne,
+    Index, JoinColumn, ManyToOne, OneToMany, OneToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from "typeorm";
@@ -23,6 +23,7 @@ import {JobApplyEntity} from "./jobApply.entity";
 import {JobSavedEntity} from "./jobSaved.entity";
 import {PositionEntity} from "./position.entity";
 import {UserPositionEntity} from "./userPosition.entity";
+import {FileEntity} from "./file.entity";
 
 
 @Entity()
@@ -43,6 +44,9 @@ export class UserEntity {
 
     @Column({ nullable: true })
     computePointQueueId: string;
+
+    @OneToMany(type => FileEntity, db => db.user)
+    files: FileEntity[];
 
     @OneToOne(type => UserInfoEntity, db => db.user)
     userInfo: UserInfoEntity;

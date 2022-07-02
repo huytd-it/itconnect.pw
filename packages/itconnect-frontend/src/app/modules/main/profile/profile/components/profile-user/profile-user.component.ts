@@ -26,6 +26,14 @@ export class ProfileUserComponent implements OnInit {
 
   readonly permission = AppPermission;
 
+  get avatar() {
+    return this.authService.data?.user.userInfo.avatar?.slug;
+  }
+
+  get banner() {
+    return this.authService.data?.user.userInfo.banner?.slug;
+  }
+
   get userName() {
     return this.authService.data?.user.userInfo.fullName;
   }

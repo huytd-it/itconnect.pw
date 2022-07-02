@@ -87,6 +87,8 @@ export class JobService {
         qr.leftJoinAndSelect('job.user', 'user');
         qr.leftJoinAndSelect('user.userInfo', 'userInfo');
         qr.leftJoinAndSelect('user.companyInfo', 'companyInfoU');
+        qr.leftJoinAndSelect('companyInfoU.banner', 'banner');
+        qr.leftJoinAndSelect('companyInfoU.avatar', 'avatar');
         qr.loadRelationCountAndMap('job.jobApplyCount', 'job.jobApply', 'jobApplyCount');
         qr.loadRelationCountAndMap(
             'job.jobApplySelf',
@@ -509,6 +511,9 @@ export class JobService {
 
         const total = await qr.getCount();
 
+        qr.leftJoinAndSelect('companyTag.companyInfo', 'companyInfo');
+        qr.leftJoinAndSelect('companyInfo.avatar', 'avatar');
+        qr.leftJoinAndSelect('companyInfo.banner', 'banner');
         qr.leftJoinAndSelect('job.addressProvince', 'addressProvince');
         qr.leftJoinAndSelect('job.addressDistrict', 'addressDistrict');
         qr.leftJoinAndSelect('job.addressVillage', 'addressVillage');

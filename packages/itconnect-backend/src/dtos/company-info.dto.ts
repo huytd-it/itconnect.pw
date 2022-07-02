@@ -2,10 +2,17 @@ import {EntityDto} from "./abstract.dto";
 import {ApiProperty} from "@nestjs/swagger";
 import {AddressDto} from "./address.dto";
 import {CompanyTagDto} from "./company-tag.dto";
+import {FileDto} from "./file.dto";
 
 export class CompanyInfoDto extends EntityDto {
     @ApiProperty()
     id: number;
+
+    @ApiProperty()
+    avatar: FileDto;
+
+    @ApiProperty()
+    banner: FileDto;
 
     @ApiProperty()
     userId: number;

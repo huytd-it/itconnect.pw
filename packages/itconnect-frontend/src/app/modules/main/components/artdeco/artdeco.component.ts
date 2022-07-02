@@ -14,6 +14,18 @@ export class ArtdecoComponent implements OnInit {
   faCaretDown = faCaretDown;
   isOpenDropdown: boolean;
 
+  get slugAvatar() {
+    if (this.authService.isRole(AppRole.Company)) {
+      return this.authService.data?.user?.companyInfo?.avatar?.slug;
+    }
+
+    if (this.authService.isRole(AppRole.User)) {
+      return this.authService.data?.user?.userInfo?.avatar?.slug;
+    }
+
+    return undefined;
+  };
+
   get name() {
     if (this.authService.isRole(AppRole.Begin)) {
       return this.authService.data?.user.email || 'N/A';

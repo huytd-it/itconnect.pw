@@ -18,7 +18,7 @@ import {CvWorkExperiencePositionEntity} from "./cvWorkExperiencePosition.entity"
 import {CompanyTagEntity} from "./companyTag.entity";
 import {JobTypeEntity} from "./jobType.entity";
 
-export const MAX_WORK_EXPERIENCE_LENGTH = 65000;
+export const MAX_WORK_EXPERIENCE_LENGTH = 20000;
 
 @Entity()
 export class CvWorkExperienceEntity {

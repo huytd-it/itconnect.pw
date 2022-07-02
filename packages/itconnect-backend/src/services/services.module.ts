@@ -71,6 +71,8 @@ import {BullModule} from "@nestjs/bull";
 import {QueuesModule} from "../queues/queues.module";
 import {QueuePointWithJob, QueuePointWithUser} from "../queues/queue.enum";
 import {PointJobUserQueue} from "../queues/point-job-user.queue";
+import {FileService} from "./file.service";
+import {FileEntity} from "../entities/file.entity";
 
 @Module({
   imports: [
@@ -112,7 +114,8 @@ import {PointJobUserQueue} from "../queues/point-job-user.queue";
         JobApplyEntity,
         JobSavedEntity,
         PointConfigEntity,
-        PointJobUserEntity
+        PointJobUserEntity,
+        FileEntity
     ]),
       HttpModule.registerAsync({
           imports: [ConfigModule],
@@ -150,7 +153,8 @@ import {PointJobUserQueue} from "../queues/point-job-user.queue";
       JobApplyService,
       JobSavedService,
       PointJobUserService,
-      PointConfigService
+      PointConfigService,
+      FileService
   ],
   exports: [
       UserService,
@@ -178,7 +182,8 @@ import {PointJobUserQueue} from "../queues/point-job-user.queue";
       JobApplyService,
       JobSavedService,
       PointJobUserService,
-      PointConfigService
+      PointConfigService,
+      FileService
   ]
 })
 export class ServicesModule {

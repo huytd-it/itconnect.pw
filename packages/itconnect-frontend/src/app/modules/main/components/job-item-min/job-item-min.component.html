@@ -3,9 +3,11 @@
   [routerLink]="link"
   [routerLinkActive]="'tw-bg-[#E2F0FE]'"
 >
-  <div class="tw-w-[90px] tw-min-w-[90px]">
-    <img src="/assets/images/company-default.png">
-  </div>
+  <app-avatar
+    [cornerFull]="false"
+    [radius]="80"
+    [src]="(job.companyTag?.companyInfo?.avatar?.slug | urlBySlug) || '/assets/images/company-default.png'"
+  ></app-avatar>
   <div class="tw-pt-1 tw-flex-auto">
     <a
       class="tw-text-lg tw-text-primaryColor line-1"

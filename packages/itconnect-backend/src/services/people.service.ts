@@ -214,6 +214,8 @@ export class PeopleService {
         qr.leftJoinAndSelect('userInfo.addressProvince', 'addressProvince');
         qr.leftJoinAndSelect('userInfo.addressDistrict', 'addressDistrict');
         qr.leftJoinAndSelect('userInfo.addressVillage', 'addressVillage');
+        qr.leftJoinAndSelect('userInfo.avatar', 'avatar');
+        qr.leftJoinAndSelect('userInfo.banner', 'banner');
         qr.leftJoinAndSelect(
             'user.cvWorkExperienceCurrents',
             'cvWorkExperienceCurrents',

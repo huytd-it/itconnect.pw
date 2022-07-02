@@ -8,8 +8,9 @@ import {generateColorByName} from "../../helpers/color";
 })
 export class AvatarComponent implements OnInit, OnChanges {
   @Input() name: string;
-  @Input() src: string;
+  @Input() src: string | undefined;
   @Input() radius: number = 30;
+  @Input() cornerFull: boolean = true;
 
   hasShowImg: boolean;
   prefixName: string;

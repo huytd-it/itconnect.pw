@@ -35,6 +35,9 @@ export class PointJobUserService {
     async search(search: PointJobUserSearchInputDto, page: PageOptionsDto) {
         const qr = this.pointJobUserRepository.createQueryBuilder('pju');
         qr.leftJoinAndSelect('pju.job', 'job');
+        qr.leftJoinAndSelect('job.companyTag', 'companyTag');
+        qr.leftJoinAndSelect('companyTag.companyInfo', 'companyInfo');
+        qr.leftJoinAndSelect('companyInfo.avatar', 'avatar');
         qr.andWhere({
             job: {
                 status: In([JobStatus.Publish, JobStatus.WaitSystem]),
@@ -48,7 +51,6 @@ export class PointJobUserService {
              * User
              *
              */
-            qr.leftJoinAndSelect('job.companyTag', 'companyTag');
             qr.leftJoinAndSelect('job.addressProvince', 'addressProvince');
             qr.leftJoinAndSelect('job.addressDistrict', 'addressDistrict');
             qr.leftJoinAndSelect('job.addressVillage', 'addressVillage');
@@ -69,17 +71,19 @@ export class PointJobUserService {
                     user: Id(this.user.id)
                 })
             )
-            qr.select([
-                'pju',
-                'job',
-                'companyTag.id',
-                'companyTag.name',
-                'addressProvince.id',
-                'addressProvince.name',
-                'addressDistrict.id',
-                'addressDistrict.name',
-                'addressVillage',
-            ])
+            // qr.select([
+            //     'pju',
+            //     'job',
+            //     'companyTag.id',
+            //     'companyTag.name',
+            //     'companyInfo.id',
+            //     'companyInfo.avatar',
+            //     'addressProvince.id',
+            //     'addressProvince.name',
+            //     'addressDistrict.id',
+            //     'addressDistrict.name',
+            //     'addressVillage',
+            // ])
             if (search.search) {
                 qr.andWhere(`job.name like :prm_search`, {
                     prm_search: search.search

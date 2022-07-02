@@ -1,9 +1,13 @@
 import {BaseTable} from "./common";
 import {Address} from "./address.model";
+import {File} from "./file.model";
 
 export class CompanyInfo extends BaseTable {
   id: number;
   companyName: string;
+  banner: File;
+  avatar: File;
+  introduce: string;
   addressProvince: Address;
   addressDistrict: Address;
   addressVillage: Address;

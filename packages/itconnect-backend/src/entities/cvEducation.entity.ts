@@ -12,7 +12,7 @@ import {SchoolEntity} from "./school.entity";
 import {UserEntity} from "./user.entity";
 import {UserSchoolEntity} from "./userSchool.entity";
 
-export const MAX_EDUCATION_CONTENT_LENGTH = 65000;
+export const MAX_EDUCATION_CONTENT_LENGTH = 20000;
 
 @Entity()
 export class CvEducationEntity {

@@ -11,14 +11,23 @@ import {
 import {UserEntity} from "./user.entity";
 import {AddressEntity} from "./address.entity";
 import {JobLevelEntity} from "./jobLevel.entity";
+import {FileEntity} from "./file.entity";
 
-export const MAX_USER_INFO_INTEREST_LENGTH = 65000;
-export const MAX_USER_INFO_OBJECTIVE_LENGTH = 65000;
+export const MAX_USER_INFO_INTEREST_LENGTH = 20000;
+export const MAX_USER_INFO_OBJECTIVE_LENGTH = 20000;
 
 @Entity()
 export class UserInfoEntity {
     @PrimaryGeneratedColumn()
     id: number;
+
+    @OneToOne(type => FileEntity)
+    @JoinColumn()
+    avatar: FileEntity;
+
+    @OneToOne(type => FileEntity)
+    @JoinColumn()
+    banner: FileEntity;
 
     @OneToOne(type => UserEntity, user => user.userInfo)
     @JoinColumn()

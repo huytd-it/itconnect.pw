@@ -4,10 +4,13 @@ import {JobLevel} from "./job-level.model";
 import {Address} from "./address.model";
 import {CompanyInfo} from "./company-info.model";
 import {CvWorkExperience} from "./cv-work-experience.model";
+import {File} from "./file.model";
 
 export class UserInfo extends BaseTable {
   id: number;
   userId: number;
+  banner: File;
+  avatar: File;
   addressProvince: Address;
   addressDistrict: Address;
   addressVillage: Address;

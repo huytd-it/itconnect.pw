@@ -363,16 +363,17 @@ export class JobCreateOrEditDto {
 
     @ApiProperty()
     @IsNotEmpty()
-    @MaxLength(65000)
+    @MaxLength(20000)
     descriptionContent: string;
 
     @ApiProperty()
     @IsNotEmpty()
-    @MaxLength(65000)
+    @MaxLength(20000)
     requirementContent: string;
 
     @ApiPropertyOptional()
     @IsOptional()
+    @MaxLength(20000)
     reasonContent: string;
 }
 

@@ -1,33 +1,32 @@
 import {
     Column,
     CreateDateColumn, DeleteDateColumn,
-    Entity,
+    Entity, Index,
     ManyToOne,
     OneToMany,
     PrimaryGeneratedColumn,
-    UpdateDateColumn,
-    Unique
+    UpdateDateColumn
 } from "typeorm";
 import {UserEntity} from "./user.entity";
-import {UserCertificateEntity} from "./userCertificate.entity";
-import {CertificateEntity} from "./certificate.entity";
 
-export const MAX_CERTIFICATE_CONTENT_LENGTH = 20000;
 
 @Entity()
-@Unique(['user', 'certificate'])
-export class CvCertificateEntity {
+export class FileEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
+    @Column({ select: false })
+    path: string;
+
     @Column()
-    year: number;
+    mime: string;
 
-    @Column({ type: 'text', nullable: true })
-    content: string;
+    @Column()
+    size: number;
 
-    @ManyToOne(type => CertificateEntity)
-    certificate: CertificateEntity;
+    @Column()
+    @Index()
+    slug: string;
 
     @ManyToOne(type => UserEntity)
     user: UserEntity;

@@ -226,6 +226,14 @@ export enum AppPermission {
     POINT_JOB_USER_SEARCH = 'point_job_user_search',
 
     PEOPLE_SUGGEST = 'people_suggest',
+
+    /**
+     * File
+     *
+     *
+     */
+    FILE_UPLOAD = 'file_upload',
+    FILE_DELETE = 'file_delete'
 }
 
 
@@ -321,6 +329,8 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.JOB_SAVED_DELETE,
         AppPermission.JOB_SUGGEST,
         AppPermission.POINT_JOB_USER_SEARCH,
+        AppPermission.FILE_UPLOAD,
+        AppPermission.FILE_DELETE,
     ],
 
     /***
@@ -359,7 +369,9 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.JOB_TYPE_SEARCH,
         AppPermission.JOB_APPLY_SEARCH,
         AppPermission.POINT_JOB_USER_SEARCH,
-        AppPermission.PEOPLE_SUGGEST
+        AppPermission.PEOPLE_SUGGEST,
+        AppPermission.FILE_UPLOAD,
+        AppPermission.FILE_DELETE,
     ],
 
     /**

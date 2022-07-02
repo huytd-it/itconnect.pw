@@ -1,6 +1,6 @@
 import {ApiProperty, ApiPropertyOptional} from "@nestjs/swagger";
 import {
-    IsDate, IsEmail, IsEmpty, IsEnum,
+    IsDate, IsEmail, IsEmpty, IsEnum, IsIn,
     IsInt, IsNotEmpty,
     IsOptional, IsString,
     Matches,
@@ -18,6 +18,8 @@ const MIN_LENGTH_FULL_NAME = 3;
 
 export class CreateOrEditUserProfileInputDto {
     @ApiPropertyOptional()
+    @IsOptional()
+    @IsInt()
     id: number;
 
     @ApiProperty()
@@ -73,7 +75,14 @@ export class CreateOrUserProfileOutputDto {
 
 export class CreateOrEditCompanyProfileInputDto {
     @ApiPropertyOptional()
+    @IsOptional()
+    @IsInt()
     id: number;
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    @MaxLength(20000)
+    introduce: string;
 
     @ApiProperty()
     companyMst: string;

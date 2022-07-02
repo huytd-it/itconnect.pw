@@ -3,11 +3,24 @@
   [style.width.px]="radius"
   [style.height.px]="radius"
   [style.background-color]="color && color.outputHSL"
+  [ngClass]="{
+    'tw-rounded-full': cornerFull,
+    'tw-rounded': !cornerFull
+  }"
 >
   <span *ngIf="!hasShowImg" [style.color]="color && color.contrastRGB" [style.font-size.px]="radius/3">
     {{prefixName}}
   </span>
   <ng-container *ngIf="hasShowImg">
-    <img [src]="src" (error)="onImageError()" class="tw-w-full tw-h-full tw-rounded-full tw-object-cover" [alt]="name" />
+    <img
+      [src]="src"
+      (error)="onImageError()"
+      class="tw-w-full tw-h-full tw-rounded-full tw-object-cover"
+      [alt]="name"
+      [ngClass]="{
+        'tw-rounded-full': cornerFull,
+        'tw-rounded': !cornerFull
+      }"
+    />
   </ng-container>
 </div>

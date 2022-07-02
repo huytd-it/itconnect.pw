@@ -38,10 +38,13 @@ export class JobApplyService {
     async search(search: JobApplySearchInputDto, page: PageOptionsDto) {
         const qr = this.jobApplyRepository.createQueryBuilder('jobApply');
         qr.leftJoinAndSelect('jobApply.job', 'job');
-        qr.leftJoinAndSelect('job.companyTag', 'companyTag');
         qr.leftJoinAndSelect('job.addressProvince', 'addressProvince');
         qr.leftJoinAndSelect('job.addressDistrict', 'addressDistrict');
         qr.leftJoinAndSelect('job.addressVillage', 'addressVillage');
+        qr.leftJoinAndSelect('job.companyTag', 'companyTag');
+        qr.leftJoinAndSelect('companyTag.companyInfo', 'companyInfo');
+        qr.leftJoinAndSelect('companyInfo.avatar', 'avatar');
+        qr.leftJoinAndSelect('companyInfo.banner', 'banner');
         qr.loadRelationCountAndMap('job.jobApplyCount', 'job.jobApply', 'jobApplyCount')
         qr.loadRelationCountAndMap(
             'job.jobApplySelf',
