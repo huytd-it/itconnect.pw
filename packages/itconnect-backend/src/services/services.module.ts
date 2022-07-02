@@ -181,4 +181,9 @@ import {PointJobUserQueue} from "../queues/point-job-user.queue";
       PointConfigService
   ]
 })
-export class ServicesModule {}
+export class ServicesModule {
+
+    constructor(
+    ) {
+    }
+}

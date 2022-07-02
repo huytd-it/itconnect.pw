@@ -38,6 +38,7 @@ import {BullModule} from "@nestjs/bull";
 import {QueuePointWithJob, QueuePointWithUser} from "./queues/queue.enum";
 import { QueuesModule } from './queues/queues.module';
 import {PointJobUserModule} from "./modules/point-job-user/point-job-user.module";
+import {ServicesModule} from "./services/services.module";
 
 @Module({
   imports: [

@@ -258,7 +258,7 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.PROFILE_COMPUTE_YOE,
         AppPermission.PROFILE_READ,
         AppPermission.POST_FEED,
-        AppPermission.FRIEND,
+        // AppPermission.FRIEND,
         AppPermission.NOTIFICATION,
         AppPermission.PROFILE,
         AppPermission.MESSAGE,

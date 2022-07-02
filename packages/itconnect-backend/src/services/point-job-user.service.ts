@@ -12,6 +12,7 @@ import {PointJobUserSearchInputDto} from "../dtos/point-job-user.dto";
 import {PageDto, PageMetaDto, PageOptionsDto} from "../dtos/page.dto";
 import {InjectRepository} from "@nestjs/typeorm";
 import {REQUEST} from "@nestjs/core";
+import * as util from "util";
 
 @Injectable({ scope: Scope.REQUEST })
 export class PointJobUserService {
@@ -183,6 +184,8 @@ export class PointJobUserService {
             let currentIndex = 0;
             let userTake = POINT_MAX_USER_PER_TICK;
             totalUser = await this.countUserCanMapping(queryRunner, job);
+            // console.log(util.inspect(job, false, null, true /* enable colors */))
+            // console.log(totalUser);
 
             // compute per page
             while (currentIndex < totalUser) {
@@ -305,16 +308,17 @@ export class PointJobUserService {
                 }, {})
                 qr.leftJoinAndSelect(`user.${fieldUser}`, fieldUser, `(${cond.join(' or ')})`, params);
             } else {
-                qr.leftJoinAndSelect(`user.${fieldUser}`, fieldUser);
+                qr.leftJoinAndSelect(`user.${fieldUser}`, fieldUser, '(1=2)');
             }
 
+            // no need to check for approval because job___ row is approve
             // join to tag check is approve
-            qr.leftJoinAndSelect(
-                `${fieldUser}.${fieldTag}`,
-                fieldTag,
-                this.condApprove(fieldTag),
-                this.paramApprove(fieldTag)
-            );
+            // qr.leftJoinAndSelect(
+            //     `${fieldUser}.${fieldTag}`,
+            //     fieldTag,
+            //     this.condApprove(fieldTag),
+            //     this.paramApprove(fieldTag)
+            // );
         }
 
         makeCondLevelRange('userSkills', 'skill', job.jobSkills as any);
@@ -322,39 +326,47 @@ export class PointJobUserService {
         makeCondLevelRange('userCertificates', 'certificate', job.jobCertificates as any);
 
         // on 'cvEducations'
-        qr.leftJoinAndSelect('user.cvEducations', 'cvEducations');
-        qr.leftJoinAndSelect('cvEducations.school', 'school', this.condApprove('school'), this.paramApprove('school'));
+        if (job.jobSchools?.length) {
+            qr.leftJoinAndSelect(
+                'user.cvEducations',
+                'cvEducations',
+                'cvEducations.schoolId in (:prm_schools)',
+                {
+                    prm_schools: this.uniqueAndNotNull(job.jobSchools.map(item => item.school as any))
+                }
+            );
+            qr.loadRelationIdAndMap('cvEducations.school', 'cvEducations.school');
+            // no need to check for approval because jobSchool row is approve
+            // qr.leftJoinAndSelect('cvEducations.school', 'school', this.condApprove('school'), this.paramApprove('school'));
+        } else {
+            //  join no data
+            qr.leftJoinAndSelect('user.cvEducations',  'cvEducations',  '(1=2)');
+        }
 
         // on 'userInfo'
         qr.leftJoinAndSelect('user.userInfo', 'userInfo');
 
         // check work from
         // on 'cvWorkExperience'
-        qr.leftJoinAndSelect('user.cvWorkExperiences',  'cvWorkExperiences');
+        const prmJobLevel = job.jobJobLevels?.length ? job.jobJobLevels.map(item => item.jobLevel) : 0;
+        const prmWorkFrom = job.jobWorkFrom?.length ? job.jobWorkFrom.map(item => item.workFrom) : 0;
+        const prmJobType = job.jobType || 0;
         qr.leftJoinAndSelect(
-            'cvWorkExperiences.jobLevel',
-            'jobLevel',
-            'jobLevel.id in (:prm_job_level)',
-            {
-                'prm_job_level': job.jobJobLevels.map(item => item.jobLevel).join(',')
+            'user.cvWorkExperiences',
+            'cvWorkExperiences',
+            `
+                cvWorkExperiences.jobLevelId in (:prm_job_level) or
+                cvWorkExperiences.workFromId in (:prm_work_from) or
+                cvWorkExperiences.jobTypeId = :prm_job_level
+            `, {
+                'prm_job_level': prmJobLevel,
+                'prm_work_from': prmWorkFrom,
+                'prm_job_type': prmJobType
             }
-        )
-        qr.leftJoinAndSelect(
-            'cvWorkExperiences.workFrom',
-            'workFrom',
-            'workFrom.id in (:prm_work_from)',
-            {
-                'prm_work_from': job.jobWorkFrom.map(item => item.workFrom).join(',')
-            }
-        )
-        qr.leftJoinAndSelect(
-            'cvWorkExperiences.jobType',
-            'jobType',
-            'jobType.id = :prm_job_type',
-            {
-                'prm_job_type': job.jobType
-            }
-        )
+        );
+        qr.leftJoinAndSelect('cvWorkExperiences.jobLevel', 'jobLevel', 'jobLevel.id in (:prm_job_level)');
+        qr.leftJoinAndSelect('cvWorkExperiences.workFrom', 'workFrom', 'workFrom.id in (:prm_work_from)');
+        qr.leftJoinAndSelect('cvWorkExperiences.jobType', 'jobType', 'jobType.id = :prm_job_level');
 
         // exists one
         qr.andWhere(`(
@@ -654,7 +666,7 @@ export class PointJobUserService {
 
     private computePointUserSchool(job: JobEntity, user: UserEntity) {
         return user.cvEducations?.reduce((val, item) => {
-            if (item.school?.id) {
+            if (item.school) {
                 val += this.pointConfig.school;
             }
             return val;

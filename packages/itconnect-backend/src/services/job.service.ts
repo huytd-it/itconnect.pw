@@ -352,7 +352,7 @@ export class JobService {
                 'jobJobLevels',
                 'jobJobLevels.jobLevelId in (:prm_job_level)',
                 {
-                    prm_job_level: body.jobLevel.join(',')
+                    prm_job_level: body.jobLevel
                 }
             )
         }
@@ -364,7 +364,7 @@ export class JobService {
                 'jobWorkFrom',
                 'jobWorkFrom.workFromId in (:prm_work_from)',
                 {
-                    prm_work_from: body.workFrom.join(',')
+                    prm_work_from: body.workFrom
                 }
             )
         }

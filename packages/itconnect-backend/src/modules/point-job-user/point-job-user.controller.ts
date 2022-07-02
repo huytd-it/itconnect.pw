@@ -35,5 +35,4 @@ export class PointJobUserController {
     ) {
         return this.pointJobUserService.search(searchDto, new PageOptionsDto(pageOptionsDto));
     }
-
 }
