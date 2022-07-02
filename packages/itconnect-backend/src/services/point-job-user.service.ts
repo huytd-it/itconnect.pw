@@ -34,13 +34,20 @@ export class PointJobUserService {
 
     async search(search: PointJobUserSearchInputDto, page: PageOptionsDto) {
         const qr = this.pointJobUserRepository.createQueryBuilder('pju');
+        qr.leftJoinAndSelect('pju.job', 'job');
+        qr.andWhere({
+            job: {
+                status: In([JobStatus.Publish, JobStatus.WaitSystem]),
+                endDate: MoreThanOrEqual(new Date())
+            }
+        });
+
 
         if (this.user.role === AppRole.user) {
             /**
              * User
              *
              */
-            qr.leftJoinAndSelect('pju.job', 'job');
             qr.leftJoinAndSelect('job.companyTag', 'companyTag');
             qr.leftJoinAndSelect('job.addressProvince', 'addressProvince');
             qr.leftJoinAndSelect('job.addressDistrict', 'addressDistrict');
@@ -87,7 +94,6 @@ export class PointJobUserService {
              *
              *
              */
-            qr.leftJoinAndSelect('pju.job', 'job');
             qr.leftJoinAndSelect('pju.user', 'user');
             qr.leftJoinAndSelect('user.userInfo', 'userInfo');
             qr.leftJoinAndSelect('userInfo.addressProvince', 'addressProvinceUI');
@@ -150,7 +156,7 @@ export class PointJobUserService {
                 for (let job of jobs) {
                     // console.log(util.inspect(job, false, null, true /* enable colors */))
                     const point = this.computePointJob(job, user);
-                    // logger.log(`user:${user.id} - job:${job.id} - ${point.pointTotal} point`);
+                    logger.log(`user:${user.id} - job:${job.id} - ${point.pointTotal} point`);
                     pointInserts.push(point);
                 }
 
@@ -195,7 +201,7 @@ export class PointJobUserService {
                 for (let user of users) {
                     // console.log(util.inspect(user, false, null, true /* enable colors */))
                     const point = this.computePointUser(job, user);
-                    // logger.log(`user:${user.id} - job:${job.id} - ${point.pointTotal} point`);
+                    logger.log(`user:${user.id} - job:${job.id} - ${point.pointTotal} point`);
                     pointInserts.push(point);
                 }
 
@@ -354,22 +360,32 @@ export class PointJobUserService {
         qr.leftJoinAndSelect(
             'user.cvWorkExperiences',
             'cvWorkExperiences',
-            `
-                cvWorkExperiences.jobLevelId in (:prm_job_level) or
-                cvWorkExperiences.workFromId in (:prm_work_from) or
-                cvWorkExperiences.jobTypeId = :prm_job_level
-            `, {
-                'prm_job_level': prmJobLevel,
-                'prm_work_from': prmWorkFrom,
-                'prm_job_type': prmJobType
-            }
         );
-        qr.leftJoinAndSelect('cvWorkExperiences.jobLevel', 'jobLevel', 'jobLevel.id in (:prm_job_level)');
-        qr.leftJoinAndSelect('cvWorkExperiences.workFrom', 'workFrom', 'workFrom.id in (:prm_work_from)');
-        qr.leftJoinAndSelect('cvWorkExperiences.jobType', 'jobType', 'jobType.id = :prm_job_level');
+        qr.leftJoinAndSelect(
+            'cvWorkExperiences.jobLevel',
+            'jobLevel',
+            'jobLevel.id in (:prm_job_level)',
+            {
+                prm_job_level: prmJobLevel
+            });
+        qr.leftJoinAndSelect(
+            'cvWorkExperiences.workFrom',
+            'workFrom',
+            'workFrom.id in (:prm_work_from)',
+            {
+                prm_work_from: prmWorkFrom
+            });
+        qr.leftJoinAndSelect(
+            'cvWorkExperiences.jobType',
+            'jobType',
+            'jobType.id = :prm_job_type',
+            {
+                prm_job_type: prmJobType
+            });
 
         // exists one
         qr.andWhere(`(
+            (
             userSkills.id is not null or
             userPositions.id is not null or
             userCertificates.id is not null or
@@ -377,6 +393,11 @@ export class PointJobUserService {
             cvWorkExperiences.workFrom.id is not null or
             cvWorkExperiences.jobLevel.id is not null or
             cvWorkExperiences.jobType.id is not null
+            ) and not (
+                cvWorkExperiences.workFrom.id is null and
+                cvWorkExperiences.jobLevel.id is null and
+                cvWorkExperiences.jobType.id is null
+            )
         )`)
 
         return qr;
