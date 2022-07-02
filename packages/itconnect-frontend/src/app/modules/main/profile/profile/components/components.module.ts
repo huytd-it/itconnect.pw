@@ -25,6 +25,8 @@ import {EducationItemComponent} from "./education-item/education-item.component"
 import {EducationModalComponent} from "./education-modal/education-modal.component";
 import {MatIconModule} from "@angular/material/icon";
 import {ImageCropperModule} from "../../../../../image-cropper/image-cropper.module";
+import {CompanyInfoComponent} from "./company-info/company-info.component";
+import {CompanyInfoModalComponent} from "./company-info-modal/company-info-modal.component";
 
 
 
@@ -42,7 +44,9 @@ import {ImageCropperModule} from "../../../../../image-cropper/image-cropper.mod
     CertificateItemComponent,
     EducationComponent,
     EducationItemComponent,
-    EducationModalComponent
+    EducationModalComponent,
+    CompanyInfoComponent,
+    CompanyInfoModalComponent
   ],
     imports: [
         CommonModule,

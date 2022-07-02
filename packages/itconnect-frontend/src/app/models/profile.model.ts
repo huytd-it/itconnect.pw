@@ -26,8 +26,9 @@ export class CompleteUserProfileInput {
 }
 
 export class CompleteCompanyProfileOutput {
-  companyMst: string;
-  phone: string;
+  companyMst?: string;
+  phone?: string;
+  introduce?: string;
 }
 
 export class CompleteCompanyProfileInput {

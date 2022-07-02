@@ -7,6 +7,7 @@ export class CompanyInfo extends BaseTable {
   companyName: string;
   banner: File;
   avatar: File;
+  phone: string;
   introduce: string;
   addressProvince: Address;
   addressDistrict: Address;
