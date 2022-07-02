@@ -59,8 +59,17 @@ export class UserInfoModalComponent implements OnInit {
       districtId: this.data.addressDistrict,
     };
     this.form = this.formBuilder.group({
-      [FormField.fullName]: [this.data.fullName, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]],
-      [FormField.phone]: [this.data.phone, Validators.pattern(/([\+84|84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\b/)],
+      [FormField.fullName]: [
+        this.data.fullName,
+        [Validators.required, Validators.minLength(3), Validators.maxLength(255)]
+      ],
+      [FormField.phone]: [
+        this.data.phone,
+        [
+          Validators.pattern(/([\+84|84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\b/),
+          Validators.required
+        ]
+      ],
       [FormField.birthday]: [this.data.birthday, Validators.required],
       [FormField.address]: [address, validateInputAddressRequired],
       [FormField.interest]: [this.data.interest],

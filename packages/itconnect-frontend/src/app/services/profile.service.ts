@@ -7,7 +7,7 @@ import {
   CompleteCompanyProfileOutput,
   CompleteUserProfileInput,
   CompleteUserProfileOutput,
-  ProfileDataBoostrap
+  ProfileDataBoostrap, SetAvatarBannerProfileOutput
 } from "../models/profile.model";
 
 @Injectable({
@@ -43,5 +43,10 @@ export class ProfileService {
   yoe() {
     const uri = 'profile/yoe'
     return this.httpClient.get<UserInfoComputeYoe>(uri, httpOptions);
+  }
+
+  setAvatarBanner(data: SetAvatarBannerProfileOutput) {
+    const uri = 'profile/set-avatar-banner'
+    return this.httpClient.post<UserInfoComputeYoe>(uri, data, httpOptions);
   }
 }

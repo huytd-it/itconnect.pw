@@ -2,8 +2,14 @@
   <mat-accordion [multi]="true">
     <div class="tw-rounded tw-rounded-b-none tw-shadow-md tw-p-3 tw-bg-white tw-p-10 tw-relative">
       <div class="tw-flex tw-justify-center tw-flex-col tw-items-center tw-z-10 tw-relative tw-mt-[60px]">
-        <div class="tw-rounded-full tw-border-white tw-border-4">
-          <app-avatar [name]="userName || ''" [radius]="100" [src]="avatar | urlBySlug"></app-avatar>
+        <div class="tw-rounded-full tw-border-white tw-border-4 tw-relative">
+          <app-avatar [name]="userName || ''" [radius]="100" [src]="avatar | urlBySlug">
+            <div class="tw-absolute tw-z-10 tw-left-0 tw-bottom-0 tw-bg-[#ccc] tw-opacity-60 tw-h-[35%] tw-w-full">
+            </div>
+            <div class="tw-absolute tw-z-20 tw-left-0 tw-bottom-0 tw-h-[35%] tw-opacity-80 tw-w-full tw-flex tw-items-center tw-justify-center">
+              <app-image-cropper-button (onAdd)="onChangeAvatar($event)"></app-image-cropper-button>
+            </div>
+          </app-avatar>
         </div>
         <span class="tw-text-textColor tw-mt-5 tw-font-bold tw-text-2xl">
           {{userName}}
@@ -11,6 +17,16 @@
       </div>
       <div class="tw-absolute tw-top-0 tw-left-0 tw-w-full tw-h-[170px] tw-z-0">
         <img [src]="(banner | urlBySlug) || '/assets/images/bg.jpg'" class="tw-w-full tw-h-full tw-object-cover tw-object-bottom">
+        <div class="tw-absolute tw-z-20 tw-right-0 tw-bottom-3">
+          <app-image-cropper-button
+            [aspectRatio]="5.5"
+            [cropperMinWidth]="1200"
+            [cropperMinHeight]="214"
+            [resizeToWidth]="1200"
+            [resizeToHeight]="214"
+            (onAdd)="onChangeBanner($event)"
+          ></app-image-cropper-button>
+        </div>
       </div>
     </div>
     <mat-expansion-panel #infoPanel [expanded]="false" *ngIf="permission.PROFILE_USER_CE | permission" class="!tw-rounded-t-none">

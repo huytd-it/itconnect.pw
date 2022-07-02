@@ -1,5 +1,5 @@
 <div
-  class="tw-inline-block tw-rounded-full tw-flex tw-items-center tw-justify-center tw-overflow-hidden"
+  class="tw-inline-block tw-rounded-full tw-flex tw-items-center tw-justify-center tw-overflow-hidden tw-relative"
   [style.width.px]="radius"
   [style.height.px]="radius"
   [style.background-color]="color && color.outputHSL"
@@ -23,4 +23,5 @@
       }"
     />
   </ng-container>
+  <ng-content></ng-content>
 </div>

@@ -1,0 +1,4 @@
+<input class="tw-hidden" type="file" (change)="fileChangeEvent($event)" #btn/>
+<button mat-button (click)="btn.click()" [disabled]="isUploading">
+  <mat-icon>photo_camera</mat-icon>
+</button>

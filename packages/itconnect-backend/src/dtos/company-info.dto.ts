@@ -36,6 +36,9 @@ export class CompanyInfoDto extends EntityDto {
     phone: string;
 
     @ApiProperty()
+    introduce: string;
+
+    @ApiProperty()
     mst: string;
 
     @ApiProperty()

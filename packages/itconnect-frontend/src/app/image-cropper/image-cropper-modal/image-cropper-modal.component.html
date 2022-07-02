@@ -1,0 +1,12 @@
+<div mat-dialog-content class="tw-w-[95vw] md:tw-w-[70vw] tw-max-w-[1200px] c-scrollbar">
+  <app-image-cropper-container
+    [imageChangedEvent]="data.image"
+    [aspectRatio]="data.aspectRatio"
+    [resizeToWidth]="data.resizeToWidth"
+    [resizeToHeight]="data.resizeToHeight"
+    [cropperMinWidth]="data.cropperMinWidth"
+    [cropperMinHeight]="data.cropperMinHeight"
+    (onAdd)="close($event)"
+    (onClose)="close()"
+  ></app-image-cropper-container>
+</div>

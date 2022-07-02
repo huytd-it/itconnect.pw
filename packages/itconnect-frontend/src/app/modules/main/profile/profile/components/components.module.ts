@@ -24,6 +24,7 @@ import {EducationComponent} from "./education/education.component";
 import {EducationItemComponent} from "./education-item/education-item.component";
 import {EducationModalComponent} from "./education-modal/education-modal.component";
 import {MatIconModule} from "@angular/material/icon";
+import {ImageCropperModule} from "../../../../../image-cropper/image-cropper.module";
 
 
 
@@ -56,7 +57,8 @@ import {MatIconModule} from "@angular/material/icon";
         MatDatepickerModule,
         MatNativeDateModule,
         NgxSliderModule,
-        MatIconModule
+        MatIconModule,
+      ImageCropperModule
     ],
   exports: [
     ProfileUserComponent,

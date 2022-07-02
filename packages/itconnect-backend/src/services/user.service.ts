@@ -1,6 +1,6 @@
 import {
     ConflictException,
-    HttpException,
+    ForbiddenException,
     Inject,
     Injectable,
     Request,
@@ -9,11 +9,13 @@ import {
 } from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {UserEntity} from "../entities/user.entity";
-import {DataSource, In, Repository} from "typeorm";
+import {DataSource, Repository} from "typeorm";
 import {
-    CreateOrEditCompanyProfileInputDto, CreateOrEditCompanyProfileOutputDto,
+    CreateOrEditCompanyProfileInputDto,
+    CreateOrEditCompanyProfileOutputDto,
     CreateOrEditUserProfileInputDto,
-    CreateOrUserProfileOutputDto
+    CreateOrUserProfileOutputDto,
+    SetAvatarBannerProfileInputDto
 } from "../dtos/profile.dto";
 import {UserInfoEntity} from "../entities/userInfo.entity";
 import {SkillEntity} from "../entities/skill.entity";
@@ -27,10 +29,10 @@ import {CvWorkExperienceEntity} from "../entities/cvWorkExperience.entity";
 import * as moment from "moment";
 import {Moment} from "moment";
 import {AddressService} from "./address.service";
-import {Company3Rd} from "../dtos/company-3rd.dto";
 import {Company3rdService} from "./company-3rd.service";
 import {CompanyTagEntity} from "../entities/companyTag.entity";
 import {Id} from "../utils/function";
+import {FileService} from "./file.service";
 
 interface ComputeYoeData {
     data: {
@@ -51,6 +53,8 @@ export class UserService {
         private usersRepository: Repository<UserEntity>,
         @InjectRepository(UserInfoEntity)
         private userInfoRepository: Repository<UserInfoEntity>,
+        @InjectRepository(CompanyInfoEntity)
+        private companyInfoRepository: Repository<CompanyInfoEntity>,
         @InjectRepository(SkillEntity)
         private skillRepository: Repository<SkillEntity>,
         @InjectRepository(UserSkillEntity)
@@ -59,7 +63,7 @@ export class UserService {
         private cvWorkExperienceRepository: Repository<CvWorkExperienceEntity>,
         private dataSource: DataSource,
         private addressService: AddressService,
-        private company3rdService: Company3rdService
+        private company3rdService: Company3rdService,
     ) {
     }
 
@@ -201,6 +205,7 @@ export class UserService {
              */
             companyInfoEntity.user = user;
             companyInfoEntity.phone = dto.phone;
+            companyInfoEntity.introduce = dto.introduce;
 
 
             if (companyInfoEntity.id) {
@@ -352,6 +357,35 @@ export class UserService {
             computeYoeCurrent: r.computeYoeCurrent,
             computeYoeDate: r.computeYoeDate,
             computeYoe: r.computeYoe,
+        }
+    }
+
+    async setAvatarBanner(data: SetAvatarBannerProfileInputDto, user: UserEntity) {
+        const d = <any>{};
+        if (data.avatar) {
+            // if (!(await this.fileService.owner(data.avatar))) {
+            //     throw new ForbiddenException();
+            // }
+            d.avatar = Id(data.avatar);
+        }
+
+        if (data.banner) {
+            // if (!(await this.fileService.owner(data.banner))) {
+            //     throw new ForbiddenException();
+            // }
+            d.banner = Id(data.banner);
+        }
+
+        if (user.role === AppRole.user) {
+            return this.userInfoRepository.update({
+                user: Id(user.id)
+            }, d)
+        }
+
+        if (user.role === AppRole.company) {
+            return this.companyInfoRepository.update({
+                user: Id(user.id)
+            }, d)
         }
     }
 }

@@ -73,6 +73,18 @@ export class CreateOrUserProfileOutputDto {
     status: boolean
 }
 
+export class SetAvatarBannerProfileInputDto {
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsInt()
+    avatar: number;
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsInt()
+    banner: number;
+}
+
 export class CreateOrEditCompanyProfileInputDto {
     @ApiPropertyOptional()
     @IsOptional()

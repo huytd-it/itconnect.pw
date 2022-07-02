@@ -6,6 +6,7 @@ import { ProfileComponent } from './profile.component';
 import {MainComponentsModule} from "../../components/components.module";
 import {ProfileComponentsModule} from "./components/components.module";
 import {CommonComponentsModule} from "../../../../components/common-components.module";
+import {ImageCropperModule} from "../../../../image-cropper/image-cropper.module";
 
 
 @NgModule({
@@ -17,7 +18,7 @@ import {CommonComponentsModule} from "../../../../components/common-components.m
     ProfileRoutingModule,
     MainComponentsModule,
     ProfileComponentsModule,
-    CommonComponentsModule
+    CommonComponentsModule,
   ]
 })
 export class ProfileModule { }

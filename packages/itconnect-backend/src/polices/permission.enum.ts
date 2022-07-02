@@ -28,6 +28,7 @@ export enum AppPermission {
     PROFILE_USER_CE = 'profile_user_ce',
     PROFILE_COMPANY_CE = 'profile_company_ce',
     PROFILE_COMPUTE_YOE = 'profile_compute_yoe',
+    PROFILE_UPLOAD_IMG = 'profile_upload_img',
 
     /**
      * User
@@ -331,6 +332,7 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.POINT_JOB_USER_SEARCH,
         AppPermission.FILE_UPLOAD,
         AppPermission.FILE_DELETE,
+        AppPermission.PROFILE_UPLOAD_IMG,
     ],
 
     /***
@@ -372,6 +374,7 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.PEOPLE_SUGGEST,
         AppPermission.FILE_UPLOAD,
         AppPermission.FILE_DELETE,
+        AppPermission.PROFILE_UPLOAD_IMG,
     ],
 
     /**

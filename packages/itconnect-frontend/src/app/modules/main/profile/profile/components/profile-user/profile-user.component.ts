@@ -13,6 +13,7 @@ import {AppPermission} from "../../../../../../models/permission.model";
 import {AuthService} from "../../../../../../services/auth.service";
 import {ProfileService} from "../../../../../../services/profile.service";
 import * as moment from "moment";
+import {File} from "../../../../../../models/file.model";
 
 @Component({
   selector: 'app-profile-user',
@@ -176,5 +177,23 @@ export class ProfileUserComponent implements OnInit {
     }
 
     return str;
+  }
+
+  onChangeAvatar(e: File) {
+    this.appService.setHeadLoading(true);
+    this.profileService.setAvatarBanner({ avatar: e.id })
+      .pipe(finalize(() => this.appService.setHeadLoading(false)))
+      .subscribe(data => {
+        this.authService.preLoadUser();
+      })
+  }
+
+  onChangeBanner(e: File) {
+    this.appService.setHeadLoading(true);
+    this.profileService.setAvatarBanner({ banner: e.id })
+      .pipe(finalize(() => this.appService.setHeadLoading(false)))
+      .subscribe(data => {
+        this.authService.preLoadUser();
+      })
   }
 }

@@ -56,7 +56,7 @@ export class FileController {
         return this.fileService.save(file);
     }
 
-    @Get('/s/:id')
+    @Get('/s/:slug')
     async show(
         @Param() params: FileViewDto,
         @Response({ passthrough: true }) res

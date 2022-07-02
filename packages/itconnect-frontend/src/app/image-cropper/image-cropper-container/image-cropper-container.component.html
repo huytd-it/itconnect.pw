@@ -1,0 +1,53 @@
+<div class="tw-relative">
+  <div class="tw-absolute tw-z-10 tw-top-[10px] tw-right-[10px] tw-space-x-3">
+    <button mat-stroked-button color="primary" (click)="onAdd.emit(imageDest)">
+      <mat-icon>check</mat-icon>
+    </button>
+    <button mat-stroked-button color="warn" (click)="onClose.emit()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <image-cropper
+    class="tw-min-h-[50vh] !tw-max-h-[80vh]"
+    [imageChangedEvent]="imageChangedEvent"
+    [maintainAspectRatio]="true"
+    [allowMoveImage]="true"
+    [aspectRatio]="aspectRatio"
+    [cropperMinHeight]="cropperMinHeight"
+    [cropperMinWidth]="cropperMinWidth"
+    [resizeToWidth]="resizeToWidth"
+    [resizeToHeight]="resizeToHeight"
+    [canvasRotation]="canvasRotation"
+    [transform]="transform"
+    [containWithinAspectRatio]="true"
+    [alignImage]="'left'"
+    (imageCropped)="imageCropped($event)"
+    (imageLoaded)="imageLoaded($event)"
+    (cropperReady)="cropperReady()"
+    (loadImageFailed)="loadImageFailed()"
+  ></image-cropper>
+
+  <div class="tw-flex tw-flex-wrap tw-gap-3 tw-p-3">
+    <button mat-stroked-button (click)="rotateLeft()">
+      <mat-icon>rotate_left</mat-icon>
+    </button>
+    <button mat-stroked-button (click)="rotateRight()">
+      <mat-icon>rotate_right</mat-icon>
+    </button>
+    <button mat-stroked-button (click)="flipHorizontal()">
+      <mat-icon>horizontal_split</mat-icon>
+    </button>
+    <button mat-stroked-button (click)="flipVertical()">
+      <mat-icon>vertical_split</mat-icon>
+    </button>
+    <button mat-stroked-button (click)="zoomOut()">
+      <mat-icon>zoom_out</mat-icon>
+    </button>
+    <button mat-stroked-button (click)="zoomIn()">
+      <mat-icon>zoom_in</mat-icon>
+    </button>
+    <button mat-stroked-button (click)="resetImage()">
+      <mat-icon>restart_alt</mat-icon>
+    </button>
+  </div>
+</div>

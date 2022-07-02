@@ -11,7 +11,7 @@ import {
     CreateOrEditCompanyProfileInputDto,
     CreateOrEditCompanyProfileOutputDto,
     CreateOrEditUserProfileInputDto,
-    CreateOrUserProfileOutputDto, DataBoostrapOutputDto
+    CreateOrUserProfileOutputDto, DataBoostrapOutputDto, SetAvatarBannerProfileInputDto
 } from "../../dtos/profile.dto";
 import {UserDto} from "../../dtos/user.dto";
 import {UserInfoComputeYoe} from "../../dtos/user-info.dto";
@@ -86,5 +86,15 @@ export class ProfileController {
         @GetUser() user: UserEntity
     ) {
         return this.userService.getComputeYoe(user);
+    }
+
+    @UseGuards(PermissionsGuard)
+    @RequirePermissions(AppPermission.PROFILE_UPLOAD_IMG)
+    @Post('/set-avatar-banner')
+    setAvatarBanner(
+        @Body() data: SetAvatarBannerProfileInputDto,
+        @GetUser() user: UserEntity
+    ) {
+        return this.userService.setAvatarBanner(data, user);
     }
 }

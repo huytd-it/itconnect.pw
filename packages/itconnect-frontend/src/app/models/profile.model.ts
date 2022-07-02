@@ -33,3 +33,9 @@ export class CompleteCompanyProfileOutput {
 export class CompleteCompanyProfileInput {
   status: boolean
 }
+
+
+export class SetAvatarBannerProfileOutput {
+  avatar?: number;
+  banner?: number;
+}
