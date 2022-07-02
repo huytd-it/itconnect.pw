@@ -40,6 +40,7 @@ import { QueuesModule } from './queues/queues.module';
 import {PointJobUserModule} from "./modules/point-job-user/point-job-user.module";
 import {ServicesModule} from "./services/services.module";
 import { FileModule } from './modules/file/file.module';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
@@ -81,7 +82,8 @@ import { FileModule } from './modules/file/file.module';
       JobSavedModule,
       QueuesModule,
       PointJobUserModule,
-      FileModule
+      FileModule,
+      UserModule
   ],
   controllers: [AppController],
   providers: [

@@ -1,0 +1,42 @@
+<div class="tw-text-[13px]" *ngIf="companyInfo">
+  <div class="tw-my-4 tw-flex tw-flex-wrap tw-gap-3 tw-items-center" *ngIf="companyInfo.dayEstablish">
+      <span class="tw-min-w-[70px] tw-font-medium">
+        Ngày thành lập
+      </span>
+    <span class="tw-ml-2 tw-text-[12px]">
+      {{companyInfo.dayEstablish | date: 'dd/MM/yyyy'}}
+    </span>
+  </div>
+  <div class="tw-my-4 tw-flex tw-flex-wrap tw-gap-3 tw-items-center" *ngIf="companyInfo.mst">
+    <span class="tw-min-w-[70px] tw-font-medium">
+      Mã số thuế
+    </span>
+    <span class="tw-ml-2 tw-text-[12px]">
+      {{companyInfo.mst}}
+    </span>
+  </div>
+  <div class="tw-my-4 tw-flex tw-flex-wrap tw-gap-3 tw-items-center" *ngIf="companyInfo.phone">
+      <span class="tw-min-w-[70px] tw-font-medium">
+        SĐT
+      </span>
+    <span class="tw-ml-2 tw-text-[12px]">
+      {{companyInfo.phone}}
+    </span>
+  </div>
+
+  <div class="tw-my-4 tw-flex tw-flex-wrap tw-gap-3 tw-items-center">
+      <span class="tw-min-w-[70px] tw-font-medium">
+        Địa chỉ
+      </span>
+    <span class="tw-ml-2 tw-text-[12px]">
+      {{companyInfo.addressStreet}}, {{companyInfo.addressVillage?.name || ''}}, {{companyInfo.addressDistrict?.name || ''}}, {{companyInfo.addressProvince?.name || ''}}
+      </span>
+  </div>
+
+  <div class="tw-my-4" *ngIf="companyInfo.introduce">
+    <div class="tw-min-w-[70px] tw-font-medium tw-mt-5 tw-text-[14px]">
+      Sở thích
+    </div>
+    <div class="tw-ml-2 tw-text-[12px]" [innerHTML]="companyInfo.introduce | sanitizeHtml"></div>
+  </div>
+</div>

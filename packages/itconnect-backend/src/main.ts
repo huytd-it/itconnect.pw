@@ -58,6 +58,7 @@ async function bootstrap() {
       .addBearerAuth()
       .addTag('auth')
       .addTag('profile')
+      .addTag('user')
       .addTag('people')
       .addTag('permission')
       .addTag('address')

@@ -8,6 +8,7 @@ import {DateFromNowPipe} from "./pipes/dateFromNow.pipe";
 import {RemoveHtmlPipe} from "./pipes/removeHtml.pipe";
 import {RolePipe} from "./pipes/role.pipe";
 import {UrlBySlugPipe} from "./pipes/urlBySlug.pipe";
+import {MappingNameToParentPipe} from "./pipes/mappingNameToParent.pipe";
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import {UrlBySlugPipe} from "./pipes/urlBySlug.pipe";
     DateFromNowPipe,
     RemoveHtmlPipe,
     RolePipe,
-    UrlBySlugPipe
+    UrlBySlugPipe,
+    MappingNameToParentPipe
   ],
   imports: [
     CommonModule
@@ -32,7 +34,8 @@ import {UrlBySlugPipe} from "./pipes/urlBySlug.pipe";
     DateFromNowPipe,
     RemoveHtmlPipe,
     RolePipe,
-    UrlBySlugPipe
+    UrlBySlugPipe,
+    MappingNameToParentPipe
   ]
 })
 export class UtilsModule { }

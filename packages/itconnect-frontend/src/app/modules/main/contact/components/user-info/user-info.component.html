@@ -1,0 +1,50 @@
+<div class="tw-text-[13px]" *ngIf="userInfo">
+  <div class="tw-my-4 tw-flex tw-flex-wrap tw-gap-3 tw-items-center" *ngIf="userInfo.birthday">
+      <span class="tw-min-w-[70px] tw-font-medium">
+        Ngày sinh
+      </span>
+    <span class="tw-ml-2 tw-text-[12px]">
+      {{userInfo.birthday | date: 'dd/MM/yyyy'}}
+    </span>
+  </div>
+  <div class="tw-my-4 tw-flex tw-flex-wrap tw-gap-3 tw-items-center" *ngIf="userInfo.phone">
+      <span class="tw-min-w-[70px] tw-font-medium">
+        SĐT
+      </span>
+    <span class="tw-ml-2 tw-text-[12px]">
+      {{userInfo.phone}}
+    </span>
+  </div>
+
+  <div class="tw-my-4 tw-flex tw-flex-wrap tw-gap-3 tw-items-center">
+      <span class="tw-min-w-[70px] tw-font-medium">
+        Địa chỉ
+      </span>
+    <span class="tw-ml-2 tw-text-[12px]">
+      {{userInfo.addressStreet}}, {{userInfo.addressVillage?.name || ''}}, {{userInfo.addressDistrict?.name || ''}}, {{userInfo.addressProvince?.name || ''}}
+      </span>
+  </div>
+
+  <div class="tw-my-4 tw-flex tw-flex-wrap tw-gap-3 tw-items-center" *ngIf="userInfo.jobLevel">
+    <span class="tw-min-w-[70px] tw-font-medium">
+      Trình độ
+    </span>
+    <span class="tw-ml-2 tw-text-[12px]">
+      {{userInfo.jobLevel.name}}
+    </span>
+  </div>
+
+  <div class="tw-my-4" *ngIf="userInfo.objective">
+    <div class="tw-min-w-[70px] tw-font-medium tw-mt-5 tw-text-[14px]">
+      Mục tiêu
+    </div>
+    <div class="tw-ml-2 tw-text-[12px]" [innerHTML]="userInfo.objective | sanitizeHtml"></div>
+  </div>
+
+  <div class="tw-my-4" *ngIf="userInfo.interest">
+    <div class="tw-min-w-[70px] tw-font-medium tw-mt-5 tw-text-[14px]">
+      Sở thích
+    </div>
+    <div class="tw-ml-2 tw-text-[12px]" [innerHTML]="userInfo.interest | sanitizeHtml"></div>
+  </div>
+</div>

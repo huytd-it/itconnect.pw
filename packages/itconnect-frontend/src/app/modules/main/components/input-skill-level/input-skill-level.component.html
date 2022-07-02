@@ -9,9 +9,9 @@
           type="button"
           class="tw-p-2 tw-rounded-md tw-border tw-relative tw-mr-3 tw-flex tw-items-center"
           [matTooltip]="item[bindLabel]"
-          (click)="removeTag(item)"
+          (click)="!onlyRead && removeTag(item)"
         >
-          <div class="
+          <div *ngIf="!onlyRead" class="
             tw-absolute tw-right-[-5px] tw-top-[-5px] tw-font-medium tw-w-[15px] tw-h-[15px] tw-text-[10px]
             tw-rounded-full tw-bg-primaryColor tw-text-white tw-flex tw-justify-center tw-items-center
           ">x</div>
@@ -21,7 +21,11 @@
         </button>
       </td>
       <td class="tw-pb-5">
-        <ngx-slider [(value)]="item[bindLevel]" [options]="options" (valueChange)="onChangeLevel(item, $event)"></ngx-slider>
+        <ngx-slider
+          [(value)]="item[bindLevel]"
+          [options]="options"
+          (valueChange)="onChangeLevel(item, $event)"
+        ></ngx-slider>
       </td>
     </tr>
   </table>
@@ -31,7 +35,7 @@
     color="primary"
     type="button"
     class="tw-mt-2"
-    *ngIf="!isAdding"
+    *ngIf="!isAdding && !onlyRead"
     (click)="isAdding = true"
   >
     + Thêm

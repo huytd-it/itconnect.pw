@@ -69,6 +69,10 @@ const routes: Routes = [
         path: 'search',
         loadChildren: () => import('./search/search.module').then(m => m.SearchModule)
       },
+      {
+        path: 'contact',
+        loadChildren: () => import('./contact/contact.module').then(m => m.ContactModule)
+      },
       { path: '**', redirectTo: 'home' },
     ],
   },

@@ -5,6 +5,10 @@ import {Address} from "./address.model";
 import {CompanyInfo} from "./company-info.model";
 import {CvWorkExperience} from "./cv-work-experience.model";
 import {File} from "./file.model";
+import {UserPosition} from "./user-position.model";
+import {UserSkill} from "./user-skill.model";
+import {CvCertificate} from "./cv-certificate.model";
+import {CvEducation} from "./cv-education.model";
 
 export class UserInfo extends BaseTable {
   id: number;
@@ -34,6 +38,10 @@ export class User extends BaseTable {
   companyInfo: CompanyInfo;
   cvWorkExperiences: CvWorkExperience[];
   cvWorkExperienceCurrents: CvWorkExperience[];
+  userPositions: UserPosition[];
+  userSkills: UserSkill[];
+  cvCertificates: CvCertificate[];
+  cvEducations: CvEducation[];
 }
 
 

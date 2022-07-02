@@ -6,12 +6,17 @@
       type="button"
       class="tw-p-2 tw-rounded-md tw-border tw-relative tw-mr-3 tw-flex tw-items-center"
       [matTooltip]="item[bindLabel]"
-      (click)="removeTag(item)"
+      (click)="!readOnly && removeTag(item)"
     >
-      <div class="
+      <div
+        *ngIf="!readOnly"
+        class="
           tw-absolute tw-right-[-5px] tw-top-[-5px] tw-font-medium tw-w-[15px] tw-h-[15px] tw-text-[10px]
           tw-rounded-full tw-bg-primaryColor tw-text-white tw-flex tw-justify-center tw-items-center
-        ">x</div>
+        "
+      >
+        x
+      </div>
       <span class="tw-inline-block tw-whitespace-nowrap tw-max-w-[100px] tw-overflow-hidden tw-overflow-ellipsis">
           {{item[bindLabel]}}
         </span>
@@ -22,7 +27,7 @@
     mat-button
     color="primary"
     type="button"
-    *ngIf="!isAdding"
+    *ngIf="!isAdding && !readOnly"
     (click)="isAdding = true"
   >
     + Thêm

@@ -34,6 +34,12 @@ export enum AppPermission {
      * User
      *
      */
+    USER = 'user',
+
+    /**
+     * User
+     *
+     */
     PEOPLE = 'people',
     PEOPLE_SEARCH = 'people_search',
 
@@ -333,6 +339,7 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.FILE_UPLOAD,
         AppPermission.FILE_DELETE,
         AppPermission.PROFILE_UPLOAD_IMG,
+        AppPermission.USER,
     ],
 
     /***
@@ -375,6 +382,7 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.FILE_UPLOAD,
         AppPermission.FILE_DELETE,
         AppPermission.PROFILE_UPLOAD_IMG,
+        AppPermission.USER,
     ],
 
     /**

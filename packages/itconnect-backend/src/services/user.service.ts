@@ -388,4 +388,42 @@ export class UserService {
             }, d)
         }
     }
+
+    getOne(id: number) {
+        return this.usersRepository.findOne({
+            where: {
+                id
+            },
+            relations: [
+                'userInfo',
+                'userInfo.jobLevel',
+                'userInfo.addressProvince',
+                'userInfo.addressDistrict',
+                'userInfo.addressVillage',
+                'userInfo.banner',
+                'userInfo.avatar',
+                'companyInfo',
+                'companyInfo.avatar',
+                'companyInfo.banner',
+                'companyInfo.addressProvince',
+                'companyInfo.addressDistrict',
+                'userSkills',
+                'userSkills.skill',
+                'userPositions',
+                'userPositions.position',
+                'cvEducations',
+                'cvEducations.school',
+                'cvEducations.rankedAcademic',
+                'cvWorkExperiences',
+                'cvWorkExperiences.companyTag.companyInfo',
+                'cvWorkExperiences.jobType',
+                'cvWorkExperiences.jobLevel',
+                'cvWorkExperiences.workFrom',
+                'cvWorkExperiences.cvWorkExperienceSkills.skill',
+                'cvWorkExperiences.cvWorkExperiencePositions.position',
+                'cvCertificates',
+                'cvCertificates.certificate',
+            ],
+        });
+    }
 }

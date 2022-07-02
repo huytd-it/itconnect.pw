@@ -1,4 +1,4 @@
-import {Component, EventEmitter, forwardRef, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, forwardRef, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
 import {
   CreateTaggedOutput,
@@ -18,13 +18,14 @@ import {AppService} from "../../../../services/app.service";
   styleUrls: ['./input-skill-level.component.scss'],
   providers: []
 })
-export class InputSkillLevelComponent implements OnInit {
+export class InputSkillLevelComponent implements OnInit, OnChanges {
   @Input() loadMoreFn: (query: SearchPageOutput) => Observable<PageInput<any>>;
   @Input() createTagFn: (data: CreateTaggedOutput) => Observable<TaggedInput>;
   @Input() bindLabel: string = 'name';
   @Input() bindLevel: string = 'level';
   @Input() appendTo: string;
   @Input() items: any[] = [];
+  @Input() onlyRead: boolean = false;
   @Output() onAdd = new EventEmitter<TaggedInput>();
   @Output() onChange = new EventEmitter<any>();
   @Output() onRemove = new EventEmitter();
@@ -46,6 +47,18 @@ export class InputSkillLevelComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    const {onlyRead} = changes;
+    if (onlyRead && onlyRead.currentValue != onlyRead.previousValue) {
+      setTimeout(() => {
+        this.options = {
+          ...this.options,
+          readOnly: this.onlyRead
+        }
+      })
+    }
   }
 
   async addTag(tag: string) {

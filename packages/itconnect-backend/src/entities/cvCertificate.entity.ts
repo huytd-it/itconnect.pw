@@ -6,7 +6,7 @@ import {
     OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
-    Unique
+    Unique, OneToOne
 } from "typeorm";
 import {UserEntity} from "./user.entity";
 import {UserCertificateEntity} from "./userCertificate.entity";

@@ -18,3 +18,8 @@ export class UserDto extends EntityDto {
     @ApiProperty()
     companyInfo: CompanyInfoDto
 }
+
+export class UserGetOneParamsDto {
+    @ApiProperty()
+    id: number;
+}

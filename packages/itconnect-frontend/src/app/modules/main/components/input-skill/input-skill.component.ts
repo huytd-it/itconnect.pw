@@ -26,6 +26,7 @@ export class InputSkillComponent implements OnInit {
   @Input() appendTo: string;
   @Input() hasAddTag: boolean = true;
   @Input() items: any[] = [];
+  @Input() readOnly: boolean = false;
   @Output() onAdd = new EventEmitter<TaggedInput>();
   @Output() onRemove = new EventEmitter();
   isAdding: boolean;
