@@ -66,6 +66,14 @@ export class JobService {
         const user = this.request['user'] as UserEntity;
         const qr = this.jobRepository.createQueryBuilder('job');
         qr.where({ id });
+
+        //
+        qr.innerJoinAndSelect('job.user', 'user', `user.role <> :prm_role`, {
+            prm_role: AppRole.ban
+        });
+        qr.leftJoinAndSelect('user.userInfo', 'userInfo');
+        qr.leftJoinAndSelect('user.companyInfo', 'companyInfoU');
+
         qr.leftJoinAndSelect('job.addressProvince', 'addressProvince');
         qr.leftJoinAndSelect('job.addressDistrict', 'addressDistrict');
         qr.leftJoinAndSelect('job.addressVillage', 'addressVillage');
@@ -84,9 +92,6 @@ export class JobService {
         qr.leftJoinAndSelect('job.jobType', 'jobType');
         qr.leftJoinAndSelect('job.companyTag', 'companyTag');
         qr.leftJoinAndSelect('companyTag.companyInfo', 'companyInfo');
-        qr.leftJoinAndSelect('job.user', 'user');
-        qr.leftJoinAndSelect('user.userInfo', 'userInfo');
-        qr.leftJoinAndSelect('user.companyInfo', 'companyInfoU');
         qr.leftJoinAndSelect('companyInfoU.banner', 'banner');
         qr.leftJoinAndSelect('companyInfoU.avatar', 'avatar');
         qr.loadRelationCountAndMap('job.jobApplyCount', 'job.jobApply', 'jobApplyCount');
@@ -107,6 +112,10 @@ export class JobService {
             })
         )
         const data = await qr.getOne();
+        if (!data) {
+            throw new BadRequestException()
+        }
+
         if (!hasCheckIsOwner && user.role !== AppRole.admin) {
                if (
                    data.status !== JobStatus.Publish &&
@@ -407,6 +416,11 @@ export class JobService {
     async search(query: JobSearchQueryInputDto, body: JobSearchBodyInputDto, page: PageOptionsDto) {
         const user = this.request['user'] as UserEntity;
         const qr = this.jobRepository.createQueryBuilder('job');
+
+        // check company post exists and not banned
+        qr.innerJoinAndSelect('job.user', 'user', `user.role <> :prm_role`, {
+            prm_role: AppRole.ban
+        });
 
         // job level, map id
         if (body.jobLevel?.length) {

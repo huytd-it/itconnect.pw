@@ -23,6 +23,7 @@ import {JobSearchBodyInputDto, JobSearchQueryInputDto} from "../dtos/job.dto";
 import {DateUtils} from "typeorm/util/DateUtils";
 import * as moment from "moment";
 import {JobStatus} from "../entities/job.entity";
+import {AppRole} from "../polices/permission.enum";
 
 @Injectable({ scope: Scope.REQUEST })
 export class PeopleService {
@@ -93,6 +94,9 @@ export class PeopleService {
         const user = this.request['user'] as UserEntity;
         const qr = this.userRepository.createQueryBuilder('user');
         qr.innerJoinAndSelect('user.userInfo', 'userInfo')
+        qr.andWhere({
+            role: Not(AppRole.ban)
+        })
 
         // user job level, map id
         if (body.jobLevel?.length) {

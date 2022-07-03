@@ -1,12 +1,4 @@
-import {
-    ConflictException,
-    ForbiddenException,
-    Inject,
-    Injectable,
-    Request,
-    Scope,
-    ServiceUnavailableException
-} from '@nestjs/common';
+import {ConflictException, ForbiddenException, Injectable, ServiceUnavailableException} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {UserEntity} from "../entities/user.entity";
 import {DataSource, Repository} from "typeorm";
@@ -32,7 +24,8 @@ import {AddressService} from "./address.service";
 import {Company3rdService} from "./company-3rd.service";
 import {CompanyTagEntity} from "../entities/companyTag.entity";
 import {Id} from "../utils/function";
-import {FileService} from "./file.service";
+import {UserSearchInputDto, UserType} from "../dtos/user.dto";
+import {PageDto, PageMetaDto, PageOptionsDto} from "../dtos/page.dto";
 
 interface ComputeYoeData {
     data: {
@@ -55,6 +48,8 @@ export class UserService {
         private userInfoRepository: Repository<UserInfoEntity>,
         @InjectRepository(CompanyInfoEntity)
         private companyInfoRepository: Repository<CompanyInfoEntity>,
+        @InjectRepository(CompanyTagEntity)
+        private companyTagRepository: Repository<CompanyTagEntity>,
         @InjectRepository(SkillEntity)
         private skillRepository: Repository<SkillEntity>,
         @InjectRepository(UserSkillEntity)
@@ -226,7 +221,8 @@ export class UserService {
                     throw new ServiceUnavailableException('Oop! address không hợp lệ')
                 }
 
-                const exists = await queryRunner.manager.findOne(CompanyInfoEntity, {
+                // only check in company tag
+                const exists = await queryRunner.manager.findOne(CompanyTagEntity, {
                     where: {
                         mst: company3rd.code
                     }
@@ -425,5 +421,126 @@ export class UserService {
                 'cvCertificates.certificate',
             ],
         });
+    }
+
+    async delete(id: number) {
+        const user = await this.usersRepository.findOne({
+            where: {
+                id
+            },
+            loadRelationIds: true
+        })
+
+        if (user.role === AppRole.company) {
+            // unlink company tag
+            await this.companyTagRepository.update({
+                companyInfo: Id(user.id)
+            }, {
+                companyInfo: null
+            });
+
+        }
+        return this.usersRepository.softDelete({
+            id
+        })
+    }
+
+    async unban(id: number) {
+        const user = await this.usersRepository.findOne({
+            where: {
+                id
+            },
+            relations: ['companyInfo']
+        })
+
+        if (user.role !== AppRole.ban) {
+            throw new ForbiddenException();
+        }
+
+        // link to company tag
+        if (user.companyInfo) {
+            const exists = await this.companyTagRepository.findOne({
+                where: {
+                    mst: user.companyInfo.mst
+                }
+            })
+            if (exists.companyInfo) {
+                throw new ConflictException('Trùng công ty, cần cấm hoặc xóa công ty bị trùng lập')
+            }
+
+            await this.companyTagRepository.update({
+                mst: user.companyInfo.mst
+            }, {
+                companyInfo: Id(user.companyInfo.id)
+            });
+        }
+
+        return this.usersRepository.update({ id }, {
+            role: user.userInfo ? AppRole.user
+                : user.companyInfo ? AppRole.company
+                    : AppRole.begin
+        })
+    }
+
+    async ban(id: number) {
+        const user = await this.usersRepository.findOne({
+            where: {
+                id
+            },
+            loadRelationIds: true
+        })
+
+        if (user.role === AppRole.company) {
+            // unlink company tag
+            await this.companyTagRepository.update({
+                companyInfo: Id(user.companyInfo as any)
+            }, {
+                companyInfo: null
+            });
+        }
+
+        return this.usersRepository.update({ id }, {
+            role: AppRole.ban
+        })
+    }
+
+    async search(search: UserSearchInputDto, page: PageOptionsDto) {
+        const qr = this.usersRepository.createQueryBuilder('user');
+
+        if (search.type == UserType.User) {
+            qr.innerJoinAndSelect('user.userInfo', 'userInfo')
+            qr.leftJoinAndSelect('userInfo.avatar', 'avatarU')
+            qr.leftJoinAndSelect('userInfo.banner', 'bannerU')
+            if (search.search) {
+                qr.andWhere(`
+                  (user.email like :prm_search or
+                  userInfo.fullName like :prm_search)
+                `,{ prm_search: `%${search.search}%` })
+            }
+        }
+
+        if (search.type == UserType.Company) {
+            qr.innerJoinAndSelect('user.companyInfo', 'companyInfo')
+            qr.leftJoinAndSelect('companyInfo.avatar', 'avatarC')
+            qr.leftJoinAndSelect('companyInfo.banner', 'bannerC')
+            if (search.search) {
+                qr.andWhere(`
+                  user.email like :prm_search or
+                  companyInfo.companyName like :prm_search or
+                `,{ prm_search: `%${search.search}%` })
+            }
+        }
+
+        const total = await qr.getCount();
+
+        if (page.order_field && page.order) {
+            qr.orderBy(page.order_field, page.order)
+        }
+        qr.skip(page.skip)
+        qr.take(page.take)
+        const result = await qr.getMany();
+
+        const meta = new PageMetaDto({ itemCount: total, pageOptionDto: page });
+        return new PageDto(result, meta)
     }
 }

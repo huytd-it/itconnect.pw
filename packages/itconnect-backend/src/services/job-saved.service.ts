@@ -40,6 +40,12 @@ export class JobSavedService {
     async search(search: JobSavedSearchInputDto, page: PageOptionsDto) {
         const qr = this.jobSavedRepository.createQueryBuilder('jobSaved');
         qr.innerJoinAndSelect('jobSaved.job', 'job');
+
+        // check company post exists and not banned
+        qr.innerJoinAndSelect('job.user', 'user', `user.role <> :prm_role`, {
+            prm_role: AppRole.ban
+        });
+
         qr.leftJoinAndSelect('job.addressProvince', 'addressProvince');
         qr.leftJoinAndSelect('job.addressDistrict', 'addressDistrict');
         qr.leftJoinAndSelect('job.addressVillage', 'addressVillage');

@@ -37,6 +37,12 @@ export class PointJobUserService {
     async search(search: PointJobUserSearchInputDto, page: PageOptionsDto) {
         const qr = this.pointJobUserRepository.createQueryBuilder('pju');
         qr.leftJoinAndSelect('pju.job', 'job');
+
+        // check company post exists and not banned
+        qr.innerJoinAndSelect('job.user', 'user', `user.role <> :prm_role`, {
+            prm_role: AppRole.ban
+        });
+
         qr.leftJoinAndSelect('job.companyTag', 'companyTag');
         qr.leftJoinAndSelect('companyTag.companyInfo', 'companyInfo');
         qr.leftJoinAndSelect('companyInfo.avatar', 'avatar');
@@ -100,7 +106,7 @@ export class PointJobUserService {
              *
              *
              */
-            qr.leftJoinAndSelect('pju.user', 'user');
+            qr.innerJoinAndSelect('pju.user', 'user', 'user.role <> :prm_role', { prm_role: AppRole.ban });
             qr.leftJoinAndSelect('user.userInfo', 'userInfo');
             qr.leftJoinAndSelect('userInfo.addressProvince', 'addressProvinceUI');
             qr.leftJoinAndSelect('userInfo.addressDistrict', 'addressDistrictUI');

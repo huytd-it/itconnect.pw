@@ -9,7 +9,8 @@ export enum AppRole {
     user = 'user',
     company = 'company',
     moder = 'moder',
-    admin = 'admin'
+    admin = 'admin',
+    ban = 'ban'
 }
 
 export enum AppPermission {
@@ -36,6 +37,9 @@ export enum AppPermission {
      *
      */
     USER = 'user',
+    USER_SEARCH = 'user_search',
+    USER_BAN = 'user_ban',
+    USER_DELETE = 'user_delete',
 
     /**
      * User
@@ -80,7 +84,7 @@ export enum AppPermission {
     JOB_DELETE = 'job_delete',
     JOB_SEARCH = 'job_search',
     JOB_APPROVE = 'job_approve',
-    JOB_BAN = 'job_approve',
+    JOB_BAN = 'job_ban',
     JOB_CNT = 'job_cnt',
 
     /**
@@ -413,7 +417,15 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
             AppPermission.JOB_SAVED,
             AppPermission.JOB,
         ].includes(item)
-    )
+    ),
+
+    /**
+     * Ban
+     *
+     */
+    [AppRole.ban]: [
+        AppPermission.PROFILE_DATA_BOOSTRAP,
+    ]
 }
 
 export const appRolesConfigHashMap = (function () {

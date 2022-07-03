@@ -1,0 +1,134 @@
+<div class="tw-p-5">
+  <div class="tw-flex tw-gap-3 tw-flex-wrap">
+    <mat-form-field appearance="outline" class="tw-w-full sm:tw-w-[300px]">
+      <mat-label>Tìm kiếm</mat-label>
+      <input matInput [(ngModel)]="search" (change)="onSearch()">
+      <mat-icon matPrefix>search</mat-icon>
+    </mat-form-field>
+<!--    <ng-select-->
+<!--      class="tw-w-full sm:tw-w-[150px]"-->
+<!--      appearance="outline"-->
+<!--      [bindLabel]="'name'"-->
+<!--      [placeholder]="'Sắp xếp theo'"-->
+<!--      [items]="orderField"-->
+<!--      [clearable]="false"-->
+<!--      [(ngModel)]="orderFieldSelected"-->
+<!--      (change)="onSearch()"-->
+<!--    ></ng-select>-->
+  </div>
+
+  <div>
+    <ng-container *ngIf="data">
+      <div class="tw-p-3 tw-text-[11px] tw-text-right tw-shadow-sm tw-text-[#888]">
+        {{data.meta.itemCount}} người dùng
+      </div>
+      <div class="tw-border">
+        <table
+          mat-table
+          [dataSource]="data.data || []"
+          matSort
+          (matSortChange)="announceSortChange($event)"
+          class="tw-w-full mat-elevation-z1 c-table"
+        >
+          <ng-container matColumnDef="user.id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sắp xếp theo thứ tự">
+              ID.
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="avatar">
+            <th mat-header-cell *matHeaderCellDef>
+              Ảnh đại diện
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <app-avatar [src]="element.userInfo['avatar']?.['slug'] | urlBySlug" [name]="element.userInfo.fullName"></app-avatar>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="userInfo.fullName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sắp xếp theo họ và tên">
+              Họ và tên
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{element.userInfo.fullName}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="user.email">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sắp xếp theo email">
+              Email
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{element.email}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="user.role">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sắp xếp theo cấm">
+              Trạng thái
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{element.role}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <div class="tw-flex tw-gap-3 tw-flex-wrap tw-justify-end">
+                <button
+                  *ngIf="element.role != AppRole.Ban"
+                  mat-stroked-button
+                  color="warn"
+                  [matTooltip]="'Khóa'"
+                  (click)="ban(element); $event.stopPropagation()"
+                >
+                  <mat-icon>block</mat-icon>
+                </button>
+                <button
+                  *ngIf="element.role == AppRole.Ban"
+                  mat-stroked-button
+                  color="primary"
+                  [matTooltip]="'Mở khóa'"
+                  (click)="unban(element); $event.stopPropagation()"
+                >
+                  <mat-icon>lock_open</mat-icon>
+                </button>
+                <button
+                  mat-stroked-button
+                  color="warn"
+                  [matTooltip]="'Xóa'"
+                  (click)="remove(element); $event.stopPropagation()"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumns;"
+            (click)="clickRow(row)"
+            [ngClass]="{
+              'ban': row.role === AppRole.Ban
+            }"
+          ></tr>
+        </table>
+      </div>
+      <div class="tw-flex tw-justify-center tw-p-4">
+        <mat-paginator
+          [disabled]="appService.headLoading$ | async"
+          [length]="data.meta.itemCount"
+          [pageSize]="data.meta.take"
+          [pageSizeOptions]="[5, 10, 25]"
+          (page)="onChangePage($event)"
+        ></mat-paginator>
+      </div>
+    </ng-container>
+  </div>
+</div>

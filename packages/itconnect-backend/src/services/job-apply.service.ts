@@ -38,6 +38,12 @@ export class JobApplyService {
     async search(search: JobApplySearchInputDto, page: PageOptionsDto) {
         const qr = this.jobApplyRepository.createQueryBuilder('jobApply');
         qr.innerJoinAndSelect('jobApply.job', 'job');
+
+        // check company post exists and not banned
+        qr.innerJoinAndSelect('job.user', 'user', `user.role <> :prm_role`, {
+            prm_role: AppRole.ban
+        });
+
         qr.leftJoinAndSelect('job.addressProvince', 'addressProvince');
         qr.leftJoinAndSelect('job.addressDistrict', 'addressDistrict');
         qr.leftJoinAndSelect('job.addressVillage', 'addressVillage');
@@ -64,7 +70,7 @@ export class JobApplyService {
         )
 
         if (this.user.role === AppRole.company) {
-            qr.leftJoinAndSelect('jobApply.user', 'user');
+            qr.innerJoinAndSelect('jobApply.user', 'user', 'user.role <> :prm_role', { prm_role: AppRole.ban });
             qr.leftJoinAndSelect('user.userInfo', 'userInfo');
             qr.leftJoinAndSelect('userInfo.addressProvince', 'addressProvinceUI');
             qr.leftJoinAndSelect('userInfo.addressDistrict', 'addressDistrictUI');

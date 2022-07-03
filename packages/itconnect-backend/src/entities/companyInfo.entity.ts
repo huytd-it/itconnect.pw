@@ -56,7 +56,6 @@ export class CompanyInfoEntity {
     phone: string;
 
     @Column({ nullable: true })
-    @Unique(['mst'])
     mst: string;
 
     @Column()
