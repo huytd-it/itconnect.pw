@@ -69,6 +69,8 @@ export class JobApplyService {
             qr.leftJoinAndSelect('userInfo.addressProvince', 'addressProvinceUI');
             qr.leftJoinAndSelect('userInfo.addressDistrict', 'addressDistrictUI');
             qr.leftJoinAndSelect('userInfo.addressVillage', 'addressVillageUI');
+            qr.leftJoinAndSelect('userInfo.avatar', 'avatarUV');
+            qr.leftJoinAndSelect('userInfo.banner', 'bannerUV');
             qr.leftJoinAndSelect(
                 'user.cvWorkExperienceCurrents',
                 'cvWorkExperienceCurrents',

@@ -1,0 +1,71 @@
+<div class="tw-p-5">
+  <div class="tw-flex tw-gap-3 tw-flex-wrap">
+    <mat-form-field appearance="outline" class="tw-w-full sm:tw-w-[300px]">
+      <mat-label>Tìm kiếm</mat-label>
+      <input matInput [(ngModel)]="search" (change)="onSearch()">
+      <mat-icon matPrefix>search</mat-icon>
+    </mat-form-field>
+    <ng-select
+      class="tw-w-full sm:tw-w-[150px]"
+      appearance="outline"
+      [bindLabel]="'name'"
+      [placeholder]="'Sắp xếp theo'"
+      [items]="orderField"
+      [clearable]="false"
+      [(ngModel)]="orderFieldSelected"
+      (change)="onSearch()"
+    ></ng-select>
+    <ng-select
+      class="tw-w-full sm:tw-w-[100px]"
+      appearance="outline"
+      [bindLabel]="'name'"
+      [placeholder]="'Thứ tự'"
+      [items]="order"
+      [clearable]="false"
+      [(ngModel)]="orderSelected"
+      (change)="onSearch()"
+    ></ng-select>
+  </div>
+
+  <div>
+    <ng-container *ngIf="data">
+      <div class="tw-p-3 tw-text-[11px] tw-text-right tw-shadow-sm tw-text-[#888]">
+        {{data.meta.itemCount}} việc làm thông qua tìm kiếm
+      </div>
+      <ng-container *ngFor="let item of data.data || []">
+        <app-job-item
+          [link]="'/u/admin/jobs/view/' + item.id.toString()"
+          [job]="item"
+        >
+          <button
+            mat-stroked-button
+            color="primary"
+            class="!tw-mr-3 !tw-mb-2"
+            [matTooltip]="'Chấp nhận'"
+            (click)="approve(item); $event.stopPropagation()"
+          >
+            <mat-icon>check_small</mat-icon>
+          </button>
+          <button
+            mat-stroked-button
+            color="warn"
+            class="!tw-mr-3 !tw-mb-2"
+            [matTooltip]="'Khóa'"
+            (click)="ban(item); $event.stopPropagation()"
+          >
+            <mat-icon>block</mat-icon>
+          </button>
+        </app-job-item>
+      </ng-container>
+      <div class="tw-flex tw-justify-center tw-p-4">
+        <mat-paginator
+          [disabled]="appService.headLoading$ | async"
+          [length]="data.meta.itemCount"
+          [pageSize]="data.meta.take"
+          [pageSizeOptions]="[5, 10, 25]"
+          (page)="onChangePage($event)"
+        ></mat-paginator>
+      </div>
+    </ng-container>
+  </div>
+</div>

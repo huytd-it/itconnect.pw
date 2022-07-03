@@ -88,6 +88,18 @@
     </div>
   </div>
 
+  <div
+    class="tw-text-center tw-mt-5 tw-py-5 tw-border tw-rounded tw-bg-gray-100 tw-flex tw-items-center tw-justify-center"
+    *ngIf="data.status !== JobStatus.Publish || isEnded"
+  >
+    <mat-icon>error</mat-icon>
+    <span class="tw-ml-3">
+      {{
+        getMessageStatus() || 'Hô sơ công việc này đã kết thúc'
+      }}
+    </span>
+  </div>
+
   <div class="tw-mt-10">
     <button
       *ngIf="hasApply"

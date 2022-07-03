@@ -22,9 +22,9 @@ export class UserCertificateService {
         const currentUser = this.request['user'] as UserEntity;
         return this.userCertificateEntity.findOne({
             where: {
-                user: {
-                    id: currentUser.id
-                },
+                // user: {
+                //     id: currentUser.id
+                // },
                 certificate: {
                     id: certificateId
                 }

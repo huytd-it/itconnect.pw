@@ -62,7 +62,7 @@ const routes: Routes = [
         loadChildren: () => import('./jobs/jobs.module').then(m => m.JobsModule),
         canActivate: [PermissionGuard],
         data: {
-          permission: AppPermission.JOB
+          permission: AppPermission.JOB_CNT
         }
       },
       {

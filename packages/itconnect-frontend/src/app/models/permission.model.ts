@@ -75,6 +75,7 @@ export enum AppPermission {
   JOB_CE = 'job_ce',
   JOB_DELETE = 'job_delete',
   JOB_SEARCH = 'job_search',
+  JOB_CNT = 'job_cnt',
 
   /**
    * Permission

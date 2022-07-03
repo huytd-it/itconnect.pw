@@ -80,6 +80,8 @@ export enum AppPermission {
     JOB_DELETE = 'job_delete',
     JOB_SEARCH = 'job_search',
     JOB_APPROVE = 'job_approve',
+    JOB_BAN = 'job_approve',
+    JOB_CNT = 'job_cnt',
 
     /**
      * Permission
@@ -231,9 +233,7 @@ export enum AppPermission {
      *
      */
     JOB_SUGGEST = 'job_suggest',
-
     POINT_JOB_USER_SEARCH = 'point_job_user_search',
-
     PEOPLE_SUGGEST = 'people_suggest',
 
     /**
@@ -290,6 +290,7 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.PEOPLE_SEARCH,
         AppPermission.JOB,
         AppPermission.JOB_SEARCH,
+        AppPermission.JOB_CNT,
         AppPermission.ADDRESS_SEARCH,
         AppPermission.SKILL_SEARCH,
         AppPermission.SKILL_CREATE_TAG,
@@ -368,6 +369,7 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.JOB_SEARCH,
         AppPermission.JOB_CE,
         AppPermission.JOB_DELETE,
+        AppPermission.JOB_CNT,
         AppPermission.ADDRESS_SEARCH,
         AppPermission.SKILL_SEARCH,
         AppPermission.SKILL_CREATE_TAG,
@@ -393,6 +395,7 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.FILE_DELETE,
         AppPermission.PROFILE_UPLOAD_IMG,
         AppPermission.USER,
+        AppPermission.USER_CERTIFICATE_GET_BY_CERT_ID
     ],
 
     /**

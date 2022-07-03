@@ -84,6 +84,15 @@ export class JobController {
     }
 
     @UseGuards(PermissionsGuard)
+    @RequirePermissions(AppPermission.JOB_BAN)
+    @Put('ban/:id')
+    ban(
+        @Param() dto: JobIdParamDto
+    ) {
+        return this.jobService.ban(dto.id);
+    }
+
+    @UseGuards(PermissionsGuard)
     @RequirePermissions(AppPermission.JOB_CE)
     @Put('stop/:id')
     stop(

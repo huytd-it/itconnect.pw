@@ -47,6 +47,16 @@ export class JobService {
     return this.httpClient.put(uri, httpOptions);
   }
 
+  approve(id: number) {
+    const uri = 'job/approve/' + id;
+    return this.httpClient.put(uri, httpOptions);
+  }
+
+  ban(id: number) {
+    const uri = 'job/ban/' + id;
+    return this.httpClient.put(uri, httpOptions);
+  }
+
   search(query: JobSearchOutput, body: Partial<JobSearchBodyOutput>) {
     const uri = 'job/search'
     return this.httpClient.post<JobSearchInput>(uri,

@@ -107,7 +107,7 @@ export class JobService {
             })
         )
         const data = await qr.getOne();
-        if (!hasCheckIsOwner) {
+        if (!hasCheckIsOwner && user.role !== AppRole.admin) {
                if (
                    data.status !== JobStatus.Publish &&
                    data.user.id !== user.id
@@ -142,7 +142,11 @@ export class JobService {
     }
 
     async approve(jobId: number) {
-        const jobEntity = await this.owner(jobId);
+        const jobEntity = await this.jobRepository.findOne({
+            where: {
+                id: jobId
+            }
+        });
         if (!jobEntity) {
             throw new ForbiddenException();
         }
@@ -155,6 +159,21 @@ export class JobService {
         } else {
             throw new BadRequestException(`status: ${jobEntity.status} is refuse`)
         }
+    }
+
+    async ban(jobId: number) {
+        const jobEntity =  await this.jobRepository.findOne({
+            where: {
+                id: jobId
+            }
+        });
+        if (!jobEntity) {
+            throw new ForbiddenException();
+        }
+
+        await this.jobRepository.update({ id: jobId }, {
+            status: JobStatus.Ban
+        });
     }
 
     async stop(jobId: number) {
@@ -535,9 +554,11 @@ export class JobService {
             body.includeJobExpired
         ) {
             const user = this.request['user'] as UserEntity;
-            qr.andWhere({
-                user: Id(user.id)
-            })
+            if (user.role !== AppRole.admin) {
+                qr.andWhere({
+                    user: Id(user.id)
+                })
+            }
         }
 
         // page

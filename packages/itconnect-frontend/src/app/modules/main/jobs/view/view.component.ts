@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Job} from "../../../../models/job.model";
+import {Job, JobStatus} from "../../../../models/job.model";
 import {JobService} from "../../../../services/job.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AppService} from "../../../../services/app.service";
@@ -20,6 +20,11 @@ export class ViewComponent implements OnInit {
   isJobModule: boolean;
 
   readonly AppPermission = AppPermission;
+  readonly JobStatus = JobStatus;
+
+  isEnded() {
+    return moment().isAfter(moment(this.data.endDate));
+  }
 
   get hasApply() {
     return moment().startOf('date').isSameOrBefore(this.data.endDate) &&
@@ -80,5 +85,15 @@ export class ViewComponent implements OnInit {
           this.data.jobSavedSelf = 1;
         })
     }
+  }
+
+  getMessageStatus() {
+    switch (this.data.status) {
+      case JobStatus.Draft: return 'Hô sơ công việc đang lưu nháp';
+      case JobStatus.Ban: return 'Hô sơ công việc đã bị khóa';
+      case JobStatus.WaitApprove: return 'Hô sơ công việc đang đợi kiểm tra';
+      case JobStatus.WaitSystem: return 'Hô sơ công việc đang phân tích';
+    }
+    return undefined;
   }
 }
