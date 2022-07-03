@@ -20,6 +20,8 @@ import {CertificateComponent} from "./certificate/certificate.component";
 import {CertificateItemComponent} from "./certificate-item/certificate-item.component";
 import {EducationComponent} from "./education/education.component";
 import {EducationItemComponent} from "./education-item/education-item.component";
+import {ProfileCompanyComponent} from "./profile-company/profile-company.component";
+import {CompanyInfoComponent} from "./company-info/company-info.component";
 
 
 
@@ -32,7 +34,9 @@ import {EducationItemComponent} from "./education-item/education-item.component"
     CertificateComponent,
     CertificateItemComponent,
     EducationComponent,
-    EducationItemComponent
+    EducationItemComponent,
+    ProfileCompanyComponent,
+    CompanyInfoComponent
   ],
     imports: [
         CommonModule,
@@ -52,7 +56,7 @@ import {EducationItemComponent} from "./education-item/education-item.component"
     ],
   exports: [
     ProfileUserComponent,
-    // ProfileCompanyComponent
+    ProfileCompanyComponent
   ]
 })
 export class ProfileComponentsModule { }

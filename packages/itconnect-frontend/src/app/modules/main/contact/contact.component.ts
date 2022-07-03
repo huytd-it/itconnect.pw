@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {UserService} from "../../../services/user.service";
 import {AppService} from "../../../services/app.service";
 import {User} from "../../../models/user.model";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {finalize} from "rxjs";
 import { AppRole } from 'src/app/models/permission.model';
+import {AuthService} from "../../../services/auth.service";
 
 @Component({
   selector: 'app-contact',
@@ -16,9 +17,11 @@ export class ContactComponent implements OnInit {
   AppRole = AppRole;
 
   constructor(
+    private authService: AuthService,
     private userService: UserService,
     private appService: AppService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -28,6 +31,10 @@ export class ContactComponent implements OnInit {
   }
 
   load(id: number) {
+    if (this.authService.data?.user.id == id) {
+      this.router.navigate(['/u/me']).then(() => {})
+      return;
+    }
     this.appService.setHeadLoading(true);
     this.userService.get(id)
       .pipe(finalize(() => this.appService.setHeadLoading(false)))

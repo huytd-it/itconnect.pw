@@ -1,3 +1,4 @@
 <div class="tw-max-w-[1100px] tw-m-auto tw-py-5" *ngIf="user">
   <app-profile-user *ngIf="user.role === AppRole.User" [user]="user"></app-profile-user>
+  <app-profile-company *ngIf="user.role === AppRole.Company" [user]="user"></app-profile-company>
 </div>

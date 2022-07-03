@@ -6,9 +6,6 @@
           <app-avatar [name]="userName || ''" [radius]="100" [src]="avatar | urlBySlug">
             <div class="tw-absolute tw-z-10 tw-left-0 tw-bottom-0 tw-bg-[#ccc] tw-opacity-60 tw-h-[35%] tw-w-full">
             </div>
-            <div class="tw-absolute tw-z-20 tw-left-0 tw-bottom-0 tw-h-[35%] tw-opacity-80 tw-w-full tw-flex tw-items-center tw-justify-center">
-              <app-image-cropper-button (onAdd)="onChangeAvatar($event)"></app-image-cropper-button>
-            </div>
           </app-avatar>
         </div>
         <span class="tw-text-textColor tw-mt-5 tw-font-bold tw-text-2xl">
@@ -17,35 +14,19 @@
       </div>
       <div class="tw-absolute tw-top-0 tw-left-0 tw-w-full tw-h-[170px] tw-z-0">
         <img [src]="(banner | urlBySlug) || '/assets/images/bg.jpg'" class="tw-w-full tw-h-full tw-object-cover tw-object-bottom">
-        <div class="tw-absolute tw-z-20 tw-right-0 tw-bottom-3">
-          <app-image-cropper-button
-            [aspectRatio]="5.5"
-            [cropperMinWidth]="1200"
-            [cropperMinHeight]="214"
-            [resizeToWidth]="1200"
-            [resizeToHeight]="214"
-            (onAdd)="onChangeBanner($event)"
-          ></app-image-cropper-button>
-        </div>
       </div>
     </div>
-    <mat-expansion-panel #infoPanel [expanded]="true" *ngIf="permission.PROFILE_COMPANY_CE | permission" class="!tw-rounded-t-none">
+    <mat-expansion-panel #infoPanel [expanded]="true" class="!tw-rounded-t-none">
       <mat-expansion-panel-header>
         <mat-panel-title>
           <div class="tw-font-medium tw-flex tw-items-center tw-text-textColor">
             <mat-icon class="tw-mr-3">info_outline</mat-icon>
             Thông tin chung
-            <button
-              *ngIf="infoPanel.expanded"
-              class="c-icon tw-w-[20px] tw-h-[20px] tw-bg-[length:20px_20px] c-btn icon-new-message tw-mx-3"
-              [matTooltip]="'Sửa'"
-              (click)="uIf.onEdit(); $event.preventDefault(); $event.stopPropagation()"
-            ></button>
           </div>
         </mat-panel-title>
       </mat-expansion-panel-header>
       <div class="tw-max-w-[500px]">
-        <app-company-info #uIf></app-company-info>
+        <app-company-info [user]="user"></app-company-info>
       </div>
     </mat-expansion-panel>
   </mat-accordion>
