@@ -10,22 +10,24 @@ import {FormsModule} from "@angular/forms";
 import {MatIconModule} from "@angular/material/icon";
 import {NgSelectModule} from "@ng-select/ng-select";
 import {MatInputModule} from "@angular/material/input";
+import {CommonComponentsModule} from "../../../../components/common-components.module";
 
 
 @NgModule({
   declarations: [
     JobOwnerComponent
   ],
-  imports: [
-    CommonModule,
-    JobOwnerRoutingModule,
-    UtilsModule,
-    MatPaginatorModule,
-    MatFormFieldModule,
-    FormsModule,
-    MatIconModule,
-    NgSelectModule,
-    MatInputModule
-  ]
+    imports: [
+        CommonModule,
+        JobOwnerRoutingModule,
+        UtilsModule,
+        MatPaginatorModule,
+        MatFormFieldModule,
+        FormsModule,
+        MatIconModule,
+        NgSelectModule,
+        MatInputModule,
+        CommonComponentsModule
+    ]
 })
 export class JobOwnerModule { }

@@ -3,6 +3,7 @@ export enum AppRole {
   User = 'user',
   Company = 'company',
   Moder = 'moder',
+  Admin = 'admin',
 }
 
 
@@ -24,6 +25,13 @@ export enum AppPermission {
   PROFILE_USER_CE = 'profile_user_ce',
   PROFILE_COMPANY_CE = 'profile_company_ce',
   PROFILE_COMPUTE_YOE = 'profile_compute_yoe',
+  PROFILE_UPLOAD_IMG = 'profile_upload_img',
+
+  /**
+   * User
+   *
+   */
+  USER = 'user',
 
   /**
    * User
@@ -222,6 +230,21 @@ export enum AppPermission {
   POINT_JOB_USER_SEARCH = 'point_job_user_search',
 
   PEOPLE_SUGGEST = 'people_suggest',
+
+  /**
+   * File
+   *
+   *
+   */
+  FILE_UPLOAD = 'file_upload',
+  FILE_DELETE = 'file_delete',
+
+
+  /**
+   * Admin
+   *
+   */
+  ADMIN = 'admin'
 }
 
 export type AppPermissionHashMap = Partial<{ [key in AppPermission]: boolean }>;

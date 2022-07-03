@@ -9,6 +9,7 @@ import {SkillSearchOutput} from "../../../../models/skill.model";
 import {WorkFromService} from "../../../../services/work-from.service";
 import {WorkFromSearchOutput} from "../../../../models/work-from.model";
 import {
+  Job,
   JobCertificateCreateOrEdit,
   JobCreateOrEditOutput,
   JobJobLevelCreateOrEdit,
@@ -32,6 +33,7 @@ import {JobService} from "../../../../services/job.service";
 import {JobTypeService} from "../../../../services/job-type.service";
 import {JobTypeSearchOutput} from "../../../../models/job-type.model";
 import {ActivatedRoute, Router} from "@angular/router";
+import {MappingNameToParentPipe} from "../../../../utils/pipes/mappingNameToParent.pipe";
 
 export enum FormField {
   skills = "skills",
@@ -65,6 +67,7 @@ export class CreateComponent implements OnInit {
       id: index + 1,
       name: `${index + 1}+`
   }))
+  jobEdit: Job | undefined;
 
   readonly FormField = FormField;
 
@@ -90,6 +93,7 @@ export class CreateComponent implements OnInit {
     private jobService: JobService,
     private router: Router,
     private route: ActivatedRoute,
+    private mappingNameToParentPipe: MappingNameToParentPipe
   ) {
     this.form = this.formBuilder.group({
       [FormField.skills]: [null],
@@ -113,6 +117,39 @@ export class CreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.route.params.subscribe(data => {
+      this.loadEdit(data['id']);
+    })
+  }
+
+  loadEdit(jobId: number) {
+    this.jobEdit = undefined;
+    if (!jobId) {
+      return;
+    }
+    this.appService.setHeadLoading(true);
+    this.jobService.getById(jobId)
+      .pipe(finalize(() => this.appService.setHeadLoading(false)))
+      .subscribe(data => {
+        this.jobEdit = data;
+        this.form.setValue({
+          [FormField.skills]: this.mappingNameToParentPipe.transform(data.jobSkills, 'skill'),
+          [FormField.positions]: this.mappingNameToParentPipe.transform(data.jobPositions, 'position'),
+          [FormField.certificate]: this.mappingNameToParentPipe.transform(data.jobCertificates, 'certificate'),
+          [FormField.school]: this.mappingNameToParentPipe.transform(data.jobSchools, 'school'),
+          [FormField.workFrom]: this.mappingNameToParentPipe.transform(data.jobWorkFrom, 'workFrom'),
+          [FormField.jobLevel]: this.mappingNameToParentPipe.transform(data.jobJobLevels, 'jobLevel'),
+          [FormField.jobType]: data.jobType,
+          [FormField.name]: data.name,
+          [FormField.dateEnd]: data.endDate,
+          [FormField.salaryFrom]: data.salaryMin,
+          [FormField.salaryTo]: data.salaryMax,
+          [FormField.yoe]: data.yoe,
+          [FormField.SkillExperience]: data.requirementContent,
+          [FormField.Description]: data.descriptionContent,
+          [FormField.Reason]: data.reasonContent,
+        })
+      })
   }
 
   private customValidate(formGroup: FormGroup) {
@@ -407,13 +444,17 @@ export class CreateComponent implements OnInit {
       reasonContent: value[FormField.Reason]
     }
 
+    if (this.jobEdit) {
+      data.id = this.jobEdit.id;
+    }
+
     this.appService.setHeadLoading(true);
     this.jobService.createOrEdit(data, true, isDraft)
       .pipe(finalize(() => {
         this.appService.setHeadLoading(false);
       }))
       .subscribe((data) => {
-        this.router.navigate(['..', 'manage', data.id.toString()], { relativeTo: this.route }).then(() => {})
+        this.router.navigate(['/u/jobs/manage', data.id.toString()]).then(() => {})
       })
   }
 }

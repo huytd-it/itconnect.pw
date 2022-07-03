@@ -37,7 +37,7 @@ export class JobApplyService {
 
     async search(search: JobApplySearchInputDto, page: PageOptionsDto) {
         const qr = this.jobApplyRepository.createQueryBuilder('jobApply');
-        qr.leftJoinAndSelect('jobApply.job', 'job');
+        qr.innerJoinAndSelect('jobApply.job', 'job');
         qr.leftJoinAndSelect('job.addressProvince', 'addressProvince');
         qr.leftJoinAndSelect('job.addressDistrict', 'addressDistrict');
         qr.leftJoinAndSelect('job.addressVillage', 'addressVillage');

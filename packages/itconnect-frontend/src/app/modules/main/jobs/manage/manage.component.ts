@@ -6,6 +6,8 @@ import {finalize} from "rxjs";
 import {Job, JobStatus} from "../../../../models/job.model";
 import {MatTabGroup} from "@angular/material/tabs";
 import * as _ from "lodash";
+import * as moment from "moment";
+import {NotifyService} from "../../../../services/notify.service";
 
 @Component({
   selector: 'app-manage',
@@ -16,11 +18,18 @@ export class ManageComponent implements OnInit {
   @ViewChild('tabGroup') tabGroup: MatTabGroup;
   data: Job;
 
+  readonly JobStatus = JobStatus;
+
+  get isEnded() {
+    return moment().isAfter(moment(this.data.endDate));
+  }
+
   constructor(
     private jobService: JobService,
     private appService: AppService,
     private route: ActivatedRoute,
     private router: Router,
+    private notify: NotifyService
   ) {
     this.route.params.subscribe(params => {
       this.loadJob(params['id']);
@@ -76,5 +85,33 @@ export class ManageComponent implements OnInit {
         break;
     }
     this.router.navigate(path, { relativeTo: this.route }).then(() => {})
+  }
+
+  publish() {
+    this.appService.setHeadLoading(true);
+    this.jobService.publish(this.data.id)
+      .pipe(finalize(() => this.appService.setHeadLoading(false)))
+      .subscribe(() => {
+        this.loadJob(this.data.id);
+      })
+  }
+
+  stop() {
+    this.appService.setHeadLoading(true);
+    this.jobService.stop(this.data.id)
+      .pipe(finalize(() => this.appService.setHeadLoading(false)))
+      .subscribe(() => {
+        this.loadJob(this.data.id);
+      })
+  }
+
+  delete() {
+    this.appService.setHeadLoading(true);
+    this.jobService.delete(this.data.id)
+      .pipe(finalize(() => this.appService.setHeadLoading(false)))
+      .subscribe(() => {
+        this.notify.success('Công việc', `Đã xóa thành công ${this.data.name}`);
+        this.router.navigate(['/u/jobs/owner']).then(() => {})
+      })
   }
 }

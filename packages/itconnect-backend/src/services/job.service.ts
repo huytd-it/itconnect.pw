@@ -126,6 +126,52 @@ export class JobService {
         return this.jobRepository.softRemove(data);
     }
 
+    async publish(jobId: number) {
+        const jobEntity = await this.owner(jobId);
+        if (!jobEntity) {
+            throw new ForbiddenException();
+        }
+
+        if (jobEntity.status === JobStatus.Draft) {
+            await this.jobRepository.update({ id: jobId }, {
+                status: JobStatus.WaitApprove
+            });
+        } else {
+            throw new BadRequestException(`status: ${jobEntity.status} is refuse`)
+        }
+    }
+
+    async approve(jobId: number) {
+        const jobEntity = await this.owner(jobId);
+        if (!jobEntity) {
+            throw new ForbiddenException();
+        }
+
+        if (jobEntity.status === JobStatus.WaitApprove) {
+            await this.jobRepository.update({ id: jobId }, {
+                status: JobStatus.WaitSystem
+            });
+            await this.pointWithJobQueue.registerComputeJob(jobEntity.id);
+        } else {
+            throw new BadRequestException(`status: ${jobEntity.status} is refuse`)
+        }
+    }
+
+    async stop(jobId: number) {
+        const jobEntity = await this.owner(jobId);
+        if (!jobEntity) {
+            throw new ForbiddenException();
+        }
+
+        if (jobEntity.status === JobStatus.Publish) {
+            await this.jobRepository.update({ id: jobId }, {
+                endDate: moment().subtract(1, 'days').startOf('date').toDate()
+            });
+        } else {
+            throw new BadRequestException(`status: ${jobEntity.status} is refuse`)
+        }
+    }
+
     async createOrEdit(data: JobCreateOrEditDto, hasResponseEntity: boolean, draft: boolean) {
         // decrease cpu, not validate owner tagged skill, position, certificate, school
         const user = this.request['user'] as UserEntity;
@@ -187,6 +233,12 @@ export class JobService {
         dataEntity.jobType = data.jobType ? Id(data.jobType) : null;
 
         try {
+            if (draft) {
+                dataEntity.status = JobStatus.Draft;
+            } else {
+                dataEntity.status = JobStatus.WaitApprove;
+            }
+
             if (id) {
                 // update
                 // check owner
@@ -195,11 +247,7 @@ export class JobService {
                     throw new ForbiddenException();
                 }
 
-                // only update when status is Draft or WaitApprove
-                if (
-                    jobEntity.status === JobStatus.Draft ||
-                    jobEntity.status === JobStatus.WaitApprove
-                ) {
+                if (jobEntity.status === JobStatus.Draft) {
                     await queryRunner.manager.update(JobEntity, { id }, dataEntity);
                 } else {
                     throw new BadRequestException(`status: ${jobEntity.status} is refuse`)
@@ -207,13 +255,6 @@ export class JobService {
 
             } else {
                 // create
-                if (draft) {
-                    dataEntity.status = JobStatus.Draft;
-                } else {
-                    // not wait approve because, it not module approve on role moder
-                    // updated: If it has role moder change to WaitApprove
-                    dataEntity.status = JobStatus.Publish; // WaitSystem
-                }
                 dataEntity.user = Id(user.id);
                 const result = await queryRunner.manager.save(JobEntity, dataEntity);
                 id = result.id;
@@ -285,9 +326,10 @@ export class JobService {
             await queryRunner.release();
         }
 
-        if (dataEntity.status === JobStatus.Publish || dataEntity.status === JobStatus.WaitSystem) {
-            await this.pointWithJobQueue.registerComputeJob(id);
-        }
+        // not compute wait approve
+        // if (!draft) {
+        //     await this.pointWithJobQueue.registerComputeJob(id);
+        // }
 
         if (hasResponseEntity) {
             return this.getById(id, true);

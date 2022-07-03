@@ -42,6 +42,10 @@ export class PermissionGuard implements CanActivate {
               routeTo = 'complete-profile'
               break;
 
+            case AppRole.Admin:
+              routeTo = 'admin'
+              break;
+
             default:
               routeTo = 'home';
           }

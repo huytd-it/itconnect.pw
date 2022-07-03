@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Param, Post, Query, UseGuards} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards} from '@nestjs/common';
 import {ApiBearerAuth, ApiOkResponse, ApiTags} from "@nestjs/swagger";
 import {JwtAuthGuard} from "../../utils/guards/jwt.guard";
 import {PermissionsGuard} from "../../polices/permissions.guard";
@@ -60,9 +60,36 @@ export class JobController {
     @RequirePermissions(AppPermission.JOB_DELETE)
     @Delete('/:id')
     delete(
-        @Body() dto: JobIdParamDto
+        @Param() dto: JobIdParamDto
     ) {
         return this.jobService.delete(dto.id);
+    }
+
+    @UseGuards(PermissionsGuard)
+    @RequirePermissions(AppPermission.JOB_CE)
+    @Put('publish/:id')
+    publish(
+        @Param() dto: JobIdParamDto
+    ) {
+        return this.jobService.publish(dto.id);
+    }
+
+    @UseGuards(PermissionsGuard)
+    @RequirePermissions(AppPermission.JOB_APPROVE)
+    @Put('approve/:id')
+    approve(
+        @Param() dto: JobIdParamDto
+    ) {
+        return this.jobService.approve(dto.id);
+    }
+
+    @UseGuards(PermissionsGuard)
+    @RequirePermissions(AppPermission.JOB_CE)
+    @Put('stop/:id')
+    stop(
+        @Param() dto: JobIdParamDto
+    ) {
+        return this.jobService.stop(dto.id);
     }
 
     @UseGuards(PermissionsGuard)

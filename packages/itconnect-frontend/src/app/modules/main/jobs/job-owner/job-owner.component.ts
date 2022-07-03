@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {JobService} from "../../../../services/job.service";
 import {AppService} from "../../../../services/app.service";
-import {JobSearchBodyOutput, JobSearchInput, JobSearchOutput, JobStatus} from "../../../../models/job.model";
+import {Job, JobSearchBodyOutput, JobSearchInput, JobSearchOutput, JobStatus} from "../../../../models/job.model";
 import {finalize} from "rxjs";
 import {PageEvent} from "@angular/material/paginator";
+import * as moment from "moment";
 
 @Component({
   selector: 'app-job-owner',
@@ -84,5 +85,9 @@ export class JobOwnerComponent implements OnInit {
 
   getStatusText(status: JobStatus) {
     return this.jobService.getStatusText(status)
+  }
+
+  isEnded(item: Job) {
+    return moment().isAfter(moment(item.endDate));
   }
 }

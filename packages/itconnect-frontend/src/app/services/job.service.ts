@@ -32,6 +32,21 @@ export class JobService {
     });
   }
 
+  delete(id: number) {
+    const uri = 'job/' + id;
+    return this.httpClient.delete(uri, httpOptions);
+  }
+
+  publish(id: number) {
+    const uri = 'job/publish/' + id;
+    return this.httpClient.put(uri, httpOptions);
+  }
+
+  stop(id: number) {
+    const uri = 'job/stop/' + id;
+    return this.httpClient.put(uri, httpOptions);
+  }
+
   search(query: JobSearchOutput, body: Partial<JobSearchBodyOutput>) {
     const uri = 'job/search'
     return this.httpClient.post<JobSearchInput>(uri,
@@ -54,7 +69,7 @@ export class JobService {
       case JobStatus.WaitApprove: return 'đang kiểm duyệt';
       case JobStatus.WaitSystem: return 'đang xữ lý';
       case JobStatus.Publish: return 'công khai';
-      case JobStatus.Hide: return 'ẩn';
+      case JobStatus.Ban: return 'bị khóa';
     }
     return 'không xác định'
   }

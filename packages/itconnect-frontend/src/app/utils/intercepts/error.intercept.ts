@@ -19,7 +19,7 @@ export class ErrorIntercept implements HttpInterceptor {
       this.notifyService.error(err.error.error || 'Unknown error', err.error.message || 'um......');
       if(
         err.status === 401 &&
-        !req.url.match(/main\/auth/)
+        !req.url.match(/\/auth\/(login|register)/)
       ) {
         this.authService.logout();
         this.router.navigate(['/']).then(r => {});

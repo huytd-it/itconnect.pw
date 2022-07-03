@@ -39,7 +39,7 @@ export class JobSavedService {
 
     async search(search: JobSavedSearchInputDto, page: PageOptionsDto) {
         const qr = this.jobSavedRepository.createQueryBuilder('jobSaved');
-        qr.leftJoinAndSelect('jobSaved.job', 'job');
+        qr.innerJoinAndSelect('jobSaved.job', 'job');
         qr.leftJoinAndSelect('job.addressProvince', 'addressProvince');
         qr.leftJoinAndSelect('job.addressDistrict', 'addressDistrict');
         qr.leftJoinAndSelect('job.addressVillage', 'addressVillage');

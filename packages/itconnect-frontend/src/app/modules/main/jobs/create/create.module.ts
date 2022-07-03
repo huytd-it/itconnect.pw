@@ -9,6 +9,7 @@ import {CommonComponentsModule} from "../../../../components/common-components.m
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {NgSelectModule} from "@ng-select/ng-select";
 import {MatIconModule} from "@angular/material/icon";
+import {UtilsModule} from "../../../../utils/utils.module";
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import {MatIconModule} from "@angular/material/icon";
         CommonComponentsModule,
         MatDatepickerModule,
         NgSelectModule,
-        MatIconModule
+        MatIconModule,
+      UtilsModule
     ]
 })
 export class CreateModule { }

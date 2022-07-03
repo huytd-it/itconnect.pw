@@ -8,7 +8,8 @@ export enum AppRole {
     begin = 'begin',
     user = 'user',
     company = 'company',
-    moder = 'moder'
+    moder = 'moder',
+    admin = 'admin'
 }
 
 export enum AppPermission {
@@ -78,6 +79,7 @@ export enum AppPermission {
     JOB_CE = 'job_ce',
     JOB_DELETE = 'job_delete',
     JOB_SEARCH = 'job_search',
+    JOB_APPROVE = 'job_approve',
 
     /**
      * Permission
@@ -240,7 +242,14 @@ export enum AppPermission {
      *
      */
     FILE_UPLOAD = 'file_upload',
-    FILE_DELETE = 'file_delete'
+    FILE_DELETE = 'file_delete',
+
+
+    /**
+     * Admin
+     *
+     */
+    ADMIN = 'admin'
 }
 
 
@@ -358,6 +367,7 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.JOB_CREATE,
         AppPermission.JOB_SEARCH,
         AppPermission.JOB_CE,
+        AppPermission.JOB_DELETE,
         AppPermission.ADDRESS_SEARCH,
         AppPermission.SKILL_SEARCH,
         AppPermission.SKILL_CREATE_TAG,
@@ -386,11 +396,21 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
     ],
 
     /**
-     * Moder
+     * Admin
      *
      */
-    [AppRole.moder]: [
-    ]
+    [AppRole.admin]: Object.values(AppPermission).filter(
+        (item) => ![
+            AppPermission.POST_FEED,
+            AppPermission.NOTIFICATION,
+            AppPermission.FRIEND,
+            AppPermission.MESSAGE,
+            AppPermission.PROFILE,
+            AppPermission.JOB_APPLY_CREATE,
+            AppPermission.JOB_SAVED,
+            AppPermission.JOB,
+        ].includes(item)
+    )
 }
 
 export const appRolesConfigHashMap = (function () {

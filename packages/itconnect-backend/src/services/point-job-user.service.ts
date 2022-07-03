@@ -21,6 +21,8 @@ export class PointJobUserService {
     constructor(
         @InjectRepository(PointJobUserEntity)
         private pointJobUserRepository: Repository<PointJobUserEntity>,
+        @InjectRepository(JobEntity)
+        private jobRepository: Repository<JobEntity>,
         private dataSource: DataSource,
         private pointConfigService: PointConfigService,
         @Inject(REQUEST) private request: Request,
@@ -150,6 +152,10 @@ export class PointJobUserService {
         let totalJob = 0;
         try {
             let user = await this.getUser(queryRunner, userId);
+            if (!user) {
+                return 0;
+            }
+
             // console.log(util.inspect(user, false, null, true /* enable colors */))
             let currentIndex = 0;
             let jobTake = POINT_MAX_USER_PER_TICK;
@@ -194,6 +200,10 @@ export class PointJobUserService {
         let totalUser = 0;
         try {
             let job = await this.getJob(queryRunner, jobId);
+            if (!job) {
+                return 0;
+            }
+
             let currentIndex = 0;
             let userTake = POINT_MAX_USER_PER_TICK;
             totalUser = await this.countUserCanMapping(queryRunner, job);
@@ -218,6 +228,12 @@ export class PointJobUserService {
                 // next page
                 currentIndex += userTake;
             }
+
+            // update status to publish
+            await queryRunner.manager.update(JobEntity, { id: jobId }, {
+                status: JobStatus.Publish
+            });
+
             await queryRunner.commitTransaction();
         } catch (e) {
             console.log(e);

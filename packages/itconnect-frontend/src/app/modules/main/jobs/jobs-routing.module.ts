@@ -19,6 +19,14 @@ const routes: Routes = [
         }
       },
       {
+        path: 'edit/:id',
+        loadChildren: () => import('./create/create.module').then(m => m.CreateModule),
+        canActivate: [PermissionGuard],
+        data: {
+          permission: AppPermission.JOB_CE
+        }
+      },
+      {
         path: 'view',
         loadChildren: () => import('./view/view.module').then(m => m.ViewModule),
         canActivate: [PermissionGuard],

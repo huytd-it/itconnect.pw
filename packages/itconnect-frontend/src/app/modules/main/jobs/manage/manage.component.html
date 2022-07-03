@@ -5,28 +5,37 @@
       <div class="tw-text-medium tw-text-2xl tw-mt-5">
         {{data.name}}
       </div>
+      <div
+        class="tw-text-center tw-mt-5 tw-py-5 tw-border tw-rounded tw-bg-gray-100 tw-flex tw-items-center tw-justify-center"
+        *ngIf="isEnded"
+      >
+        <mat-icon>error</mat-icon>
+        <span class="tw-ml-3">
+          Hồ sơ việc làm này đã kết thúc
+        </span>
+      </div>
       <div class="tw-flex tw-gap-3 tw-mt-10">
-        <button mat-stroked-button>
+        <button mat-stroked-button [routerLink]="'/u/jobs/view/' + data.id">
           <mat-icon>visibility</mat-icon>
-          Xem
+           Xem
         </button>
-        <button mat-stroked-button>
+        <button
+          mat-stroked-button
+          *ngIf="data.status === JobStatus.Draft"
+          [routerLink]="'/u/jobs/edit/'+ data.id"
+        >
           <mat-icon>edit</mat-icon>
           Chỉnh sửa
         </button>
-        <button mat-stroked-button color="warn">
-          <mat-icon>delete_outline</mat-icon>
-          Xóa
-        </button>
-        <button mat-stroked-button>
-          <mat-icon>hide_source</mat-icon>
-          Ẩn
-        </button>
-        <button mat-stroked-button color="primary">
+        <button mat-stroked-button color="primary" *ngIf="data.status === JobStatus.Draft" (click)="publish()">
           <mat-icon>publish</mat-icon>
           Công khai
         </button>
-        <button mat-stroked-button color="warn">
+        <button mat-stroked-button color="warn" (click)="delete()">
+          <mat-icon>delete_outline</mat-icon>
+          Xóa
+        </button>
+        <button mat-stroked-button color="warn" *ngIf="data.status === JobStatus.Publish && !isEnded" (click)="stop()">
           <mat-icon>done</mat-icon>
           Kết thúc nhận hồ sơ
         </button>

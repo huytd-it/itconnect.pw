@@ -43,14 +43,19 @@
         <div
           class="tw-w-[10px]"
           [ngClass]="{
-            'tw-bg-green-700': item.status == JobStatus.Publish,
+            'tw-bg-green-500': item.status == JobStatus.Publish && !isEnded(item),
+            'tw-bg-green-200': item.status == JobStatus.Publish && isEnded(item),
             'tw-bg-gray-500': item.status == JobStatus.Draft,
-            'tw-bg-orange-500': item.status != JobStatus.Publish && item.status != JobStatus.Draft
+            'tw-bg-orange-800': item.status == JobStatus.WaitSystem,
+            'tw-bg-orange-500': item.status == JobStatus.WaitApprove,
+            'tw-bg-red-500': item.status == JobStatus.Ban
           }"
         ></div>
-        <div class="tw-w-[90px] tw-min-w-[90px] tw-p-3">
-          <img src="/assets/images/company-default.png">
-        </div>
+        <app-avatar
+          [cornerFull]="false"
+          [radius]="80"
+          [src]="(item.companyTag?.companyInfo?.avatar?.slug | urlBySlug) || '/assets/images/company-default.png'"
+        ></app-avatar>
         <div class="tw-pt-1 tw-flex-auto tw-py-3">
           <a class="tw-text-lg tw-text-primaryColor line-2">
             {{item.name}}
@@ -61,6 +66,9 @@
             </div>
             <span class="tw-text-[13px] tw-p-0.5 tw-px-1 tw-border tw-rounded">
               {{getStatusText(item.status)}}
+            </span>
+            <span class="tw-text-[13px] tw-p-0.5 tw-px-1 tw-border tw-rounded tw-border-orange-400 tw-text-orange-400" *ngIf="isEnded(item)">
+              Đã kết thúc
             </span>
           </div>
           <div class="tw-text-[12px]">

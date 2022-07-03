@@ -36,6 +36,9 @@ import {MappingNameToParentPipe} from "./pipes/mappingNameToParent.pipe";
     RolePipe,
     UrlBySlugPipe,
     MappingNameToParentPipe
+  ],
+  providers: [
+    MappingNameToParentPipe
   ]
 })
 export class UtilsModule { }

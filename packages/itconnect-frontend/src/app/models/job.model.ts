@@ -135,7 +135,7 @@ export enum JobStatus {
   WaitApprove = 2,
   WaitSystem = 3,
   Publish = 4,
-  Hide = 5
+  Ban = 5
 }
 
 
