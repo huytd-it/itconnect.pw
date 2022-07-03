@@ -73,3 +73,18 @@ export class TaggedInput {
   updatedAt: Date;
   deleteAt: Date;
 }
+
+export enum StatisticGroupBy {
+  Hour = 1,
+  Day = 2,
+  Month = 3,
+  Year = 4,
+}
+
+export class StatisticOutput {
+  start?: Date;
+  end?: Date;
+  group?: StatisticGroupBy;
+  jobId?: number;
+}
+

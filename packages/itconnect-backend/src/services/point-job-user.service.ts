@@ -39,7 +39,7 @@ export class PointJobUserService {
         qr.leftJoinAndSelect('pju.job', 'job');
 
         // check company post exists and not banned
-        qr.innerJoinAndSelect('job.user', 'user', `user.role <> :prm_role`, {
+        qr.innerJoinAndSelect('job.user', 'userV2', `userV2.role <> :prm_role`, {
             prm_role: AppRole.ban
         });
 

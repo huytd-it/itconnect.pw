@@ -41,6 +41,7 @@ import {PointJobUserModule} from "./modules/point-job-user/point-job-user.module
 import {ServicesModule} from "./services/services.module";
 import { FileModule } from './modules/file/file.module';
 import { UserModule } from './modules/user/user.module';
+import { JobViewLogModule } from './modules/job-view-log/job-view-log.module';
 
 @Module({
   imports: [
@@ -83,7 +84,8 @@ import { UserModule } from './modules/user/user.module';
       QueuesModule,
       PointJobUserModule,
       FileModule,
-      UserModule
+      UserModule,
+      JobViewLogModule
   ],
   controllers: [AppController],
   providers: [

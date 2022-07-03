@@ -73,6 +73,8 @@ import {QueuePointWithJob, QueuePointWithUser} from "../queues/queue.enum";
 import {PointJobUserQueue} from "../queues/point-job-user.queue";
 import {FileService} from "./file.service";
 import {FileEntity} from "../entities/file.entity";
+import { JobViewLogService } from './job-view-log.service';
+import {JobViewLogEntity} from "../entities/jobViewLog.entity";
 
 @Module({
   imports: [
@@ -115,7 +117,8 @@ import {FileEntity} from "../entities/file.entity";
         JobSavedEntity,
         PointConfigEntity,
         PointJobUserEntity,
-        FileEntity
+        FileEntity,
+        JobViewLogEntity
     ]),
       HttpModule.registerAsync({
           imports: [ConfigModule],
@@ -154,7 +157,8 @@ import {FileEntity} from "../entities/file.entity";
       JobSavedService,
       PointJobUserService,
       PointConfigService,
-      FileService
+      FileService,
+      JobViewLogService
   ],
   exports: [
       UserService,
@@ -183,7 +187,8 @@ import {FileEntity} from "../entities/file.entity";
       JobSavedService,
       PointJobUserService,
       PointConfigService,
-      FileService
+      FileService,
+      JobViewLogService
   ]
 })
 export class ServicesModule {

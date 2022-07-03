@@ -2,6 +2,7 @@ import {IsArray, IsEnum, IsInt, IsOptional, Max, Min} from "class-validator";
 import {ApiProperty, ApiPropertyOptional} from "@nestjs/swagger";
 import {Type} from "class-transformer";
 import {HasOrderField} from "../validators/page-has-order-field.validate";
+import * as moment from "moment";
 
 export enum Order {
     ASC = "ASC",
@@ -99,4 +100,64 @@ export class PageDto<T> {
         this.data = data;
         this.meta = meta;
     }
+}
+
+export enum StatisticGroupBy {
+    Hour = 1,
+    Day = 2,
+    Month = 3,
+    Year = 4,
+}
+
+export function getFormatDateGroupBy(type: StatisticGroupBy) {
+    switch (type) {
+        case StatisticGroupBy.Hour: return '%Hh %d-%m-%Y'
+        case StatisticGroupBy.Day: return '%d-%m-%Y'
+        case StatisticGroupBy.Month: return '%m-%Y'
+        case StatisticGroupBy.Year: return '%Y'
+    }
+}
+
+export function getFormatDateGroupByMoment(type: StatisticGroupBy) {
+    switch (type) {
+        case StatisticGroupBy.Hour: return 'HH[h] DD-MM-YYYY'
+        case StatisticGroupBy.Day: return 'DD-MM-YYYY'
+        case StatisticGroupBy.Month: return 'MM-YYYY'
+        case StatisticGroupBy.Year: return 'YYYY'
+    }
+}
+
+export function getAllDateInRange(type: StatisticGroupBy, start: Date, end: Date) {
+    let s = moment(start);
+    let e = moment(end);
+    const data = [];
+    const f = getFormatDateGroupByMoment(type);
+
+    while (s < e) {
+        data.push({
+            legend: s.format(f)
+        })
+
+        s = s.add(
+            1,
+            type === StatisticGroupBy.Hour ? 'hour' :
+            type === StatisticGroupBy.Day ? 'day' :
+            type === StatisticGroupBy.Month ? 'month' :
+            'year'
+        );
+    }
+
+    return data;
+}
+
+export function fillAllDate(data: { legend: string }[], start: Date, end: Date, group: StatisticGroupBy) {
+    const hashingData = data.reduce((val, item) => {
+        val[item.legend] = item;
+        return val;
+    }, {})
+    const fill = getAllDateInRange(group, start, end);
+    return fill.map(item => ({
+        ...item,
+        ...hashingData[item.legend]
+    }))
 }

@@ -9,6 +9,7 @@ import * as moment from "moment";
 import {AppPermission} from 'src/app/models/permission.model';
 import {PermissionService} from "../../../../services/permission.service";
 import {JobSavedService} from "../../../../services/job-saved.service";
+import {JobViewLogService} from "../../../../services/job-view-log.service";
 
 @Component({
   selector: 'app-view',
@@ -38,7 +39,8 @@ export class ViewComponent implements OnInit {
     private router: Router,
     private jobApplyService: JobApplyService,
     private jobSavedService: JobSavedService,
-    private permissionService: PermissionService
+    private permissionService: PermissionService,
+    private jobViewLogService: JobViewLogService
   ) {
     this.route.params.subscribe(params => {
       this.loadJob(params['id']);
@@ -57,6 +59,7 @@ export class ViewComponent implements OnInit {
       .pipe(finalize(() => this.appService.setHeadLoading(false)))
       .subscribe((data) => {
         this.data = data;
+        this.jobViewLogService.create(id).subscribe(() => {});
       })
   }
 

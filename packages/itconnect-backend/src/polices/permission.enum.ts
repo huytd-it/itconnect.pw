@@ -253,7 +253,14 @@ export enum AppPermission {
      * Admin
      *
      */
-    ADMIN = 'admin'
+    ADMIN = 'admin',
+
+    /**
+     *
+     *
+     */
+    JOB_VIEW_LOG_CREATE = 'job_view_log_create',
+    JOB_VIEW_LOG_STS = 'job_view_log_sts',
 }
 
 
@@ -354,6 +361,8 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.FILE_DELETE,
         AppPermission.PROFILE_UPLOAD_IMG,
         AppPermission.USER,
+        AppPermission.JOB_VIEW_LOG_CREATE,
+        AppPermission.JOB_VIEW_LOG_STS
     ],
 
     /***
@@ -399,7 +408,9 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.FILE_DELETE,
         AppPermission.PROFILE_UPLOAD_IMG,
         AppPermission.USER,
-        AppPermission.USER_CERTIFICATE_GET_BY_CERT_ID
+        AppPermission.USER_CERTIFICATE_GET_BY_CERT_ID,
+        AppPermission.JOB_VIEW_LOG_CREATE,
+        AppPermission.JOB_VIEW_LOG_STS
     ],
 
     /**

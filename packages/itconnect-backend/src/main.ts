@@ -83,6 +83,7 @@ async function bootstrap() {
       .addTag('job')
       .addTag('job-apply')
       .addTag('job-saved')
+      .addTag('job-view-log')
       .addTag('point-job-user')
       .addTag('file')
       .build();
