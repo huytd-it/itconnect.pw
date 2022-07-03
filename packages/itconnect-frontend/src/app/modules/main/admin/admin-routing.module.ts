@@ -8,7 +8,10 @@ const routes: Routes = [
     component: AdminComponent,
     children: [
       { path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule) },
-      { path: 'jobs', loadChildren: () => import('./jobs/jobs.module').then(m => m.JobsModule) }
+      { path: 'jobs', loadChildren: () => import('./jobs/jobs.module').then(m => m.JobsModule) },
+      { path: 'user', loadChildren: () => import('./user/user.module').then(m => m.UserModule) },
+      { path: 'company', loadChildren: () => import('./company/company.module').then(m => m.CompanyModule) },
+      { path: '**', redirectTo: 'dashboard' }
     ]
   },
 ];

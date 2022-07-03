@@ -39,23 +39,19 @@
 
           <ng-container matColumnDef="avatar">
             <th mat-header-cell *matHeaderCellDef>
-              Logo
+              Ảnh đại diện
             </th>
             <td mat-cell *matCellDef="let element">
-              <app-avatar
-                [cornerFull]="false"
-                [src]="element.companyInfo['avatar']?.['slug'] | urlBySlug"
-                [name]="element.companyInfo.name"
-              ></app-avatar>
+              <app-avatar [src]="element.userInfo['avatar']?.['slug'] | urlBySlug" [name]="element.userInfo.fullName"></app-avatar>
             </td>
           </ng-container>
 
-          <ng-container matColumnDef="companyInfo.companyName">
+          <ng-container matColumnDef="userInfo.fullName">
             <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sắp xếp theo họ và tên">
-              Tên công ty
+              Họ và tên
             </th>
             <td mat-cell *matCellDef="let element">
-              {{element.companyInfo.companyName}}
+              {{element.userInfo.fullName}}
             </td>
           </ng-container>
 

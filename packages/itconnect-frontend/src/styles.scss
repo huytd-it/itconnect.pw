@@ -319,3 +319,20 @@ body > .ng-dropdown-panel {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+
+.c-table {
+  .mat-row .mat-cell {
+    //border-bottom: 1px solid transparent;
+    //border-top: 1px solid transparent;
+    cursor: pointer;
+  }
+
+  .mat-row.ban .mat-cell {
+    background: #ffcccc;
+  }
+
+  .mat-row:hover .mat-cell {
+    background: #f1f1f1;
+  }
+}

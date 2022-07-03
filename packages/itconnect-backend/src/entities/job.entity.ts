@@ -23,6 +23,7 @@ import {JobJobLevelEntity} from "./jobJobLevel.entity";
 import {JobTypeEntity} from "./jobType.entity";
 import {JobApplyEntity} from "./jobApply.entity";
 import {JobSavedEntity} from "./jobSaved.entity";
+import {JobViewLogEntity} from "./jobViewLog.entity";
 
 export enum JobStatus {
     Draft = 1,
@@ -81,6 +82,9 @@ export class JobEntity {
     @OneToMany(type => JobSavedEntity, db => db.job)
     jobSaved: JobSavedEntity[];
     jobSavedSelf: number;
+
+    @OneToMany(type => JobViewLogEntity, db => db.job)
+    jobViewLogs: JobViewLogEntity[];
 
     @ManyToOne(type => JobTypeEntity)
     jobType: JobTypeEntity;

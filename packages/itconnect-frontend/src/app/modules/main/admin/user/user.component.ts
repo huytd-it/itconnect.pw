@@ -9,13 +9,13 @@ import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-user',
-  templateUrl: './company.component.html',
-  styleUrls: ['./company.component.scss']
+  templateUrl: './user.component.html',
+  styleUrls: ['./user.component.scss']
 })
-export class CompanyComponent implements OnInit {
+export class UserComponent implements OnInit {
   orderField = 'user.createdAt';
   order = 'DESC';
-  displayedColumns: string[] = ['user.id', 'avatar', 'companyInfo.companyName', 'user.email', 'user.role', 'action'];
+  displayedColumns: string[] = ['user.id', 'avatar', 'userInfo.fullName', 'user.email', 'user.role', 'action'];
 
   search: string;
   data: UserSearchInput;
@@ -39,7 +39,7 @@ export class CompanyComponent implements OnInit {
       order: <any>this.order,
       page,
       take,
-      type: UserType.Company
+      type: UserType.User
     }
     this.appService.setHeadLoading(true);
     this.userService.search(query)
@@ -74,7 +74,7 @@ export class CompanyComponent implements OnInit {
     this.userService.unban(user.id)
       .pipe(finalize(() => this.appService.setHeadLoading(false)))
       .subscribe(data => {
-        user.role = AppRole.Company;
+        user.role = AppRole.User;
       })
   }
 

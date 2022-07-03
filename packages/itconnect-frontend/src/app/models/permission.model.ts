@@ -4,6 +4,7 @@ export enum AppRole {
   Company = 'company',
   Moder = 'moder',
   Admin = 'admin',
+  Ban = 'ban'
 }
 
 

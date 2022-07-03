@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { CompanyRoutingModule } from './company-routing.module';
-import { CompanyComponent } from './company.component';
+import { UserRoutingModule } from './user-routing.module';
+import { UserComponent } from './user.component';
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatIconModule} from "@angular/material/icon";
@@ -19,11 +19,11 @@ import {CommonComponentsModule} from "../../../../components/common-components.m
 
 @NgModule({
   declarations: [
-    CompanyComponent
+    UserComponent
   ],
   imports: [
     CommonModule,
-    CompanyRoutingModule,
+    UserRoutingModule,
     MatPaginatorModule,
     MatTooltipModule,
     MatIconModule,
@@ -38,4 +38,4 @@ import {CommonComponentsModule} from "../../../../components/common-components.m
     CommonComponentsModule
   ]
 })
-export class CompanyModule { }
+export class UserModule { }

@@ -2,3 +2,16 @@
   <app-profile-user *ngIf="user.role === AppRole.User" [user]="user"></app-profile-user>
   <app-profile-company *ngIf="user.role === AppRole.Company" [user]="user"></app-profile-company>
 </div>
+<ng-container *ngIf="user.role === AppRole.Ban">
+  <div class="tw-flex tw-h-[calc(100vh-100px)] tw-justify-center tw-items-center">
+    <div class="tw-w-full md:tw-w-[400px] tw-bg-white tw-rounded-md tw-shadow">
+      <div class="tw-font-medium tw-p-3 tw-border-b tw-text-xl">
+        Tài khoản này đã bị vô hiệu hóa
+      </div>
+      <div class="tw-p-5 tw-text-[13px]">
+        Vui lòng liên hệ admin@itconnect.pw để được hỗ trợ.
+      </div>
+    </div>
+
+  </div>
+</ng-container>

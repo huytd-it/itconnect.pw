@@ -81,6 +81,7 @@ const routes: Routes = [
           permission: AppPermission.ADMIN
         }
       },
+      { path: 'ban', loadChildren: () => import('./ban/ban.module').then(m => m.BanModule) },
       { path: '**', redirectTo: 'home' },
     ],
   },

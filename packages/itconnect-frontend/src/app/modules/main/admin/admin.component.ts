@@ -48,6 +48,12 @@ export class AdminComponent implements OnInit {
         class: 'person',
         link: '/u/admin/user',
         permission: AppPermission.ADMIN
+      },
+      {
+        name: "Công ty",
+        class: 'apartment',
+        link: '/u/admin/company',
+        permission: AppPermission.ADMIN
       }
     ]
   }

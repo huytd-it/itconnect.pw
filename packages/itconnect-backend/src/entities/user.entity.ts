@@ -24,6 +24,7 @@ import {JobSavedEntity} from "./jobSaved.entity";
 import {PositionEntity} from "./position.entity";
 import {UserPositionEntity} from "./userPosition.entity";
 import {FileEntity} from "./file.entity";
+import {JobViewLogEntity} from "./jobViewLog.entity";
 
 
 @Entity()
@@ -89,6 +90,9 @@ export class UserEntity {
 
     @OneToMany(type => JobSavedEntity, db => db.user)
     jobSaved: JobApplyEntity[];
+
+    @OneToMany(type => JobViewLogEntity, db => db.user)
+    jobViewLogs: JobViewLogEntity[];
 
     @CreateDateColumn()
     createdAt: Date;

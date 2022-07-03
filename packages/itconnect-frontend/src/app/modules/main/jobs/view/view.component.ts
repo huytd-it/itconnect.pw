@@ -22,7 +22,7 @@ export class ViewComponent implements OnInit {
   readonly AppPermission = AppPermission;
   readonly JobStatus = JobStatus;
 
-  isEnded() {
+  get isEnded() {
     return moment().isAfter(moment(this.data.endDate));
   }
 

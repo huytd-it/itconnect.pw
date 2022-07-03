@@ -1,4 +1,4 @@
-import {BaseTable} from "./common";
+import {BaseTable, PageInput, SearchPageOutput} from "./common";
 import {AppRole} from "./permission.model";
 import {JobLevel} from "./job-level.model";
 import {Address} from "./address.model";
@@ -9,6 +9,7 @@ import {UserPosition} from "./user-position.model";
 import {UserSkill} from "./user-skill.model";
 import {CvCertificate} from "./cv-certificate.model";
 import {CvEducation} from "./cv-education.model";
+import {WorkFrom} from "./work-from.model";
 
 export class UserInfo extends BaseTable {
   id: number;
@@ -49,4 +50,16 @@ export class UserInfoComputeYoe {
   computeYoe: number;
   computeYoeDate: Date;
   computeYoeCurrent: boolean;
+}
+
+export enum UserType {
+  User = 1,
+  Company = 2
+}
+
+export class UserSearchInput extends PageInput<User> {}
+
+export class UserSearchOutput extends SearchPageOutput {
+  role?: AppRole;
+  type: UserType;
 }

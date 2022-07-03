@@ -89,8 +89,8 @@
   </div>
 
   <div
+    *ngIf="(data.status != JobStatus.Publish) || isEnded"
     class="tw-text-center tw-mt-5 tw-py-5 tw-border tw-rounded tw-bg-gray-100 tw-flex tw-items-center tw-justify-center"
-    *ngIf="data.status !== JobStatus.Publish || isEnded"
   >
     <mat-icon>error</mat-icon>
     <span class="tw-ml-3">
@@ -103,7 +103,7 @@
   <div class="tw-mt-10">
     <button
       *ngIf="hasApply"
-      mat-raised-button
+      mat-stroked-button
       color="primary"
       [disabled]="data.jobApplySelf > 0 || (appService.headLoading$ | async)"
       (click)="apply()"
