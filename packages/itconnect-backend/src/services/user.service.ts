@@ -1,7 +1,7 @@
 import {ConflictException, ForbiddenException, Injectable, ServiceUnavailableException} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {UserEntity} from "../entities/user.entity";
-import {DataSource, Repository} from "typeorm";
+import {DataSource, IsNull, Not, Repository} from "typeorm";
 import {
     CreateOrEditCompanyProfileInputDto,
     CreateOrEditCompanyProfileOutputDto,
@@ -224,7 +224,10 @@ export class UserService {
                 // only check in company tag
                 const exists = await queryRunner.manager.findOne(CompanyTagEntity, {
                     where: {
-                        mst: company3rd.code
+                        mst: company3rd.code,
+                        companyInfo: {
+                            id: Not(IsNull())
+                        }
                     }
                 })
                 if (exists) {
@@ -434,7 +437,7 @@ export class UserService {
         if (user.role === AppRole.company) {
             // unlink company tag
             await this.companyTagRepository.update({
-                companyInfo: Id(user.id)
+                companyInfo: Id(user.companyInfo as any)
             }, {
                 companyInfo: null
             });

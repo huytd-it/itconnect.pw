@@ -120,6 +120,10 @@ export class PointJobUserService {
                 'cvWorkExperiences.endDate is null'
             )
             qr.leftJoinAndSelect('cvWorkExperiences.companyTag', 'companyTagCV');
+
+            // owner
+            qr.andWhere('userV2.id = :prm_owner', { prm_owner: this.user.id })
+
             if (search.jobId) {
                 qr.andWhere('pju.jobId = :prm_job_id', {
                     prm_job_id: search.jobId

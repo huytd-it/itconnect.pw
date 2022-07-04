@@ -1,7 +1,7 @@
 <div class="tw-border tw-rounded-lg tw-shadow-sm tw-bg-white tw-relative tw-overflow-hidden">
 
   <div class="tw-absolute tw-top-0 tw-left-0 tw-w-full tw-h-[80px] tw-z-0">
-    <img [src]="slugBanner | urlBySlug" class="tw-w-full tw-h-full tw-object-cover tw-object-bottom">
+    <img [src]="(slugBanner | urlBySlug) || '/assets/images/bg.jpg'" class="tw-w-full tw-h-full tw-object-cover tw-object-bottom">
   </div>
   <div class="tw-flex tw-justify-center tw-flex-col tw-items-center tw-z-10 tw-relative tw-mt-[50px] tw-mb-10">
     <div class="tw-rounded-full tw-border-white tw-border-4">
