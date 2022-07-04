@@ -1,0 +1,47 @@
+<div class="tw-border tw-rounded-lg tw-shadow-sm tw-bg-white tw-min-h-[calc(100vh-100px) tw-mb-3">
+  <h3 class="!tw-font-medium tw-p-3 !tw-text-[18px] tw-border-b tw-flex tw-items-center">
+    <mat-icon>trending_up</mat-icon>
+    <span class="tw-ml-3">
+      Top 10 nổi bật
+    </span>
+  </h3>
+
+  <div class="tw-flex tw-flex-wrap tw-gap-3 tw-p-3">
+    <ng-container
+      *ngFor="let item of menu"
+    >
+      <ng-container *ngIf="item.value === menuSelected.value">
+        <button
+          mat-stroked-button
+          class="tw-rounded-md tw-border tw-p-3"
+        >
+          <span>
+            {{item.name}}
+          </span>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="item.value !== menuSelected.value">
+        <button
+          mat-button
+          class="tw-rounded-md tw-border tw-p-3"
+          (click)="onSelectTab(item)"
+        >
+          <span class="!tw-text-gray-500">
+            {{item.name}}
+          </span>
+        </button>
+      </ng-container>
+    </ng-container>
+  </div>
+
+  <ng-container *ngFor="let item of data?.data || []">
+    <app-job-item
+      [link]="item.id.toString()"
+      [job]="item"
+    ></app-job-item>
+  </ng-container>
+
+  <div class="tw-flex tw-items-center tw-gap-3 tw-font-medium tw-text-[20px] tw-h-[300px] tw-justify-center tw-text-[#ccc]" *ngIf="!data?.data?.length">
+    Chưa có công việc nào
+  </div>
+</div>

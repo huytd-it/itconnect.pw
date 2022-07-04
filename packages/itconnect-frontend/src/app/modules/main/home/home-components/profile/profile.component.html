@@ -7,9 +7,9 @@
     <div class="tw-rounded-full tw-border-white tw-border-4">
       <app-avatar [src]="slugAvatar | urlBySlug" [name]="name" [radius]="60"></app-avatar>
     </div>
-    <span class="tw-text-textColor tw-mt-3 tw-font-medium">
+    <a class="tw-text-textColor tw-text-[17px] tw-mt-3 tw-font-medium tw-p-3 tw-text-center" [routerLink]="'/u/me'">
       {{name}}
-    </span>
+    </a>
   </div>
 
 </div>
