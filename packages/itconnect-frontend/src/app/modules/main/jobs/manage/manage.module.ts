@@ -6,18 +6,26 @@ import { ManageComponent } from './manage.component';
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
+import { ChartComponent } from './chart/chart.component';
+import {AmchartModule} from "../../../../amchart/amchart.module";
+import {NgSelectModule} from "@ng-select/ng-select";
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
   declarations: [
-    ManageComponent
+    ManageComponent,
+    ChartComponent
   ],
   imports: [
     CommonModule,
     ManageRoutingModule,
     MatTabsModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    AmchartModule,
+    NgSelectModule,
+    FormsModule
   ]
 })
 export class ManageModule { }

@@ -1,4 +1,5 @@
 import {AppPermission} from "./permission.model";
+import * as moment from "moment";
 
 export interface MenuItem {
   name: string;
@@ -88,3 +89,89 @@ export class StatisticOutput {
   jobId?: number;
 }
 
+export class AmchartLineConfig {
+  name: string;
+  field: string;
+  stroke: string;
+  fill?: string;
+  strokeDasharray?: number[]
+}
+
+export enum EStatisticOptions {
+  CurrentDay,
+  Last7Day,
+  Last14Day,
+  All
+}
+
+export const StatisticOptions = [
+  {
+    name: 'Hôm nay',
+    value: EStatisticOptions.CurrentDay
+  },
+  {
+    name: '7 ngày qua',
+    value: EStatisticOptions.Last7Day
+  },
+  {
+    name: '14 ngày qua',
+    value: EStatisticOptions.Last14Day
+  },
+  {
+    name: 'Tất cả',
+    value: EStatisticOptions.All
+  }
+]
+
+export function getStatisticOptions(type: EStatisticOptions): StatisticOutput {
+  const e = moment().toDate();
+  let s: Date | undefined = undefined;
+  let group: StatisticGroupBy | undefined = undefined;
+  switch (type) {
+    case EStatisticOptions.CurrentDay:
+      s = moment().startOf('day').toDate();
+      group = StatisticGroupBy.Hour
+      break;
+
+    case EStatisticOptions.Last7Day:
+      s = moment().subtract(7, 'day').toDate();
+      group = StatisticGroupBy.Day
+      break;
+
+    case EStatisticOptions.Last14Day:
+      s = moment().subtract(14, 'day').toDate();
+      group = StatisticGroupBy.Day
+      break;
+
+    case EStatisticOptions.All  :
+      group = StatisticGroupBy.Day
+      break;
+  }
+
+  return {
+    start: s,
+    end: e,
+    group
+  }
+}
+
+export function mergeStatistic(...data: { legend: string}[][]) {
+  const hashing = data.map(d => d.reduce<{ [key: string]: any }>((val, item) => {
+    val[item.legend] = item;
+    return val;
+  }, {}))
+
+  data = data.sort((a, b) => b.length - a.length);
+
+  return data[0].map((item, index) => {
+    let result = item;
+    hashing.forEach(it => {
+      result = {
+        ...result,
+        ...it[item.legend]
+      }
+    })
+    return result;
+  })
+
+}

@@ -6,13 +6,14 @@ import {
     JobApplyCreateInputDto,
     JobApplyDeleteInputDto,
     JobApplyDto,
-    JobApplySearchInputDto
+    JobApplySearchInputDto, JobApplyStatisticOption
 } from "../../dtos/jobApply.dto";
 import {RequirePermissions} from "../../polices/polices.decorator";
 import {AppPermission} from "../../polices/permission.enum";
 import {ApiPaginatedResponse} from "../../utils/decorators/api-paginated-response.decorator";
 import {PageOptionsDto} from "../../dtos/page.dto";
 import {PermissionsGuard} from "../../polices/permissions.guard";
+import {JobViewLogStatisticOption} from "../../dtos/job-view-log.dto";
 
 @ApiTags('job-apply')
 @ApiBearerAuth()
@@ -53,5 +54,14 @@ export class JobApplyController {
         @Param() data: JobApplyDeleteInputDto
     ) {
         return this.jobApplyService.delete(data.id);
+    }
+
+    @UseGuards(PermissionsGuard)
+    @RequirePermissions(AppPermission.JOB_APPLY_STS)
+    @Post('sts')
+    statistic(
+        @Body() query: JobApplyStatisticOption
+    ) {
+        return this.jobApplyService.sts(query);
     }
 }

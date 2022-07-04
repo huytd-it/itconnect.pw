@@ -241,6 +241,9 @@ export class JobDto extends EntityDto {
 
     @ApiProperty()
     jobSavedSelf: number;
+
+    @ApiProperty()
+    jobViewLogCount: number;
 }
 
 export class JobIdParamDto {

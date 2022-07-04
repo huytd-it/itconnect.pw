@@ -20,3 +20,8 @@ export class JobApplySearchOutput extends SearchPageOutput {
 
 export class JobApplyCreateInput {
 }
+
+export class JobApplyStsInput {
+  legend: string;
+  countApply: number;
+}

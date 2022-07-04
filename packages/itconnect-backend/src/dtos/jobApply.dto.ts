@@ -4,6 +4,7 @@ import {EntityDto} from "./abstract.dto";
 import {JobDto} from "./job.dto";
 import {UserDto} from "./user.dto";
 import {Type} from "class-transformer";
+import {StatisticGroupBy} from "./page.dto";
 
 export class JobApplyDto extends EntityDto {
     @ApiProperty()
@@ -38,4 +39,18 @@ export class JobApplyCreateInputDto {
 export class JobApplyDeleteInputDto {
     @ApiProperty()
     id: number;
+}
+
+export class JobApplyStatisticOption {
+    @ApiPropertyOptional()
+    start: Date;
+
+    @ApiPropertyOptional()
+    end: Date;
+
+    @ApiProperty()
+    group: StatisticGroupBy;
+
+    @ApiPropertyOptional()
+    jobId: number;
 }

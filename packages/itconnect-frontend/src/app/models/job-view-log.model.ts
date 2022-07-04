@@ -8,7 +8,7 @@ export class JobViewLog {
   createdAt: Date;
 }
 
-export class JobViewLogInput {
+export class JobViewLogStsInput {
   legend: string;
   countView: number;
   countUnique: number;

@@ -105,6 +105,7 @@ export class Job extends BaseTable {
   jobApplyCount: number;
   jobApplySelf: number;
   jobSavedSelf: number;
+  jobViewLogCount: number;
 }
 export class JobCreateOrEditOutput {
   id?: number;

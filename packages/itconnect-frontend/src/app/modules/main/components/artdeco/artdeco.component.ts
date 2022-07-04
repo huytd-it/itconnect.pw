@@ -35,7 +35,7 @@ export class ArtdecoComponent implements OnInit {
       return this.authService.data?.user?.companyInfo?.companyName || 'N/A';
     }
 
-    return this.authService.data?.user?.userInfo?.fullName || 'N/A';
+    return this.authService.data?.user?.userInfo?.fullName || this.authService.data?.user.email || 'N/A';
   }
 
   constructor(

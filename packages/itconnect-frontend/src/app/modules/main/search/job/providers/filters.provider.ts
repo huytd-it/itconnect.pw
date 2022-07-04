@@ -58,6 +58,18 @@ export class FiltersProvider {
       value: 'job.updatedAt'
     },
     {
+      name: 'Số người ứng tuyển',
+      value: 'jobViewLogCount'
+    },
+    {
+      name: 'Số người xem',
+      value: 'jobApplyCount'
+    },
+    {
+      name: 'Số người lưu',
+      value: 'jobSavedCount'
+    },
+    {
       name: 'Công ty',
       value: 'companyTag.name'
     },

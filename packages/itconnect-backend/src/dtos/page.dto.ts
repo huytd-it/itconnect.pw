@@ -133,7 +133,7 @@ export function getAllDateInRange(type: StatisticGroupBy, start: Date, end: Date
     const data = [];
     const f = getFormatDateGroupByMoment(type);
 
-    while (s < e) {
+    while (s <= e) {
         data.push({
             legend: s.format(f)
         })

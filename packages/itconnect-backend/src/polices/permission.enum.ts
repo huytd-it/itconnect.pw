@@ -222,6 +222,7 @@ export enum AppPermission {
     JOB_APPLY_SEARCH = 'JOB_APPLY_SEARCH',
     JOB_APPLY_CREATE = 'JOB_APPLY_CREATE',
     JOB_APPLY_DELETE = 'JOB_APPLY_DELETE',
+    JOB_APPLY_STS = 'JOB_APPLY_STS',
 
     /**
      * JOB SAVED
@@ -362,7 +363,8 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.PROFILE_UPLOAD_IMG,
         AppPermission.USER,
         AppPermission.JOB_VIEW_LOG_CREATE,
-        AppPermission.JOB_VIEW_LOG_STS
+        AppPermission.JOB_VIEW_LOG_STS,
+        AppPermission.JOB_APPLY_STS
     ],
 
     /***
@@ -410,7 +412,8 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.USER,
         AppPermission.USER_CERTIFICATE_GET_BY_CERT_ID,
         AppPermission.JOB_VIEW_LOG_CREATE,
-        AppPermission.JOB_VIEW_LOG_STS
+        AppPermission.JOB_VIEW_LOG_STS,
+        AppPermission.JOB_APPLY_STS
     ],
 
     /**

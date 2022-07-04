@@ -1,0 +1,17 @@
+<ng-select
+  class="tw-w-full sm:tw-w-[150px]"
+  appearance="outline"
+  [bindLabel]="'name'"
+  [placeholder]="'Thời gian'"
+  [items]="groups"
+  [clearable]="false"
+  [(ngModel)]="groupSelected"
+  (change)="onGroup()"
+></ng-select>
+
+<div class="tw-h-[300px]">
+  <app-amchart-line
+    [data]="data"
+    [config]="config"
+  ></app-amchart-line>
+</div>

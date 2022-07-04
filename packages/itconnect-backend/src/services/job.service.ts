@@ -24,6 +24,9 @@ import * as moment from "moment";
 import {DateUtils} from "typeorm/util/DateUtils";
 import {JobTypeEntity} from "../entities/jobType.entity";
 import {PointJobUserQueue} from "../queues/point-job-user.queue";
+import {JobViewLogEntity} from "../entities/jobViewLog.entity";
+import {JobApplyEntity} from "../entities/jobApply.entity";
+import {JobSavedEntity} from "../entities/jobSaved.entity";
 
 @Injectable({ scope: Scope.REQUEST })
 export class JobService {
@@ -110,6 +113,11 @@ export class JobService {
             (qr) => qr.where({
                 user: Id(user.id)
             })
+        )
+        qr.loadRelationCountAndMap(
+            'job.jobViewLogCount',
+            'job.jobViewLogs',
+            'jobViewLogCount'
         )
         const data = await qr.getOne();
         if (!data) {
@@ -611,6 +619,32 @@ export class JobService {
                 user: Id(user.id)
             })
         )
+        qr.loadRelationCountAndMap(
+            'job.jobViewLogCount',
+            'job.jobViewLogs',
+            'jobViewLogCount'
+        )
+
+        // fast fix mapping count
+        // need update
+        qr.addSelect((qb) => {
+            return qb.select('COUNT(*)', 'jobViewLogCount')
+                .from(JobViewLogEntity, 'jvl')
+                .where('jvl.jobId = job.id');
+        }, 'jobViewLogCount')
+
+        qr.addSelect((qb) => {
+            return qb.select('COUNT(*)', 'jobApplyCount')
+                .from(JobApplyEntity, 'jvl')
+                .where('jvl.jobId = job.id');
+        }, 'jobApplyCount')
+
+        qr.addSelect((qb) => {
+            return qb.select('COUNT(*)', 'jobSavedCount')
+                .from(JobSavedEntity, 'jvl')
+                .where('jvl.jobId = job.id');
+        }, 'jobSavedCount')
+
         // qr.select([
         //     'job',
         //     'companyTag.id',
