@@ -13,6 +13,12 @@ export class SkillDto extends EntityDto {
     name: string;
 
     @ApiProperty()
+    userSkillCount: number;
+
+    @ApiProperty()
+    jobSkillCount: number;
+
+    @ApiProperty()
     isApprove: boolean;
 }
 

@@ -161,3 +161,15 @@ export function fillAllDate(data: { legend: string }[], start: Date, end: Date, 
         ...hashingData[item.legend]
     }))
 }
+
+
+export class CreateOrEditTag {
+    @ApiPropertyOptional()
+    id: number
+
+    @ApiProperty()
+    name: string
+
+    @ApiPropertyOptional()
+    isApprove
+}

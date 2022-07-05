@@ -1,5 +1,5 @@
 import {ConflictException, Inject, Injectable, Request, Scope} from '@nestjs/common';
-import {PageDto, PageMetaDto, PageOptionsDto} from "../dtos/page.dto";
+import {CreateOrEditTag, PageDto, PageMetaDto, PageOptionsDto} from "../dtos/page.dto";
 import {FindOptionsWhere, In, Like, Repository} from "typeorm";
 import {InjectRepository} from "@nestjs/typeorm";
 import {SkillEntity} from "../entities/skill.entity";
@@ -9,6 +9,9 @@ import {REQUEST} from "@nestjs/core";
 import {UserEntity} from "../entities/user.entity";
 import {hasUserTagged} from "../polices/permission.enum";
 import {UserTaggedSkillEntity} from "../entities/userTaggedSkill.entity";
+import {JobViewLogEntity} from "../entities/jobViewLog.entity";
+import {JobSkillEntity} from "../entities/jobSkill.entity";
+import {UserSkillEntity} from "../entities/userSkill.entity";
 
 @Injectable({ scope: Scope.REQUEST })
 export class SkillService {
@@ -89,6 +92,31 @@ export class SkillService {
         // count all data
         const total = await query.getCount();
 
+        // count
+        query.loadRelationCountAndMap(
+            'skill.jobSkillCount',
+            'skill.jobSkills',
+            'jobSkillCount'
+        )
+        query.loadRelationCountAndMap(
+            'skill.userSkillCount',
+            'skill.userSkills',
+            'userSkillCount'
+        )
+
+        // fast fix mapping count
+        // need update
+        query.addSelect((qb) => {
+            return qb.select('COUNT(*)', 'userSkillCount')
+                .from(UserSkillEntity, 'jk')
+                .where('jk.skillId = skill.id');
+        }, 'userSkillCount')
+        query.addSelect((qb) => {
+            return qb.select('COUNT(*)', 'jobSkillCount')
+                .from(JobSkillEntity, 'jk')
+                .where('jk.skillId = skill.id');
+        }, 'jobSkillCount')
+
         // query data
         query.skip(dtoPage.skip);
         query.take(dtoPage.take);
@@ -131,5 +159,35 @@ export class SkillService {
         }
 
         return skill;
+    }
+
+    async createOrEdit(data: CreateOrEditTag) {
+        if (data.id) {
+            const tag = await this.skillRepository.findOne({
+                where: {
+                    id: data.id
+                }
+            })
+            if (tag) {
+                return await this.skillRepository.update({ id: tag.id }, {
+                    name: data.name,
+                    isApprove: data.isApprove
+                })
+            }
+        } else {
+            const exists = await this.skillRepository.findOne({
+                where: {
+                    name: data.name
+                }
+            })
+            if (exists) {
+                throw new ConflictException('Đã tồn tại');
+            }
+            return this.skillRepository.save({
+                id: data.id,
+                name: data.name,
+                isApprove: data.isApprove
+            })
+        }
     }
 }

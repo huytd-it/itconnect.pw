@@ -2,8 +2,7 @@ import {ConflictException, Inject, Injectable, Request, Scope} from '@nestjs/com
 import {InjectRepository} from "@nestjs/typeorm";
 import {PositionEntity} from "../entities/position.entity";
 import {FindManyOptions, FindOptionsWhere, In, Like, Repository} from "typeorm";
-import {SkillDto, SkillSearchInputDto} from "../dtos/skill.dto";
-import {PageDto, PageMetaDto, PageOptionsDto} from "../dtos/page.dto";
+import {CreateOrEditTag, PageDto, PageMetaDto, PageOptionsDto} from "../dtos/page.dto";
 import {PositionCreateDto, PositionDto, PositionSearchInputDto} from "../dtos/position.dto";
 import {UserEntity} from "../entities/user.entity";
 import {hasUserTagged} from "../polices/permission.enum";
@@ -11,6 +10,8 @@ import {UserTaggedPositionEntity} from "../entities/userTaggedPosition.entity";
 import {REQUEST} from "@nestjs/core";
 import {SkillEntity} from "../entities/skill.entity";
 import {Approve} from "../dtos/abstract.dto";
+import {UserPositionEntity} from "../entities/userPosition.entity";
+import {JobPositionEntity} from "../entities/jobPosition.entity";
 
 @Injectable({ scope: Scope.REQUEST })
 export class PositionService {
@@ -91,6 +92,31 @@ export class PositionService {
         // count all data
         const total = await query.getCount();
 
+        // count
+        query.loadRelationCountAndMap(
+            'position.jobPositionCount',
+            'position.jobPositions',
+            'jobPositionCount'
+        )
+        query.loadRelationCountAndMap(
+            'position.userPositionCount',
+            'position.userPositions',
+            'userPositionCount'
+        )
+
+        // fast fix mapping count
+        // need update
+        query.addSelect((qb) => {
+            return qb.select('COUNT(*)', 'userPositionCount')
+                .from(UserPositionEntity, 'jk')
+                .where('jk.positionId = position.id');
+        }, 'userPositionCount')
+        query.addSelect((qb) => {
+            return qb.select('COUNT(*)', 'jobPositionCount')
+                .from(JobPositionEntity, 'jk')
+                .where('jk.positionId = position.id');
+        }, 'jobPositionCount')
+
         // query data
         query.skip(dtoPage.skip);
         query.take(dtoPage.take);
@@ -133,5 +159,35 @@ export class PositionService {
         }
 
         return position;
+    }
+
+    async createOrEdit(data: CreateOrEditTag) {
+        if (data.id) {
+            const tag = await this.positionRepository.findOne({
+                where: {
+                    id: data.id
+                }
+            })
+            if (tag) {
+                return await this.positionRepository.update({ id: tag.id }, {
+                    name: data.name,
+                    isApprove: data.isApprove
+                })
+            }
+        } else {
+            const exists = await this.positionRepository.findOne({
+                where: {
+                    name: data.name
+                }
+            })
+            if (exists) {
+                throw new ConflictException('Đã tồn tại');
+            }
+            return this.positionRepository.save({
+                id: data.id,
+                name: data.name,
+                isApprove: data.isApprove
+            })
+        }
     }
 }

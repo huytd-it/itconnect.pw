@@ -5,6 +5,10 @@
     <app-skill-trending></app-skill-trending>
     <div class="tw-h-5"></div>
     <app-position-trending></app-position-trending>
+    <div class="tw-h-5"></div>
+    <app-skill-trending [order]="'userSkillCount'" [label]="'Top kỹ năng yêu thích'"></app-skill-trending>
+    <div class="tw-h-5"></div>
+    <app-position-trending [order]="'userPositionCount'" [label]="'Top vị trí yêu thích'"></app-position-trending>
   </div>
   <div class="tw-flex-1 tw-max-w-[650px]">
     <div class="tw-self-start tw-sticky tw-top-[65px]">

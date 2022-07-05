@@ -13,6 +13,7 @@ import {CvWorkExperienceEntity} from "./cvWorkExperience.entity";
 import {CvWorkExperiencePositionEntity} from "./cvWorkExperiencePosition.entity";
 import {UserTaggedCertificateEntity} from "./userTaggedCertificate.entity";
 import {UserTaggedPositionEntity} from "./userTaggedPosition.entity";
+import {JobPositionEntity} from "./jobPosition.entity";
 
 export const MAX_POSITION_NAME_LENGTH = 20;
 export const MIN_POSITION_NAME_LENGTH = 1;
@@ -33,6 +34,11 @@ export class PositionEntity {
 
     @OneToMany(type => UserPositionEntity, db => db.position)
     userPositions: UserPositionEntity[]
+    userPositionCount: number;
+
+    @OneToMany(type => JobPositionEntity, db => db.position)
+    jobPositions: UserPositionEntity[]
+    jobPositionCount: number;
 
     @OneToMany(type => UserTaggedPositionEntity, db => db.position)
     userTaggedPositions: UserTaggedPositionEntity[]

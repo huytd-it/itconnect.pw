@@ -13,6 +13,12 @@ export class PositionDto extends EntityDto {
     name: string;
 
     @ApiProperty()
+    userPositionCount: number;
+
+    @ApiProperty()
+    jobPositionCount: number;
+
+    @ApiProperty()
     isApprove: boolean;
 }
 

@@ -7,6 +7,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {UtilsModule} from "../../../utils/utils.module";
 import {MatMenuModule} from "@angular/material/menu";
 import {CommonComponentsModule} from "../../../components/common-components.module";
+import {MatDialogModule} from "@angular/material/dialog";
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import {CommonComponentsModule} from "../../../components/common-components.modu
     MatIconModule,
     UtilsModule,
     MatMenuModule,
-    CommonComponentsModule
+    CommonComponentsModule,
+    MatDialogModule
   ]
 })
 export class AdminModule { }

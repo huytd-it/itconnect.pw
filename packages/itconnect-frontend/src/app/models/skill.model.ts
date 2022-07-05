@@ -3,6 +3,8 @@ import {PageInput, PageOutput, SearchPageOutput} from "./common";
 export class Skill {
   id: number;
   name: string;
+  jobSkillCount: number;
+  userSkillCount: number;
 
   // add more
 }

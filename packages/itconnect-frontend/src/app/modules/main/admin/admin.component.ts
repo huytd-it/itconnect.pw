@@ -58,43 +58,43 @@ export class AdminComponent implements OnInit {
       {
         name: "Trường học",
         class: 'school',
-        link: '/u/admin/school',
+        link: '/u/admin/tag/school',
         permission: AppPermission.ADMIN
       },
       {
         name: "Văn bằng / chứng chỉ",
         class: 'card_membership',
-        link: '/u/admin/certificate',
+        link: '/u/admin/tag/certificate',
         permission: AppPermission.ADMIN
       },
       {
         name: "Vị trí công việc",
         class: 'groups',
-        link: '/u/admin/position',
+        link: '/u/admin/tag/position',
         permission: AppPermission.ADMIN
       },
       {
         name: "Kỹ năng công việc",
         class: 'hub',
-        link: '/u/admin/skill',
+        link: '/u/admin/tag/skill',
         permission: AppPermission.ADMIN
       },
       {
         name: "Loại công việc",
         class: 'hail',
-        link: '/u/admin/job-type',
+        link: '/u/admin/tag/job-type',
         permission: AppPermission.ADMIN
       },
       {
         name: "Trình độ công việc",
         class: 'schedule',
-        link: '/u/admin/job-type',
+        link: '/u/admin/tag/job-type',
         permission: AppPermission.ADMIN
       },
       {
         name: "Hình thức làm việc",
         class: 'psychology_alt',
-        link: '/u/admin/work-from',
+        link: '/u/admin/tag/work-from',
         permission: AppPermission.ADMIN
       },
       {

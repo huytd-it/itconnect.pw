@@ -472,7 +472,8 @@ export class UserService {
             const exists = await this.companyTagRepository.findOne({
                 where: {
                     mst: user.companyInfo.mst
-                }
+                },
+                loadRelationIds: true
             })
             if (exists.companyInfo) {
                 throw new ConflictException('Trùng công ty, cần cấm hoặc xóa công ty bị trùng lập')
@@ -536,7 +537,7 @@ export class UserService {
             if (search.search) {
                 qr.andWhere(`
                   user.email like :prm_search or
-                  companyInfo.companyName like :prm_search or
+                  companyInfo.companyName like :prm_search
                 `,{ prm_search: `%${search.search}%` })
             }
         }

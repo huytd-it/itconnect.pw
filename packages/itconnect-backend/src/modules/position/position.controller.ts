@@ -2,7 +2,7 @@ import {Body, Controller, Get, Post, Query, UseGuards} from '@nestjs/common';
 import {ApiBearerAuth, ApiOkResponse, ApiTags} from "@nestjs/swagger";
 import {JwtAuthGuard} from "../../utils/guards/jwt.guard";
 import {ApiPaginatedResponse} from "../../utils/decorators/api-paginated-response.decorator";
-import {PageOptionsDto} from "../../dtos/page.dto";
+import {CreateOrEditTag, PageOptionsDto} from "../../dtos/page.dto";
 import {PositionService} from "../../services/position.service";
 import {PositionCreateDto, PositionDto, PositionSearchInputDto} from "../../dtos/position.dto";
 import {PermissionsGuard} from "../../polices/permissions.guard";
@@ -27,7 +27,6 @@ export class PositionController {
     @UseGuards(PermissionsGuard)
     @RequirePermissions(AppPermission.POSITION_SEARCH)
     @ApiPaginatedResponse(PositionDto)
-    @ApiPaginatedQueryOrder(PositionEntity)
     @Get('search')
     search(
         @Query() searchDto: PositionSearchInputDto,
@@ -44,5 +43,15 @@ export class PositionController {
         @Body() data: PositionCreateDto,
     ) {
         return this.positionService.create(data);
+    }
+
+    @UseGuards(PermissionsGuard)
+    @RequirePermissions(AppPermission.CREATE_OR_EDIT_TAG)
+    @ApiOkResponse({ type: PositionDto })
+    @Post('createOrEdit')
+    createOrEdit(
+        @Body() data: CreateOrEditTag,
+    ) {
+        return this.positionService.createOrEdit(data);
     }
 }

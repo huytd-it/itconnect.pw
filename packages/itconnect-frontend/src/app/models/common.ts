@@ -50,12 +50,26 @@ export class PageOutput {
   order_field?: string;
 }
 
-
 export enum Approve {
   Both = 1,
   False = 2,
   True = 3
 }
+
+export const approveList = [
+  {
+    name: 'Tất cả',
+    value: Approve.Both
+  },
+  {
+    name: 'Công khai',
+    value: Approve.True
+  },
+  {
+    name: 'Riêng tư',
+    value: Approve.False
+  }
+]
 
 export class SearchPageOutput extends PageOutput {
   search?: string;
@@ -64,6 +78,12 @@ export class SearchPageOutput extends PageOutput {
 
 export class CreateTaggedOutput {
   name: string;
+}
+
+export class CreateOrEditTagOutput {
+  id: number;
+  name: string;
+  isApprove: boolean;
 }
 
 export class TaggedInput {

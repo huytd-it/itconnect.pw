@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Skill, SkillSearchInput} from "../../../../../models/skill.model";
+import {SkillService} from "../../../../../services/skill.service";
+import {Approve} from "../../../../../models/common";
+import {Position, PositionSearchInput} from "../../../../../models/position.model";
+import {PositionService} from "../../../../../services/position.service";
 
 @Component({
   selector: 'app-position-trending',
@@ -6,10 +11,33 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./position-trending.component.scss']
 })
 export class PositionTrendingComponent implements OnInit {
+  @Input() label: string = 'Top vị trí tuyển dụng';
+  @Input() order: keyof Position = 'jobPositionCount';
+  data: PositionSearchInput;
 
-  constructor() { }
-
-  ngOnInit(): void {
+  get type() {
+    return this.order.startsWith('job') ? 'job' : 'people';
   }
 
+  constructor(
+    private positionService: PositionService
+  ) { }
+
+  ngOnInit(): void {
+    setTimeout(() => this.load());
+  }
+
+  load() {
+    this.positionService.search({
+      order_field: this.order,
+      order: 'DESC',
+      approve: Approve.True
+    }).pipe(this.positionService.mapData())
+      .subscribe(data => {
+        this.data = data;
+        if (this.data?.data) {
+          this.data.data = this.data.data.filter(item => item[this.order] > 0);
+        }
+      })
+  }
 }

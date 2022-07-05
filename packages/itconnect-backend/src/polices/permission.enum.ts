@@ -262,6 +262,13 @@ export enum AppPermission {
      */
     JOB_VIEW_LOG_CREATE = 'job_view_log_create',
     JOB_VIEW_LOG_STS = 'job_view_log_sts',
+
+
+    /**
+     * common create or edit school, skill, certificate,... only admins
+     *
+     */
+    CREATE_OR_EDIT_TAG = 'create_or_edit_tag',
 }
 
 
