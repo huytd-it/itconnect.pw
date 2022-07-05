@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>{{this.data ? 'Tạo mới' : 'Chỉnh sửa'}}</h1>
+<div mat-dialog-content class="tw-w-[95vw] md:tw-w-[600px] c-scrollbar">
+  <form [formGroup]="form" class="tw-text-center tw-block">
+    <mat-form-field appearance="outline" class="tw-w-full">
+      <mat-label>Tên</mat-label>
+      <input matInput value="" [formControlName]="FormField.name">
+      <mat-error *ngIf="isControlError(FormField.name, 'required')">
+        Tên là bắt buộc
+      </mat-error>
+      <mat-error *ngIf="isControlError(FormField.name, 'minlength', 'maxlength')">
+        Tên có độ dài từ 1 đến 255 ký tự
+      </mat-error>
+    </mat-form-field>
+  </form>
+
+</div>
+<div mat-dialog-actions>
+  <div class="tw-flex tw-justify-center tw-w-full tw-mt-10 tw-mb-3">
+    <button mat-button (click)="onClose()">Đóng</button>
+    <button mat-stroked-button cdkFocusInitial color="primary" (click)="onSubmit()">Lưu</button>
+  </div>
+</div>

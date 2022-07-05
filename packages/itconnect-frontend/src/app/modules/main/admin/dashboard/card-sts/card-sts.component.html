@@ -1,0 +1,12 @@
+<div class="tw-flex tw-flex-wrap tw-gap-3 tw-justify-between tw-p-3">
+  <div
+    *ngFor="let cf of config"
+    class="tw-shadow tw-p-1 tw-text-white tw-rounded tw-min-w-[130px]"
+    [style.background-color]="cf.stroke"
+  >
+    <div class="tw-text-center tw-text-[10px] tw-font-thin">{{cf.name}}</div>
+    <div class="tw-text-center tw-mt-1 tw-font-medium">
+      {{hashingTotal[cf.field] ?? '---'}}
+    </div>
+  </div>
+</div>

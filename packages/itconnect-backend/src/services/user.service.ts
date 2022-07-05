@@ -460,7 +460,7 @@ export class UserService {
             where: {
                 id
             },
-            relations: ['companyInfo']
+            relations: ['companyInfo', 'userInfo']
         })
 
         if (user.role !== AppRole.ban) {

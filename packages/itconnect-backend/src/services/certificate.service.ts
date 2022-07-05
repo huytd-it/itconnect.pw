@@ -1,5 +1,5 @@
 import {ConflictException, Inject, Injectable, Request, Scope} from '@nestjs/common';
-import {PageDto, PageMetaDto, PageOptionsDto} from "../dtos/page.dto";
+import {CreateOrEditTag, PageDto, PageMetaDto, PageOptionsDto} from "../dtos/page.dto";
 import {FindManyOptions, FindOptionsWhere, In, Like, Repository} from "typeorm";
 import {InjectRepository} from "@nestjs/typeorm";
 import {CertificateEntity} from "../entities/certificate.entity";
@@ -10,6 +10,10 @@ import {SkillEntity} from "../entities/skill.entity";
 import {Approve} from "../dtos/abstract.dto";
 import {UserEntity} from "../entities/user.entity";
 import {hasUserTagged} from "../polices/permission.enum";
+import {UserSkillEntity} from "../entities/userSkill.entity";
+import {JobSkillEntity} from "../entities/jobSkill.entity";
+import {UserCertificateEntity} from "../entities/userCertificate.entity";
+import {JobCertificateEntity} from "../entities/jobCertificate.entity";
 
 @Injectable({ scope: Scope.REQUEST })
 export class CertificateService {
@@ -89,6 +93,31 @@ export class CertificateService {
         // count all data
         const total = await query.getCount();
 
+        // count
+        query.loadRelationCountAndMap(
+            'certificate.jobCertificateCount',
+            'certificate.jobCertificates',
+            'jobCertificateCount'
+        )
+        query.loadRelationCountAndMap(
+            'certificate.userCertificateCount',
+            'certificate.userCertificates',
+            'userCertificateCount'
+        )
+
+        // fast fix mapping count
+        // need update
+        query.addSelect((qb) => {
+            return qb.select('COUNT(*)', 'userCertificateCount')
+                .from(UserCertificateEntity, 'jk')
+                .where('jk.certificateId = certificate.id');
+        }, 'userCertificateCount')
+        query.addSelect((qb) => {
+            return qb.select('COUNT(*)', 'jobCertificateCount')
+                .from(JobCertificateEntity, 'jk')
+                .where('jk.certificateId = certificate.id');
+        }, 'jobCertificateCount')
+
         // query data
         query.skip(dtoPage.skip);
         query.take(dtoPage.take);
@@ -131,5 +160,35 @@ export class CertificateService {
         }
 
         return certificate;
+    }
+
+    async createOrEdit(data: CreateOrEditTag) {
+        if (data.id) {
+            const tag = await this.certificateRepository.findOne({
+                where: {
+                    id: data.id
+                }
+            })
+            if (tag) {
+                return await this.certificateRepository.update({ id: tag.id }, {
+                    name: data.name,
+                    isApprove: data.isApprove
+                })
+            }
+        } else {
+            const exists = await this.certificateRepository.findOne({
+                where: {
+                    name: data.name
+                }
+            })
+            if (exists) {
+                throw new ConflictException('Đã tồn tại');
+            }
+            return this.certificateRepository.save({
+                id: data.id,
+                name: data.name,
+                isApprove: data.isApprove
+            })
+        }
     }
 }

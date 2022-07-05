@@ -25,6 +25,7 @@ export const TAG_ROOT_SERVICE_TOKEN = 'TAG_ROOT_SERVICE_TOKEN';
 })
 export class TagRootComponent implements OnInit, OnChanges {
   @Input() name: string;
+  @Input() userOrder: string;
 
   approveList = _.cloneDeep(approveList);
   approveSelected = this.approveList[0];
@@ -58,7 +59,14 @@ export class TagRootComponent implements OnInit, OnChanges {
   init() {
     const name = this.name;
     const nameCap = _.capitalize(name);
-    this.displayedColumns = [`${name}.id`, `${name}.name`, `job${nameCap}Count`, `user${nameCap}Count`, `${name}.isApprove`, 'action']
+    this.displayedColumns = [
+      `${name}.id`,
+      `${name}.name`,
+      this.userOrder ? this.userOrder : `user${nameCap}Count`,
+      `job${nameCap}Count`,
+      `${name}.isApprove`,
+      'action'
+    ]
     this.orderField = `${name}.createdAt`;
     this.load();
   }
@@ -103,7 +111,7 @@ export class TagRootComponent implements OnInit, OnChanges {
   // @ts-ignore
   func = (...args: any[]) => this.service.createOrEdit(...args);
 
-  edit(item: TaggedInput) {
+  edit(item?: TaggedInput) {
     const dialogRef = this.dialog.open(TagFormModalComponent, {
       maxWidth: '95vw',
       maxHeight: '95vh',
@@ -114,7 +122,19 @@ export class TagRootComponent implements OnInit, OnChanges {
     });
 
     dialogRef.afterClosed().subscribe((result: TaggedInput)=> {
-      this.load();
+      if (this.data?.data) {
+        const index = this.data.data.findIndex(item => item?.id == result.id);
+        if (index > -1) {
+          this.data.data[index] = result;
+          this.data.data = [...this.data.data];
+        } else {
+          this.data.data = [result, ...this.data.data];
+        }
+      } else {
+        this.data = <any>{
+          data: [result]
+        }
+      }
     });
   }
 
@@ -125,5 +145,9 @@ export class TagRootComponent implements OnInit, OnChanges {
   }
 
   clickRow(r: TaggedInput) {
+  }
+
+  onAdd() {
+    this.edit();
   }
 }

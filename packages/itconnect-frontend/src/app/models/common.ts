@@ -102,6 +102,25 @@ export enum StatisticGroupBy {
   Year = 4,
 }
 
+export const statisticGroupByList = [
+  {
+    name: 'Giờ',
+    value: StatisticGroupBy.Hour
+  },
+  {
+    name: 'Ngày',
+    value: StatisticGroupBy.Day
+  },
+  {
+    name: 'Tháng',
+    value: StatisticGroupBy.Month
+  },
+  {
+    name: 'Năm',
+    value: StatisticGroupBy.Year
+  },
+]
+
 export class StatisticOutput {
   start?: Date;
   end?: Date;

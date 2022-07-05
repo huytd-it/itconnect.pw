@@ -14,7 +14,6 @@ import {TAG_ROOT_SERVICE_TOKEN} from "../tag-root/tag-root.component";
   ]
 })
 export class SkillComponent implements OnInit {
-  SkillService = SkillService;
 
   constructor() { }
 

@@ -173,3 +173,17 @@ export class CreateOrEditTag {
     @ApiPropertyOptional()
     isApprove
 }
+
+export class StatisticOption {
+    @ApiPropertyOptional()
+    start: Date;
+
+    @ApiPropertyOptional()
+    end: Date;
+
+    @ApiProperty()
+    group: StatisticGroupBy;
+
+    @ApiPropertyOptional()
+    jobId: number;
+}

@@ -1,9 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import {PageDto, PageMetaDto, PageOptionsDto} from "../dtos/page.dto";
+import {ConflictException, Injectable} from '@nestjs/common';
+import {CreateOrEditTag, PageDto, PageMetaDto, PageOptionsDto} from "../dtos/page.dto";
 import {FindManyOptions, Like, Repository} from "typeorm";
 import {InjectRepository} from "@nestjs/typeorm";
-import {SkillEntity} from "../entities/skill.entity";
-import {SkillDto, SkillSearchInputDto} from "../dtos/skill.dto";
 import {WorkFromEntity} from "../entities/workFrom.entity";
 import {WorkFromDto, WorkFromSearchInputDto} from "../dtos/workFrom.dto";
 
@@ -41,4 +39,32 @@ export class WorkFromService {
         const meta = new PageMetaDto({ itemCount: total, pageOptionDto: dtoPage });
         return new PageDto(result, meta)
     }
+
+    async createOrEdit(data: CreateOrEditTag) {
+        if (data.id) {
+            const tag = await this.workFromRepository.findOne({
+                where: {
+                    id: data.id
+                }
+            })
+            if (tag) {
+                return await this.workFromRepository.update({ id: tag.id }, {
+                    name: data.name,
+                })
+            }
+        } else {
+            const exists = await this.workFromRepository.findOne({
+                where: {
+                    name: data.name
+                }
+            })
+            if (exists) {
+                throw new ConflictException('Đã tồn tại');
+            }
+            return this.workFromRepository.save({
+                name: data.name,
+            })
+        }
+    }
+
 }

@@ -67,14 +67,21 @@ export class TagFormModalComponent implements OnInit {
     const dto: CreateOrEditTagOutput = {
       id: this.data?.id || 0,
       name: data[FormField.name],
-      isApprove: data[FormField.isApprove],
+      isApprove: data[FormField.isApprove] || false,
     }
 
     this.appService.setHeadLoading(true);
     this.d.func(dto)
       .pipe(finalize(() => this.appService.setHeadLoading(false)))
       .subscribe((val: any) => {
-        this.dialogRef.close(val);
+        if (val.id) {
+          this.dialogRef.close(val);
+        } else {
+          this.dialogRef.close({
+            ...this.data,
+            ...dto
+          });
+        }
       })
   }
 }

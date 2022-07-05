@@ -1,8 +1,8 @@
 import {Body, Controller, Get, Post, Query, UseGuards} from '@nestjs/common';
-import {ApiBearerAuth, ApiTags} from "@nestjs/swagger";
+import {ApiBearerAuth, ApiOkResponse, ApiTags} from "@nestjs/swagger";
 import {JwtAuthGuard} from "../../utils/guards/jwt.guard";
 import {ApiPaginatedResponse} from "../../utils/decorators/api-paginated-response.decorator";
-import {PageOptionsDto} from "../../dtos/page.dto";
+import {CreateOrEditTag, PageOptionsDto} from "../../dtos/page.dto";
 import {PermissionsGuard} from "../../polices/permissions.guard";
 import {RequirePermissions} from "../../polices/polices.decorator";
 import {AppPermission} from "../../polices/permission.enum";
@@ -11,6 +11,7 @@ import {CertificateCreateDto, CertificateDto, CertificateSearchInputDto} from ".
 import {CertificateEntity} from "../../entities/certificate.entity";
 import {CertificateService} from "../../services/certificate.service";
 import {SkillCreateDto} from "../../dtos/skill.dto";
+import {PositionDto} from "../../dtos/position.dto";
 
 @ApiTags('certificate')
 @ApiBearerAuth()
@@ -26,7 +27,6 @@ export class CertificateController {
     @UseGuards(PermissionsGuard)
     @RequirePermissions(AppPermission.CERTIFICATE_SEARCH)
     @ApiPaginatedResponse(CertificateDto)
-    @ApiPaginatedQueryOrder(CertificateEntity)
     @Get('search')
     search(
         @Query() searchDto: CertificateSearchInputDto,
@@ -43,5 +43,15 @@ export class CertificateController {
         @Body() data: CertificateCreateDto,
     ) {
         return this.certificateService.create(data);
+    }
+
+    @UseGuards(PermissionsGuard)
+    @RequirePermissions(AppPermission.CREATE_OR_EDIT_TAG)
+    @ApiOkResponse({ type: PositionDto })
+    @Post('createOrEdit')
+    createOrEdit(
+        @Body() data: CreateOrEditTag,
+    ) {
+        return this.certificateService.createOrEdit(data);
     }
 }

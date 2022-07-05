@@ -18,15 +18,29 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {NgSelectModule} from "@ng-select/ng-select";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import { PositionComponent } from './position/position.component';
+import { CertificateComponent } from './certificate/certificate.component';
+import {TagRoot2Component} from "./tag-root-2/tag-root-2.component";
+import { WorkFromComponent } from './work-from/work-from.component';
+import {TagFormModal2Component} from "./tag-form-modal-2/tag-form-modal-2.component";
+import { JobLevelComponent } from './job-level/job-level.component';
+import { JobTypeComponent } from './job-type/job-type.component';
 
 
 @NgModule({
   declarations: [
     TagMgmtComponent,
     SchoolComponent,
+    TagRoot2Component,
     TagRootComponent,
     TagFormModalComponent,
-    SkillComponent
+    TagFormModal2Component,
+    SkillComponent,
+    PositionComponent,
+    CertificateComponent,
+    WorkFromComponent,
+    JobLevelComponent,
+    JobTypeComponent,
   ],
   imports: [
     CommonModule,

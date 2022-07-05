@@ -1,9 +1,16 @@
 import {ConflictException, ForbiddenException, Inject, Injectable, Request, Scope} from '@nestjs/common';
-import {JobApplyCreateInputDto, JobApplySearchInputDto} from "../dtos/jobApply.dto";
+import {JobApplyCreateInputDto, JobApplySearchInputDto, JobApplyStatisticOption} from "../dtos/jobApply.dto";
 import {InjectRepository} from "@nestjs/typeorm";
 import {JobApplyEntity} from "../entities/jobApply.entity";
-import {MoreThanOrEqual, Repository} from "typeorm";
-import {PageDto, PageMetaDto, PageOptionsDto} from "../dtos/page.dto";
+import {LessThanOrEqual, MoreThanOrEqual, Repository} from "typeorm";
+import {
+    fillAllDate,
+    getFormatDateGroupBy,
+    PageDto,
+    PageMetaDto,
+    PageOptionsDto,
+    StatisticOption
+} from "../dtos/page.dto";
 import {REQUEST} from "@nestjs/core";
 import {UserEntity} from "../entities/user.entity";
 import {Id} from "../utils/function";
@@ -144,4 +151,57 @@ export class JobSavedService {
 
         throw new ForbiddenException()
     }
+
+    async sts(query: StatisticOption) {
+        const qrView = this.jobSavedRepository.createQueryBuilder('ja');
+        qrView.select(`
+            DATE_FORMAT(ja.createdAt,:prm_group) legend,
+            COUNT(*) countSaved
+        `);
+        qrView.setParameter('prm_group', getFormatDateGroupBy(query.group));
+        qrView.groupBy('legend')
+        qrView.orderBy('ja.createdAt', 'DESC')
+
+
+        const qrFillDate = this.jobSavedRepository.createQueryBuilder('ja')
+
+        if (query.jobId) {
+            qrView.andWhere({
+                job: Id(query.jobId)
+            })
+            qrFillDate.andWhere({
+                job: Id(query.jobId)
+            })
+        }
+
+        if (!query.start) {
+            qrFillDate.select('min(ja.createdAt) date');
+            const r =  await qrFillDate.getRawOne();
+            if (r.date) {
+                // subtract 1 day because chart need more value
+                query.start = moment(r.date).subtract(1, 'day').toDate()
+            }
+        } else {
+            qrView.andWhere({
+                createdAt: MoreThanOrEqual(moment(query.start).toDate())
+            })
+        }
+
+        if (!query.end) {
+            qrFillDate.select('max(ja.createdAt) date');
+            const r =  await qrFillDate.getRawOne();
+            if (r.date) {
+                query.end = moment(r.date).toDate()
+            }
+        } else {
+            qrView.andWhere({
+                createdAt: LessThanOrEqual(moment(query.end).toDate())
+            })
+        }
+
+        const view = await qrView.getRawMany();
+
+        return fillAllDate(view, query.start, query.end, query.group);
+    }
+
 }

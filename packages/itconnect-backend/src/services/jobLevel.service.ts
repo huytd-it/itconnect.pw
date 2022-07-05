@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import {PageDto, PageMetaDto, PageOptionsDto} from "../dtos/page.dto";
+import {ConflictException, Injectable} from '@nestjs/common';
+import {CreateOrEditTag, PageDto, PageMetaDto, PageOptionsDto} from "../dtos/page.dto";
 import {FindManyOptions, Like, Repository} from "typeorm";
 import {InjectRepository} from "@nestjs/typeorm";
 import {SkillEntity} from "../entities/skill.entity";
@@ -43,4 +43,32 @@ export class JobLevelService {
         const meta = new PageMetaDto({ itemCount: total, pageOptionDto: dtoPage });
         return new PageDto(result, meta)
     }
+
+    async createOrEdit(data: CreateOrEditTag) {
+        if (data.id) {
+            const tag = await this.jobLevelRepository.findOne({
+                where: {
+                    id: data.id
+                }
+            })
+            if (tag) {
+                return await this.jobLevelRepository.update({ id: tag.id }, {
+                    name: data.name,
+                })
+            }
+        } else {
+            const exists = await this.jobLevelRepository.findOne({
+                where: {
+                    name: data.name
+                }
+            })
+            if (exists) {
+                throw new ConflictException('Đã tồn tại');
+            }
+            return this.jobLevelRepository.save({
+                name: data.name,
+            })
+        }
+    }
+
 }

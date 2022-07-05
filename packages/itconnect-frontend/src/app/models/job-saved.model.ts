@@ -19,3 +19,8 @@ export class JobSavedSearchOutput extends SearchPageOutput {
 export class JobSavedCreateInput {
   jobId: number
 }
+
+export class JobSavedStsInput {
+  legend: string;
+  countSaved: number;
+}

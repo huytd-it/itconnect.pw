@@ -1,0 +1,76 @@
+<div class="tw-p-5">
+  <div class="tw-flex tw-gap-3 tw-flex-wrap">
+    <mat-form-field appearance="outline" class="tw-w-full sm:tw-w-[300px]">
+      <mat-label>Tìm kiếm</mat-label>
+      <input matInput [(ngModel)]="search" (change)="onSearch()">
+      <mat-icon matPrefix>search</mat-icon>
+    </mat-form-field>
+    <button mat-stroked-button class="tw-h-[54px] !tw-mt-[2px]" [matTooltip]="'Thêm mới'" (click)="onAdd()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+
+  <div>
+    <ng-container *ngIf="name">
+      <div class="tw-p-3 tw-text-[11px] tw-text-right tw-shadow-sm tw-text-[#888]">
+        {{data?.meta?.itemCount || 0}} kết quả
+      </div>
+      <div class="tw-border">
+        <table
+          mat-table
+          [dataSource]="data?.data || []"
+          matSort
+          (matSortChange)="announceSortChange($event)"
+          class="tw-w-full mat-elevation-z1 c-table"
+        >
+          <ng-container [matColumnDef]="displayedColumns[0]">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              ID.
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+          </ng-container>
+
+          <ng-container [matColumnDef]="displayedColumns[1]">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Tên
+            </th>
+            <td mat-cell *matCellDef="let element">{{element.name}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <div class="tw-flex tw-gap-3 tw-flex-wrap tw-justify-end">
+                <button
+                  mat-stroked-button
+                  [matTooltip]="'Sửa'"
+                  (click)="edit(element); $event.stopPropagation()"
+                >
+                  <mat-icon class="tw-text-gray-600">edit</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumns;"
+            (click)="clickRow(row)"
+          ></tr>
+        </table>
+      </div>
+      <div class="tw-flex tw-justify-center tw-p-4">
+        <mat-paginator
+          [disabled]="appService.headLoading$ | async"
+          [length]="data?.meta?.itemCount || 0"
+          [pageSize]="data?.meta?.take || 0"
+          [pageSizeOptions]="[5, 10, 25]"
+          (page)="onChangePage($event)"
+        ></mat-paginator>
+      </div>
+    </ng-container>
+  </div>
+</div>

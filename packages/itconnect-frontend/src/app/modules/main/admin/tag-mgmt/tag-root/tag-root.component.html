@@ -15,6 +15,9 @@
       [(ngModel)]="approveSelected"
       (change)="onSearch()"
     ></ng-select>
+    <button mat-stroked-button class="tw-h-[54px] !tw-mt-[2px]" [matTooltip]="'Thêm mới'" (click)="onAdd()">
+      <mat-icon>add</mat-icon>
+    </button>
   </div>
 
   <div>
@@ -48,14 +51,14 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
               Tài khoản sử dụng
             </th>
-            <td mat-cell *matCellDef="let element">{{element[displayedColumns[2]]}}</td>
+            <td mat-cell *matCellDef="let element">{{element[displayedColumns[2]] || 0}}</td>
           </ng-container>
 
           <ng-container [matColumnDef]="displayedColumns[3]">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
               H.S việc làm sử dụng
             </th>
-            <td mat-cell *matCellDef="let element">{{element[displayedColumns[3]]}}</td>
+            <td mat-cell *matCellDef="let element">{{element[displayedColumns[3]] || 0}}</td>
           </ng-container>
 
           <ng-container [matColumnDef]="displayedColumns[4]">

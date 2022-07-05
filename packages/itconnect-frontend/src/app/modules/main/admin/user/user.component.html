@@ -81,28 +81,25 @@
                 <button
                   *ngIf="element.role != AppRole.Ban"
                   mat-stroked-button
-                  color="warn"
                   [matTooltip]="'Khóa'"
                   (click)="ban(element); $event.stopPropagation()"
                 >
-                  <mat-icon>block</mat-icon>
+                  <mat-icon class="tw-text-red-400">lock</mat-icon>
                 </button>
                 <button
                   *ngIf="element.role == AppRole.Ban"
                   mat-stroked-button
-                  color="primary"
                   [matTooltip]="'Mở khóa'"
                   (click)="unban(element); $event.stopPropagation()"
                 >
-                  <mat-icon>lock_open</mat-icon>
+                  <mat-icon class="tw-text-gray-400">lock_open</mat-icon>
                 </button>
                 <button
                   mat-stroked-button
-                  color="warn"
                   [matTooltip]="'Xóa'"
                   (click)="remove(element); $event.stopPropagation()"
                 >
-                  <mat-icon>delete</mat-icon>
+                  <mat-icon class="tw-text-red-400">delete</mat-icon>
                 </button>
               </div>
             </td>

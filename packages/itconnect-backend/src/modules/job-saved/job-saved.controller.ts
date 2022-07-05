@@ -13,6 +13,7 @@ import {AppPermission} from "../../polices/permission.enum";
 import {ApiPaginatedResponse} from "../../utils/decorators/api-paginated-response.decorator";
 import {PageOptionsDto} from "../../dtos/page.dto";
 import {PermissionsGuard} from "../../polices/permissions.guard";
+import {JobApplyStatisticOption} from "../../dtos/jobApply.dto";
 
 @ApiTags('job-saved')
 @ApiBearerAuth()
@@ -62,5 +63,14 @@ export class JobSavedController {
         @Param() data: JobSavedDeleteInputDto
     ) {
         return this.jobSavedService.deleteByJobId(data.id);
+    }
+
+    @UseGuards(PermissionsGuard)
+    @RequirePermissions(AppPermission.STS)
+    @Post('sts')
+    statistic(
+        @Body() query: JobApplyStatisticOption
+    ) {
+        return this.jobSavedService.sts(query);
     }
 }

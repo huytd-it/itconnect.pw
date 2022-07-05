@@ -1,5 +1,5 @@
 import {ConflictException, Inject, Injectable, Request, Scope} from '@nestjs/common';
-import {PageDto, PageMetaDto, PageOptionsDto} from "../dtos/page.dto";
+import {CreateOrEditTag, PageDto, PageMetaDto, PageOptionsDto} from "../dtos/page.dto";
 import {FindManyOptions, FindOptionsWhere, In, Like, Repository} from "typeorm";
 import {InjectRepository} from "@nestjs/typeorm";
 import {SkillDto} from "../dtos/skill.dto";
@@ -12,6 +12,9 @@ import {SkillEntity} from "../entities/skill.entity";
 import {Approve} from "../dtos/abstract.dto";
 import {UserEntity} from "../entities/user.entity";
 import {hasUserTagged} from "../polices/permission.enum";
+import {UserSchoolEntity} from "../entities/userSchool.entity";
+import {JobSchoolEntity} from "../entities/jobSchool.entity";
+import {CvEducationEntity} from "../entities/cvEducation.entity";
 
 @Injectable({ scope: Scope.REQUEST })
 export class SchoolService {
@@ -46,8 +49,8 @@ export class SchoolService {
     }
 
     async search(dtoSearch: SchoolSearchInputDto, dtoPage: PageOptionsDto) {
-        const query = this.schoolRepository.createQueryBuilder('skill');
-        query.select('skill.*');
+        const query = this.schoolRepository.createQueryBuilder('school');
+        query.select('school.*');
 
         const whereClause: FindOptionsWhere<SkillEntity> = {};
         if (dtoSearch.search) {
@@ -92,6 +95,41 @@ export class SchoolService {
         // count all data
         const total = await query.getCount();
 
+        // count
+        query.loadRelationCountAndMap(
+            'school.jobSchoolCount',
+            'school.jobSchools',
+            'jobSchoolCount'
+        )
+        query.loadRelationCountAndMap(
+            'school.userSchoolCount',
+            'school.userSchools',
+            'userSchoolCount'
+        )
+        query.loadRelationCountAndMap(
+            'school.cvEducationCount',
+            'school.cvEducations',
+            'cvEducationCount'
+        )
+
+        // fast fix mapping count
+        // need update
+        query.addSelect((qb) => {
+            return qb.select('COUNT(*)', 'userSchoolCount')
+                .from(UserSchoolEntity, 'jk')
+                .where('jk.schoolId = school.id');
+        }, 'userSchoolCount')
+        query.addSelect((qb) => {
+            return qb.select('COUNT(*)', 'jobSchoolCount')
+                .from(JobSchoolEntity, 'jk')
+                .where('jk.schoolId = school.id');
+        }, 'jobSchoolCount')
+        query.addSelect((qb) => {
+            return qb.select('COUNT(*)', 'cvEducationCount')
+                .from(CvEducationEntity, 'jk')
+                .where('jk.schoolId = school.id');
+        }, 'cvEducationCount')
+
         // query data
         query.skip(dtoPage.skip);
         query.take(dtoPage.take);
@@ -135,4 +173,35 @@ export class SchoolService {
 
         return school;
     }
+
+    async createOrEdit(data: CreateOrEditTag) {
+        if (data.id) {
+            const tag = await this.schoolRepository.findOne({
+                where: {
+                    id: data.id
+                }
+            })
+            if (tag) {
+                return await this.schoolRepository.update({ id: tag.id }, {
+                    name: data.name,
+                    isApprove: data.isApprove
+                })
+            }
+        } else {
+            const exists = await this.schoolRepository.findOne({
+                where: {
+                    name: data.name
+                }
+            })
+            if (exists) {
+                throw new ConflictException('Đã tồn tại');
+            }
+            return this.schoolRepository.save({
+                id: data.id,
+                name: data.name,
+                isApprove: data.isApprove
+            })
+        }
+    }
+
 }

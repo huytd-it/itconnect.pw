@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {httpOptions, objectToParams} from "../utils/common";
-import {JobSaved, JobSavedCreateInput, JobSavedSearchInput, JobSavedSearchOutput} from "../models/job-saved.model";
+import {
+  JobSaved,
+  JobSavedCreateInput,
+  JobSavedSearchInput,
+  JobSavedSearchOutput,
+  JobSavedStsInput
+} from "../models/job-saved.model";
+import {StatisticOutput} from "../models/common";
+import {JobApplyStsInput} from "../models/job-apply.model";
 
 @Injectable({
   providedIn: 'root'
@@ -35,5 +43,17 @@ export class JobSavedService {
   deleteByJobId(id: number) {
     const uri = 'job-saved/byJobId/'+id;
     return this.httpClient.delete(uri, httpOptions);
+  }
+
+  sts(data: StatisticOutput) {
+    const uri = 'job-saved/sts';
+    return this.httpClient.post<JobSavedStsInput[]>(uri, data, httpOptions);
+  }
+
+  formatSts(data: JobSavedStsInput[]) {
+    return data.map(item => ({
+      ...item,
+      countSaved: Number(item.countSaved) || 0,
+    }))
   }
 }

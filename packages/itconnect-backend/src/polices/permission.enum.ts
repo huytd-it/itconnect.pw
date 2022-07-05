@@ -269,6 +269,8 @@ export enum AppPermission {
      *
      */
     CREATE_OR_EDIT_TAG = 'create_or_edit_tag',
+
+    STS = 'sts'
 }
 
 

@@ -3,7 +3,9 @@ import {PageInput, PageOutput, SearchPageOutput} from "./common";
 export class School {
   id: number;
   name: string;
-
+  jobSchoolCount: number;
+  userSchoolCount: number;
+  cvEducationCount: number;
   // add more
 }
 

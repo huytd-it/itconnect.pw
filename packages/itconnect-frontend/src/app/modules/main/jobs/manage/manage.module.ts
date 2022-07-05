@@ -13,19 +13,22 @@ import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
-  declarations: [
-    ManageComponent,
-    ChartComponent
-  ],
-  imports: [
-    CommonModule,
-    ManageRoutingModule,
-    MatTabsModule,
-    MatIconModule,
-    MatButtonModule,
-    AmchartModule,
-    NgSelectModule,
-    FormsModule
-  ]
+    declarations: [
+        ManageComponent,
+        ChartComponent
+    ],
+    exports: [
+        ChartComponent
+    ],
+    imports: [
+        CommonModule,
+        ManageRoutingModule,
+        MatTabsModule,
+        MatIconModule,
+        MatButtonModule,
+        AmchartModule,
+        NgSelectModule,
+        FormsModule
+    ]
 })
 export class ManageModule { }

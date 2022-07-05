@@ -10,6 +10,7 @@ import {
 import {UserCertificateEntity} from "./userCertificate.entity";
 import {CvCertificateEntity} from "./cvCertificate.entity";
 import {UserTaggedCertificateEntity} from "./userTaggedCertificate.entity";
+import {JobCertificateEntity} from "./jobCertificate.entity";
 
 export const MAX_CERTIFICATE_NAME_LENGTH = 20;
 export const MIN_CERTIFICATE_NAME_LENGTH = 1;
@@ -30,6 +31,11 @@ export class CertificateEntity {
 
     @OneToMany(type => UserCertificateEntity, db => db.certificate)
     userCertificates: UserCertificateEntity[]
+    userCertificateCount: number
+
+    @OneToMany(type => JobCertificateEntity, db => db.certificate)
+    jobCertificates: JobCertificateEntity[]
+    jobCertificateCount: number
 
     @OneToMany(type => UserTaggedCertificateEntity, db => db.certificate)
     userTaggedCertificates: UserTaggedCertificateEntity[]

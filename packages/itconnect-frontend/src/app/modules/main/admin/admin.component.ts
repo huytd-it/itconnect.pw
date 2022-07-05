@@ -88,7 +88,7 @@ export class AdminComponent implements OnInit {
       {
         name: "Trình độ công việc",
         class: 'schedule',
-        link: '/u/admin/tag/job-type',
+        link: '/u/admin/tag/job-level',
         permission: AppPermission.ADMIN
       },
       {
