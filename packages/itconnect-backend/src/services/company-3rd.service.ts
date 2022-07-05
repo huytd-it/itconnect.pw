@@ -38,16 +38,20 @@ export class Company3rdService {
     }
 
     findMst(mst: string) {
-        return this.search({ search: mst }, <any>{ take: 1, page: 1 })
-            .pipe(map(data => {
-                if (data.data?.length) {
-                    const item = data.data[0];
-                    if (item.code === mst) {
-                        return item;
-                    }
+        const uri = `${this.API_URL}/company/` + mst;
+        return this.httpClient.get(uri)
+            .pipe(map(({data}) => {
+                if (!data) {
+                    throw new RuntimeException();
                 }
-                return false;
-            }));
+
+                return {
+                    ...this.formatData(data)[0],
+                    TinhThanhTitle: data.TinhThanhTitle,
+                    QuanHuyenTitle: data.QuanHuyenTitle,
+                    PhuongXaTitle: data.PhuongXaTitle
+                };
+            }))
     }
 
     formatData(...items: any[]) {

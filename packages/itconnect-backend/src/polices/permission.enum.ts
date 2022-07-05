@@ -413,7 +413,9 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.USER_CERTIFICATE_GET_BY_CERT_ID,
         AppPermission.JOB_VIEW_LOG_CREATE,
         AppPermission.JOB_VIEW_LOG_STS,
-        AppPermission.JOB_APPLY_STS
+        AppPermission.JOB_APPLY_STS,
+        AppPermission.COMPANY_3RD,
+        AppPermission.COMPANY_3RD_SEARCH,
     ],
 
     /**

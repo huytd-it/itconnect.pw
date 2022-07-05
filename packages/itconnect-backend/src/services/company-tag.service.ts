@@ -11,6 +11,7 @@ import {UserEntity} from "../entities/user.entity";
 import {hasUserTagged} from "../polices/permission.enum";
 import {Company3Rd} from "../dtos/company-3rd.dto";
 import {Company3rdService} from "./company-3rd.service";
+import {firstValueFrom} from "rxjs";
 
 @Injectable({ scope: Scope.REQUEST })
 export class CompanyTagService {
@@ -146,7 +147,8 @@ export class CompanyTagService {
         // create owner
         if (hasUserTagged(currentUser)) {
             if (!companyTag) {
-                const company3rd = await this.company3rd.findMst(mst).toPromise();
+                const company3rd$ = this.company3rd.findMst(mst);
+                const company3rd = await firstValueFrom(company3rd$);
                 if (!company3rd) {
                     throw new ServiceUnavailableException('Không thể đồng bộ công ty');
                 }

@@ -26,6 +26,7 @@ import {CompanyTagEntity} from "../entities/companyTag.entity";
 import {Id} from "../utils/function";
 import {UserSearchInputDto, UserType} from "../dtos/user.dto";
 import {PageDto, PageMetaDto, PageOptionsDto} from "../dtos/page.dto";
+import {firstValueFrom} from "rxjs";
 
 interface ComputeYoeData {
     data: {
@@ -211,12 +212,18 @@ export class UserService {
                 );
             } else {
                 // 3rd
-                const company3rd = await this.company3rdService.findMst(dto.companyMst).toPromise();
+                const company3rd$ = this.company3rdService.findMst(dto.companyMst);
+                const company3rd = await firstValueFrom(company3rd$);
                 if (!company3rd) {
                     throw new ServiceUnavailableException('Oop! Không thể đồng bộ công ty');
                 }
 
-                const address = await this.addressService.mapStringToAddress(company3rd.address);
+                const address = await this.addressService.mapStringToAddressV2(
+                    company3rd.address,
+                    company3rd.TinhThanhTitle,
+                    company3rd.QuanHuyenTitle,
+                    company3rd.PhuongXaTitle
+                );
                 if (!address) {
                     throw new ServiceUnavailableException('Oop! address không hợp lệ')
                 }
@@ -254,7 +261,7 @@ export class UserService {
                 if (!companyTag) {
                     const dt = new CompanyTagEntity();
                     dt.mst = company3rd.code;
-                    dt.name = company3rd.name;
+                    dt.name = company3rd.realName;
                     dt.isApprove = true;
                     dt.companyInfo = <any>Id(infoOutput.id);
                     await queryRunner.manager.save(CompanyTagEntity, dt)

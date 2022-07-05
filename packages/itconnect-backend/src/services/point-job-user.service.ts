@@ -228,7 +228,7 @@ export class PointJobUserService {
                 for (let user of users) {
                     // console.log(util.inspect(user, false, null, true /* enable colors */))
                     const point = this.computePointUser(job, user);
-                    logger.log(`user:${user.id} - job:${job.id} - ${point.pointTotal} point`);
+                    // logger.log(`user:${user.id} - job:${job.id} - ${point.pointTotal} point`);
                     pointInserts.push(point);
                 }
 

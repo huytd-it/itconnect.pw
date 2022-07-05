@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable, Logger} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {AddressEntity, EAddressType} from "../entities/address.entity";
 import {DataSource, FindManyOptions, Like, Repository} from "typeorm";
@@ -110,7 +110,58 @@ export class AddressService {
         }
     }
 
+    async mapStringToAddressV2(fullAddress: string, provinceStr: string, districtStr: string, villageStr: string) {
+        // find province
+        const province = await this.addressRepository.findOne({
+            where: {
+                name: Like('%' + provinceStr + '%'),
+                type: EAddressType.province
+            }
+        })
+        if (!province) {
+            return;
+        }
+
+        const district = await this.addressRepository.findOne({
+            where: {
+                name: Like('%' + districtStr + '%'),
+                type: EAddressType.district,
+                parent: Id(province.id)
+            }
+        })
+        if (!district) {
+            return;
+        }
+
+        const village = await this.addressRepository.findOne({
+            where: {
+                name: Like('%' + villageStr + '%'),
+                type: EAddressType.village,
+                parent: Id(district.id)
+            }
+        })
+        if (!village) {
+            return;
+        }
+
+        let street = 'Không rõ';
+        const indexVillage = fullAddress.toLowerCase().indexOf(villageStr.toLowerCase());
+        if (indexVillage) {
+            street = fullAddress.slice(0, indexVillage);
+            street = street.replace(/\,$/gmi, '');
+        }
+
+        return {
+            province,
+            district,
+            village,
+            street,
+        }
+    }
+
+
     async syncAddress() {
+        const logger = new Logger();
         const queryRunner = this.dataSource.createQueryRunner();
         await queryRunner.connect();
         await queryRunner.startTransaction()
@@ -120,6 +171,7 @@ export class AddressService {
                 if (province.Title === 'Chưa rõ') {
                     continue;
                 }
+                logger.log(`[Province] ${province.Title}`);
                 let oldP = await this.addressRepository.findOne({
                     where: {
                         name: province.Title,
@@ -139,6 +191,7 @@ export class AddressService {
                     if (district.Title === 'Chưa rõ') {
                         continue;
                     }
+                    logger.log(`[Province] ${province.Title}, [District] ${district.Title}`);
                     let oldD = await this.addressRepository.findOne({
                         where: {
                             name: district.Title,
@@ -164,6 +217,7 @@ export class AddressService {
                         if (village.Title === 'Chưa rõ') {
                             continue;
                         }
+                        logger.log(`[Province] ${province.Title}, [District] ${district.Title}, [Village] ${village.Title}`);
                         const oldV = await this.addressRepository.findOne({
                             where: {
                                 name: village.Title,
