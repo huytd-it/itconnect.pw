@@ -127,24 +127,27 @@ export function getFormatDateGroupByMoment(type: StatisticGroupBy) {
     }
 }
 
+export function getUnitByGroupBy(type: StatisticGroupBy) {
+    if (type === StatisticGroupBy.Hour) return 'hour';
+    if (type === StatisticGroupBy.Day) return 'day';
+    if (type === StatisticGroupBy.Month) return 'month';
+    return 'year';
+}
+
 export function getAllDateInRange(type: StatisticGroupBy, start: Date, end: Date) {
     let s = moment(start);
     let e = moment(end);
     const data = [];
     const f = getFormatDateGroupByMoment(type);
 
-    while (s <= e) {
+    const unit = getUnitByGroupBy(type);
+
+    while (s.isSameOrBefore(e)) {
         data.push({
             legend: s.format(f)
         })
 
-        s = s.add(
-            1,
-            type === StatisticGroupBy.Hour ? 'hour' :
-            type === StatisticGroupBy.Day ? 'day' :
-            type === StatisticGroupBy.Month ? 'month' :
-            'year'
-        );
+        s = s.add(1, unit).startOf(unit);
     }
 
     return data;

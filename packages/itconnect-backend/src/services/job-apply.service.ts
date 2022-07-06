@@ -3,7 +3,14 @@ import {JobApplyCreateInputDto, JobApplySearchInputDto, JobApplyStatisticOption}
 import {InjectRepository} from "@nestjs/typeorm";
 import {JobApplyEntity} from "../entities/jobApply.entity";
 import {LessThanOrEqual, MoreThanOrEqual, Repository} from "typeorm";
-import {fillAllDate, getFormatDateGroupBy, PageDto, PageMetaDto, PageOptionsDto} from "../dtos/page.dto";
+import {
+    fillAllDate,
+    getFormatDateGroupBy,
+    PageDto,
+    PageMetaDto,
+    PageOptionsDto,
+    StatisticGroupBy
+} from "../dtos/page.dto";
 import {REQUEST} from "@nestjs/core";
 import {UserEntity} from "../entities/user.entity";
 import {Id} from "../utils/function";
@@ -189,8 +196,17 @@ export class JobApplyService {
             qrFillDate.select('min(ja.createdAt) date');
             const r =  await qrFillDate.getRawOne();
             if (r.date) {
-                // subtract 1 day because chart need more value
-                query.start = moment(r.date).subtract(1, 'day').toDate()
+                // subtract 1 unit because chart need more value
+                let unit: moment.unitOfTime.DurationConstructor = 'day'
+                switch (query.group) {
+                    case StatisticGroupBy.Month:
+                        unit = 'month'
+                        break;
+                    case StatisticGroupBy.Year:
+                        unit = 'year';
+                        break
+                }
+                query.start = moment(r.date).subtract(1, unit).toDate()
             }
         } else {
             qrView.andWhere({

@@ -24,7 +24,7 @@ export class CardStsComponent implements OnInit, OnChanges {
     if (!this.config || !this.data) {
       return
     }
-
+    this.hashingTotal = {};
     this.data.forEach(item => {
       this.config.forEach(cf => {
         if (!this.hashingTotal[cf.field]) {

@@ -1,35 +1,4 @@
-<div class="tw-p-3 tw-flex tw-gap-3 tw-items-center tw-mt-3">
-  <mat-form-field appearance="outline">
-    <mat-label>Từ</mat-label>
-    <input
-      matInput
-      max="{{currentDate | date:'yyyy-MM-dd'}}"
-      [matDatepicker]="picker1"
-      [(ngModel)]="minDate"
-      (ngModelChange)="onChange()"
-    >
-    <mat-hint>DD/MM/YYYY</mat-hint>
-    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-    <mat-datepicker #picker1></mat-datepicker>
-  </mat-form-field>
-
-  <mat-icon class="tw-text-gray-400 tw-mt-[-16px]">arrow_right</mat-icon>
-
-  <mat-form-field appearance="outline">
-    <mat-label>Đến</mat-label>
-    <input
-      matInput
-      [matDatepicker]="picker2"
-      [(ngModel)]="maxDate"
-      (ngModelChange)="onChange()"
-      min="{{minDate | date:'yyyy-MM-dd'}}"
-      max="{{currentDate | date:'yyyy-MM-dd'}}"
-    >
-    <mat-hint>DD/MM/YYYY</mat-hint>
-    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-    <mat-datepicker #picker2></mat-datepicker>
-  </mat-form-field>
-
+<div class="tw-p-5 tw-flex tw-gap-3 tw-items-center tw-mt-3 tw-min-h-[120px]">
   <ng-select
     class="tw-min-w-[100px]"
     appearance="outline"
@@ -40,20 +9,97 @@
     [(ngModel)]="groupBy"
     (ngModelChange)="onChange()"
   ></ng-select>
+
+  <ng-select
+    class="tw-min-w-[100px]"
+    appearance="outline"
+    placeholder="Loại"
+    [bindLabel]="'name'"
+    [items]="typeList"
+    [clearable]="false"
+    [(ngModel)]="typeSelected"
+    (ngModelChange)="onChangeType()"
+  ></ng-select>
+
+  <ng-container *ngIf="typeSelected.value === 'date-range'">
+    <mat-form-field appearance="outline">
+      <mat-label>Từ</mat-label>
+      <input
+        matInput
+        max="{{currentDate | date:'yyyy-MM-dd'}}"
+        [matDatepicker]="picker1"
+        [(ngModel)]="minDate"
+        (ngModelChange)="onChange()"
+      >
+      <mat-hint>DD/MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+    <mat-icon class="tw-text-gray-400 tw-mt-[-16px]">arrow_right</mat-icon>
+    <mat-form-field appearance="outline">
+      <mat-label>Đến</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker2"
+        [(ngModel)]="maxDate"
+        (ngModelChange)="onChange()"
+        min="{{minDate | date:'yyyy-MM-dd'}}"
+        max="{{currentDate | date:'yyyy-MM-dd'}}"
+      >
+      <mat-hint>DD/MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+  </ng-container>
 </div>
 
-<div class="tw-m-5 tw-rounded tw-border">
-  <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
-    <div class="tw-flex tw-items-center">
-      <mat-icon class="tw-text-[20px] !tw-text-textColor">work_history</mat-icon>
-      <span class="tw-text-[12px]">Tương tác công việc</span>
-    </div>
-  </div>
-  <div class="tw-p-5">
-    <app-chart-job
-      [start]="minDate"
-      [end]="maxDate"
-      [group]="groupBy.value"
-    ></app-chart-job>
-  </div>
-</div>
+<mat-tab-group>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="example-tab-icon">people</mat-icon>
+      Tài khoản
+    </ng-template>
+    <ng-template matTabContent>
+      <div class="tw-p-3 tw-mt-5">
+        <app-chart-user
+          [start]="minDateValid"
+          [end]="maxDateValid"
+          [group]="groupBy.value"
+        ></app-chart-user>
+      </div>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="example-tab-icon">work</mat-icon>
+      Công việc
+    </ng-template>
+    <ng-template matTabContent>
+      <div class="tw-p-3 tw-mt-5">
+        <app-chart-job-ov
+          [start]="minDateValid"
+          [end]="maxDateValid"
+          [group]="groupBy.value"
+        ></app-chart-job-ov>
+      </div>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="example-tab-icon">work_history</mat-icon>
+      Tương tác
+    </ng-template>
+    <ng-template matTabContent>
+      <div class="tw-p-3 tw-mt-5">
+        <app-chart-job
+          [start]="minDateValid"
+          [end]="maxDateValid"
+          [group]="groupBy.value"
+        ></app-chart-job>
+      </div>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>
+

@@ -6,10 +6,12 @@ import {
   JobSearchBodyOutput,
   JobSearchInput,
   JobSearchOutput,
-  JobStatus
+  JobStatus, JobSts1Input, JobSts2Input, JobSts3Input
 } from "../models/job.model";
 import {httpOptions, objectToParams} from "../utils/common";
 import {JobLevelSearchInput, JobLevelSearchOutput} from "../models/job-level.model";
+import {StatisticOutput} from "../models/common";
+import {JobApplyStsInput} from "../models/job-apply.model";
 
 @Injectable({
   providedIn: 'root'
@@ -83,4 +85,44 @@ export class JobService {
     }
     return 'không xác định'
   }
+
+  sts1(data: StatisticOutput) {
+    const uri = 'job/sts1';
+    return this.httpClient.post<JobSts1Input[]>(uri, data, httpOptions);
+  }
+
+  sts2(data: StatisticOutput) {
+    const uri = 'job/sts2';
+    return this.httpClient.post<JobSts2Input[]>(uri, data, httpOptions);
+  }
+
+  sts3(data: StatisticOutput) {
+    const uri = 'job/sts3';
+    return this.httpClient.post<JobSts3Input[]>(uri, data, httpOptions);
+  }
+
+  formatSts1(data: JobSts1Input[]) {
+    return data.map(item => ({
+      ...item,
+      countJobBan: Number(item.countJobBan) || 0,
+      countJobDraft: Number(item.countJobDraft) || 0,
+      countJobPublish: Number(item.countJobPublish) || 0,
+      countJobWaitApprove: Number(item.countJobWaitApprove) || 0,
+    }))
+  }
+
+  formatSts2(data: JobSts2Input[]) {
+    return data.map(item => ({
+      ...item,
+      countJobEnd: Number(item.countJobEnd) || 0,
+    }))
+  }
+
+  formatSts3(data: JobSts3Input[]) {
+    return data.map(item => ({
+      ...item,
+      countJob: Number(item.countJob) || 0,
+    }))
+  }
+
 }

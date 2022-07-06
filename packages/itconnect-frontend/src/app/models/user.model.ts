@@ -63,3 +63,16 @@ export class UserSearchOutput extends SearchPageOutput {
   role?: AppRole;
   type: UserType;
 }
+
+export class UserStsInput {
+  legend: string;
+  countAllUser: number;
+  countUser: number;
+  countCompany: number;
+}
+
+export class UserBanStsInput {
+  legend: string;
+  countBanUser: number;
+  countBanCompany: number;
+}

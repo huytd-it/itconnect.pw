@@ -15,7 +15,14 @@ import {UserEntity} from "../entities/user.entity";
 import {AppRole} from "../polices/permission.enum";
 import {CompanyInfoEntity} from "../entities/companyInfo.entity";
 import {CompanyTagEntity} from "../entities/companyTag.entity";
-import {PageDto, PageMetaDto, PageOptionsDto} from "../dtos/page.dto";
+import {
+    fillAllDate,
+    getFormatDateGroupBy,
+    PageDto,
+    PageMetaDto,
+    PageOptionsDto, StatisticGroupBy,
+    StatisticOption
+} from "../dtos/page.dto";
 import {SchoolEntity} from "../entities/school.entity";
 import {CertificateEntity} from "../entities/certificate.entity";
 import {SkillEntity} from "../entities/skill.entity";
@@ -27,6 +34,7 @@ import {PointJobUserQueue} from "../queues/point-job-user.queue";
 import {JobViewLogEntity} from "../entities/jobViewLog.entity";
 import {JobApplyEntity} from "../entities/jobApply.entity";
 import {JobSavedEntity} from "../entities/jobSaved.entity";
+import {JobApplyStatisticOption} from "../dtos/jobApply.dto";
 
 @Injectable({ scope: Scope.REQUEST })
 export class JobService {
@@ -661,6 +669,168 @@ export class JobService {
 
         const meta = new PageMetaDto({ itemCount: total, pageOptionDto: page });
         return new PageDto(result, meta)
+    }
+
+    async sts1(query: StatisticOption) {
+        const qrView = this.jobRepository.createQueryBuilder('ja');
+        qrView.select(`
+            DATE_FORMAT(ja.updatedAt,:prm_group) legend,
+            SUM(case when ja.status = :prm_jt_publish then 1 else 0 end) countJobPublish, 
+            SUM(case when ja.status = :prm_jt_wait_approve then 1 else 0 end) countJobWaitApprove, 
+            SUM(case when ja.status = :prm_jt_ban then 1 else 0 end) countJobBan, 
+            SUM(case when ja.status = :prm_jt_draft then 1 else 0 end) countJobDraft 
+        `);
+        qrView.setParameter('prm_group', getFormatDateGroupBy(query.group));
+        qrView.setParameter('prm_jt_publish', JobStatus.Publish);
+        qrView.setParameter('prm_jt_wait_approve', JobStatus.WaitApprove);
+        qrView.setParameter('prm_jt_ban', JobStatus.Ban);
+        qrView.setParameter('prm_jt_draft', JobStatus.Draft);
+        qrView.groupBy('legend')
+        qrView.orderBy('ja.updatedAt', 'DESC')
+
+
+        const qrFillDate = this.jobRepository.createQueryBuilder('ja')
+        if (!query.start) {
+            qrFillDate.select('min(ja.updatedAt) date');
+            const r =  await qrFillDate.getRawOne();
+            if (r.date) {
+                // subtract 1 unit because chart need more value
+                let unit: moment.unitOfTime.DurationConstructor = 'day'
+                switch (query.group) {
+                    case StatisticGroupBy.Month:
+                        unit = 'month'
+                        break;
+                    case StatisticGroupBy.Year:
+                        unit = 'year';
+                        break
+                }
+                query.start = moment(r.date).subtract(1, unit).toDate()
+            }
+        } else {
+            qrView.andWhere({
+                createdAt: MoreThanOrEqual(moment(query.start).toDate())
+            })
+        }
+
+        if (!query.end) {
+            qrFillDate.select('max(ja.updatedAt) date');
+            const r =  await qrFillDate.getRawOne();
+            if (r.date) {
+                query.end = moment(r.date).toDate()
+            }
+        } else {
+            qrView.andWhere({
+                createdAt: LessThanOrEqual(moment(query.end).toDate())
+            })
+        }
+
+        const view = await qrView.getRawMany();
+
+        return fillAllDate(view, query.start, query.end, query.group);
+    }
+
+    async sts2(query: StatisticOption) {
+        const qrView = this.jobRepository.createQueryBuilder('ja');
+        qrView.select(`
+            DATE_FORMAT(ja.endDate,:prm_group) legend,
+            SUM(case when ja.status = :prm_jt_publish and ja.endDate > :prm_end_date then 1 else 0 end) countJobEnd 
+        `);
+        qrView.setParameter('prm_group', getFormatDateGroupBy(query.group));
+        qrView.setParameter('prm_end_date', moment().startOf('date').toDate());
+        qrView.setParameter('prm_jt_publish', JobStatus.Publish);
+        qrView.groupBy('legend')
+        qrView.orderBy('ja.endDate', 'DESC')
+
+
+        const qrFillDate = this.jobRepository.createQueryBuilder('ja')
+        if (!query.start) {
+            qrFillDate.select('min(ja.endDate) date');
+            const r =  await qrFillDate.getRawOne();
+            if (r.date) {
+                // subtract 1 unit because chart need more value
+                let unit: moment.unitOfTime.DurationConstructor = 'day'
+                switch (query.group) {
+                    case StatisticGroupBy.Month:
+                        unit = 'month'
+                        break;
+                    case StatisticGroupBy.Year:
+                        unit = 'year';
+                        break
+                }
+                query.start = moment(r.date).subtract(1, unit).toDate()
+            }
+        } else {
+            qrView.andWhere({
+                createdAt: MoreThanOrEqual(moment(query.start).toDate())
+            })
+        }
+
+        if (!query.end) {
+            qrFillDate.select('max(ja.endDate) date');
+            const r =  await qrFillDate.getRawOne();
+            if (r.date) {
+                query.end = moment(r.date).toDate()
+            }
+        } else {
+            qrView.andWhere({
+                createdAt: LessThanOrEqual(moment(query.end).toDate())
+            })
+        }
+
+        const view = await qrView.getRawMany();
+
+        return fillAllDate(view, query.start, query.end, query.group);
+    }
+
+    async sts3(query: StatisticOption) {
+        const qrView = this.jobRepository.createQueryBuilder('ja');
+        qrView.select(`
+            DATE_FORMAT(ja.createdAt,:prm_group) legend,
+            COUNT(*) countJob
+        `);
+        qrView.setParameter('prm_group', getFormatDateGroupBy(query.group));
+        qrView.groupBy('legend')
+        qrView.orderBy('ja.createdAt', 'DESC')
+
+
+        const qrFillDate = this.jobRepository.createQueryBuilder('ja')
+        if (!query.start) {
+            qrFillDate.select('min(ja.createdAt) date');
+            const r =  await qrFillDate.getRawOne();
+            if (r.date) {
+                // subtract 1 unit because chart need more value
+                let unit: moment.unitOfTime.DurationConstructor = 'day'
+                switch (query.group) {
+                    case StatisticGroupBy.Month:
+                        unit = 'month'
+                        break;
+                    case StatisticGroupBy.Year:
+                        unit = 'year';
+                        break
+                }
+                query.start = moment(r.date).subtract(1, unit).toDate()
+            }
+        } else {
+            qrView.andWhere({
+                createdAt: MoreThanOrEqual(moment(query.start).toDate())
+            })
+        }
+
+        if (!query.end) {
+            qrFillDate.select('max(ja.createdAt) date');
+            const r =  await qrFillDate.getRawOne();
+            if (r.date) {
+                query.end = moment(r.date).toDate()
+            }
+        } else {
+            qrView.andWhere({
+                createdAt: LessThanOrEqual(moment(query.end).toDate())
+            })
+        }
+
+        const view = await qrView.getRawMany();
+
+        return fillAllDate(view, query.start, query.end, query.group);
     }
 
 }

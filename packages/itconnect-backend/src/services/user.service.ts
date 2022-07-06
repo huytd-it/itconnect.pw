@@ -1,7 +1,7 @@
 import {ConflictException, ForbiddenException, Injectable, ServiceUnavailableException} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {UserEntity} from "../entities/user.entity";
-import {DataSource, IsNull, Not, Repository} from "typeorm";
+import {DataSource, IsNull, LessThanOrEqual, MoreThanOrEqual, Not, Repository} from "typeorm";
 import {
     CreateOrEditCompanyProfileInputDto,
     CreateOrEditCompanyProfileOutputDto,
@@ -25,7 +25,15 @@ import {Company3rdService} from "./company-3rd.service";
 import {CompanyTagEntity} from "../entities/companyTag.entity";
 import {Id} from "../utils/function";
 import {UserSearchInputDto, UserType} from "../dtos/user.dto";
-import {PageDto, PageMetaDto, PageOptionsDto} from "../dtos/page.dto";
+import {
+    fillAllDate,
+    getFormatDateGroupBy,
+    PageDto,
+    PageMetaDto,
+    PageOptionsDto,
+    StatisticGroupBy,
+    StatisticOption
+} from "../dtos/page.dto";
 import {firstValueFrom} from "rxjs";
 
 interface ComputeYoeData {
@@ -554,4 +562,138 @@ export class UserService {
         const meta = new PageMetaDto({ itemCount: total, pageOptionDto: page });
         return new PageDto(result, meta)
     }
+
+    async sts(query: StatisticOption) {
+        const qrView = this.usersRepository.createQueryBuilder('u');
+        qrView.select(`
+            DATE_FORMAT(u.createdAt,:prm_group) legend,
+            COUNT(*) countAllUser,
+            SUM(case when u.role = :prm_role_company then 1 else 0 end) countCompany, 
+            SUM(case when u.role = :prm_role_user then 1 else 0 end) countUser 
+        `);
+        qrView.setParameter('prm_group', getFormatDateGroupBy(query.group));
+        qrView.setParameter('prm_role_company', AppRole.company);
+        qrView.setParameter('prm_role_user', AppRole.user);
+        qrView.groupBy('legend')
+        qrView.orderBy('u.createdAt', 'DESC')
+
+
+        const qrFillDate = this.usersRepository.createQueryBuilder('u')
+
+        if (query.jobId) {
+            qrView.andWhere({
+                job: Id(query.jobId)
+            })
+            qrFillDate.andWhere({
+                job: Id(query.jobId)
+            })
+        }
+
+        if (!query.start) {
+            qrFillDate.select('min(u.createdAt) date');
+            const r =  await qrFillDate.getRawOne();
+            if (r.date) {
+                // subtract 1 unit because chart need more value
+                let unit: moment.unitOfTime.DurationConstructor = 'day'
+                switch (query.group) {
+                    case StatisticGroupBy.Month:
+                        unit = 'month'
+                        break;
+                    case StatisticGroupBy.Year:
+                        unit = 'year';
+                        break
+                }
+                query.start = moment(r.date).subtract(1, unit).toDate()
+            }
+        } else {
+            qrView.andWhere({
+                createdAt: MoreThanOrEqual(moment(query.start).toDate())
+            })
+        }
+
+        if (!query.end) {
+            qrFillDate.select('max(u.createdAt) date');
+            const r =  await qrFillDate.getRawOne();
+            if (r.date) {
+                query.end = moment(r.date).toDate()
+            }
+        }else {
+            qrView.andWhere({
+                createdAt: LessThanOrEqual(moment(query.end).toDate())
+            })
+        }
+
+        const view = await qrView.getRawMany();
+
+        return fillAllDate(view, query.start, query.end, query.group);
+    }
+
+    async stsBan(query: StatisticOption) {
+        const qrView = this.usersRepository.createQueryBuilder('u');
+        qrView.select(`
+            DATE_FORMAT(u.createdAt,:prm_group) legend,
+            SUM(case when companyInfo.id is not null then 1 else 0 end) countBanCompany, 
+            SUM(case when userInfo.id is not null then 1 else 0 end) countBanUser 
+        `);
+        qrView.leftJoin('u.userInfo', 'userInfo');
+        qrView.leftJoin('u.companyInfo', 'companyInfo');
+        qrView.setParameter('prm_group', getFormatDateGroupBy(query.group));
+        qrView.groupBy('legend')
+        qrView.orderBy('u.updatedAt', 'DESC')
+        qrView.andWhere('u.role = :prm_role_ban');
+        qrView.setParameter('prm_role_ban', AppRole.ban);
+
+
+        const qrFillDate = this.usersRepository.createQueryBuilder('u')
+        qrFillDate.andWhere('u.role = :prm_role_ban');
+        qrFillDate.setParameter('prm_role_ban', AppRole.ban);
+
+        if (query.jobId) {
+            qrView.andWhere({
+                job: Id(query.jobId)
+            })
+            qrFillDate.andWhere({
+                job: Id(query.jobId)
+            })
+        }
+
+        if (!query.start) {
+            qrFillDate.select('min(u.createdAt) date');
+            const r =  await qrFillDate.getRawOne();
+            if (r.date) {
+                // subtract 1 unit because chart need more value
+                let unit: moment.unitOfTime.DurationConstructor = 'day'
+                switch (query.group) {
+                    case StatisticGroupBy.Month:
+                        unit = 'month'
+                        break;
+                    case StatisticGroupBy.Year:
+                        unit = 'year';
+                        break
+                }
+                query.start = moment(r.date).subtract(1, unit).toDate()
+            }
+        } else {
+            qrView.andWhere({
+                createdAt: MoreThanOrEqual(moment(query.start).toDate())
+            })
+        }
+
+        if (!query.end) {
+            qrFillDate.select('max(u.createdAt) date');
+            const r =  await qrFillDate.getRawOne();
+            if (r.date) {
+                query.end = moment(r.date).toDate()
+            }
+        }else {
+            qrView.andWhere({
+                createdAt: LessThanOrEqual(moment(query.end).toDate())
+            })
+        }
+
+        const view = await qrView.getRawMany();
+
+        return fillAllDate(view, query.start, query.end, query.group);
+    }
+
 }

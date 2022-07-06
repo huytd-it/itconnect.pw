@@ -1,4 +1,4 @@
-import {Controller, Delete, Get, Param, Put, Query, UseGuards} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards} from '@nestjs/common';
 import {ApiBearerAuth, ApiOkResponse, ApiTags} from "@nestjs/swagger";
 import {JwtAuthGuard} from "../../utils/guards/jwt.guard";
 import {UserService} from "../../services/user.service";
@@ -11,7 +11,8 @@ import {ApiPaginatedResponse} from "../../utils/decorators/api-paginated-respons
 import {WorkFromDto, WorkFromSearchInputDto} from "../../dtos/workFrom.dto";
 import {ApiPaginatedQueryOrder} from "../../utils/decorators/api-paginated-query-order.decorator";
 import {WorkFromEntity} from "../../entities/workFrom.entity";
-import {PageOptionsDto} from "../../dtos/page.dto";
+import {PageOptionsDto, StatisticOption} from "../../dtos/page.dto";
+import {JobViewLogStatisticOption} from "../../dtos/job-view-log.dto";
 
 @ApiTags('user')
 @ApiBearerAuth()
@@ -51,6 +52,24 @@ export class UserController {
         @Param() data: UserGetOneParamsDto
     ) {
         return this.userService.unban(data.id);
+    }
+
+    @UseGuards(PermissionsGuard)
+    @RequirePermissions(AppPermission.JOB_VIEW_LOG_STS)
+    @Post('sts')
+    statistic(
+        @Body() query: StatisticOption
+    ) {
+        return this.userService.sts(query);
+    }
+
+    @UseGuards(PermissionsGuard)
+    @RequirePermissions(AppPermission.JOB_VIEW_LOG_STS)
+    @Post('sts-ban')
+    statisticBan(
+        @Body() query: StatisticOption
+    ) {
+        return this.userService.stsBan(query);
     }
 
     @UseGuards(PermissionsGuard)

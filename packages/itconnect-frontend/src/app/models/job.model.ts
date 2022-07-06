@@ -171,3 +171,22 @@ export class JobSearchInput extends PageInput<Job> {}
 
 export class JobSearchOutput extends SearchPageOutput {
 }
+
+export class JobSts1Input {
+  legend: string;
+  countJobPublish: number;
+  countJobWaitApprove: number;
+  countJobBan: number;
+  countJobDraft: number;
+}
+
+
+export class JobSts2Input {
+  legend: string;
+  countJobEnd: number;
+}
+
+export class JobSts3Input {
+  legend: string;
+  countJob: number;
+}

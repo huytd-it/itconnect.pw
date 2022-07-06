@@ -13,6 +13,7 @@ import {JwtIntercept} from "./utils/intercepts/jwt.intercept";
 import {ServicesModule} from "./services/services.module";
 import {CommonComponentsModule} from "./components/common-components.module";
 import {PermissionGuard} from "./utils/guards/permission.guard";
+import {MAT_DATE_LOCALE} from "@angular/material/core";
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import {PermissionGuard} from "./utils/guards/permission.guard";
     { provide: HTTP_INTERCEPTORS, useClass: ErrorIntercept, multi: true},
     AuthGuard,
     GuestGuard,
-    PermissionGuard
+    PermissionGuard,
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
   ],
   bootstrap: [AppComponent]
 })

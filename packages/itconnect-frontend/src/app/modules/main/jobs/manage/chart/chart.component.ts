@@ -74,6 +74,7 @@ export class ChartComponent implements OnInit, OnChanges {
       .pipe(finalize(() => this.appService.setHeadLoading(false)))
       .subscribe(([dataViewLog, dataApplyLog]) => {
         this.data = <any>mergeStatistic(
+          o.group as StatisticGroupBy,
           this.jobViewLogService.formatSts(dataViewLog),
           this.jobApplyService.formatSts(dataApplyLog)
         );

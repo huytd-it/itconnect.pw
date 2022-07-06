@@ -16,7 +16,7 @@ import {ApiPaginatedResponse} from "../../utils/decorators/api-paginated-respons
 import {JobLevelDto, JobLevelSearchInputDto} from "../../dtos/jobLevel.dto";
 import {ApiPaginatedQueryOrder} from "../../utils/decorators/api-paginated-query-order.decorator";
 import {JobLevelEntity} from "../../entities/jobLevel.entity";
-import {PageOptionsDto} from "../../dtos/page.dto";
+import {PageOptionsDto, StatisticOption} from "../../dtos/page.dto";
 import {JobEntity} from "../../entities/job.entity";
 
 @ApiTags('job')
@@ -113,4 +113,30 @@ export class JobController {
         return this.jobService.search(searchQuery, searchBody, new PageOptionsDto(pageOptionsDto));
     }
 
+    @UseGuards(PermissionsGuard)
+    @RequirePermissions(AppPermission.JOB_VIEW_LOG_STS)
+    @Post('sts1')
+    statistic1(
+        @Body() query: StatisticOption
+    ) {
+        return this.jobService.sts1(query);
+    }
+
+    @UseGuards(PermissionsGuard)
+    @RequirePermissions(AppPermission.JOB_VIEW_LOG_STS)
+    @Post('sts2')
+    statistic2(
+        @Body() query: StatisticOption
+    ) {
+        return this.jobService.sts2(query);
+    }
+
+    @UseGuards(PermissionsGuard)
+    @RequirePermissions(AppPermission.JOB_VIEW_LOG_STS)
+    @Post('sts3')
+    statistic3(
+        @Body() query: StatisticOption
+    ) {
+        return this.jobService.sts3(query);
+    }
 }

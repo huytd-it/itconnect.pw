@@ -9,12 +9,25 @@ import * as moment from "moment";
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  typeList = [
+    {
+      name: 'Tất cả',
+      value: 'all'
+    },
+    {
+      name: 'Khoản',
+      value: 'date-range'
+    },
+  ]
   minDate: Date = moment().startOf('date').toDate();
   maxDate: Date = new Date();
   currentDate: Date = new Date();
   groupByList = _.cloneDeep(statisticGroupByList);
   groupBy: { value: StatisticGroupBy } = this.groupByList[0];
+  typeSelected = this.typeList[1];
 
+  minDateValid: Date | undefined = this.minDate;
+  maxDateValid: Date | undefined = this.maxDate;
 
   constructor() { }
 
@@ -22,6 +35,21 @@ export class DashboardComponent implements OnInit {
   }
 
   onChange() {
+    const a = moment(this.minDate);
+    const b = moment(this.maxDate);
+    if (a.isValid() && b.isValid() && a.isSameOrBefore(b) && this.typeSelected.value == 'date-range') {
+      this.minDateValid = a.startOf('date').toDate();
+      this.maxDateValid = b.startOf('date').isSame(moment().startOf('date'))
+        ? this.maxDate : b.endOf('date').toDate();
+    }
+  }
 
+  onChangeType() {
+    if (this.typeSelected.value == 'all') {
+      this.minDateValid = undefined;
+      this.maxDateValid = moment().toDate();
+    } else {
+      this.onChange();
+    }
   }
 }

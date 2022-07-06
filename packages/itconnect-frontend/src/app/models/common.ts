@@ -1,5 +1,6 @@
 import {AppPermission} from "./permission.model";
 import * as moment from "moment";
+import {values} from "lodash";
 
 export interface MenuItem {
   name: string;
@@ -194,15 +195,28 @@ export function getStatisticOptions(type: EStatisticOptions): StatisticOutput {
   }
 }
 
-export function mergeStatistic(...data: { legend: string}[][]) {
+export function mergeStatistic(type: StatisticGroupBy, ...data: { legend: string}[][]) {
   const hashing = data.map(d => d.reduce<{ [key: string]: any }>((val, item) => {
     val[item.legend] = item;
     return val;
   }, {}))
 
-  data = data.sort((a, b) => b.length - a.length);
+  const format = getFormatDateGroupByMoment(type);
+  const hashingLegend = hashing.reduce<{ [key: string]: Date }>((val, item) => {
+    Object.keys(item).forEach(legend => {
+      if (!val[legend]) {
+        val[legend] = moment(legend, format).toDate();
+      }
+    })
+    return val
+  }, {});
 
-  return data[0].map((item, index) => {
+  const mapLegend = Object.keys(hashingLegend).map(legend => ({
+    legend,
+    date: hashingLegend[legend]
+  })).sort((a, b) => <any>a.date - <any>b.date);
+
+  const r = mapLegend.map((item, index) => {
     let result = item;
     hashing.forEach(it => {
       result = {
@@ -213,4 +227,26 @@ export function mergeStatistic(...data: { legend: string}[][]) {
     return result;
   })
 
+  const keys = Object.keys(r.reduce<{ [key: string]: boolean }>((val, item) => {
+    const ks = Object.keys(item);
+    ks.forEach(k => val[k] = true);
+    return val;
+  }, {}));
+
+  return r.map((item: any) => {
+    keys.forEach(key => {
+      item[key] = item[key] || 0;
+    })
+    return item;
+  })
 }
+
+export function getFormatDateGroupByMoment(type: StatisticGroupBy) {
+  switch (type) {
+    case StatisticGroupBy.Hour: return 'HH[h] DD-MM-YYYY'
+    case StatisticGroupBy.Day: return 'DD-MM-YYYY'
+    case StatisticGroupBy.Month: return 'MM-YYYY'
+    case StatisticGroupBy.Year: return 'YYYY'
+  }
+}
+

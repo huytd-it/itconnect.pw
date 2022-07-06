@@ -1,5 +1,4 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {JobViewLogService} from "../../../../../services/job-view-log.service";
 import {AppService} from "../../../../../services/app.service";
 import * as moment from "moment";
 import {
@@ -14,47 +13,55 @@ import {JobViewLogStsInput} from "../../../../../models/job-view-log.model";
 import * as _ from "lodash";
 import {JobApplyService} from "../../../../../services/job-apply.service";
 import {JobApplyStsInput} from "../../../../../models/job-apply.model";
-import {JobSavedService} from "../../../../../services/job-saved.service";
 import {JobSavedStsInput} from "../../../../../models/job-saved.model";
+import {JobService} from "../../../../../services/job.service";
 
 @Component({
-  selector: 'app-chart-job',
-  templateUrl: './chart-job.component.html',
-  styleUrls: ['./chart-job.component.scss']
+  selector: 'app-chart-job-ov',
+  templateUrl: './chart-job-ov.component.html',
+  styleUrls: ['./chart-job-ov.component.scss']
 })
-export class ChartJobComponent implements OnInit, OnChanges {
+export class ChartJobOvComponent implements OnInit, OnChanges {
   @Input() start: Date | undefined;
   @Input() end: Date | undefined;
   @Input() group: StatisticGroupBy;
   data: (JobViewLogStsInput & JobApplyStsInput & JobSavedStsInput)[];
   config: AmchartLineConfig[] = [
     {
-      name: 'Lượt xem',
-      field: 'countView',
-      stroke: '#9a9a9a',
+      name: 'Công việc mới',
+      field: 'countJob',
+      stroke: '#76f86c',
       strokeDasharray: [2, 2]
     },
     {
-      name: 'Người xem',
-      field: 'countUnique',
+      name: 'Lưu nháp',
+      field: 'countJobDraft',
+      stroke: '#9a9a9a',
+    },
+    {
+      name: 'Đợi xét duyệt',
+      field: 'countJobWaitApprove',
       stroke: '#7786c9'
     },
     {
-      name: 'Người ứng tuyển',
-      field: 'countApply',
+      name: 'Công khai',
+      field: 'countJobPublish',
       stroke: '#3a8d37',
     },
     {
-      name: 'Người yêu thích',
-      field: 'countSaved',
+      name: 'Kết thúc',
+      field: 'countJobEnd',
+      stroke: '#f1984d',
+    },
+    {
+      name: 'Bị cấm',
+      field: 'countJobBan',
       stroke: '#c94d8f',
     }
   ]
 
   constructor(
-    private jobViewLogService: JobViewLogService,
-    private jobApplyService: JobApplyService,
-    private jobSavedService: JobSavedService,
+    private jobService: JobService,
     private appService: AppService
   ) { }
 
@@ -73,17 +80,17 @@ export class ChartJobComponent implements OnInit, OnChanges {
     };
     this.appService.setHeadLoading(true);
     forkJoin([
-      this.jobViewLogService.sts(option),
-      this.jobApplyService.sts(option),
-      this.jobSavedService.sts(option),
+      this.jobService.sts1(option),
+      this.jobService.sts2(option),
+      this.jobService.sts3(option),
     ])
       .pipe(finalize(() => this.appService.setHeadLoading(false)))
-      .subscribe(([dataViewLog, dataApplyLog, dataSavedLog]) => {
+      .subscribe(([s1, s2, s3]) => {
         this.data = <any>mergeStatistic(
           this.group,
-          this.jobViewLogService.formatSts(dataViewLog),
-          this.jobApplyService.formatSts(dataApplyLog),
-          this.jobSavedService.formatSts(dataSavedLog),
+          this.jobService.formatSts1(s1),
+          this.jobService.formatSts2(s2),
+          this.jobService.formatSts3(s3),
         );
       })
   }

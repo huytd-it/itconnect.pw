@@ -25,6 +25,8 @@ import {MatNativeDateModule} from "@angular/material/core";
 import {InputMonthYearComponent} from "./input-month-year/input-month-year.component";
 import {EasySelectCheckboxComponent} from "./easy-select-checkbox/easy-select-checkbox.component";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import { EasyCardComponent } from './easy-card/easy-card.component';
+import {MatIconModule} from "@angular/material/icon";
 
 @NgModule({
     declarations: [
@@ -40,42 +42,45 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
         InputMonthYearComponent,
         InputYearComponent,
         EasySelectCheckboxComponent,
+        EasyCardComponent,
     ],
-  imports: [
-    CommonModule,
-    UtilsModule,
-    MatButtonModule,
-    MatInputModule,
-    RouterModule,
-    MatCardModule,
-    FontAwesomeModule,
-    MatProgressBarModule,
-    NgSelectModule,
-    FormsModule,
-    ReactiveFormsModule,
-    QuillModule.forRoot(),
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatCheckboxModule
-  ],
-    exports: [
+    imports: [
+        CommonModule,
+        UtilsModule,
         MatButtonModule,
         MatInputModule,
-        LogoComponent,
-        AvatarComponent,
+        RouterModule,
+        MatCardModule,
         FontAwesomeModule,
-        MainContentComponent,
-        LineTextComponent,
-        FsLoadingComponent,
-        NotifyComponent,
-        UtilsModule,
-        EasySelectComponent,
-        EditorC1Component,
-        InputAmountVndComponent,
-        InputYearComponent,
-        InputMonthYearComponent,
-        EasySelectCheckboxComponent,
+        MatProgressBarModule,
+        NgSelectModule,
+        FormsModule,
+        ReactiveFormsModule,
+        QuillModule.forRoot(),
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatCheckboxModule,
+        MatIconModule
     ],
+  exports: [
+    MatButtonModule,
+    MatInputModule,
+    LogoComponent,
+    AvatarComponent,
+    FontAwesomeModule,
+    MainContentComponent,
+    LineTextComponent,
+    FsLoadingComponent,
+    NotifyComponent,
+    UtilsModule,
+    EasySelectComponent,
+    EditorC1Component,
+    InputAmountVndComponent,
+    InputYearComponent,
+    InputMonthYearComponent,
+    EasySelectCheckboxComponent,
+    EasyCardComponent,
+  ],
   providers: []
 })
 export class CommonComponentsModule { }

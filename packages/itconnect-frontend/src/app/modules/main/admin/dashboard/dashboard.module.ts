@@ -13,13 +13,22 @@ import {NgSelectModule} from "@ng-select/ng-select";
 import {ChartJobComponent} from "./chart-job/chart-job.component";
 import {AmchartModule} from "../../../../amchart/amchart.module";
 import { CardStsComponent } from './card-sts/card-sts.component';
+import {ChartUserComponent} from "./chart-user/chart-user.component";
+import {CommonComponentsModule} from "../../../../components/common-components.module";
+import {MatTabsModule} from "@angular/material/tabs";
+import {ChartJobOvComponent} from "./chart-job-ov/chart-job-ov.component";
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
     ChartJobComponent,
-    CardStsComponent
+    CardStsComponent,
+    ChartUserComponent,
+    ChartJobOvComponent
+  ],
+  exports: [
+    ChartJobComponent
   ],
   imports: [
     CommonModule,
@@ -31,7 +40,9 @@ import { CardStsComponent } from './card-sts/card-sts.component';
     MatIconModule,
     FormsModule,
     NgSelectModule,
-    AmchartModule
+    AmchartModule,
+    CommonComponentsModule,
+    MatTabsModule
   ]
 })
 export class DashboardModule { }
