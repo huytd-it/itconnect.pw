@@ -39,10 +39,62 @@
         <app-job-item
           [link]="'../view/' + item.job.id.toString()"
           [job]="item.job"
-          [showButton]="AppPermission.JOB_APPLY_DELETE | permission"
-          [labelButton]="'Hủy ứng tuyển'"
-          (clickButton)="onCancel(item)"
-        ></app-job-item>
+        >
+          <ng-container *ngIf="checkPublish(item)">
+            <button
+              mat-button
+              class="!tw-text-[12px]"
+              type="button"
+              *ngIf="(AppPermission.JOB_APPLY_DELETE | permission) && item.status === JobApplyStatus.Waiting"
+              (click)="onCancel(item); $event.stopPropagation()"
+              [matTooltip]="'Hủy ứng tuyển'"
+            >
+              <mat-icon class="!tw-text-[20px]">close</mat-icon>
+            </button>
+          </ng-container>
+          <ng-container *ngIf="!checkPublish(item)">
+            <div class="tw-p-2 tw-mt-1 tw-text-[12px]" *ngIf="item.status === JobApplyStatus.Waiting">
+              Đã kết thúc
+            </div>
+          </ng-container>
+          <div
+            class="tw-p-2 tw-mt-1 tw-border-orange-400 tw-text-orange-400 tw-text-[12px]"
+            *ngIf="item.status === JobApplyStatus.Denide"
+          >
+            Bị từ chối
+          </div>
+          <div
+            class="tw-p-2 tw-mt-1 tw-border-red-400 tw-text-red-400 tw-text-[12px]"
+            *ngIf="item.status === JobApplyStatus.RequestDenide"
+          >
+            Từ chối
+          </div>
+          <div
+            class="tw-p-2 tw-mt-1 tw-border-gray-400 tw-text-gray-400 tw-text-[12px]"
+            *ngIf="item.status === JobApplyStatus.RequestAccept"
+          >
+            Đã tham gia
+          </div>
+          <div bottom class="tw-mt-2 tw-ml-[-20px]" *ngIf="item.status === JobApplyStatus.RequestJoin">
+            <button
+              mat-button
+              type="button"
+              (click)="onAccept(item); $event.stopPropagation()"
+              [matTooltip]="'Chấp nhận tham gia công ty'"
+            >
+              <mat-icon class="!tw-text-[20px] tw-text-green-500">done</mat-icon>
+            </button>
+            <button
+              mat-button
+              type="button"
+              (click)="onDenide(item); $event.stopPropagation()"
+              [matTooltip]="'Từ chối tham gia công ty'"
+              class="!tw-w-auto !tw-p-0 !tw-min-w-auto"
+            >
+              <mat-icon class="!tw-text-[20px] tw-text-red-500">close</mat-icon>
+            </button>
+          </div>
+        </app-job-item>
       </ng-container>
       <div class="tw-flex tw-justify-center tw-p-4">
         <mat-paginator

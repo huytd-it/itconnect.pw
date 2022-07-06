@@ -9,31 +9,35 @@
       [src]="user.userInfo.avatar?.slug | urlBySlug"
     ></app-avatar>
   </div>
-  <div class="tw-flex-auto tw-border-b tw-p-3 tw-pt-4 tw-pl-1">
-    <a
-      class="tw-text-lg tw-text-primaryColor line-2 tw-inline-block"
-    >
-      {{user.userInfo.fullName}}
-    </a>
-    <div class="tw-text-[13px] tw-mt-1 tw-font-thin" *ngIf="!!user.userInfo.addressProvince">
-      {{user.userInfo.addressStreet}}, {{user.userInfo.addressVillage.name}}, {{user.userInfo.addressDistrict.name}}, {{user.userInfo.addressProvince.name}}
-    </div>
-    <div class="tw-text-[11px] tw-mt-1 tw-font-thin" *ngIf="user.userInfo.computeYoe">
-      <span class="tw-font-medium">{{getYoe(user.userInfo)}}</span> kinh nghiệm
-      <ng-container *ngIf="user.cvWorkExperienceCurrents?.length">
-        <i class="tw-w-[4px] tw-h-[4px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-1"></i>
-        Đang làm việc tại
-        <span class="tw-font-medium">
+  <div class="tw-flex-auto tw-flex tw-border-b">
+    <div class="tw-flex-auto tw-p-3 tw-pt-4 tw-pl-1">
+      <a
+        class="tw-text-lg tw-text-primaryColor line-2 tw-inline-block"
+      >
+        {{user.userInfo.fullName}}
+      </a>
+      <div class="tw-text-[13px] tw-mt-1 tw-font-thin" *ngIf="!!user.userInfo.addressProvince">
+        {{user.userInfo.addressStreet}}, {{user.userInfo.addressVillage.name}}, {{user.userInfo.addressDistrict.name}}, {{user.userInfo.addressProvince.name}}
+      </div>
+      <div class="tw-text-[11px] tw-mt-1 tw-font-thin" *ngIf="user.userInfo.computeYoe">
+        <span class="tw-font-medium">{{getYoe(user.userInfo)}}</span> kinh nghiệm
+        <ng-container *ngIf="user.cvWorkExperienceCurrents?.length">
+          <i class="tw-w-[4px] tw-h-[4px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-1"></i>
+          Đang làm việc tại
+          <span class="tw-font-medium">
           {{user.cvWorkExperienceCurrents[0].companyTag.name}}
         </span>
-      </ng-container>
+        </ng-container>
+      </div>
+      <div class="tw-text-[10px] tw-mt-1 tw-font-thin">
+        <ng-container *ngIf="applyTime">
+          Ứng tuyển {{applyTime| dateFromNow}}
+          <i class="tw-w-[4px] tw-h-[4px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-1"></i>
+        </ng-container>
+        Thành viên của ITConnect {{user.createdAt | dateFromNow}}
+      </div>
+      <ng-content select="[bottom]"></ng-content>
     </div>
-    <div class="tw-text-[10px] tw-mt-1 tw-font-thin">
-      <ng-container *ngIf="applyTime">
-        Ứng tuyển {{applyTime| dateFromNow}}
-        <i class="tw-w-[4px] tw-h-[4px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-1"></i>
-      </ng-container>
-      Thành viên của ITConnect {{user.createdAt | dateFromNow}}
-    </div>
+    <ng-content></ng-content>
   </div>
 </div>

@@ -38,6 +38,49 @@
             [user]="item.user"
             [applyTime]="item.createdAt"
           >
+            <div
+              class="tw-p-2 tw-mt-1 tw-border-orange-400 tw-text-orange-400 tw-text-[12px]"
+              *ngIf="item.status === JobApplyStatus.Denide"
+            >
+              Đã từ chối
+            </div>
+            <div
+              class="tw-p-2 tw-mt-1 tw-border-red-400 tw-text-red-400 tw-text-[12px]"
+              *ngIf="item.status === JobApplyStatus.RequestDenide"
+            >
+              Bị từ chối
+            </div>
+            <div
+              class="tw-p-2 tw-mt-1 tw-border-gray-400 tw-text-gray-400 tw-text-[12px]"
+              *ngIf="item.status === JobApplyStatus.RequestAccept"
+            >
+              Đã tham gia
+            </div>
+            <div
+              class="tw-p-2 tw-mt-1 tw-border-gray-400 tw-text-green-400 tw-text-[12px]"
+              *ngIf="item.status === JobApplyStatus.RequestJoin"
+            >
+              Đã mời gia nhập công ty
+            </div>
+            <div bottom class="tw-mt-2 tw-ml-[-20px]" *ngIf="item.status === JobApplyStatus.Waiting">
+              <button
+                mat-button
+                type="button"
+                (click)="onAccept(item); $event.stopPropagation()"
+                [matTooltip]="'Tài khoản này đã tham gia công ty tôi'"
+              >
+                <mat-icon class="!tw-text-[20px] tw-text-green-500">done</mat-icon>
+              </button>
+              <button
+                mat-button
+                type="button"
+                (click)="onDenide(item); $event.stopPropagation()"
+                [matTooltip]="'Từ chối tiếp nhận phỏng vấn'"
+                class="!tw-w-auto !tw-p-0 !tw-min-w-auto"
+              >
+                <mat-icon class="!tw-text-[20px] tw-text-red-500">close</mat-icon>
+              </button>
+            </div>
           </app-people-item>
         </ng-container>
         <div class="tw-flex tw-justify-center tw-p-4">

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {httpOptions, objectToParams} from "../utils/common";
 import {WorkFromSearchInput, WorkFromSearchOutput} from '../models/work-from.model';
-import {JobApply, JobApplyCreateInput, JobApplySearchInput, JobApplySearchOutput} from "../models/job-apply.model";
+import {JobApply, JobApplyCreateOutput, JobApplySearchInput, JobApplySearchOutput} from "../models/job-apply.model";
 import {JobViewLog, JobViewLogStsInput} from "../models/job-view-log.model";
 import {StatisticOutput} from "../models/common";
 

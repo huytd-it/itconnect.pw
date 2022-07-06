@@ -1,7 +1,22 @@
-import {CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn} from "typeorm";
+import {
+    Column,
+    CreateDateColumn,
+    DeleteDateColumn,
+    Entity,
+    ManyToOne,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn
+} from "typeorm";
 import {JobEntity} from "./job.entity";
 import {UserEntity} from "./user.entity";
 
+export enum JobApplyStatus {
+    Waiting = 'waiting', // for user
+    Denide = 'denide', // for company
+    RequestJoin = 'request_join', // for company
+    RequestDenide = 'request_denide', // for user
+    RequestAccept = 'request_accept', // for user
+}
 
 @Entity()
 export class JobApplyEntity {
@@ -13,6 +28,9 @@ export class JobApplyEntity {
 
     @ManyToOne(type => UserEntity)
     user: UserEntity;
+
+    @Column({ default: JobApplyStatus.Waiting })
+    status: JobApplyStatus;
 
     @CreateDateColumn()
     createdAt: Date;

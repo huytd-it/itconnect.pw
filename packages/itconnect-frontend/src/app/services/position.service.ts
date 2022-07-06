@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {httpOptions, objectToParams} from "../utils/common";
 import {PositionSearchInput, PositionSearchOutput} from "../models/position.model";
-import {CreateTaggedOutput, TaggedInput} from "../models/common";
+import {CreateOrEditTagOutput, CreateTaggedOutput, TaggedInput} from "../models/common";
 import {map} from "rxjs";
 import {SkillSearchInput} from "../models/skill.model";
 
@@ -27,6 +27,11 @@ export class PositionService {
 
   createTag(data: CreateTaggedOutput) {
     const uri = 'position/create-tag';
+    return this.httpClient.post<TaggedInput>(uri, data, httpOptions);
+  }
+
+  createOrEdit(data: CreateOrEditTagOutput) {
+    const uri = 'position/createOrEdit';
     return this.httpClient.post<TaggedInput>(uri, data, httpOptions);
   }
 

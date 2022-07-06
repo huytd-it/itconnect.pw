@@ -221,6 +221,7 @@ export enum AppPermission {
     JOB_APPLY = 'JOB_APPLY',
     JOB_APPLY_SEARCH = 'JOB_APPLY_SEARCH',
     JOB_APPLY_CREATE = 'JOB_APPLY_CREATE',
+    JOB_APPLY_CE = 'JOB_APPLY_CE',
     JOB_APPLY_DELETE = 'JOB_APPLY_DELETE',
     JOB_APPLY_STS = 'JOB_APPLY_STS',
 
@@ -360,6 +361,7 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.JOB_APPLY,
         AppPermission.JOB_APPLY_SEARCH,
         AppPermission.JOB_APPLY_CREATE,
+        AppPermission.JOB_APPLY_CE,
         AppPermission.JOB_APPLY_DELETE,
         AppPermission.JOB_SAVED,
         AppPermission.JOB_SAVED_SEARCH,
@@ -413,6 +415,7 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.JOB_TYPE,
         AppPermission.JOB_TYPE_SEARCH,
         AppPermission.JOB_APPLY_SEARCH,
+        AppPermission.JOB_APPLY_CE,
         AppPermission.POINT_JOB_USER_SEARCH,
         AppPermission.PEOPLE_SUGGEST,
         AppPermission.FILE_UPLOAD,

@@ -5,6 +5,8 @@ import {JobDto} from "./job.dto";
 import {UserDto} from "./user.dto";
 import {Type} from "class-transformer";
 import {StatisticGroupBy} from "./page.dto";
+import {JobApplyStatus} from "../entities/jobApply.entity";
+import {ApiEnumValue} from "../utils/decorators/api-enum-value.decorator";
 
 export class JobApplyDto extends EntityDto {
     @ApiProperty()
@@ -15,6 +17,9 @@ export class JobApplyDto extends EntityDto {
 
     @ApiProperty()
     user: UserDto;
+
+    @ApiProperty()
+    status: JobApplyStatus;
 }
 
 
@@ -31,8 +36,23 @@ export class JobApplySearchInputDto {
 }
 
 export class JobApplyCreateInputDto {
-    @ApiProperty()
+    @ApiPropertyOptional()
     @IsInt()
+    @IsOptional()
+    id: number;
+
+    @ApiEnumValue(
+        ApiProperty,
+        {
+            enum: JobApplyStatus
+        }
+    )
+    @IsOptional()
+    status: JobApplyStatus;
+
+    @ApiPropertyOptional()
+    @IsInt()
+    @IsOptional()
     jobId: number;
 }
 

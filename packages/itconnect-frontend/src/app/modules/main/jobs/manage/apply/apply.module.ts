@@ -13,6 +13,7 @@ import {UtilsModule} from "../../../../../utils/utils.module";
 import {MatButtonModule} from "@angular/material/button";
 import {CommonComponentsModule} from "../../../../../components/common-components.module";
 import {MainComponentsModule} from "../../../components/components.module";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import {MainComponentsModule} from "../../../components/components.module";
         UtilsModule,
         MatButtonModule,
         CommonComponentsModule,
-        MainComponentsModule
+        MainComponentsModule,
+        MatTooltipModule
     ]
 })
 export class ApplyModule { }

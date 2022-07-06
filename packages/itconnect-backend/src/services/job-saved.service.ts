@@ -18,7 +18,7 @@ import {JobEntity} from "../entities/job.entity";
 import * as moment from "moment";
 import {AppRole} from "../polices/permission.enum";
 import {JobSavedEntity} from "../entities/jobSaved.entity";
-import {JobSavedSearchInputDto} from "../dtos/jobSaved.dto";
+import {JobSavedCreateInputDto, JobSavedSearchInputDto} from "../dtos/jobSaved.dto";
 
 @Injectable({ scope: Scope.REQUEST })
 export class JobSavedService {
@@ -106,7 +106,7 @@ export class JobSavedService {
         return new PageDto(result, meta)
     }
 
-    async create(data: JobApplyCreateInputDto) {
+    async create(data: JobSavedCreateInputDto) {
         // check is saved
         const jobApply = await this.jobSavedRepository.findOne({
             where: {

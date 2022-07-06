@@ -733,7 +733,7 @@ export class JobService {
         const qrView = this.jobRepository.createQueryBuilder('ja');
         qrView.select(`
             DATE_FORMAT(ja.endDate,:prm_group) legend,
-            SUM(case when ja.status = :prm_jt_publish and ja.endDate > :prm_end_date then 1 else 0 end) countJobEnd 
+            SUM(case when ja.status = :prm_jt_publish and ja.endDate < :prm_end_date then 1 else 0 end) countJobEnd 
         `);
         qrView.setParameter('prm_group', getFormatDateGroupBy(query.group));
         qrView.setParameter('prm_end_date', moment().startOf('date').toDate());

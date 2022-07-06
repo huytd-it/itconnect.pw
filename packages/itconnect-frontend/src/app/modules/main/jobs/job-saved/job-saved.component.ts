@@ -6,7 +6,7 @@ import {JobApply, JobApplySearchInput} from "../../../../models/job-apply.model"
 import {PageEvent} from "@angular/material/paginator";
 import { AppPermission } from 'src/app/models/permission.model';
 import {JobSavedService} from "../../../../services/job-saved.service";
-import {JobSavedSearchInput} from "../../../../models/job-saved.model";
+import {JobSaved, JobSavedSearchInput} from "../../../../models/job-saved.model";
 
 @Component({
   selector: 'app-job-saved',
@@ -77,7 +77,7 @@ export class JobSavedComponent implements OnInit {
     this.load(e.pageIndex + 1, e.pageSize);
   }
 
-  onCancel(item: JobApply) {
+  onCancel(item: JobSaved) {
     this.appService.setHeadLoading(true);
     this.jobSavedService.delete(item.id)
       .pipe(finalize(() => this.appService.setHeadLoading(false)))

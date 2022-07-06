@@ -1,7 +1,7 @@
 import {ConflictException, ForbiddenException, Inject, Injectable, Request, Scope} from '@nestjs/common';
 import {JobApplyCreateInputDto, JobApplySearchInputDto, JobApplyStatisticOption} from "../dtos/jobApply.dto";
 import {InjectRepository} from "@nestjs/typeorm";
-import {JobApplyEntity} from "../entities/jobApply.entity";
+import {JobApplyEntity, JobApplyStatus} from "../entities/jobApply.entity";
 import {LessThanOrEqual, MoreThanOrEqual, Repository} from "typeorm";
 import {
     fillAllDate,
@@ -17,7 +17,6 @@ import {Id} from "../utils/function";
 import {JobEntity} from "../entities/job.entity";
 import * as moment from "moment";
 import {AppRole} from "../polices/permission.enum";
-import {JobViewLogStatisticOption} from "../dtos/job-view-log.dto";
 
 @Injectable({ scope: Scope.REQUEST })
 export class JobApplyService {
@@ -130,34 +129,74 @@ export class JobApplyService {
     }
 
     async create(data: JobApplyCreateInputDto) {
-        // check is apply
-        const jobApply = await this.jobApplyRepository.findOne({
-            where: {
-                user: Id(this.user.id),
-                job: Id(data.jobId)
+        if (data.id) {
+            const jobApply = await this.jobApplyRepository.findOne({
+                where: [
+                    {
+                        id: data.id,
+                        user: Id(this.user.id)
+                    },
+                    {
+                        id: data.id,
+                        job: {
+                            user: Id(this.user.id)
+                        }
+                    },
+                ],
+                loadRelationIds: true
+            })
+            if (!jobApply) {
+                throw new ForbiddenException();
             }
-        })
-        if (jobApply) {
-            throw new ConflictException('Bạn đã apply rồi')
-        }
-        // check job is accept apply
-        const job = await this.jobRepository.findOne({
-            where: {
-                id: data.jobId,
-                endDate: MoreThanOrEqual(moment().toDate())
-            }
-        })
-        if (!job) {
-            throw new ForbiddenException();
-        }
 
-        // apply
-        return this.jobApplyRepository.save([
-            {
-                user: Id(this.user.id),
-                job: Id(data.jobId),
+            // forbidden when call request join by user
+            if (this.user.role === AppRole.user && data.status === JobApplyStatus.RequestJoin) {
+                throw new ForbiddenException();
             }
-        ])
+            await this.jobApplyRepository.update({ id: data.id }, {
+                status: data.status
+            })
+
+            // check update status job
+            // ---------- need update ----------
+
+            // get
+            return await this.jobApplyRepository.findOne({
+                where: {
+                    id: data.id
+                },
+                loadRelationIds: true
+            })
+        } else {
+            // check is apply
+            const jobApply = await this.jobApplyRepository.findOne({
+                where: {
+                    user: Id(this.user.id),
+                    job: Id(data.jobId)
+                }
+            })
+            if (jobApply) {
+                throw new ConflictException('Bạn đã apply rồi')
+            }
+            // check job is accept apply
+            const job = await this.jobRepository.findOne({
+                where: {
+                    id: data.jobId,
+                    endDate: MoreThanOrEqual(moment().toDate())
+                }
+            })
+            if (!job) {
+                throw new ForbiddenException();
+            }
+
+            // apply
+            return this.jobApplyRepository.save([
+                {
+                    user: Id(this.user.id),
+                    job: Id(data.jobId),
+                }
+            ])
+        }
     }
 
     async delete(id: number) {

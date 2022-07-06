@@ -4,7 +4,7 @@ import {httpOptions, objectToParams} from "../utils/common";
 import {WorkFromSearchInput, WorkFromSearchOutput} from '../models/work-from.model';
 import {
   JobApply,
-  JobApplyCreateInput,
+  JobApplyCreateOutput,
   JobApplySearchInput,
   JobApplySearchOutput,
   JobApplyStsInput
@@ -31,7 +31,7 @@ export class JobApplyService {
     );
   }
 
-  create(body: JobApplyCreateInput) {
+  create(body: JobApplyCreateOutput) {
     const uri = 'job-apply/create'
     return this.httpClient.post<JobApply>(uri, body, httpOptions);
   }

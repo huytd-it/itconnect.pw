@@ -38,7 +38,7 @@ export class JobApplyController {
     }
 
     @UseGuards(PermissionsGuard)
-    @RequirePermissions(AppPermission.JOB_APPLY_CREATE)
+    @RequirePermissions(AppPermission.JOB_APPLY_CE)
     @ApiOkResponse({ type: JobApplyDto })
     @Post('create')
     create(
