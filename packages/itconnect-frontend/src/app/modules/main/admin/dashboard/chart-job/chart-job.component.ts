@@ -1,17 +1,9 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {JobViewLogService} from "../../../../../services/job-view-log.service";
 import {AppService} from "../../../../../services/app.service";
-import * as moment from "moment";
-import {
-  AmchartLineConfig,
-  EStatisticOptions,
-  getStatisticOptions, mergeStatistic,
-  StatisticGroupBy,
-  StatisticOptions, StatisticOutput
-} from "../../../../../models/common";
+import {AmchartLineConfig, mergeStatistic, StatisticGroupBy, StatisticOutput} from "../../../../../models/common";
 import {finalize, forkJoin} from "rxjs";
 import {JobViewLogStsInput} from "../../../../../models/job-view-log.model";
-import * as _ from "lodash";
 import {JobApplyService} from "../../../../../services/job-apply.service";
 import {JobApplyStsInput} from "../../../../../models/job-apply.model";
 import {JobSavedService} from "../../../../../services/job-saved.service";
@@ -27,6 +19,7 @@ export class ChartJobComponent implements OnInit, OnChanges {
   @Input() end: Date | undefined;
   @Input() group: StatisticGroupBy;
   data: (JobViewLogStsInput & JobApplyStsInput & JobSavedStsInput)[];
+  dataCustom: {[key: string]: number };
   config: AmchartLineConfig[] = [
     {
       name: 'Lượt xem',
@@ -40,12 +33,12 @@ export class ChartJobComponent implements OnInit, OnChanges {
       stroke: '#7786c9'
     },
     {
-      name: 'Người ứng tuyển',
+      name: 'Lượt ứng tuyển',
       field: 'countApply',
       stroke: '#3a8d37',
     },
     {
-      name: 'Người yêu thích',
+      name: 'Lượt yêu thích',
       field: 'countSaved',
       stroke: '#c94d8f',
     }
@@ -76,15 +69,25 @@ export class ChartJobComponent implements OnInit, OnChanges {
       this.jobViewLogService.sts(option),
       this.jobApplyService.sts(option),
       this.jobSavedService.sts(option),
+
+      // api only get unique view
+      this.jobViewLogService.sts({
+        ...option,
+        group: StatisticGroupBy.Year
+      }),
     ])
       .pipe(finalize(() => this.appService.setHeadLoading(false)))
-      .subscribe(([dataViewLog, dataApplyLog, dataSavedLog]) => {
+      .subscribe(([dataViewLog, dataApplyLog, dataSavedLog, dataUniqueLog]) => {
         this.data = <any>mergeStatistic(
           this.group,
           this.jobViewLogService.formatSts(dataViewLog),
           this.jobApplyService.formatSts(dataApplyLog),
           this.jobSavedService.formatSts(dataSavedLog),
         );
+
+        this.dataCustom = {
+          countUnique: Number(dataUniqueLog?.[0]?.countUnique) || 0
+        }
       })
   }
 
