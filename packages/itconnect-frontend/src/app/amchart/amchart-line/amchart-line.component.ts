@@ -77,6 +77,17 @@ export class AmchartLineComponent implements OnInit, OnChanges, OnDestroy {
 
 
     this.config.forEach(cf => {
+      let tooltip = am5.Tooltip.new(this.root, {
+        labelText: `${cf.name}: {${cf.field}}`,
+        getFillFromSprite: false
+      });
+      let tooltipBackground = tooltip.get('background');
+      if (tooltipBackground) {
+        tooltipBackground.setAll({
+          fill: am5.color(cf.stroke)
+        })
+      }
+
       let series = chart.series.push(am5xy.SmoothedXYLineSeries.new(this.root, {
         name: cf.name,
         xAxis: xAxis,
@@ -84,9 +95,7 @@ export class AmchartLineComponent implements OnInit, OnChanges, OnDestroy {
         valueYField: cf.field,
         categoryXField: this.labelX,
         stroke: am5.color(cf.stroke),
-        tooltip: am5.Tooltip.new(this.root, {
-          labelText: `${cf.name}: {${cf.field}}`
-        })
+        tooltip: tooltip
       }));
 
       series.strokes.template.setAll({

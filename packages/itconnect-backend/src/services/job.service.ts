@@ -708,7 +708,7 @@ export class JobService {
             }
         } else {
             qrView.andWhere({
-                createdAt: MoreThanOrEqual(moment(query.start).toDate())
+                updatedAt: MoreThanOrEqual(moment(query.start).toDate())
             })
         }
 
@@ -720,7 +720,7 @@ export class JobService {
             }
         } else {
             qrView.andWhere({
-                createdAt: LessThanOrEqual(moment(query.end).toDate())
+                updatedAt: LessThanOrEqual(moment(query.end).toDate())
             })
         }
 
@@ -761,7 +761,7 @@ export class JobService {
             }
         } else {
             qrView.andWhere({
-                createdAt: MoreThanOrEqual(moment(query.start).toDate())
+                endDate: MoreThanOrEqual(moment(query.start).toDate())
             })
         }
 
@@ -773,7 +773,7 @@ export class JobService {
             }
         } else {
             qrView.andWhere({
-                createdAt: LessThanOrEqual(moment(query.end).toDate())
+                endDate: LessThanOrEqual(moment(query.end).toDate())
             })
         }
 
