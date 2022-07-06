@@ -20,6 +20,12 @@ import {JobTypeEntity} from "./jobType.entity";
 
 export const MAX_WORK_EXPERIENCE_LENGTH = 20000;
 
+export enum CvWorkExperienceStatus {
+    NotVerify = 1,
+    WaitVerify = 2,
+    Verify = 3
+}
+
 @Entity()
 export class CvWorkExperienceEntity {
     @PrimaryGeneratedColumn()
@@ -33,6 +39,9 @@ export class CvWorkExperienceEntity {
 
     @Column({ nullable: true, type: 'text' })
     content: string;
+
+    @Column({ default: CvWorkExperienceStatus.NotVerify })
+    status: CvWorkExperienceStatus;
 
     @ManyToOne(type => CompanyTagEntity)
     companyTag: CompanyTagEntity;

@@ -9,7 +9,7 @@ import {IsIn, IsInt, IsOptional, MaxLength} from "class-validator";
 import {ExistsRowField} from "../validators/exists-row-field.validate";
 import {CompanyTagEntity} from "../entities/companyTag.entity";
 import {JobLevelEntity} from "../entities/jobLevel.entity";
-import {MAX_WORK_EXPERIENCE_LENGTH} from "../entities/cvWorkExperience.entity";
+import {CvWorkExperienceStatus, MAX_WORK_EXPERIENCE_LENGTH} from "../entities/cvWorkExperience.entity";
 import {JobTypeEntity} from "../entities/jobType.entity";
 
 export class CvWorkExperiencePositionDto extends EntityDto {
@@ -40,6 +40,9 @@ export class CvWorkExperienceDto extends EntityDto {
 
     @ApiProperty()
     content: string;
+
+    @ApiProperty()
+    status: CvWorkExperienceStatus;
 
     @ApiProperty()
     companyTag: CompanyTagDto;
@@ -101,6 +104,16 @@ export class CreateOrEditCvWorkExperienceDto {
     @ApiPropertyOptional()
     @IsOptional()
     force: boolean;
+
+    // support verify with apply job
+    @ApiPropertyOptional()
+    @IsOptional()
+    jobApplyId: number;
+
+    // support verify with prev cvWorkExperience
+    @ApiPropertyOptional()
+    @IsOptional()
+    prevId: number;
 }
 
 export class CvWorkExperienceDeleteDto {
