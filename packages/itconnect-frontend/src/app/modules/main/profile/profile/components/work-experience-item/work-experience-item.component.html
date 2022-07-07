@@ -14,6 +14,12 @@
         (click)="onEdit.emit(data)"
       ></button>
       <button
+        *ngIf="data.status != CvWorkExperienceStatus.NotVerify"
+        class="c-icon tw-w-[20px] tw-h-[20px] tw-bg-[length:20px_20px] c-btn icon-new-message tw-mx-3"
+        [matTooltip]="'Sửa'"
+        (click)="onEditMin()"
+      ></button>
+      <button
         *ngIf="data.status == CvWorkExperienceStatus.NotVerify"
         class="c-icon tw-w-[20px] tw-h-[20px] tw-bg-[length:20px_20px] c-btn icon-trash tw-mr-3"
         [matTooltip]="'Xóa'"

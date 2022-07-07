@@ -149,6 +149,30 @@ export class WorkExperienceItemComponent implements OnInit, OnChanges {
     });
   }
 
+  onEditMin() {
+    const dialogRef = this.dialog.open(WorkExperienceMinModalComponent, {
+      maxWidth: '95vw',
+      maxHeight: '95vh',
+      data: {
+        data: this.data,
+        allowContent: true,
+        fnUpdate: (data: CvWorkExperience) => {
+          this.appService.setHeadLoading(true);
+          return this.cvWorkExperienceService.createOrEdit({
+            ...this.getBody(),
+            content: data.content
+          }).pipe(finalize(() => this.appService.setHeadLoading(false)));
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((status) => {
+      if (status) {
+        this.onReload?.emit();
+      }
+    });
+  }
+
   onEndTimeline() {
     const dialogRef = this.dialog.open(WorkExperienceMinModalComponent, {
       maxWidth: '95vw',

@@ -66,6 +66,9 @@ export class WorkExperienceNextModalComponent implements OnInit {
   }
 
   get hasChange() {
+    if (this.data.newData) {
+      return true
+    }
     return (
       !_.isEqual(this.oldData, this.getData()) ||
         !_.isEqual(this.oldSkillItems.map(it => it.id).sort(), this.skillItems.map(it => it.id).sort()) ||
@@ -86,7 +89,7 @@ export class WorkExperienceNextModalComponent implements OnInit {
     public appService: AppService,
     private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<WorkExperienceNextModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: CvWorkExperience,
+    @Inject(MAT_DIALOG_DATA) public data: CvWorkExperience & { newData: boolean },
   ) {
     this.form = this.formBuilder.group({
       [FormField.Company]: [null, [Validators.required]],

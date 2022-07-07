@@ -60,7 +60,7 @@ export class CvWorkExperienceService {
         const currentUser = this.request['user'] as UserEntity;
         let upId = data.id;
 
-        const dataUpdate: DeepPartial<CvWorkExperienceEntity> = {
+        let dataUpdate: DeepPartial<CvWorkExperienceEntity> = {
             startDate: moment(data.startDate).startOf('month').toDate(),
             endDate: data.endDate ? moment(data.endDate).startOf('month').toDate() : null,
             jobLevel: data.jobLevel ? { id: data.jobLevel } : null,
@@ -77,10 +77,10 @@ export class CvWorkExperienceService {
         const qr = this.cvWorkExperienceRepository.createQueryBuilder('cv');
         qr.where(`(
                 (
-                    (startDate < :param_start_date and (endDate > :param_start_date or endDate is null)) or
+                    (startDate <= :param_start_date and (endDate > :param_start_date or endDate is null)) or
                     (startDate < :param_end_date and (endDate > :param_end_date or endDate is null))    
                 ) 
-                or startDate > :param_start_date and (endDate <:param_end_date or (endDate is null and :is_null_end_date = 1))
+                or startDate >= :param_start_date and (endDate <:param_end_date or (endDate is null and :is_null_end_date = 1))
             )`, {
             param_end_date: dataUpdate.endDate || moment().startOf('month').toDate(),
             param_start_date: dataUpdate.startDate,
@@ -114,7 +114,7 @@ export class CvWorkExperienceService {
             await this.cvWorkExperienceRepository.update(
                 { id: resultCvValid.id },
                 {
-                    endDate: moment(<any>dataUpdate.startDate).subtract(1, 'month').toDate()
+                    endDate: moment(<any>dataUpdate.startDate).toDate()
                 });
         }
 
@@ -149,6 +149,14 @@ export class CvWorkExperienceService {
             ]
             if (data.status && !allowStatus.includes(data.status)) {
                 throw new ForbiddenException();
+            }
+
+            // Only update content & endDate when verify
+            if (cv.status === CvWorkExperienceStatus.Verify) {
+                dataUpdate = <any>{
+                    endDate: dataUpdate.endDate,
+                    content: dataUpdate.content
+                }
             }
 
             await this.cvWorkExperienceRepository.update(

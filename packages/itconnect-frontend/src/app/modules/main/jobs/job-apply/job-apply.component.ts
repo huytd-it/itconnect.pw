@@ -1,11 +1,17 @@
 import {Component, OnInit} from '@angular/core';
 import {JobApplyService} from "../../../../services/job-apply.service";
 import {AppService} from "../../../../services/app.service";
-import {finalize} from "rxjs";
+import {delay, finalize, lastValueFrom, retryWhen, take} from "rxjs";
 import {JobApply, JobApplySearchInput, JobApplyStatus} from "../../../../models/job-apply.model";
 import {PageEvent} from "@angular/material/paginator";
 import {AppPermission} from 'src/app/models/permission.model';
 import * as moment from "moment";
+import {
+  WorkExperienceNextModalComponent
+} from "../../components/work-experience-next-modal/work-experience-next-modal.component";
+import {MatDialog} from "@angular/material/dialog";
+import {CvWorkExperience, CvWorkExperienceStatus} from "../../../../models/cv-work-experience.model";
+import {JobService} from "../../../../services/job.service";
 
 @Component({
   selector: 'app-job-apply',
@@ -47,7 +53,9 @@ export class JobApplyComponent implements OnInit {
 
   constructor(
     private jobApplyService: JobApplyService,
-    public appService: AppService
+    private jobService: JobService,
+    public appService: AppService,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -90,18 +98,43 @@ export class JobApplyComponent implements OnInit {
       })
   }
 
-  onAccept(item: JobApply) {
+  async onAccept(item: JobApply) {
     this.appService.setHeadLoading(true);
-    this.jobApplyService.create({
-      id: item.id,
-      status: JobApplyStatus.RequestAccept
-    })
-      .pipe(finalize(() => this.appService.setHeadLoading(false)))
-      .subscribe(data => {
-        const index = this.data.data.findIndex(it => it.id === item.id);
-        this.data.data[index].status = JobApplyStatus.RequestAccept;
-        this.data = {...this.data};
-      })
+    const job = await lastValueFrom(
+      this.jobService.getById(item.job.id)
+        .pipe(finalize(() => this.appService.setHeadLoading(false)))
+    );
+    const dialogRef = this.dialog.open(WorkExperienceNextModalComponent, {
+      maxWidth: '95vw',
+      maxHeight: '95vh',
+      data: {
+        companyTag: job.companyTag,
+        cvWorkExperiencePositions: job.jobPositions as any,
+        cvWorkExperienceSkills: job.jobSkills as any,
+        jobType: job.jobType,
+        jobLevel: job.jobJobLevels?.[0].jobLevel,
+        workFrom: job.jobWorkFrom?.[0].workFrom,
+        status: CvWorkExperienceStatus.Verify,
+        startDate: moment(item.job.createdAt).startOf('month').subtract(1, 'month').toDate(),
+        newData: true
+      } as CvWorkExperience & { newData: boolean }
+    });
+
+    dialogRef.afterClosed().subscribe((result: {reload: boolean}) => {
+      if (result.reload) {
+        this.appService.setHeadLoading(true);
+        this.jobApplyService.create({
+          id: item.id,
+          status: JobApplyStatus.RequestAccept
+        })
+          .pipe(finalize(() => this.appService.setHeadLoading(false)))
+          .subscribe(data => {
+            const index = this.data.data.findIndex(it => it.id === item.id);
+            this.data.data[index].status = JobApplyStatus.RequestAccept;
+            this.data = {...this.data};
+          })
+      }
+    });
   }
 
   onDenide(item: JobApply) {
