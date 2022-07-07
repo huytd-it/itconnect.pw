@@ -284,6 +284,13 @@ ngx-slider {
   }
 }
 
+app-root {
+  > .ng-dropdown-panel {
+    &.ng-select-bottom {
+      margin-top: 40px;
+    }
+  }
+}
 
 body > .ng-dropdown-panel {
   &.ng-select-bottom {

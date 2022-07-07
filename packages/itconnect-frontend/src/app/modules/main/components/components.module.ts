@@ -27,6 +27,10 @@ import {JobItemMinComponent} from "./job-item-min/job-item-min.component";
 import { PeopleItemComponent } from './people-item/people-item.component';
 import {PeopleSuggestMiniComponent} from "./people-suggest-mini/people-suggest-mini.component";
 import {PeopleItemMiniComponent} from "./people-item-mini/people-item-mini.component";
+import {WorkExperienceNextModalComponent} from "./work-experience-next-modal/work-experience-next-modal.component";
+import {MatDialog, MatDialogModule} from "@angular/material/dialog";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 @NgModule({
   declarations: [
@@ -45,23 +49,27 @@ import {PeopleItemMiniComponent} from "./people-item-mini/people-item-mini.compo
     JobItemMinComponent,
     PeopleItemComponent,
     PeopleSuggestMiniComponent,
-    PeopleItemMiniComponent
+    PeopleItemMiniComponent,
+    WorkExperienceNextModalComponent
   ],
-  imports: [
-    CommonModule,
-    CommonComponentsModule,
-    RouterModule,
-    MatTooltipModule,
-    MatAutocompleteModule,
-    MatInputModule,
-    MatChipsModule,
-    MatIconModule,
-    ReactiveFormsModule,
-    MatProgressBarModule,
-    MatSliderModule,
-    NgxSliderModule,
-    FormsModule,
-  ],
+    imports: [
+        CommonModule,
+        CommonComponentsModule,
+        RouterModule,
+        MatTooltipModule,
+        MatAutocompleteModule,
+        MatInputModule,
+        MatChipsModule,
+        MatIconModule,
+        ReactiveFormsModule,
+        MatProgressBarModule,
+        MatSliderModule,
+        NgxSliderModule,
+        FormsModule,
+        MatDialogModule,
+        MatSlideToggleModule,
+        MatCheckboxModule
+    ],
     exports: [
         HeaderComponent,
         SearchComponent,

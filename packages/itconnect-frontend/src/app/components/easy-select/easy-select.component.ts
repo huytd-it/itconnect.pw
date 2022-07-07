@@ -37,6 +37,7 @@ export class EasySelectComponent implements OnInit, ControlValueAccessor, OnChan
   @Input() multiple: boolean
   @Input() required: boolean;
   @Input() fDisabled: boolean;
+  @Input() readonly: boolean;
   @Input() autoFocus: boolean;
   @Input() isAddTag: boolean = true;
   @Input() addTagText: string = "Thêm mới"

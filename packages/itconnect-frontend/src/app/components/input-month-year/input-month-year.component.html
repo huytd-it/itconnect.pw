@@ -6,6 +6,7 @@
     [formControlName]="name"
     max="{{maxDate | date:'yyyy-MM-dd'}}"
     min="{{minDate | date:'yyyy-MM-dd'}}"
+    readonly
   >
   <mat-hint>MM/YYYY</mat-hint>
   <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>

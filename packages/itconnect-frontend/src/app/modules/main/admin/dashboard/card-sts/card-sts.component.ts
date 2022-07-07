@@ -55,4 +55,11 @@ export class CardStsComponent implements OnInit, OnChanges {
       this.hashingAvg[cf.field] = ((this.customData?.[cf.field] || this.hashingTotal[cf.field]) / this.data.length).toFixed(2);
     })
   }
+
+  formatNumber(t: any) {
+   if (typeof t === 'undefined' || t === null) {
+     return '--'
+   }
+   return t;
+  }
 }

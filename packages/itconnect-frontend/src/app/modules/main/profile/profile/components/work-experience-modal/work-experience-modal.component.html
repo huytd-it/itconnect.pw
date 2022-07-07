@@ -8,7 +8,7 @@
     [formControlName]="FormField.Company"
     [isAddTag]="false"
     (addTag)="onAddCompanyTag($event)"
-    appendTo="body"
+    appendTo="app-root"
   ></app-easy-select>
   <mat-error *ngIf="isControlError(FormField.Company, 'required')" class="tw-mt-[-14px] tw-text-[11px] tw-ml-2">
     Công ty là bắt buộc
@@ -22,7 +22,7 @@
     [isAddTag]="false"
     [loadMoreFn]="fetchJobLevel"
     [formControlName]="FormField.JobLevel"
-    appendTo="body"
+    appendTo="app-root"
   ></app-easy-select>
 
   <app-easy-select
@@ -30,7 +30,7 @@
     [isAddTag]="false"
     [loadMoreFn]="fetchWorkFrom"
     [formControlName]="FormField.WorkFrom"
-    appendTo="body"
+    appendTo="app-root"
   ></app-easy-select>
 
   <app-easy-select
@@ -38,7 +38,7 @@
     [isAddTag]="false"
     [loadMoreFn]="fetchJobType"
     [formControlName]="FormField.JobType"
-    appendTo="body"
+    appendTo="app-root"
   ></app-easy-select>
 
 
@@ -81,6 +81,7 @@
     </div>
     <app-editor-c1 [form]="form" [name]="FormField.Content"></app-editor-c1>
   </div>
+
 </div>
 <div mat-dialog-actions>
   <div class="tw-flex tw-justify-center tw-w-full tw-mt-10 tw-mb-3">
@@ -89,7 +90,7 @@
       <button mat-stroked-button cdkFocusInitial color="primary" (click)="onSubmit()">Lưu</button>
     </ng-container>
     <ng-container *ngIf="isAddForce">
-      <div>
+      <div class="tw-w-[90vw] md:tw-w-[550px]">
         <div class="tw-text-red-500 tw-text-[13px]">
           {{msgForce}}
         </div>

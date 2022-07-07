@@ -1,10 +1,11 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {
+  CreateOrEditCvWorkExperience,
   CvWorkExperience,
   CvWorkExperiencePosition,
-  CvWorkExperienceSkill
+  CvWorkExperienceSkill,
+  CvWorkExperienceStatus
 } from "../../../../../../models/cv-work-experience.model";
-import {faTrash} from "@fortawesome/free-solid-svg-icons";
 import * as _ from "lodash";
 import {CreateTaggedOutput, SearchPageOutput, TaggedInput} from "../../../../../../models/common";
 import {SkillService} from "../../../../../../services/skill.service";
@@ -13,6 +14,13 @@ import {CvWorkExperienceSkillService} from "../../../../../../services/cv-work-e
 import {finalize} from "rxjs";
 import {CvWorkExperiencePositionService} from "../../../../../../services/cv-work-experience-position.service";
 import {PositionService} from "../../../../../../services/position.service";
+import {MatDialog} from "@angular/material/dialog";
+import {
+  WorkExperienceNextModalComponent
+} from "../../../../components/work-experience-next-modal/work-experience-next-modal.component";
+import * as moment from "moment";
+import {CvWorkExperienceService} from "../../../../../../services/cv-work-experience.service";
+import {WorkExperienceMinModalComponent} from "../work-experience-min-modal/work-experience-min-modal.component";
 
 @Component({
   selector: 'app-work-experience-item',
@@ -20,12 +28,23 @@ import {PositionService} from "../../../../../../services/position.service";
   styleUrls: ['./work-experience-item.component.scss']
 })
 export class WorkExperienceItemComponent implements OnInit, OnChanges {
+  @Input() showV2: boolean;
   @Input() data: CvWorkExperience;
   @Output() onEdit = new EventEmitter<CvWorkExperience>();
   @Output() onRemove = new EventEmitter<CvWorkExperience>();
+  @Output() onReload = new EventEmitter();
 
   skillItems: CvWorkExperienceSkill[];
   positionItems: CvWorkExperiencePosition[];
+
+  readonly CvWorkExperienceStatus = CvWorkExperienceStatus;
+
+  get hasButtonNextAndEnd() {
+    const s = moment(this.data.startDate).startOf('month');
+    const e = moment().startOf('month')
+    return this.data.status != CvWorkExperienceStatus.WaitVerify &&
+      !this.data.endDate && e.diff(s, 'month') >= 1;
+  };
 
   constructor(
     private skillService: SkillService,
@@ -33,6 +52,8 @@ export class WorkExperienceItemComponent implements OnInit, OnChanges {
     private appService: AppService,
     private cvWorkExperienceSkillService: CvWorkExperienceSkillService,
     private cvWorkExperiencePositionService: CvWorkExperiencePositionService,
+    private cvWorkExperienceService: CvWorkExperienceService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -108,5 +129,71 @@ export class WorkExperienceItemComponent implements OnInit, OnChanges {
       .subscribe(data => {
         this.positionItems = this.positionItems.filter(item => item.id !== e.id);
       })
+  }
+
+  onNextTimeline() {
+    const dialogRef = this.dialog.open(WorkExperienceNextModalComponent, {
+      maxWidth: '95vw',
+      maxHeight: '95vh',
+      data: {
+        ...this.data,
+        cvWorkExperiencePositions: this.positionItems,
+        cvWorkExperienceSkills: this.skillItems
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: {reload: boolean}) => {
+      if (result.reload) {
+        this.onReload?.emit();
+      }
+    });
+  }
+
+  onEndTimeline() {
+    const dialogRef = this.dialog.open(WorkExperienceMinModalComponent, {
+      maxWidth: '95vw',
+      maxHeight: '95vh',
+      data: {
+        data: this.data,
+        allowEndDate: true,
+        fnUpdate: (data: CvWorkExperience) => {
+          this.appService.setHeadLoading(true);
+          return this.cvWorkExperienceService.createOrEdit({
+            ...this.getBody(),
+            endDate: data.endDate
+          }).pipe(finalize(() => this.appService.setHeadLoading(false)));
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((status) => {
+      if (status) {
+        this.onReload?.emit();
+      }
+    });
+  }
+
+  onCancelWaitVerify() {
+    this.appService.setHeadLoading(true);
+    this.cvWorkExperienceService.createOrEdit({
+      ...this.getBody(),
+      status: CvWorkExperienceStatus.NotVerify
+    })
+      .pipe(finalize(() => this.appService.setHeadLoading(false)))
+      .subscribe(data => {
+        this.data.status = CvWorkExperienceStatus.NotVerify;
+      })
+  }
+
+  getBody(): CreateOrEditCvWorkExperience {
+    return {
+      id: this.data.id,
+      startDate: this.data.startDate,
+      companyTag: this.data.companyTag.id,
+      jobLevel: this.data.jobLevel?.id,
+      jobType: this.data.jobType?.id,
+      workFrom: this.data.workFrom?.id,
+      content: this.data.content
+    }
   }
 }

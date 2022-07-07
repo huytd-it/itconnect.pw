@@ -6,9 +6,9 @@
   >
     <div class="tw-text-center tw-text-[10px] tw-font-thin">{{cf.name}}</div>
     <div class="tw-text-center tw-mt-1 tw-font-medium">
-      {{hashingTotal[cf.field] ?? '---'}}
+      {{formatNumber(hashingTotal[cf.field])}}
       <span class="tw-font-normal tw-text-[10px] tw-ml-1">
-        {{hashingAvg[cf.field] ?? '---'}}/{{typeString}}
+        {{formatNumber(hashingAvg[cf.field])}}/{{typeString}}
       </span>
     </div>
   </div>

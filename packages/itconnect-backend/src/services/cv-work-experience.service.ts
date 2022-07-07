@@ -3,9 +3,8 @@ import {CreateOrEditCvWorkExperienceDto} from "../dtos/cv-work-experience.dto";
 import {UserEntity} from "../entities/user.entity";
 import {REQUEST} from "@nestjs/core";
 import {InjectRepository} from "@nestjs/typeorm";
-import {CvWorkExperienceEntity} from "../entities/cvWorkExperience.entity";
-import {DeepPartial, LessThanOrEqual, MoreThanOrEqual, Not, Repository} from "typeorm";
-import {QueryDeepPartialEntity} from "typeorm/query-builder/QueryPartialEntity";
+import {CvWorkExperienceEntity, CvWorkExperienceStatus} from "../entities/cvWorkExperience.entity";
+import {DeepPartial, Not, Repository} from "typeorm";
 import {CompanyTagService} from "./company-tag.service";
 import {UserService} from "./user.service";
 import * as moment from "moment";
@@ -70,14 +69,18 @@ export class CvWorkExperienceService {
             content: data.content,
         };
 
+        if (data.status) {
+            dataUpdate.status = data.status;
+        }
+
         // valid contain or overlap time
         const qr = this.cvWorkExperienceRepository.createQueryBuilder('cv');
         qr.where(`(
                 (
-                    (startDate <= :param_start_date and (endDate >= :param_start_date or endDate is null)) or
-                    (startDate <= :param_end_date and (endDate >= :param_end_date or endDate is null))    
+                    (startDate < :param_start_date and (endDate > :param_start_date or endDate is null)) or
+                    (startDate < :param_end_date and (endDate > :param_end_date or endDate is null))    
                 ) 
-                or startDate >= :param_start_date and (endDate <= :param_end_date or (endDate is null and :is_null_end_date = 1))
+                or startDate > :param_start_date and (endDate <:param_end_date or (endDate is null and :is_null_end_date = 1))
             )`, {
             param_end_date: dataUpdate.endDate || moment().startOf('month').toDate(),
             param_start_date: dataUpdate.startDate,
@@ -138,6 +141,16 @@ export class CvWorkExperienceService {
             if (!cv) {
                 throw new ForbiddenException();
             }
+
+            // Only accept status NoVerify and WaitVerify
+            const allowStatus = [
+                CvWorkExperienceStatus.NotVerify,
+                CvWorkExperienceStatus.WaitVerify
+            ]
+            if (data.status && !allowStatus.includes(data.status)) {
+                throw new ForbiddenException();
+            }
+
             await this.cvWorkExperienceRepository.update(
                 { id: upId },
                 dataUpdate

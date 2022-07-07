@@ -17,6 +17,12 @@ export class CvWorkExperienceSkill {
     name?: string; // refactor
 }
 
+export enum CvWorkExperienceStatus {
+  NotVerify = 1,
+  WaitVerify = 2,
+  Verify = 3
+}
+
 export class CvWorkExperience {
     id: number;
     startDate: Date;
@@ -26,6 +32,7 @@ export class CvWorkExperience {
     jobLevel: JobLevel;
     jobType: JobType;
     workFrom: WorkFrom;
+    status: CvWorkExperienceStatus;
     cvWorkExperienceSkills: CvWorkExperienceSkill[];
     cvWorkExperiencePositions: CvWorkExperiencePosition[];
 }
@@ -33,11 +40,12 @@ export class CvWorkExperience {
 export class CreateOrEditCvWorkExperience {
     id?: number;
     startDate: Date;
-    endDate: Date;
+    endDate?: Date;
     content: string;
     companyTag: number;
     jobLevel: number;
     jobType: number;
     workFrom: number;
     force?: boolean;
+    status?: CvWorkExperienceStatus;
 }

@@ -8,6 +8,7 @@ import {Component, Input, OnInit} from '@angular/core';
 export class EasyCardComponent implements OnInit {
   @Input() label: string;
   @Input() icon: string;
+  @Input() class: string;
 
   constructor() { }
 

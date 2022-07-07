@@ -40,31 +40,28 @@
           Kết thúc nhận hồ sơ
         </button>
       </div>
-      <div class="tw-mt-10 tw-rounded tw-border">
-        <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
-          <div class="tw-flex tw-items-center">
-            <mat-icon>info</mat-icon>
-            <span class="tw-ml-2">Thông tin</span>
-          </div>
-        </div>
-        <div class="tw-p-5 tw-flex tw-flex-wrap tw-gap-3 tw-justify-around">
+
+      <app-easy-card
+        class="tw-mt-10"
+        [label]="'Trạng thái'"
+        [icon]="'info'"
+      >
+        <div class="tw-flex tw-flex-wrap tw-gap-3 tw-justify-around">
           <div>Thành viên ứng tuyển: {{data.jobApplyCount}}</div>
           <div>Lượt xem: {{data.jobViewLogCount}}</div>
           <div>Trạng thái: {{getStatusText(data.status)}}</div>
           <div>Ngày kết thúc: <b>{{data.endDate | date: 'dd/MM/yyyy'}}</b></div>
         </div>
-      </div>
-      <div class="tw-mt-10 tw-rounded tw-border">
-        <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
-          <div class="tw-flex tw-items-center">
-            <mat-icon>monitoring</mat-icon>
-            <span class="tw-ml-2">Thống kê</span>
-          </div>
-        </div>
-        <div class="tw-p-5">
-          <app-chart [jobId]="data.id"></app-chart>
-        </div>
-      </div>
+      </app-easy-card>
+
+      <app-easy-card
+        class="tw-mt-10"
+        [label]="'Thống kê'"
+        [icon]="'monitoring'"
+      >
+        <app-chart [jobId]="data.id"></app-chart>
+      </app-easy-card>
+
     </div>
   </mat-tab>
   <mat-tab label="Ứng viên"></mat-tab>

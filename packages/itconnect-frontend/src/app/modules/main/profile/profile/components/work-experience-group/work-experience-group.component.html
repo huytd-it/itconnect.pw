@@ -1,0 +1,28 @@
+<div class="tw-relative">
+  <div class="tw-font-bold tw-text-primaryColor tw-mb-5">
+    {{data?.[0]?.companyTag?.name || '---'}}
+  </div>
+  <div
+    class="tw-absolute tw-left-[1.5px] tw-h-[95%] tw-border-l tw-border-dashed tw-border-primaryColor"
+  ></div>
+  <div *ngFor="let item of data; let i = index" class="tw-relative">
+    <div
+      *ngIf="i != data.length - 1"
+      class="tw-absolute tw-top-0 tw-h-[100%] tw-w-[3px] tw-bg-primaryColor tw-mt-[20px]"
+    ></div>
+    <div class="
+      tw-absolute tw-top-[8px] tw-left-[-6px] tw-w-[15px] tw-h-[15px] tw-rounded-full
+      tw-border-4 tw-border-primaryColor  tw-bg-white
+    "></div>
+    <div class="tw-ml-[20px]">
+      <app-work-experience-item
+        [showV2]="true"
+        [data]="item"
+        (onReload)="onReload.emit()"
+        (onEdit)="onEdit.emit(item)"
+        (onRemove)="onRemove.emit($event)"
+      ></app-work-experience-item>
+    </div>
+  </div>
+</div>
+

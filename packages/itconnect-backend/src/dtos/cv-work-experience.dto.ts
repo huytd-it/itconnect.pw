@@ -11,6 +11,7 @@ import {CompanyTagEntity} from "../entities/companyTag.entity";
 import {JobLevelEntity} from "../entities/jobLevel.entity";
 import {CvWorkExperienceStatus, MAX_WORK_EXPERIENCE_LENGTH} from "../entities/cvWorkExperience.entity";
 import {JobTypeEntity} from "../entities/jobType.entity";
+import {ApiEnumValue} from "../utils/decorators/api-enum-value.decorator";
 
 export class CvWorkExperiencePositionDto extends EntityDto {
     @ApiProperty()
@@ -105,15 +106,9 @@ export class CreateOrEditCvWorkExperienceDto {
     @IsOptional()
     force: boolean;
 
-    // support verify with apply job
     @ApiPropertyOptional()
     @IsOptional()
-    jobApplyId: number;
-
-    // support verify with prev cvWorkExperience
-    @ApiPropertyOptional()
-    @IsOptional()
-    prevId: number;
+    status: CvWorkExperienceStatus;
 }
 
 export class CvWorkExperienceDeleteDto {

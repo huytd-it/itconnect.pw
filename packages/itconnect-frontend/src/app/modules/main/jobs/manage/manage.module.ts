@@ -10,6 +10,7 @@ import { ChartComponent } from './chart/chart.component';
 import {AmchartModule} from "../../../../amchart/amchart.module";
 import {NgSelectModule} from "@ng-select/ng-select";
 import {FormsModule} from "@angular/forms";
+import {CommonComponentsModule} from "../../../../components/common-components.module";
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import {FormsModule} from "@angular/forms";
         MatButtonModule,
         AmchartModule,
         NgSelectModule,
-        FormsModule
+        FormsModule,
+        CommonComponentsModule
     ]
 })
 export class ManageModule { }

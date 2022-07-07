@@ -1,0 +1,30 @@
+<h1 mat-dialog-title>Kinh nghiệm làm việc</h1>
+<div mat-dialog-content class="tw-w-[95vw] md:tw-w-[600px] c-scrollbar" [formGroup]="form">
+  <div class="tw-h-4"></div>
+  <app-input-month-year
+    *ngIf="this.data.allowEndDate"
+    class="tw-w-full"
+    [label]="'Ngày kết thúc'"
+    [form]="form"
+    [name]="FormField.EndDate"
+    [minDate]="minDate"
+    [maxDate]="maxDate"
+  ></app-input-month-year>
+
+  <div
+    class="tw-mt-5"
+    *ngIf="this.data.allowContent"
+  >
+    <div class="tw-ml-2 tw-mb-3">
+      Mô tả (tùy chọn)
+    </div>
+    <app-editor-c1 [form]="form" [name]="FormField.Content"></app-editor-c1>
+  </div>
+
+</div>
+<div mat-dialog-actions>
+  <div class="tw-flex tw-justify-center tw-w-full tw-mt-10 tw-mb-3">
+    <button mat-button (click)="onClose()">Đóng</button>
+    <button mat-stroked-button color="primary" (click)="onSubmit()">Lưu</button>
+  </div>
+</div>

@@ -27,6 +27,8 @@ import {MatIconModule} from "@angular/material/icon";
 import {ImageCropperModule} from "../../../../../image-cropper/image-cropper.module";
 import {CompanyInfoComponent} from "./company-info/company-info.component";
 import {CompanyInfoModalComponent} from "./company-info-modal/company-info-modal.component";
+import {WorkExperienceMinModalComponent} from "./work-experience-min-modal/work-experience-min-modal.component";
+import { WorkExperienceGroupComponent } from './work-experience-group/work-experience-group.component';
 
 
 
@@ -35,6 +37,7 @@ import {CompanyInfoModalComponent} from "./company-info-modal/company-info-modal
     ProfileUserComponent,
     ProfileCompanyComponent,
     WorkExperienceModalComponent,
+    WorkExperienceMinModalComponent,
     WorkExperienceComponent,
     WorkExperienceItemComponent,
     UserInfoComponent,
@@ -46,7 +49,8 @@ import {CompanyInfoModalComponent} from "./company-info-modal/company-info-modal
     EducationItemComponent,
     EducationModalComponent,
     CompanyInfoComponent,
-    CompanyInfoModalComponent
+    CompanyInfoModalComponent,
+    WorkExperienceGroupComponent,
   ],
     imports: [
         CommonModule,

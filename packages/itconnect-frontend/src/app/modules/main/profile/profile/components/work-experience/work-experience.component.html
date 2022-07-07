@@ -1,6 +1,21 @@
 <div class="tw-mt-5">
-  <div *ngFor="let item of data" class="tw-mb-[60px]">
-    <app-work-experience-item [data]="item" (onEdit)="onEdit(item)" (onRemove)="onRemove($event)"></app-work-experience-item>
+  <div *ngFor="let item of dataRefactor" class="tw-mb-[60px]">
+    <ng-container *ngIf="!item.isGroup">
+      <app-work-experience-item
+        [data]="item.items[0]"
+        (onReload)="onReload()"
+        (onEdit)="onEdit(item.items[0])"
+        (onRemove)="onRemove($event)"
+      ></app-work-experience-item>
+    </ng-container>
+    <ng-container *ngIf="item.isGroup">
+      <app-work-experience-group
+        [data]="item.items"
+        (onReload)="onReload()"
+        (onEdit)="onEdit($event)"
+        (onRemove)="onRemove($event)"
+      ></app-work-experience-group>
+    </ng-container>
   </div>
 
   <button mat-button color="primary" (click)="onAdd()">+ Thêm</button>
