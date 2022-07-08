@@ -126,6 +126,30 @@ export class JobEntity {
     @Index()
     status: JobStatus;
 
+    @Column()
+    pointSkill: number;
+
+    @Column()
+    pointPosition: number;
+
+    @Column()
+    pointCertificate: number;
+
+    @Column()
+    pointSchool: number;
+
+    @Column()
+    pointWorkFrom: number;
+
+    @Column()
+    pointLevelJob: number;
+
+    @Column()
+    pointLevelType: number;
+
+    @Column()
+    pointYoe: number;
+
     @CreateDateColumn()
     createdAt: Date;
 
