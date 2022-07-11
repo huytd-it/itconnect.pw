@@ -2,18 +2,17 @@
   <ng-select
     class="tw-min-w-[100px]"
     appearance="outline"
-    placeholder="Nhóm theo"
+    placeholder="Hiển thi"
     [bindLabel]="'name'"
     [items]="groupByList"
     [clearable]="false"
     [(ngModel)]="groupBy"
     (ngModelChange)="onChange()"
   ></ng-select>
-
   <ng-select
     class="tw-min-w-[100px]"
     appearance="outline"
-    placeholder="Loại"
+    placeholder="Thời gian"
     [bindLabel]="'name'"
     [items]="typeList"
     [clearable]="false"

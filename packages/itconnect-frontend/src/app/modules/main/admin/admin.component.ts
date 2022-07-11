@@ -98,6 +98,12 @@ export class AdminComponent implements OnInit {
         permission: AppPermission.ADMIN
       },
       {
+        name: "Xếp loại học vấn",
+        class: 'military_tech',
+        link: '/u/admin/tag/ranked-academic',
+        permission: AppPermission.ADMIN
+      },
+      {
         name: "Cấu hình auto mapping",
         class: 'auto_graph',
         link: '/u/admin/auto-mapping',

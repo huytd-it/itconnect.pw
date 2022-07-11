@@ -15,7 +15,7 @@ export class DashboardComponent implements OnInit {
       value: 'all'
     },
     {
-      name: 'Khoản',
+      name: 'Khoảng thời gian',
       value: 'date-range'
     },
   ]

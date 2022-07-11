@@ -24,7 +24,7 @@ export class ViewComponent implements OnInit {
   readonly JobStatus = JobStatus;
 
   get isEnded() {
-    return moment().isAfter(moment(this.data.endDate));
+    return moment().startOf('date').isAfter(moment(this.data.endDate));
   }
 
   get hasApply() {

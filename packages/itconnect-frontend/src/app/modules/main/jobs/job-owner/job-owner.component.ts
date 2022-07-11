@@ -88,6 +88,6 @@ export class JobOwnerComponent implements OnInit {
   }
 
   isEnded(item: Job) {
-    return moment().isAfter(moment(item.endDate));
+    return moment().startOf('date').isAfter(moment(item.endDate));
   }
 }

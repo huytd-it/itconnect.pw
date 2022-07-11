@@ -67,7 +67,7 @@ export class TagFormModalComponent implements OnInit {
     const dto: CreateOrEditTagOutput = {
       id: this.data?.id || 0,
       name: data[FormField.name],
-      isApprove: data[FormField.isApprove] || false,
+      isApprove: data[FormField.isApprove] ? true : false,
     }
 
     this.appService.setHeadLoading(true);

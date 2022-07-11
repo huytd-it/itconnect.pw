@@ -105,15 +105,15 @@ export enum StatisticGroupBy {
 
 export const statisticGroupByList = [
   {
-    name: 'Giờ',
+    name: 'Theo giờ',
     value: StatisticGroupBy.Hour
   },
   {
-    name: 'Ngày',
+    name: 'Theo ngày',
     value: StatisticGroupBy.Day
   },
   {
-    name: 'Tháng',
+    name: 'Theo tháng',
     value: StatisticGroupBy.Month
   },
   {

@@ -25,6 +25,7 @@ import { WorkFromComponent } from './work-from/work-from.component';
 import {TagFormModal2Component} from "./tag-form-modal-2/tag-form-modal-2.component";
 import { JobLevelComponent } from './job-level/job-level.component';
 import { JobTypeComponent } from './job-type/job-type.component';
+import {RankedAcademicComponent} from "./ranked-academic/ranked-academic.component";
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { JobTypeComponent } from './job-type/job-type.component';
     WorkFromComponent,
     JobLevelComponent,
     JobTypeComponent,
+    RankedAcademicComponent
   ],
   imports: [
     CommonModule,

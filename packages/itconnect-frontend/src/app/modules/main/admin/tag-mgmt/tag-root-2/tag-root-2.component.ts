@@ -60,6 +60,7 @@ export class TagRoot2Component implements OnInit, OnChanges {
     this.displayedColumns = [
       `id`,
       `name`,
+      'createdAt',
       'action'
     ]
     this.orderField = `createdAt`;

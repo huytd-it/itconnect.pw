@@ -8,6 +8,7 @@ import {CertificateComponent} from "./certificate/certificate.component";
 import {WorkFromComponent} from "./work-from/work-from.component";
 import {JobLevelComponent} from "./job-level/job-level.component";
 import {JobTypeComponent} from "./job-type/job-type.component";
+import {RankedAcademicComponent} from "./ranked-academic/ranked-academic.component";
 
 const routes: Routes = [
   { path: 'school', component: SchoolComponent },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'work-from', component: WorkFromComponent },
   { path: 'job-level', component: JobLevelComponent },
   { path: 'job-type', component: JobTypeComponent },
+  { path: 'ranked-academic', component: RankedAcademicComponent },
   { path: '**', redirectTo: '../' }
 ];
 

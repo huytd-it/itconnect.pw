@@ -65,6 +65,7 @@ export class TagRootComponent implements OnInit, OnChanges {
       this.userOrder ? this.userOrder : `user${nameCap}Count`,
       `job${nameCap}Count`,
       `${name}.isApprove`,
+      `${name}.createdAt`,
       'action'
     ]
     this.orderField = `${name}.createdAt`;

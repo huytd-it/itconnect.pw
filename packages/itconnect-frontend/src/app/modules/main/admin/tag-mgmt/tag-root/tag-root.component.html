@@ -72,7 +72,7 @@
                 [matTooltip]="'Đang công khai'"
                 (click)="approve(element); $event.stopPropagation()"
               >
-                <mat-icon class="tw-text-green-700">verified_user</mat-icon>
+                <mat-icon class="tw-text-green-600">public</mat-icon>
               </button>
               <button
                 *ngIf="!element.isApprove"
@@ -80,8 +80,15 @@
                 [matTooltip]="'Đang ẩn'"
                 (click)="approve(element); $event.stopPropagation()"
               >
-                <mat-icon class="tw-text-gray-600">gpp_bad_outline</mat-icon>
+                <mat-icon class="tw-text-gray-400">public_off</mat-icon>
               </button>
+          </ng-container>
+
+          <ng-container [matColumnDef]="displayedColumns[5]">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Thời gian tạo
+            </th>
+            <td mat-cell *matCellDef="let element">{{element.createdAt | date: 'HH:mm dd-MM-yyyy'}}</td>
           </ng-container>
 
           <ng-container matColumnDef="action">
