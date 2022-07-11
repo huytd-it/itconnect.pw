@@ -1,13 +1,56 @@
-<div class="tw-max-w-[500px]">
-  <div class="tw-flex tw-justify-between tw-items-center">
-    <span class="tw-font-bold tw-text-primaryColor">{{data.companyTag.name}}</span>
+<div class="tw-max-w-[600px]">
+  <div class="tw-flex tw-justify-between tw-items-center tw-mb-2">
+    <span class="tw-font-bold tw-text-primaryColor" *ngIf="!showV2">
+      {{data.companyTag.name}}
+    </span>
     <div class="tw-flex tw-items-center">
-      <div class="tw-rounded-2xl tw-bg-primaryColor200 tw-p-2 tw-text-primaryColor tw-text-[12px]">
+      <div class="tw-rounded-2xl tw-bg-primaryColor200 tw-p-2 tw-text-primaryColor tw-text-[12px] tw-whitespace-nowrap" *ngIf="showV2">
+        {{data.startDate | date: 'MM/yyyy'}} - {{data.endDate ? (data.endDate | date: 'MM/yyyy') : 'Hiện tại'}}
+      </div>
+      <div class="tw-rounded-2xl tw-bg-primaryColor200 tw-p-2 tw-text-primaryColor tw-text-[12px] tw-whitespace-nowrap"  *ngIf="!showV2">
         {{data.startDate | date: 'MM/yyyy'}} - {{data.endDate ? (data.endDate | date: 'MM/yyyy') : 'Hiện tại'}}
       </div>
     </div>
   </div>
   <div class="tw-text-[13px]">
+    <div class="tw-flex tw-mt-2 tw-items-center tw-mb-5">
+      <div
+        class="tw-flex tw-gap-1 tw-text-[11px]"
+        [ngClass]="{
+          'tw-text-green-500 tw-border-green-500': data.status === CvWorkExperienceStatus.Verify,
+          'tw-text-orange-400 tw-border-orange-400': data.status === CvWorkExperienceStatus.WaitVerify,
+          'tw-text-gray-400 tw-border-gray-400': data.status === CvWorkExperienceStatus.NotVerify
+        }"
+      >
+        <div
+          class="
+            tw-flex tw-items-center tw-justify-center tw-border-2
+            tw-rounded-full tw-w-[18px] tw-h-[18px]
+          "
+          [ngClass]="{
+            'tw-text-green-500 tw-border-green-500': data.status === CvWorkExperienceStatus.Verify,
+            'tw-text-orange-400 tw-border-orange-400': data.status === CvWorkExperienceStatus.WaitVerify,
+            'tw-text-gray-400 tw-border-gray-400': data.status === CvWorkExperienceStatus.NotVerify
+          }"
+          [matTooltip]="
+            data.status === CvWorkExperienceStatus.Verify ? 'Đã xác thực' :
+            data.status === CvWorkExperienceStatus.WaitVerify ? 'Đang xác thực' : 'Chưa xác thực'
+          "
+        >
+          <mat-icon class="!tw-text-[14px] !tw-w-auto !tw-h-auto">
+            {{
+            data.status === CvWorkExperienceStatus.Verify ? 'done' :
+              data.status === CvWorkExperienceStatus.WaitVerify ? 'hourglass_bottom' : 'close'
+            }}
+          </mat-icon>
+        </div>
+        {{
+        data.status === CvWorkExperienceStatus.Verify ? 'Đã xác thực' :
+          data.status === CvWorkExperienceStatus.WaitVerify ? 'Đang xác thực' : 'Chưa xác thực'
+        }}
+      </div>
+    </div>
+
     <div class="tw-mt-4 tw-flex tw-items-center tw-gap-3">
       <div class="tw-border tw-p-2 tw-rounded" *ngIf="data.jobType">
         {{data.jobType.name}}
@@ -19,7 +62,6 @@
         {{data.workFrom.name}}
       </div>
     </div>
-
     <div class="tw-mt-2 tw-flex tw-flex-wrap tw-gap-3 tw-items-center" *ngIf="data.cvWorkExperienceSkills?.length">
       <span class="tw-pt-3.5 tw-min-w-[60px]  tw-font-medium">
         Kĩ năng
@@ -44,6 +86,6 @@
       </div>
       <div [innerHTML]="data.content | sanitizeHtml"></div>
     </div>
+    <div class="tw-h-10" *ngIf="showV2"></div>
   </div>
-
 </div>

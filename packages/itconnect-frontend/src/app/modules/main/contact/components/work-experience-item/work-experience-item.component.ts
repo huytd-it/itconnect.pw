@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {
-  CvWorkExperience,
+  CvWorkExperience, CvWorkExperienceStatus,
 } from "./../../../../../models/cv-work-experience.model";
 import * as _ from "lodash";
 import {AppService} from "./../../../../../services/app.service";
@@ -12,6 +12,9 @@ import {AppService} from "./../../../../../services/app.service";
 })
 export class WorkExperienceItemComponent implements OnInit, OnChanges {
   @Input() data: CvWorkExperience;
+  @Input() showV2: boolean;
+
+  readonly CvWorkExperienceStatus = CvWorkExperienceStatus;
 
   constructor(
     private appService: AppService,

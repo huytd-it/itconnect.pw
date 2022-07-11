@@ -438,6 +438,17 @@ export class UserService {
                 'cvCertificates',
                 'cvCertificates.certificate',
             ],
+            order: {
+                cvWorkExperiences: {
+                    startDate: 'DESC'
+                },
+                cvEducations: {
+                    startDate: 'DESC'
+                },
+                cvCertificates: {
+                    year: 'DESC'
+                }
+            }
         });
     }
 

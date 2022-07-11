@@ -22,6 +22,9 @@ import {EducationComponent} from "./education/education.component";
 import {EducationItemComponent} from "./education-item/education-item.component";
 import {ProfileCompanyComponent} from "./profile-company/profile-company.component";
 import {CompanyInfoComponent} from "./company-info/company-info.component";
+import {
+  WorkExperienceGroupComponent
+} from "./work-experience-group/work-experience-group.component";
 
 
 
@@ -36,7 +39,8 @@ import {CompanyInfoComponent} from "./company-info/company-info.component";
     EducationComponent,
     EducationItemComponent,
     ProfileCompanyComponent,
-    CompanyInfoComponent
+    CompanyInfoComponent,
+    WorkExperienceGroupComponent
   ],
     imports: [
         CommonModule,

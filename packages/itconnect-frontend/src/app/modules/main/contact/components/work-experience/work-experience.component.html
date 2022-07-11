@@ -1,5 +1,14 @@
 <div class="tw-mt-5">
-  <div *ngFor="let item of data" class="tw-mb-[60px]">
-    <app-work-experience-item [data]="item"></app-work-experience-item>
+  <div *ngFor="let item of dataRefactor" class="tw-mb-[60px]">
+    <ng-container *ngIf="!item.isGroup">
+      <app-work-experience-item
+        [data]="item.items[0]"
+      ></app-work-experience-item>
+    </ng-container>
+    <ng-container *ngIf="item.isGroup">
+      <app-work-experience-group
+        [data]="item.items"
+      ></app-work-experience-group>
+    </ng-container>
   </div>
 </div>
