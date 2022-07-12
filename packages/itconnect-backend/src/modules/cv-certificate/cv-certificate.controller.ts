@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Post, UseGuards} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Post, UseGuards} from '@nestjs/common';
 import {ApiBearerAuth, ApiOkResponse, ApiTags} from "@nestjs/swagger";
 import {JwtAuthGuard} from "../../utils/guards/jwt.guard";
 import {PermissionsGuard} from "../../polices/permissions.guard";
@@ -44,7 +44,7 @@ export class CvCertificateController {
     @ApiOkResponse({ type: CvCertificateDto })
     @Delete('/:id')
     delete(
-        @Body() data: CvCertificateDeleteDto
+        @Param() data: CvCertificateDeleteDto
     ) {
         return this.cvCertificateService.delete(data.id);
     }

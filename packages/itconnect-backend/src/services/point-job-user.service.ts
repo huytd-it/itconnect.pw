@@ -767,16 +767,11 @@ export class PointJobUserService {
             'position',
             this.pointConfig.position
         );
-        // return user.userPositions?.reduce((val, item) => {
-        //     const aSystem = aSystemCompute(job, user, item.position as any);
-        //     val += item.level + aConfigJob * aSystem;
-        //     return val;
-        // }, 0);
-        //
-        return job.jobPositions?.reduce((val, item) => {
-            console.log(item)
+        return user.userPositions?.reduce((val, item) => {
+            const aSystem = aSystemCompute(job, user, item.position as any);
+            val += item.level + aConfigJob * aSystem;
             return val;
-        }, 0)
+        }, 0);
     }
 
     private computePointJobPosition(job: JobEntity, user: UserEntity) {
@@ -786,9 +781,10 @@ export class PointJobUserService {
             'position',
             this.pointConfig.position
         );
-        return user.userPositions?.reduce((val, item) => {
-            const aSystem = aSystemCompute(job, user, item.position as any);
-            val += item.level + aConfigJob * aSystem;
+        return job.jobSkills?.reduce((val, item) => {
+            console.log(val, item);
+            // const aSystem = aSystemCompute(job, user, item.id);
+            // val += item + aConfigJob * aSystem;
             return val;
         }, 0);
     }

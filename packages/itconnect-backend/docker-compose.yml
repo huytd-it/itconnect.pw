@@ -4,6 +4,8 @@ services:
     image: wawahuy/itconnect_backend:latest
     build: .
     restart: always
+    volumes:
+      - "itconnect_be_upload:/data/upload"
 
 networks:
   default:

@@ -8,6 +8,7 @@ volume=(
   itconnect_mysql_data_local
   itconnect_redis_data_local
   itconnect_redis_data
+  itconnect_be_upload
 )
 
 for i in "${network[@]}"
