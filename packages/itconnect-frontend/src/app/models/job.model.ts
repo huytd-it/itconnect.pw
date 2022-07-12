@@ -114,6 +114,7 @@ export class Job extends BaseTable {
   pointLevelJob: number;
   pointLevelType: number;
   pointYoe: number;
+  size: number;
 }
 export class JobCreateOrEditOutput {
   id?: number;
@@ -145,6 +146,7 @@ export class JobCreateOrEditOutput {
   pointLevelJob: number;
   pointLevelType: number;
   pointYoe: number;
+  size: number;
 }
 
 export enum JobStatus {

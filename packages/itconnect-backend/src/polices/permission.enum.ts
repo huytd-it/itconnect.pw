@@ -98,6 +98,7 @@ export enum AppPermission {
      *
      */
     ADDRESS_SEARCH = "address_search",
+    ADDRESS_SYNC = 'address_sync',
 
 
     /**

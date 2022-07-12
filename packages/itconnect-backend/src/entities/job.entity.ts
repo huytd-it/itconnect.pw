@@ -56,6 +56,9 @@ export class JobEntity {
     @Column()
     addressStreet: string;
 
+    @Column({ nullable: true })
+    size: number;
+
     @OneToMany(type => JobPositionEntity, db => db.job)
     jobPositions: JobPositionEntity[];
 

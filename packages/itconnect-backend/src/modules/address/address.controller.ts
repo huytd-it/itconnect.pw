@@ -1,4 +1,4 @@
-import {Controller, Get, Query, UseGuards} from '@nestjs/common';
+import {Controller, Get, Post, Query, UseGuards} from '@nestjs/common';
 import {ApiBearerAuth, ApiTags} from "@nestjs/swagger";
 import {JwtAuthGuard} from "../../utils/guards/jwt.guard";
 import {PageOptionsDto} from "../../dtos/page.dto";
@@ -34,5 +34,13 @@ export class AddressController {
         @Query() pageOptionsDto: PageOptionsDto,
     ) {
         return this.addressService.search(searchDto, new PageOptionsDto(pageOptionsDto));
+    }
+
+    @UseGuards(PermissionsGuard)
+    @RequirePermissions(AppPermission.ADDRESS_SYNC)
+    @Post('sync')
+    sync() {
+        this.addressService.syncAddress().then(() => {});
+        return { status: true };
     }
 }

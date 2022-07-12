@@ -299,6 +299,16 @@
       </div>
     </div>
 
+    <div>
+      <mat-form-field appearance="outline" class="tw-ml-1 tw-w-[100px]">
+        <mat-label>Số lượng</mat-label>
+        <input matInput appNumberOnly [formControlName]="FormField.size">
+        <mat-error *ngIf="isControlError(FormField.salaryFrom, 'min', 'max')">
+          Số lượng từ 1 đến 100
+        </mat-error>
+      </mat-form-field>
+    </div>
+
     <div class="tw-text-left tw-mt-10">
       <div class="tw-mb-2 tw-m1-1">
         Giới thiệu công việc

@@ -285,6 +285,8 @@ export class JobService {
         dataEntity.pointLevelType = data.pointLevelType || null;
         dataEntity.pointYoe = data.pointYoe || null;
 
+        dataEntity.size = data.size || null;
+
         try {
             if (draft) {
                 dataEntity.status = JobStatus.Draft;

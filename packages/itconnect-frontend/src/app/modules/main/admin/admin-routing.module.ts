@@ -12,6 +12,7 @@ const routes: Routes = [
       { path: 'user', loadChildren: () => import('./user/user.module').then(m => m.UserModule) },
       { path: 'company', loadChildren: () => import('./company/company.module').then(m => m.CompanyModule) },
       { path: 'tag', loadChildren: () => import('./tag-mgmt/tag-mgmt.module').then(m => m.TagMgmtModule) },
+      { path: 'config-common', loadChildren: () => import('./config-common/config-common.module').then(m => m.ConfigCommonModule) },
       { path: '**', redirectTo: 'dashboard' }
     ]
   },

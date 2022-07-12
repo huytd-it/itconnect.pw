@@ -268,6 +268,9 @@ export class JobDto extends EntityDto {
 
     @ApiProperty()
     pointYoe: number;
+
+    @ApiProperty()
+    size: number;
 }
 
 export class JobIdParamDto {
@@ -369,6 +372,13 @@ export class JobCreateOrEditDto {
     @IsInt()
     @Max(9999999999)
     salaryMax: number;
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsInt()
+    @Min(0)
+    @Max(100)
+    size: number;
 
     @ApiProperty()
     @IsNotEmpty()

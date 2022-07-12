@@ -1,0 +1,9 @@
+<div class="tw-p-3">
+  <button
+    [disabled]="isAddressSync || (appService.headLoading$ | async)"
+    mat-stroked-button color="warn"
+    (click)="onAddressSync()"
+  >
+    Đồng bộ dữ liệu địa chỉ
+  </button>
+</div>

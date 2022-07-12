@@ -59,7 +59,8 @@ export enum FormField {
   pointWorkFrom = 'pointWorkFrom',
   pointLevelJob = 'pointLevelJob',
   pointLevelType = 'pointLevelType',
-  pointYoe = 'pointYoe'
+  pointYoe = 'pointYoe',
+  size = 'size'
 }
 
 @Component({
@@ -143,6 +144,7 @@ export class CreateComponent implements OnInit, OnChanges {
       [FormField.pointLevelJob]: [this.minPoint],
       [FormField.pointLevelType]: [this.minPoint],
       [FormField.pointYoe]: [this.minPoint],
+      [FormField.size]: [null, [Validators.min(1), Validators.max(100)]],
     }, {
       validators: this.customValidate
     })
@@ -202,6 +204,7 @@ export class CreateComponent implements OnInit, OnChanges {
           [FormField.pointLevelJob]: data.pointLevelJob,
           [FormField.pointLevelType]: data.pointLevelType,
           [FormField.pointYoe]: data.pointYoe,
+          [FormField.size]: data.size || null
         })
       })
   }
@@ -504,6 +507,7 @@ export class CreateComponent implements OnInit, OnChanges {
       pointLevelJob: value[FormField.pointLevelJob],
       pointLevelType: value[FormField.pointLevelType],
       pointYoe: value[FormField.pointYoe],
+      size: Number(value[FormField.size])
     }
 
     if (this.jobEdit) {

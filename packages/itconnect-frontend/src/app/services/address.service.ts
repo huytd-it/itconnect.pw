@@ -21,4 +21,9 @@ export class AddressService {
       }
     );
   }
+
+  sync() {
+    const uri = 'address/sync'
+    return this.httpClient.post(uri, {}, httpOptions);
+  }
 }

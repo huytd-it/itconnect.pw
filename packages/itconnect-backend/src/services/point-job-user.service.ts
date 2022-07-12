@@ -13,6 +13,7 @@ import {PageDto, PageMetaDto, PageOptionsDto} from "../dtos/page.dto";
 import {InjectRepository} from "@nestjs/typeorm";
 import {REQUEST} from "@nestjs/core";
 import {CvWorkExperienceEntity, CvWorkExperienceStatus} from "../entities/cvWorkExperience.entity";
+import * as util from "util";
 
 @Injectable({ scope: Scope.REQUEST })
 export class PointJobUserService {
@@ -178,9 +179,9 @@ export class PointJobUserService {
 
                 for (let job of jobs) {
                     // console.log(util.inspect(job, false, null, true /* enable colors */))
-                    // const point = this.computePointJob(job, user);
-                    // logger.log(`user:${user.id} - job:${job.id} - ${point.pointTotal} point`);
-                    // pointInserts.push(point);
+                    const point = this.computePointJob(job, user);
+                    logger.log(`user:${user.id} - job:${job.id} - ${point.pointTotal} point`);
+                    pointInserts.push(point);
                 }
 
                 // insert
@@ -766,19 +767,31 @@ export class PointJobUserService {
             'position',
             this.pointConfig.position
         );
+        // return user.userPositions?.reduce((val, item) => {
+        //     const aSystem = aSystemCompute(job, user, item.position as any);
+        //     val += item.level + aConfigJob * aSystem;
+        //     return val;
+        // }, 0);
+        //
+        return job.jobPositions?.reduce((val, item) => {
+            console.log(item)
+            return val;
+        }, 0)
+    }
+
+    private computePointJobPosition(job: JobEntity, user: UserEntity) {
+        const aConfigJob = job.pointPosition;
+        const aSystemCompute = this.getFactorASystem2Level(
+            'cvWorkExperiencePositions',
+            'position',
+            this.pointConfig.position
+        );
         return user.userPositions?.reduce((val, item) => {
             const aSystem = aSystemCompute(job, user, item.position as any);
             val += item.level + aConfigJob * aSystem;
             return val;
         }, 0);
     }
-
-    // private computePointJobPosition(job: JobEntity, user: UserEntity) {
-    //     return job.jobPositions?.reduce((val, item) => {
-    //         val += this.pointConfig.position;
-    //         return val;
-    //     }, 0);
-    // }
 
     private computePointUserSkill(job: JobEntity, user: UserEntity) {
         const aConfigJob = job.pointPosition;
@@ -947,26 +960,33 @@ export class PointJobUserService {
         return point;
     }
 
-    // private computePointJob(job: JobEntity, user: UserEntity) {
-    //     const point: DeepPartial<PointJobUserEntity> = {
-    //         user: Id(user.id),
-    //         job: Id(job.id)
-    //     };
-    //
-    //     point.pointPosition = this.computePointJobPosition(job, user);
-    //     point.pointSkill = this.computePointJobSkill(job, user);
-    //     point.pointCertificate = this.computePointJobCertificate(job, user);
-    //     point.pointSchool = this.computePointJobSchool(job, user);
-    //     point.pointWorkFrom = this.computePointJobWorkFrom(job, user);
-    //     point.pointLevelJob = this.computePointJobJobLevel(job, user);
-    //     point.pointLevelType = this.computePointJobJobType(job, user);
-    //     point.pointYoe = this.computePointUserYoe(job, user);
-    //
-    //     // total
-    //     point.pointTotal = point.pointPosition + point.pointSkill + point.pointCertificate +
-    //         point.pointSchool + point.pointWorkFrom + point.pointLevelJob +
-    //         point.pointLevelType + point.pointYoe;
-    //
-    //     return point;
-    // }
+    private computePointJob(job: JobEntity, user: UserEntity) {
+        const point: DeepPartial<PointJobUserEntity> = {
+            user: Id(user.id),
+            job: Id(job.id)
+        };
+
+        point.pointPosition = this.computePointJobPosition(job, user);
+        // point.pointSkill = this.computePointJobSkill(job, user);
+        // point.pointCertificate = this.computePointJobCertificate(job, user);
+        // point.pointSchool = this.computePointJobSchool(job, user);
+        // point.pointWorkFrom = this.computePointJobWorkFrom(job, user);
+        // point.pointLevelJob = this.computePointJobJobLevel(job, user);
+        // point.pointLevelType = this.computePointJobJobType(job, user);
+        point.pointSkill = 0;
+        point.pointCertificate = 0;
+        point.pointSchool = 0;
+        point.pointWorkFrom = 0;
+        point.pointLevelJob = 0;
+        point.pointLevelType = 0;
+        point.pointYoe = 0;
+        // point.pointYoe = this.computePointUserYoe(job, user);
+
+        // total
+        point.pointTotal = point.pointPosition + point.pointSkill + point.pointCertificate +
+            point.pointSchool + point.pointWorkFrom + point.pointLevelJob +
+            point.pointLevelType + point.pointYoe;
+
+        return point;
+    }
 }

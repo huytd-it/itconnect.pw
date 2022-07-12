@@ -106,7 +106,7 @@ export class AdminComponent implements OnInit {
       {
         name: "Cấu hình auto mapping",
         class: 'auto_graph',
-        link: '/u/admin/auto-mapping',
+        link: '/u/admin/config-common',
         permission: AppPermission.ADMIN
       }
     ]
