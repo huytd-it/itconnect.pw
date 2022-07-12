@@ -11,3 +11,7 @@ networks:
   default:
     external:
       name: 'itconnect_nginx'
+
+volumes:
+  itconnect_be_upload:
+    external: true
