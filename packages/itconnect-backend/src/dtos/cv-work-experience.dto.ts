@@ -13,6 +13,7 @@ import {CvWorkExperienceStatus, MAX_WORK_EXPERIENCE_LENGTH} from "../entities/cv
 import {JobTypeEntity} from "../entities/jobType.entity";
 import {ApiEnumValue} from "../utils/decorators/api-enum-value.decorator";
 import {Type} from "class-transformer";
+import {WorkFromEntity} from "../entities/workFrom.entity";
 
 export class CvWorkExperiencePositionDto extends EntityDto {
     @ApiProperty()
@@ -100,7 +101,7 @@ export class CreateOrEditCvWorkExperienceDto {
     @ApiPropertyOptional()
     @IsInt()
     @IsOptional()
-    @ExistsRowField(JobLevelEntity, 'id', true)
+    @ExistsRowField(WorkFromEntity, 'id', true)
     workFrom: number;
 
     @ApiPropertyOptional()

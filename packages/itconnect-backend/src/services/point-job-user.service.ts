@@ -35,7 +35,6 @@ export class PointJobUserService {
 
 
     async search(search: PointJobUserSearchInputDto, page: PageOptionsDto) {
-        // this.computeWithJob(51);
         const qr = this.pointJobUserRepository.createQueryBuilder('pju');
         qr.leftJoinAndSelect('pju.job', 'job');
 
@@ -729,6 +728,36 @@ export class PointJobUserService {
         }
     }
 
+    private getFactorASystem1Level(
+        cvExpField: keyof CvWorkExperienceEntity,
+        aConfig: PointConfigV
+    ) {
+        return (
+            job: JobEntity,
+            user: UserEntity,
+            value: number,
+        ) => {
+            let dataMapping = user.cvWorkExperiences.map(cvWorkExperience => {
+                const value = (cvWorkExperience[cvExpField] as any)?.id;
+                const verified = cvWorkExperience.status === CvWorkExperienceStatus.Verify;
+                return {
+                    verified,
+                    value
+                }
+            });
+            let aFactor = aConfig.point
+            let cvExperience = dataMapping.filter(it => it.value  === value);
+            if (cvExperience.length) {
+                if (cvExperience.some(it => it.verified)) {
+                    aFactor = aConfig.pointExpVerified
+                } else {
+                    aFactor = aConfig.pointExp
+                }
+            }
+            return aFactor;
+        }
+    }
+
 
     private computePointUserPosition(job: JobEntity, user: UserEntity) {
         const aConfigJob = job.pointPosition;
@@ -805,12 +834,26 @@ export class PointJobUserService {
     // }
 
     private computePointUserWorkFrom(job: JobEntity, user: UserEntity) {
-        return user.cvWorkExperiences?.reduce((val, item) => {
-            if (item.workFrom) {
-                // val += this.pointConfig.workFrom;
+        const aConfig = job.pointWorkFrom;
+        const aSystemCompute = this.getFactorASystem1Level('workFrom', this.pointConfig.workFrom);
+        /**
+         * Only accept 1 workFrom
+         *
+         *
+         */
+        let aSystem = 0;
+        for (let cvWorkExperience of user.cvWorkExperiences) {
+            if (!cvWorkExperience.workFrom) {
+                continue;
             }
-            return val;
-        }, 0);
+
+            aSystem = aSystemCompute(job, user, cvWorkExperience.workFrom.id);
+            // check if biggest is end loop
+            if (aSystem === this.pointConfig.workFrom.pointExpVerified) {
+                break;
+            }
+        }
+        return aSystem * aConfig;
     }
 
     // private computePointJobWorkFrom(job: JobEntity, user: UserEntity) {
@@ -821,12 +864,26 @@ export class PointJobUserService {
     // }
 
     private computePointUserJobLevel(job: JobEntity, user: UserEntity) {
-        return user.cvWorkExperiences?.reduce((val, item) => {
-            if (item.jobLevel) {
-                // val += this.pointConfig.jobLevel;
+        const aConfig = job.pointLevelJob;
+        const aSystemCompute = this.getFactorASystem1Level('jobLevel', this.pointConfig.jobLevel);
+        /**
+         * Only accept 1 workFrom
+         *
+         *
+         */
+        let aSystem = 0;
+        for (let cvWorkExperience of user.cvWorkExperiences) {
+            if (!cvWorkExperience.jobLevel) {
+                continue;
             }
-            return val;
-        }, 0);
+
+            aSystem = aSystemCompute(job, user, cvWorkExperience.jobLevel.id);
+            // check if biggest is end loop
+            if (aSystem === this.pointConfig.jobLevel.pointExpVerified) {
+                break;
+            }
+        }
+        return aSystem * aConfig;
     }
 
     // private computePointJobJobLevel(job: JobEntity, user: UserEntity) {
@@ -846,7 +903,6 @@ export class PointJobUserService {
             }
             if (month/12 >= job.yoe) {
                 return this.pointConfig.yoe.point * aConfig;
-                return 0
             }
         }
         return 0;
