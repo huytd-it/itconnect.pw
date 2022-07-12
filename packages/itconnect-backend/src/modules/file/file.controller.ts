@@ -71,10 +71,10 @@ export class FileController {
         });
 
         const file = path.join(this.fileService.uploadDir, row.path);
-        try {
+        if (fs.existsSync(file)) {
             const readStream = fs.createReadStream(file);
             return new StreamableFile(readStream);
-        } catch (e) {
+        } else {
             throw new NotFoundException()
         }
     }
