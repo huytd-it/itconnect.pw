@@ -75,10 +75,19 @@ const routes: Routes = [
         }
       },
       {
+        path: 'cv-experience-apply',
+        loadChildren: () => import('./cv-experience-apply/cv-experience-apply.module').then(m => m.CvExperienceApplyModule),
+        canActivate: [PermissionGuard],
+        data: {
+          permission: AppPermission.CV_WORK_EXPERIENCE_APPLY
+        }
+      },
+      {
         path: '**', component: RedirectComponent
       }
     ]
   },
+  { path: 'cv-experience-apply', loadChildren: () => import('./cv-experience-apply/cv-experience-apply.module').then(m => m.CvExperienceApplyModule) },
 ];
 
 @NgModule({

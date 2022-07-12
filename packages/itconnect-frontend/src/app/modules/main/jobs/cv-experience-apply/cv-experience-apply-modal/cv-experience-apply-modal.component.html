@@ -1,0 +1,59 @@
+<h1 mat-dialog-title>Xem nghiệm làm việc</h1>
+<div mat-dialog-content class="tw-w-[95vw] md:tw-w-[600px] c-scrollbar">
+  <div class="tw-max-w-[600px]">
+    <div class="tw-flex tw-justify-between tw-items-center tw-mb-2">
+    <span class="tw-font-bold tw-text-primaryColor" >
+      {{data.companyTag.name}}
+    </span>
+      <div class="tw-flex tw-items-center">
+        <div class="tw-rounded-2xl tw-bg-primaryColor200 tw-p-2 tw-text-primaryColor tw-text-[12px] tw-whitespace-nowrap">
+          {{data.startDate | date: 'MM/yyyy'}} - {{data.endDate ? (data.endDate | date: 'MM/yyyy') : 'Hiện tại'}}
+        </div>
+      </div>
+    </div>
+    <div class="tw-text-[13px]">
+      <div class="tw-mt-4 tw-flex tw-items-center tw-gap-3">
+        <div class="tw-border tw-p-2 tw-rounded" *ngIf="data.jobType">
+          {{data.jobType.name}}
+        </div>
+        <div class="tw-border tw-p-2 tw-rounded" *ngIf="data.jobLevel">
+          {{data.jobLevel.name}}
+        </div>
+        <div class="tw-border tw-p-2 tw-rounded" *ngIf="data.workFrom">
+          {{data.workFrom.name}}
+        </div>
+      </div>
+      <div class="tw-mt-2 tw-flex tw-flex-wrap tw-gap-3 tw-items-center" *ngIf="data.cvWorkExperienceSkills?.length">
+      <span class="tw-pt-3.5 tw-min-w-[60px]  tw-font-medium">
+        Kĩ năng
+      </span>
+        <app-input-skill
+          [items]="data.cvWorkExperienceSkills | mappingNameToParent: 'skill'"
+          [readOnly]="true"
+        ></app-input-skill>
+      </div>
+      <div class="tw-mt-2 tw-flex tw-flex-wrap tw-gap-3 tw-items-center" *ngIf="data.cvWorkExperiencePositions?.length">
+      <span class="tw-pt-3.5 tw-min-w-[60px] tw-font-medium">
+        Vị trí
+      </span>
+        <app-input-skill
+          [items]="data.cvWorkExperiencePositions | mappingNameToParent: 'position'"
+          [readOnly]="true"
+        ></app-input-skill>
+      </div>
+      <div class="tw-mt-6"  *ngIf="data.content">
+        <div class="tw-my-2 tw-min-w-[60px] tw-font-medium">
+          Mô Tả
+        </div>
+        <div [innerHTML]="data.content | sanitizeHtml"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <div class="tw-flex tw-justify-center tw-w-full tw-mt-10 tw-mb-3 tw-gap-3">
+    <button mat-button (click)="onClose()">Đóng</button>
+    <button mat-stroked-button color="primary" (click)="onSubmit(true)">Chấp nhân</button>
+    <button mat-stroked-button color="warn" (click)="onSubmit(false)">Không chấp nhân</button>
+  </div>
+</div>

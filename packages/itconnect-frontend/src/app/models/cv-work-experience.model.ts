@@ -4,6 +4,8 @@ import {JobLevel} from "./job-level.model";
 import {WorkFrom} from "./work-from.model";
 import {CompanyTag} from "./company-tag.model";
 import {JobType} from "./job-type.model";
+import {BaseTable, PageInput, PageOutput} from "./common";
+import {User} from "./user.model";
 
 export class CvWorkExperiencePosition {
     id: number
@@ -23,7 +25,7 @@ export enum CvWorkExperienceStatus {
   Verify = 3
 }
 
-export class CvWorkExperience {
+export class CvWorkExperience extends BaseTable {
     id: number;
     startDate: Date;
     endDate: Date;
@@ -35,6 +37,7 @@ export class CvWorkExperience {
     status: CvWorkExperienceStatus;
     cvWorkExperienceSkills: CvWorkExperienceSkill[];
     cvWorkExperiencePositions: CvWorkExperiencePosition[];
+    user: User;
 }
 
 export class CreateOrEditCvWorkExperience {
@@ -49,3 +52,16 @@ export class CreateOrEditCvWorkExperience {
     force?: boolean;
     status?: CvWorkExperienceStatus;
 }
+
+export class CvWorkExperienceApplyOutput {
+  id: number
+  apply: boolean
+}
+
+export class CvWorkExperienceSearchOutput extends PageOutput {
+  search?: string;
+  status?: CvWorkExperienceStatus;
+  companyId?: number;
+}
+
+export class CvWorkExperienceSearchInput extends PageInput<CvWorkExperience> {}

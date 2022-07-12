@@ -171,6 +171,7 @@ export enum AppPermission {
   CV_WORK_EXPERIENCE_SKILL_DELETE = 'cv_work_experience_skill_delete',
   CV_WORK_EXPERIENCE_POSITION_CE = 'cv_work_experience_position_ce',
   CV_WORK_EXPERIENCE_POSITION_DELETE = 'cv_work_experience_position_delete',
+  CV_WORK_EXPERIENCE_APPLY = 'cv_work_experience_apply',
 
   /**
    * Cv Certificate

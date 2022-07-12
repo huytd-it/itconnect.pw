@@ -62,6 +62,12 @@ export class JobsComponent implements OnInit {
         permission: AppPermission.JOB_CE
       },
       {
+        name: "Duyệt kinh nghiệm làm việc",
+        class: 'psychology_alt',
+        link: '/u/jobs/cv-experience-apply',
+        permission: AppPermission.JOB_CE
+      },
+      {
         name: "Tạo việc làm",
         class: 'add',
         link: 'create',

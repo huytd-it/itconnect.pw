@@ -12,8 +12,10 @@ export class PeopleItemComponent implements OnInit {
   @Input() user: User;
   @Input() link: string;
   @Input() applyTime: Date;
+  @Input() noLink: boolean;
 
   get _link() {
+    if (this.noLink) return null;
     if (this.link) return this.link;
     return '/u/contact/' + this.user.id;
   };

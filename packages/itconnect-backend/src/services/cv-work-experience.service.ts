@@ -1,15 +1,20 @@
 import {ConflictException, ForbiddenException, Inject, Injectable, Request, Scope} from '@nestjs/common';
-import {CreateOrEditCvWorkExperienceDto} from "../dtos/cv-work-experience.dto";
+import {
+    CreateOrEditCvWorkExperienceDto,
+    CvWorkExperienceApplyDto,
+    CvWorkExperienceSearchInputDto
+} from "../dtos/cv-work-experience.dto";
 import {UserEntity} from "../entities/user.entity";
 import {REQUEST} from "@nestjs/core";
 import {InjectRepository} from "@nestjs/typeorm";
 import {CvWorkExperienceEntity, CvWorkExperienceStatus} from "../entities/cvWorkExperience.entity";
-import {DeepPartial, Not, Repository} from "typeorm";
+import {DeepPartial, FindManyOptions, Not, Repository} from "typeorm";
 import {CompanyTagService} from "./company-tag.service";
 import {UserService} from "./user.service";
 import * as moment from "moment";
 import {Id} from "../utils/function";
 import {PointJobUserQueue} from "../queues/point-job-user.queue";
+import {PageDto, PageMetaDto, PageOptionsDto} from "../dtos/page.dto";
 
 @Injectable({ scope: Scope.REQUEST })
 export class CvWorkExperienceService {
@@ -208,5 +213,79 @@ export class CvWorkExperienceService {
             return result;
         }
         throw new ForbiddenException();
+    }
+
+    async search(dtoSearch: CvWorkExperienceSearchInputDto, dtoPage: PageOptionsDto) {
+        const options:  FindManyOptions<CvWorkExperienceEntity> = {
+            skip: dtoPage.skip,
+            take: dtoPage.take,
+        };
+
+        options.where = {}
+        if (dtoSearch.search) {
+            // options.where.name = Like(`%${dtoSearch.search}%`)
+        }
+
+        if (dtoSearch.status) {
+            options.where.status = dtoSearch.status;
+        }
+
+        if (dtoSearch.companyId) {
+            options.where.companyTag = {
+                companyInfo: Id(dtoSearch.companyId)
+            }
+        }
+
+        if (dtoPage.order_field && dtoPage.order) {
+            options.order = {
+                [dtoPage.order_field]: dtoPage.order
+            }
+        }
+
+        const result = await this.cvWorkExperienceRepository.find({
+            ...options,
+            relations: [
+                'companyTag',
+                'jobLevel',
+                'jobType',
+                'workFrom',
+                'cvWorkExperienceSkills',
+                'cvWorkExperienceSkills.skill',
+                'cvWorkExperiencePositions',
+                'cvWorkExperiencePositions.position',
+                'user',
+                'user.userInfo',
+                'user.userInfo.avatar',
+                'user.userInfo.addressProvince',
+                'user.userInfo.addressDistrict',
+                'user.userInfo.addressVillage',
+            ]
+        });
+        const total = await this.cvWorkExperienceRepository.count({
+            where: options.where
+        });
+
+        const meta = new PageMetaDto({ itemCount: total, pageOptionDto: dtoPage });
+        return new PageDto(result, meta)
+    }
+
+    async apply(data: CvWorkExperienceApplyDto) {
+        const currentUser = this.request['user'] as UserEntity;
+        const re = await this.cvWorkExperienceRepository.findOne({
+            where: {
+                id: data.id,
+                companyTag: {
+                    companyInfo: {
+                        user: Id(currentUser.id)
+                    }
+                }
+            }
+        })
+        if (!re) {
+            throw new ForbiddenException()
+        }
+        return this.cvWorkExperienceRepository.update({ id: data.id }, {
+            status: data.apply ? CvWorkExperienceStatus.Verify : CvWorkExperienceStatus.NotVerify
+        })
     }
 }

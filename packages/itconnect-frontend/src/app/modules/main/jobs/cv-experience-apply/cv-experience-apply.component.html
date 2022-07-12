@@ -1,0 +1,60 @@
+<div class="tw-shadow-sm tw-p-5">
+  <h2 class="!tw-mb-0">Duyệt kinh nghiệm làm việc</h2>
+</div>
+<div class="tw-p-5">
+  <div class="tw-flex tw-gap-3 tw-flex-wrap">
+    <ng-select
+      class="tw-w-full sm:tw-w-[150px]"
+      appearance="outline"
+      [bindLabel]="'name'"
+      [placeholder]="'Sắp xếp theo'"
+      [items]="orderField"
+      [clearable]="false"
+      [(ngModel)]="orderFieldSelected"
+      (change)="onSearch()"
+    ></ng-select>
+    <ng-select
+      class="tw-w-full sm:tw-w-[100px]"
+      appearance="outline"
+      [bindLabel]="'name'"
+      [placeholder]="'Thứ tự'"
+      [items]="order"
+      [clearable]="false"
+      [(ngModel)]="orderSelected"
+      (change)="onSearch()"
+    ></ng-select>
+  </div>
+
+  <div>
+    <ng-container *ngIf="data">
+      <div class="tw-p-3 tw-text-[11px] tw-text-right tw-shadow-sm tw-text-[#888]">
+        {{data.meta.itemCount}} kết quả thông qua tìm kiếm
+      </div>
+      <ng-container *ngFor="let item of data.data || []">
+        <app-people-item
+          [user]="item.user"
+          [noLink]="true"
+          (click)="onOpen(item)"
+        >
+          <div class="tw-mt-2">
+            <div class="tw-rounded-2xl tw-bg-primaryColor200 tw-p-2 tw-text-primaryColor tw-text-[12px] tw-whitespace-nowrap">
+              {{item.startDate | date: 'MM/yyyy'}} - {{item.endDate ? (item.endDate | date: 'MM/yyyy') : 'Hiện tại'}}
+            </div>
+            <div class="tw-text-[10px] tw-mt-1 tw-font-thin tw-text-center">
+              Tạo {{item.createdAt | dateFromNow}}
+            </div>
+          </div>
+        </app-people-item>
+      </ng-container>
+      <div class="tw-flex tw-justify-center tw-p-4">
+        <mat-paginator
+          [disabled]="appService.headLoading$ | async"
+          [length]="data.meta.itemCount"
+          [pageSize]="data.meta.take"
+          [pageSizeOptions]="[5, 10, 25]"
+          (page)="onChangePage($event)"
+        ></mat-paginator>
+      </div>
+    </ng-container>
+  </div>
+</div>

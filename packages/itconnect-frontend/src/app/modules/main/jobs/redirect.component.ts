@@ -26,6 +26,8 @@ export class RedirectComponent implements OnInit {
         p = ['owner'];
       }
       this.router.navigate(p, { relativeTo: this.route }).then(() => {});
+    } else {
+      this.router.navigate(['../'], { relativeTo: this.route }).then(() => {});
     }
   }
 }

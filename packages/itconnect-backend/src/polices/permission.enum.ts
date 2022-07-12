@@ -173,6 +173,8 @@ export enum AppPermission {
      *
      */
     CV_WORK_EXPERIENCE = 'cv_work_experience',
+    CV_WORK_EXPERIENCE_APPLY = 'cv_work_experience_apply',
+    CV_WORK_EXPERIENCE_SEARCH = 'cv_work_experience_search',
     CV_WORK_EXPERIENCE_DELETE = 'cv_work_experience_delete',
     CV_WORK_EXPERIENCE_GET_OWNER = 'cv_work_experience_get_owner',
     CV_WORK_EXPERIENCE_CE = 'cv_work_experience_ce',
@@ -428,6 +430,8 @@ export const appRolesConfig: Partial<{ [key in AppRole]: AppPermission[] }> = {
         AppPermission.JOB_APPLY_STS,
         AppPermission.COMPANY_3RD,
         AppPermission.COMPANY_3RD_SEARCH,
+        AppPermission.CV_WORK_EXPERIENCE_APPLY,
+        AppPermission.CV_WORK_EXPERIENCE_SEARCH,
     ],
 
     /**
