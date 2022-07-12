@@ -56,7 +56,7 @@ export class UserEntity {
     companyInfo: CompanyInfoEntity;
 
     @OneToMany(type => UserSkillEntity, db => db.user)
-    userSkills: SkillEntity[];
+    userSkills: UserSkillEntity[];
 
     @OneToMany(type => UserPositionEntity, db => db.user)
     userPositions: UserPositionEntity[];
