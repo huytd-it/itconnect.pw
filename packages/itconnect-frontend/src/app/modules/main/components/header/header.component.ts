@@ -62,18 +62,18 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
         link: 'friends',
         permission: AppPermission.FRIEND
       },
-      {
-        name: "Thông báo",
-        class: 'icon-notify',
-        link: 'notifications',
-        permission: AppPermission.NOTIFICATION
-      },
-      {
-        name: "Tin nhắn",
-        class: 'icon-message',
-        link: 'messages',
-        permission: AppPermission.MESSAGE
-      }
+      // {
+      //   name: "Thông báo",
+      //   class: 'icon-notify',
+      //   link: 'notifications',
+      //   permission: AppPermission.NOTIFICATION
+      // },
+      // {
+      //   name: "Tin nhắn",
+      //   class: 'icon-message',
+      //   link: 'messages',
+      //   permission: AppPermission.MESSAGE
+      // }
     ]
   }
 
