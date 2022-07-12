@@ -71,7 +71,11 @@ export class FileController {
         });
 
         const file = path.join(this.fileService.uploadDir, row.path);
-        const readStream = fs.createReadStream(file);
-        return new StreamableFile(readStream);
+        try {
+            const readStream = fs.createReadStream(file);
+            return new StreamableFile(readStream);
+        } catch (e) {
+            throw new NotFoundException()
+        }
     }
 }
