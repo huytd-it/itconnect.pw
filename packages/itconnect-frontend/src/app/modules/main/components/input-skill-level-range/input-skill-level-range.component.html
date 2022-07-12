@@ -11,7 +11,7 @@
           [matTooltip]="item[bindLabel]"
           (click)="removeTag(item)"
         >
-          <div class="
+          <div *ngIf="!readOnly" class="
             tw-absolute tw-right-[-5px] tw-top-[-5px] tw-font-medium tw-w-[15px] tw-h-[15px] tw-text-[10px]
             tw-rounded-full tw-bg-primaryColor tw-text-white tw-flex tw-justify-center tw-items-center
           ">x</div>
@@ -34,7 +34,7 @@
     color="primary"
     type="button"
     class="tw-mt-2"
-    *ngIf="!isAdding"
+    *ngIf="!isAdding && (max === 0 || (items?.length || 0) < max) && !readOnly"
     (click)="isAdding = true"
   >
     + Thêm

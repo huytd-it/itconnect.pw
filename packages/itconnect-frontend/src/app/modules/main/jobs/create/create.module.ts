@@ -10,12 +10,16 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {NgSelectModule} from "@ng-select/ng-select";
 import {MatIconModule} from "@angular/material/icon";
 import {UtilsModule} from "../../../../utils/utils.module";
+import {NgxSliderModule} from "@angular-slider/ngx-slider";
 
 
 @NgModule({
-  declarations: [
-    CreateComponent
-  ],
+    declarations: [
+        CreateComponent
+    ],
+    exports: [
+        CreateComponent
+    ],
     imports: [
         CommonModule,
         CreateRoutingModule,
@@ -25,7 +29,8 @@ import {UtilsModule} from "../../../../utils/utils.module";
         MatDatepickerModule,
         NgSelectModule,
         MatIconModule,
-      UtilsModule
+        UtilsModule,
+        NgxSliderModule
     ]
 })
 export class CreateModule { }

@@ -1,9 +1,9 @@
-<div class="tw-shadow-sm tw-p-5">
+<div class="tw-shadow-sm tw-p-5" *ngIf="!idShow">
   <h2 class="!tw-mb-0">Tạo Việc Làm</h2>
 </div>
 <form class="tw-p-5" [formGroup]="form">
   <div class="tw-flex tw-flex-wrap tw-gap-10">
-    <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px]">
+    <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px]  tw-relative">
       <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
         <div class="tw-flex tw-items-center">
           <mat-icon>groups</mat-icon>
@@ -16,14 +16,26 @@
           [loadMoreFn]="fetchDataPosition"
           [createTagFn]="fnAddUserTaggedPosition"
           [isAddTag]="false"
+          [max]="1"
+          [readOnly]="!!idShow"
           (onRemove)="onRemoveDataPosition($event)"
           (onAdd)="onAddDataPosition($event)"
           (onChange)="onChangeDataPosition($event)"
         ></app-input-skill-level-range>
       </div>
+      <div class="tw-h-[70px]"></div>
+      <div class="tw-absolute tw-w-full tw-bottom-0">
+        <div class="tw-px-2 tw-text-[12px] tw-inline-block tw-border-t tw-border-r">Hệ số</div>
+        <div class="tw-px-2 tw-pb-2 tw-border-t tw-text-center tw-pt-6">
+          <ngx-slider
+            [formControlName]="FormField.pointPosition"
+            [options]="options"
+          ></ngx-slider>
+        </div>
+      </div>
     </div>
 
-    <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px]">
+    <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px] tw-relative">
       <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
         <div class="tw-flex tw-items-center">
           <mat-icon>hub</mat-icon>
@@ -36,14 +48,25 @@
           [loadMoreFn]="fetchDataSkill"
           [createTagFn]="fnAddUserTaggedSkill"
           [isAddTag]="false"
+          [readOnly]="!!idShow"
           (onRemove)="onRemoveDataSkill($event)"
           (onAdd)="onAddDataSkill($event)"
           (onChange)="onChangeDataSkill($event)"
         ></app-input-skill-level-range>
       </div>
+      <div class="tw-h-[70px]"></div>
+      <div class="tw-absolute tw-w-full tw-bottom-0">
+        <div class="tw-px-2 tw-text-[12px] tw-inline-block tw-border-t tw-border-r">Hệ số</div>
+        <div class="tw-px-2 tw-pb-2 tw-border-t tw-text-center tw-pt-6">
+          <ngx-slider
+            [formControlName]="FormField.pointSkill"
+            [options]="options"
+          ></ngx-slider>
+        </div>
+      </div>
     </div>
 
-    <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px]">
+    <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px] tw-relative">
       <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
         <div class="tw-flex tw-items-center">
           <mat-icon>card_membership</mat-icon>
@@ -56,14 +79,25 @@
           [loadMoreFn]="fetchDataCertificate"
           [createTagFn]="fnAddUserTaggedCertificate"
           [isAddTag]="false"
+          [readOnly]="!!idShow"
           (onRemove)="onRemoveDataCertificate($event)"
           (onAdd)="onAddDataCertificate($event)"
           (onChange)="onChangeDataCertificate($event)"
         ></app-input-skill-level-range>
       </div>
+      <div class="tw-h-[70px]"></div>
+      <div class="tw-absolute tw-w-full tw-bottom-0">
+        <div class="tw-px-2 tw-text-[12px] tw-inline-block tw-border-t tw-border-r">Hệ số</div>
+        <div class="tw-px-2 tw-pb-2 tw-border-t tw-text-center tw-pt-6">
+          <ngx-slider
+            [formControlName]="FormField.pointCertificate"
+            [options]="options"
+          ></ngx-slider>
+        </div>
+      </div>
     </div>
 
-    <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px]">
+    <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px] tw-relative">
       <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
         <div class="tw-flex tw-items-center">
           <mat-icon>school</mat-icon>
@@ -76,13 +110,24 @@
           [loadMoreFn]="fetchDataSchool"
           [createTagFn]="fnAddUserTaggedSchool"
           [hasAddTag]="false"
+          [readOnly]="!!idShow"
           (onRemove)="onRemoveDataSchool($event)"
           (onAdd)="onAddDataSchool($event)"
         ></app-input-skill>
       </div>
+      <div class="tw-h-[70px]"></div>
+      <div class="tw-absolute tw-w-full tw-bottom-0">
+        <div class="tw-px-2 tw-text-[12px] tw-inline-block tw-border-t tw-border-r">Hệ số</div>
+        <div class="tw-px-2 tw-pb-2 tw-border-t tw-text-center tw-pt-6">
+          <ngx-slider
+            [formControlName]="FormField.pointSchool"
+            [options]="options"
+          ></ngx-slider>
+        </div>
+      </div>
     </div>
 
-    <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px]">
+    <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px] tw-relative">
       <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
         <div class="tw-flex tw-items-center">
           <mat-icon>hail</mat-icon>
@@ -94,14 +139,25 @@
           [items]="form.controls[FormField.workFrom].value || []"
           [loadMoreFn]="fetchDataWorkFrom"
           [hasAddTag]="false"
+          [readOnly]="!!idShow"
           (onAdd)="onAddDataWorkFrom($event)"
           (onRemove)="onRemoveDataWorkFrom($event)"
         ></app-input-skill>
       </div>
+      <div class="tw-h-[70px]"></div>
+      <div class="tw-absolute tw-w-full tw-bottom-0">
+        <div class="tw-px-2 tw-text-[12px] tw-inline-block tw-border-t tw-border-r">Hệ số</div>
+        <div class="tw-px-2 tw-pb-2 tw-border-t tw-text-center tw-pt-6">
+          <ngx-slider
+            [formControlName]="FormField.pointWorkFrom"
+            [options]="options"
+          ></ngx-slider>
+        </div>
+      </div>
     </div>
 
 
-    <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px]">
+    <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px] tw-relative">
       <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
         <div class="tw-flex tw-items-center">
           <mat-icon>psychology_alt</mat-icon>
@@ -113,18 +169,29 @@
           [items]="form.controls[FormField.jobLevel].value || []"
           [loadMoreFn]="fetchDataJobLevel"
           [hasAddTag]="false"
+          [readOnly]="!!idShow"
           (onAdd)="onAddDataJobLevel($event)"
           (onRemove)="onRemoveDataJobLevel($event)"
         ></app-input-skill>
       </div>
+      <div class="tw-h-[70px]"></div>
+      <div class="tw-absolute tw-w-full tw-bottom-0">
+        <div class="tw-px-2 tw-text-[12px] tw-inline-block tw-border-t tw-border-r">Hệ số</div>
+        <div class="tw-px-2 tw-pb-2 tw-border-t tw-text-center tw-pt-6">
+          <ngx-slider
+            [formControlName]="FormField.pointLevelJob"
+            [options]="options"
+          ></ngx-slider>
+        </div>
+      </div>
     </div>
 
 
-    <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px]">
+    <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px] tw-relative">
       <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
         <div class="tw-flex tw-items-center">
           <mat-icon>difference</mat-icon>
-          <span class="tw-ml-2">Yêu cầu khác</span>
+          <span class="tw-ml-2">Năm kinh nghiệm</span>
         </div>
       </div>
       <div class="tw-p-3">
@@ -136,6 +203,27 @@
           [items]="yoeList"
           [formControlName]="FormField.yoe"
         ></ng-select>
+      </div>
+      <div class="tw-h-[70px]"></div>
+      <div class="tw-absolute tw-w-full tw-bottom-0">
+        <div class="tw-px-2 tw-text-[12px] tw-inline-block tw-border-t tw-border-r">Hệ số</div>
+        <div class="tw-px-2 tw-pb-2 tw-border-t tw-text-center tw-pt-6">
+          <ngx-slider
+            [formControlName]="FormField.pointYoe"
+            [options]="options"
+          ></ngx-slider>
+        </div>
+      </div>
+    </div>
+
+    <div class="tw-border tw-rounded tw-text-left tw-basis-[100%] lg:tw-basis-[47%] tw-max-w-[500px] tw-relative">
+      <div class="tw-px-3 tw-py-2 tw-border-r tw-border-b tw-font-medium tw-rounded-br tw-inline-block tw-shadow-sm">
+        <div class="tw-flex tw-items-center">
+          <mat-icon>difference</mat-icon>
+          <span class="tw-ml-2">Loại công việc</span>
+        </div>
+      </div>
+      <div class="tw-p-3">
         <app-easy-select
           #selectCompany
           [label]="'Loại công việc'"
@@ -143,6 +231,16 @@
           [formControlName]="FormField.jobType"
           [isAddTag]="false"
         ></app-easy-select>
+      </div>
+      <div class="tw-h-[70px]"></div>
+      <div class="tw-absolute tw-w-full tw-bottom-0">
+        <div class="tw-px-2 tw-text-[12px] tw-inline-block tw-border-t tw-border-r">Hệ số</div>
+        <div class="tw-px-2 tw-pb-2 tw-border-t tw-text-center tw-pt-6">
+          <ngx-slider
+            [formControlName]="FormField.pointLevelType"
+            [options]="options"
+          ></ngx-slider>
+        </div>
       </div>
     </div>
 
@@ -232,7 +330,7 @@
       <app-editor-c1 [form]="form" [name]="FormField.Reason"></app-editor-c1>
     </div>
 
-    <div class="tw-mt-[50px] tw-flex tw-justify-center tw-pb-6">
+    <div class="tw-mt-[50px] tw-flex tw-justify-center tw-pb-6" *ngIf="!idShow">
       <button
         mat-button
         class="!tw-mr-2"

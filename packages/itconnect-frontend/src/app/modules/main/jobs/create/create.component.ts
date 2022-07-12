@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PositionService} from "../../../../services/position.service";
 import {SkillService} from "../../../../services/skill.service";
@@ -34,6 +34,7 @@ import {JobTypeService} from "../../../../services/job-type.service";
 import {JobTypeSearchOutput} from "../../../../models/job-type.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MappingNameToParentPipe} from "../../../../utils/pipes/mappingNameToParent.pipe";
+import {Options} from "@angular-slider/ngx-slider";
 
 export enum FormField {
   skills = "skills",
@@ -50,7 +51,15 @@ export enum FormField {
   yoe = "yoe",
   Description = 'Description',
   SkillExperience = 'SkillExperience',
-  Reason = 'Reason'
+  Reason = 'Reason',
+  pointSkill = 'pointSkill',
+  pointPosition = 'pointPosition',
+  pointCertificate = 'pointCertificate',
+  pointSchool = 'pointSchool',
+  pointWorkFrom = 'pointWorkFrom',
+  pointLevelJob = 'pointLevelJob',
+  pointLevelType = 'pointLevelType',
+  pointYoe = 'pointYoe'
 }
 
 @Component({
@@ -58,8 +67,9 @@ export enum FormField {
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.scss']
 })
-export class CreateComponent implements OnInit {
+export class CreateComponent implements OnInit, OnChanges {
   @ViewChild('selectCompany') selectCompany: EasySelectComponent;
+  @Input() idShow: number;
   form: FormGroup;
   faArrowRight = faArrowRight;
   faArrowDown = faArrowDown;
@@ -68,6 +78,20 @@ export class CreateComponent implements OnInit {
       name: `${index + 1}+`
   }))
   jobEdit: Job | undefined;
+
+  readonly minPoint = 10;
+  readonly maxPoint = 20;
+  options: Options = {
+    floor: this.minPoint,
+    ceil: this.maxPoint,
+    step: 1,
+    showTicks: false,
+    showSelectionBar: true,
+    getPointerColor: value => 'var(--primary)',
+    getTickColor: value => '#d8e0f3',
+    getSelectionBarColor: value => 'var(--primary)',
+  };
+
 
   readonly FormField = FormField;
 
@@ -111,9 +135,31 @@ export class CreateComponent implements OnInit {
       [FormField.SkillExperience]: [null, Validators.required],
       [FormField.Description]: [null, Validators.required],
       [FormField.Reason]: [null],
+      [FormField.pointSkill]: [this.minPoint],
+      [FormField.pointPosition]: [this.minPoint],
+      [FormField.pointCertificate]: [this.minPoint],
+      [FormField.pointSchool]: [this.minPoint],
+      [FormField.pointWorkFrom]: [this.minPoint],
+      [FormField.pointLevelJob]: [this.minPoint],
+      [FormField.pointLevelType]: [this.minPoint],
+      [FormField.pointYoe]: [this.minPoint],
     }, {
       validators: this.customValidate
     })
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    const {idShow} = changes;
+    if (idShow && idShow.currentValue && idShow.currentValue != idShow.previousValue) {
+      setTimeout(() => {
+        this.loadEdit(this.idShow);
+        this.form.disable();
+        this.options = {
+          ...this.options,
+          readOnly: true
+        }
+      })
+    }
   }
 
   ngOnInit(): void {
@@ -144,10 +190,18 @@ export class CreateComponent implements OnInit {
           [FormField.dateEnd]: data.endDate,
           [FormField.salaryFrom]: data.salaryMin,
           [FormField.salaryTo]: data.salaryMax,
-          [FormField.yoe]: data.yoe,
+          [FormField.yoe]: data.yoe ? { id: data.yoe, name: data.yoe + '+' } : null,
           [FormField.SkillExperience]: data.requirementContent,
           [FormField.Description]: data.descriptionContent,
           [FormField.Reason]: data.reasonContent,
+          [FormField.pointSkill]: data.pointSkill,
+          [FormField.pointPosition]: data.pointPosition,
+          [FormField.pointCertificate]: data.pointCertificate,
+          [FormField.pointSchool]: data.pointSchool,
+          [FormField.pointWorkFrom]: data.pointWorkFrom,
+          [FormField.pointLevelJob]: data.pointLevelJob,
+          [FormField.pointLevelType]: data.pointLevelType,
+          [FormField.pointYoe]: data.pointYoe,
         })
       })
   }
@@ -441,7 +495,15 @@ export class CreateComponent implements OnInit {
       endDate: value[FormField.dateEnd],
       descriptionContent: value[FormField.Description],
       requirementContent: value[FormField.SkillExperience],
-      reasonContent: value[FormField.Reason]
+      reasonContent: value[FormField.Reason],
+      pointSkill: value[FormField.pointSkill],
+      pointPosition: value[FormField.pointPosition],
+      pointCertificate: value[FormField.pointCertificate],
+      pointSchool: value[FormField.pointSchool],
+      pointWorkFrom: value[FormField.pointWorkFrom],
+      pointLevelJob: value[FormField.pointLevelJob],
+      pointLevelType: value[FormField.pointLevelType],
+      pointYoe: value[FormField.pointYoe],
     }
 
     if (this.jobEdit) {

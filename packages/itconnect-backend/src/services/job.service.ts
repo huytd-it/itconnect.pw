@@ -276,6 +276,15 @@ export class JobService {
         dataEntity.endDate = data.endDate;
         dataEntity.jobType = data.jobType ? Id(data.jobType) : null;
 
+        dataEntity.pointPosition = data.pointPosition || null;
+        dataEntity.pointSkill = data.pointSkill || null;
+        dataEntity.pointSchool = data.pointSchool || null;
+        dataEntity.pointCertificate = data.pointCertificate || null;
+        dataEntity.pointLevelJob = data.pointLevelJob || null;
+        dataEntity.pointWorkFrom = data.pointWorkFrom || null;
+        dataEntity.pointLevelType = data.pointLevelType || null;
+        dataEntity.pointYoe = data.pointYoe || null;
+
         try {
             if (draft) {
                 dataEntity.status = JobStatus.Draft;

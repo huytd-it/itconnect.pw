@@ -106,6 +106,14 @@ export class Job extends BaseTable {
   jobApplySelf: number;
   jobSavedSelf: number;
   jobViewLogCount: number;
+  pointPosition: number;
+  pointSkill: number;
+  pointCertificate: number;
+  pointSchool: number;
+  pointWorkFrom: number;
+  pointLevelJob: number;
+  pointLevelType: number;
+  pointYoe: number;
 }
 export class JobCreateOrEditOutput {
   id?: number;
@@ -129,6 +137,14 @@ export class JobCreateOrEditOutput {
   descriptionContent: string;
   requirementContent: string;
   reasonContent?: string;
+  pointPosition: number;
+  pointSkill: number;
+  pointCertificate: number;
+  pointSchool: number;
+  pointWorkFrom: number;
+  pointLevelJob: number;
+  pointLevelType: number;
+  pointYoe: number;
 }
 
 export enum JobStatus {

@@ -244,6 +244,30 @@ export class JobDto extends EntityDto {
 
     @ApiProperty()
     jobViewLogCount: number;
+
+    @ApiProperty()
+    pointPosition: number;
+
+    @ApiProperty()
+    pointSkill: number;
+
+    @ApiProperty()
+    pointCertificate: number;
+
+    @ApiProperty()
+    pointSchool: number;
+
+    @ApiProperty()
+    pointWorkFrom: number;
+
+    @ApiProperty()
+    pointLevelJob: number;
+
+    @ApiProperty()
+    pointLevelType: number;
+
+    @ApiProperty()
+    pointYoe: number;
 }
 
 export class JobIdParamDto {
@@ -378,6 +402,46 @@ export class JobCreateOrEditDto {
     @IsOptional()
     @MaxLength(20000)
     reasonContent: string;
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsInt()
+    pointPosition: number;
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsInt()
+    pointSkill: number;
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsInt()
+    pointCertificate: number;
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsInt()
+    pointSchool: number;
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsInt()
+    pointWorkFrom: number;
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsInt()
+    pointLevelJob: number;
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsInt()
+    pointLevelType: number;
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsInt()
+    pointYoe: number;
 }
 
 export class JobCreateOrEditQueryDto {

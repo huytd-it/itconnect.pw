@@ -11,6 +11,7 @@ import {AmchartModule} from "../../../../amchart/amchart.module";
 import {NgSelectModule} from "@ng-select/ng-select";
 import {FormsModule} from "@angular/forms";
 import {CommonComponentsModule} from "../../../../components/common-components.module";
+import {CreateModule} from "../create/create.module";
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import {CommonComponentsModule} from "../../../../components/common-components.m
         AmchartModule,
         NgSelectModule,
         FormsModule,
-        CommonComponentsModule
+        CommonComponentsModule,
+      CreateModule
     ]
 })
 export class ManageModule { }

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, forwardRef, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, forwardRef, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
 import {
   CreateTaggedOutput,
@@ -18,7 +18,7 @@ import {AppService} from "../../../../services/app.service";
   styleUrls: ['./input-skill-level-range.component.scss'],
   providers: []
 })
-export class InputSkillLevelRangeComponent implements OnInit {
+export class InputSkillLevelRangeComponent implements OnInit, OnChanges {
   @Input() loadMoreFn: (query: SearchPageOutput) => Observable<PageInput<any>>;
   @Input() createTagFn: (data: CreateTaggedOutput) => Observable<TaggedInput>;
   @Input() bindLabel: string = 'name';
@@ -27,6 +27,8 @@ export class InputSkillLevelRangeComponent implements OnInit {
   @Input() appendTo: string;
   @Input() items: any[] = [];
   @Input() isAddTag: boolean = true;
+  @Input() max: number = 0;
+  @Input() readOnly: boolean = false;
   @Output() onAdd = new EventEmitter<TaggedInput>();
   @Output() onChange = new EventEmitter<any>();
   @Output() onRemove = new EventEmitter();
@@ -82,5 +84,17 @@ export class InputSkillLevelRangeComponent implements OnInit {
   onChangeLevelMax(item: any, e: number) {
     item[this.bindLevelMax] = e;
     this.onChange.emit(item);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    const {readOnly} = changes;
+    if (readOnly && readOnly.currentValue != readOnly.previousValue) {
+      setTimeout(() => {
+        this.options = {
+          ...this.options,
+          readOnly: this.readOnly
+        }
+      })
+    }
   }
 }
