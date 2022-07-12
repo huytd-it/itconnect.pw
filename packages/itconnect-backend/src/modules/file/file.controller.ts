@@ -73,6 +73,10 @@ export class FileController {
         const file = path.join(this.fileService.uploadDir, row.path);
         if (fs.existsSync(file)) {
             const readStream = fs.createReadStream(file);
+            readStream.on('error', (e) => {
+                console.log(e);
+                res.destroy();
+            })
             return new StreamableFile(readStream);
         } else {
             throw new NotFoundException()
