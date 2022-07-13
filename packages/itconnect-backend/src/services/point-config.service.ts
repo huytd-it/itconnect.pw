@@ -8,6 +8,7 @@ import {
     PointConfigType
 } from "../entities/pointConfig.entity";
 import {Repository} from "typeorm";
+import {PointConfigDto} from "../dtos/point-config.dto";
 
 export type PointConfigV = {
     point: number,
@@ -26,6 +27,18 @@ export class PointConfigService {
         @InjectRepository(PointConfigEntity)
         private pointConfigRepository: Repository<PointConfigEntity>
     ) {
+    }
+
+    getOne(type: PointConfigType) {
+        return this.pointConfigRepository.findOne({
+            where: {
+                type
+            }
+        })
+    }
+
+    createOrEdit(data: PointConfigDto) {
+        return this.pointConfigRepository.upsert(data, ['type']);
     }
 
     async getConfig() {

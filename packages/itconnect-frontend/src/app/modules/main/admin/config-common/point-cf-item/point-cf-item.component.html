@@ -1,0 +1,20 @@
+<div class="tw-flex tw-gap-3 tw-items-center" [formGroup]="form">
+  <div class="tw-min-w-[150px] tw-mt-[-10px]">
+    {{name}}
+  </div>
+  <mat-form-field appearance="outline" class="tw-w-full sm:tw-w-[100px]">
+    <mat-label>Hệ số (n)</mat-label>
+    <input matInput appNumberOnly [min]="0" [max]="1000" [formControlName]="'point'">
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="tw-w-full sm:tw-w-[100px]">
+    <mat-label>Hệ số (nv)</mat-label>
+    <input matInput appNumberOnly [formControlName]="'pointExp'">
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="tw-w-full sm:tw-w-[100px]">
+    <mat-label>Hệ số (v)</mat-label>
+    <input matInput appNumberOnly [formControlName]="'pointExpVerified'">
+  </mat-form-field>
+  <button mat-stroked-button color="primary" class="!tw-h-[52px] !tw-mt-[-20px]" [disabled]="isWaiting" (click)="save()">
+    <mat-icon>done</mat-icon>
+  </button>
+</div>

@@ -1,4 +1,4 @@
-<div class="tw-p-3">
+<div class="tw-p-3 tw-border-b">
   <button
     [disabled]="isAddressSync || (appService.headLoading$ | async)"
     mat-stroked-button color="warn"
@@ -6,4 +6,15 @@
   >
     Đồng bộ dữ liệu địa chỉ
   </button>
+</div>
+
+
+<div class="tw-p-3">
+  <app-easy-card [icon]="'settings'" [label]="'Cấu hình hệ số mapping'">
+    <ng-container
+      *ngFor="let k of keys"
+    >
+      <app-point-cf-item [type]="k"></app-point-cf-item>
+    </ng-container>
+  </app-easy-card>
 </div>

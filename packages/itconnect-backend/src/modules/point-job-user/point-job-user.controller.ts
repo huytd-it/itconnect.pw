@@ -1,4 +1,4 @@
-import {Controller, Get, Query, UseGuards} from '@nestjs/common';
+import {Body, Controller, Get, Param, Post, Query, UseGuards} from '@nestjs/common';
 import {ApiBearerAuth, ApiTags} from "@nestjs/swagger";
 import {JwtAuthGuard} from "../../utils/guards/jwt.guard";
 import {ApiPaginatedResponse} from "../../utils/decorators/api-paginated-response.decorator";
@@ -13,6 +13,8 @@ import {AddressEntity} from "../../entities/address.entity";
 import {WorkFromEntity} from "../../entities/workFrom.entity";
 import {PointJobUserService} from "../../services/point-job-user.service";
 import {PointJobUserDto, PointJobUserSearchInputDto} from "../../dtos/point-job-user.dto";
+import {PointConfigDto, PointConfigGetParamsDto} from "../../dtos/point-config.dto";
+import {PointConfigService} from "../../services/point-config.service";
 
 @ApiTags('point-job-user')
 @ApiBearerAuth()
@@ -21,7 +23,8 @@ import {PointJobUserDto, PointJobUserSearchInputDto} from "../../dtos/point-job-
 export class PointJobUserController {
 
     constructor(
-        private pointJobUserService: PointJobUserService
+        private pointJobUserService: PointJobUserService,
+        private pointConfigService: PointConfigService
     ) {
     }
 
@@ -34,5 +37,23 @@ export class PointJobUserController {
         @Query() pageOptionsDto: PageOptionsDto,
     ) {
         return this.pointJobUserService.search(searchDto, new PageOptionsDto(pageOptionsDto));
+    }
+
+    @UseGuards(PermissionsGuard)
+    @RequirePermissions(AppPermission.ADMIN)
+    @Get('config/:type')
+    configGetOne(
+        @Param() p: PointConfigGetParamsDto
+    ) {
+        return this.pointConfigService.getOne(p.type)
+    }
+
+    @UseGuards(PermissionsGuard)
+    @RequirePermissions(AppPermission.ADMIN)
+    @Post('config')
+    configCoE(
+        @Body() p: PointConfigDto
+    ) {
+        return this.pointConfigService.createOrEdit(p)
     }
 }

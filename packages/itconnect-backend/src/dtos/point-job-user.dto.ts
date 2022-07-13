@@ -3,6 +3,7 @@ import {JobDto} from "./job.dto";
 import {ApiProperty, ApiPropertyOptional} from "@nestjs/swagger";
 import {IsInt, IsOptional, MaxLength, MinLength} from "class-validator";
 import {Type} from "class-transformer";
+import {PointConfigType} from "../entities/pointConfig.entity";
 
 export class PointJobUserDto {
     id: number;
