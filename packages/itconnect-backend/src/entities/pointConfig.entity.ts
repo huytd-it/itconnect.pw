@@ -25,12 +25,12 @@ export class PointConfigEntity {
     @Unique(['type'])
     type: PointConfigType;
 
-    @Column()
+    @Column({ nullable: true })
     point: number;
 
-    @Column()
+    @Column({ nullable: true })
     pointExp: number;
 
-    @Column()
+    @Column({ nullable: true })
     pointExpVerified: number;
 }
