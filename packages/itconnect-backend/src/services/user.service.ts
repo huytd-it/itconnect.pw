@@ -536,7 +536,6 @@ export class UserService {
 
     async search(search: UserSearchInputDto, page: PageOptionsDto) {
         const qr = this.usersRepository.createQueryBuilder('user');
-
         if (search.type == UserType.User) {
             qr.innerJoinAndSelect('user.userInfo', 'userInfo')
             qr.leftJoinAndSelect('userInfo.avatar', 'avatarU')

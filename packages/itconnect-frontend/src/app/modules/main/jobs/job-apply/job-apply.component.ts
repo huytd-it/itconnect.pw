@@ -112,8 +112,8 @@ export class JobApplyComponent implements OnInit {
         cvWorkExperiencePositions: job.jobPositions as any,
         cvWorkExperienceSkills: job.jobSkills as any,
         jobType: job.jobType,
-        jobLevel: job.jobJobLevels?.[0].jobLevel,
-        workFrom: job.jobWorkFrom?.[0].workFrom,
+        jobLevel: job.jobJobLevels?.[0]?.jobLevel,
+        workFrom: job.jobWorkFrom?.[0]?.workFrom,
         status: CvWorkExperienceStatus.Verify,
         startDate: moment(item.job.createdAt).startOf('month').subtract(1, 'month').toDate(),
         newData: true
