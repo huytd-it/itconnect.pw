@@ -126,13 +126,13 @@ export class CvWorkExperienceService {
 
         // check owner company tag
         if (data.companyTag) {
-            const tGlobal = await this.companyTagService.isApprove(data.companyTag);
-            if (!tGlobal) {
-                const tOwner = await this.companyTagService.isOwner(data.companyTag);
-                if (!tOwner) {
-                    throw new ForbiddenException();
-                }
-            }
+            // const tGlobal = await this.companyTagService.isApprove(data.companyTag);
+            // if (!tGlobal) {
+            //     const tOwner = await this.companyTagService.isOwner(data.companyTag);
+            //     if (!tOwner) {
+            //         throw new ForbiddenException();
+            //     }
+            // }
             dataUpdate.companyTag = { id: data.companyTag };
         }
 

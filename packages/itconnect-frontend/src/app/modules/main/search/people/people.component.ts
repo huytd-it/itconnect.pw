@@ -3,13 +3,13 @@ import {AppService} from "../../../../services/app.service";
 import {FiltersProvider} from "./providers/filters.provider";
 import {JobService} from "../../../../services/job.service";
 import {JobSearchInput} from "../../../../models/job.model";
-import {finalize} from "rxjs";
+import {finalize, Subscription} from "rxjs";
 import {MatPaginatorIntl, PageEvent} from "@angular/material/paginator";
 import {
   CUSTOM_MAT_PAGINATOR_PER_PAGE_TOKEN,
   CustomMatPaginatorIntl
 } from "../../../../utils/providers/custom-page.provider";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {PeopleService} from "../../../../services/people.service";
 import {PeopleSearchInput} from "../../../../models/people.model";
 import {UserInfo} from "../../../../models/user.model";
@@ -36,9 +36,10 @@ export class PeopleComponent implements OnInit {
   expandFilter: boolean;
   data: PeopleSearchInput;
   isLoading: boolean;
+  querySubscription: Subscription;
 
   constructor(
-    private filters: FiltersProvider,
+    public filters: FiltersProvider,
     private peopleService: PeopleService,
     private router: Router,
     private route: ActivatedRoute,
@@ -47,9 +48,14 @@ export class PeopleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    setTimeout(() => this.onSearch());
+    this.querySubscription = this.route.queryParams.subscribe(query => {
+      this.searchMiniFilter(query);
+    })
   }
 
+  ngOnDestroy(): void {
+    this.querySubscription.unsubscribe();
+  }
 
   onSearch(firstPage: boolean = true) {
     const query = this.filters.getQuery();
@@ -78,5 +84,25 @@ export class PeopleComponent implements OnInit {
 
   getYoe(item: UserInfo) {
     return this.peopleService.getYoe(item);
+  }
+
+  deleteMiniFilter() {
+    this.filters.deleteMiniFilter();
+    setTimeout(() => {
+      this.onSearch();
+    })
+  }
+
+  private searchMiniFilter(query: Params) {
+    const r = this.filters.searchMiniFilter(query);
+    if (r) {
+      r.subscribe(() => {
+        setTimeout(() => {
+          this.onSearch();
+        })
+      })
+    } else {
+      setTimeout(() => this.onSearch());
+    }
   }
 }

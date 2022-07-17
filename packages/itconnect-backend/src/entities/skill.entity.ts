@@ -11,6 +11,7 @@ import {UserSkillEntity} from "./userSkill.entity";
 import {CvWorkExperienceSkillEntity} from "./cvWorkExperienceSkill.entity";
 import {UserTaggedSkillEntity} from "./userTaggedSkill.entity";
 import {JobSkillEntity} from "./jobSkill.entity";
+import {JobPositionEntity} from "./jobPosition.entity";
 
 export const MAX_SKILL_NAME_LENGTH = 20;
 export const MIN_SKILL_NAME_LENGTH = 1;
@@ -36,6 +37,10 @@ export class SkillEntity {
     @OneToMany(type => JobSkillEntity, db => db.skill)
     jobSkills: UserSkillEntity[]
     jobSkillCount: number;
+
+    @OneToMany(type => JobPositionEntity, db => db.position)
+    jobActiveSkills: JobPositionEntity[]
+    jobActiveSkillCount: number;
 
     @OneToMany(type => UserTaggedSkillEntity, db => db.skill)
     userTaggedSkills: UserTaggedSkillEntity[]

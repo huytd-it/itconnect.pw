@@ -1,15 +1,15 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {AppService} from "../../../../services/app.service";
 import {FiltersProvider} from "./providers/filters.provider";
 import {JobService} from "../../../../services/job.service";
 import {JobSearchInput} from "../../../../models/job.model";
-import {finalize} from "rxjs";
+import {finalize, Subscription} from "rxjs";
 import {MatPaginatorIntl, PageEvent} from "@angular/material/paginator";
 import {
   CUSTOM_MAT_PAGINATOR_PER_PAGE_TOKEN,
   CustomMatPaginatorIntl
 } from "../../../../utils/providers/custom-page.provider";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 
 @Component({
   selector: 'app-job',
@@ -27,14 +27,15 @@ import {ActivatedRoute, Router} from "@angular/router";
     }
   ]
 })
-export class JobComponent implements OnInit {
+export class JobComponent implements OnInit, OnDestroy {
   @ViewChild('containerList') containerList: ElementRef;
   expandFilter: boolean;
   data: JobSearchInput;
   isLoading: boolean;
+  querySubscription: Subscription;
 
   constructor(
-    private filters: FiltersProvider,
+    public filters: FiltersProvider,
     private jobService: JobService,
     private router: Router,
     private route: ActivatedRoute,
@@ -43,9 +44,14 @@ export class JobComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    setTimeout(() => this.onSearch());
+    this.querySubscription = this.route.queryParams.subscribe(query => {
+      this.searchMiniFilter(query);
+    })
   }
 
+  ngOnDestroy(): void {
+    this.querySubscription.unsubscribe();
+  }
 
   onSearch(firstPage: boolean = true) {
     const query = this.filters.getQuery();
@@ -65,7 +71,7 @@ export class JobComponent implements OnInit {
 
         // redirect to job top
         if (
-          !this.router.url.match(/[0-9]+$/g) &&
+          firstPage &&
           data.data?.length
         ) {
           this.router.navigate(
@@ -81,5 +87,25 @@ export class JobComponent implements OnInit {
     query.page = e.pageIndex + 1;
     query.take = e.pageSize;
     this.onSearch(false);
+  }
+
+  deleteMiniFilter() {
+    this.filters.deleteMiniFilter();
+    setTimeout(() => {
+      this.onSearch();
+    })
+  }
+
+  private searchMiniFilter(query: Params) {
+    const r = this.filters.searchMiniFilter(query);
+    if (r) {
+      r.subscribe(() => {
+        setTimeout(() => {
+          this.onSearch();
+        })
+      })
+    } else {
+      setTimeout(() => this.onSearch());
+    }
   }
 }

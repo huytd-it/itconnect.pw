@@ -4,6 +4,7 @@ export class Skill {
   id: number;
   name: string;
   jobSkillCount: number;
+  jobActiveSkillCount: number;
   userSkillCount: number;
 
   // add more

@@ -73,13 +73,19 @@ export class SchoolService {
                 loadRelationIds: true
             });
             if (userTagged.length) {
-                query.andWhere((clause) => {
-                    clause.where({
-                        id: In(userTagged.map(item => item.school))
-                    })
-                    clause.orWhere({
-                        isApprove: true
-                    })
+                // query.andWhere((clause) => {
+                //     clause.where({
+                //         id: In(userTagged.map(item => item.school))
+                //     })
+                //     clause.orWhere({
+                //         isApprove: true
+                //     })
+                // })
+                query.andWhere(`
+                    (school.id in (:prm_ids) or
+                    (school.id not in (:prm_ids) and school.isApprove = 1))
+                `, {
+                    prm_ids: userTagged.map(item => item.school)
                 })
             } else {
                 query.andWhere({

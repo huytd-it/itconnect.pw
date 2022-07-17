@@ -12,6 +12,9 @@ import {UserTaggedSkillEntity} from "../entities/userTaggedSkill.entity";
 import {JobViewLogEntity} from "../entities/jobViewLog.entity";
 import {JobSkillEntity} from "../entities/jobSkill.entity";
 import {UserSkillEntity} from "../entities/userSkill.entity";
+import {JobPositionEntity} from "../entities/jobPosition.entity";
+import {JobStatus} from "../entities/job.entity";
+import * as moment from "moment";
 
 @Injectable({ scope: Scope.REQUEST })
 export class SkillService {
@@ -70,13 +73,19 @@ export class SkillService {
                 loadRelationIds: true
             });
             if (userTagged.length) {
-                query.andWhere((clause) => {
-                    clause.where({
-                        id: In(userTagged.map(item => item.skill))
-                    })
-                    clause.orWhere({
-                        isApprove: true
-                    })
+                // query.andWhere((clause) => {
+                //     clause.where({
+                //         id: In(userTagged.map(item => item.skill))
+                //     })
+                //     clause.orWhere({
+                //         isApprove: true
+                //     })
+                // })
+                query.andWhere(`
+                    (skill.id in (:prm_ids) or
+                    (skill.id not in (:prm_ids) and skill.isApprove = 1))
+                `, {
+                    prm_ids: userTagged.map(item => item.skill)
                 })
             } else {
                 query.andWhere({
@@ -103,6 +112,11 @@ export class SkillService {
             'skill.userSkills',
             'userSkillCount'
         )
+        query.loadRelationCountAndMap(
+            'skill.jobActiveSkillCount',
+            'skill.jobActiveSkills',
+            'jobActiveSkillCount'
+        )
 
         // fast fix mapping count
         // need update
@@ -116,6 +130,14 @@ export class SkillService {
                 .from(JobSkillEntity, 'jk')
                 .where('jk.skillId = skill.id');
         }, 'jobSkillCount')
+        query.addSelect((qb) => {
+            return qb.select('COUNT(*)', 'jobActiveSkillCount')
+                .from(JobSkillEntity, 'jk')
+                .innerJoin('jk.job', 'jobV3', `jobV3.status = :prm_status and jobV3.endDate >= :prm_date`)
+                .setParameter('prm_status', JobStatus.Publish)
+                .setParameter('prm_date', moment().startOf('date').toDate())
+                .where('jk.skillId = skill.id');
+        }, 'jobActiveSkillCount')
 
         // query data
         query.skip(dtoPage.skip);

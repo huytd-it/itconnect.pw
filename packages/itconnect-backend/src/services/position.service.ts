@@ -12,6 +12,8 @@ import {SkillEntity} from "../entities/skill.entity";
 import {Approve} from "../dtos/abstract.dto";
 import {UserPositionEntity} from "../entities/userPosition.entity";
 import {JobPositionEntity} from "../entities/jobPosition.entity";
+import {JobEntity, JobStatus} from "../entities/job.entity";
+import * as moment from "moment";
 
 @Injectable({ scope: Scope.REQUEST })
 export class PositionService {
@@ -56,11 +58,11 @@ export class PositionService {
         if (dtoSearch.approve && (dtoSearch.approve == Approve.True || dtoSearch.approve == Approve.False)) {
             whereClause.isApprove = dtoSearch.approve == Approve.True;
         }
-        query.where(whereClause);
+        query.andWhere(whereClause);
 
         // owner tag
         const currentUser = this.request['user'] as UserEntity;
-        if (hasUserTagged(currentUser) && !whereClause.isApprove) {
+        if (hasUserTagged(currentUser) && !whereClause.isApprove && dtoSearch.all !== 'true') {
             const userTagged = await this.userTaggedPositionRepository.find({
                 where: {
                     user: {
@@ -70,13 +72,11 @@ export class PositionService {
                 loadRelationIds: true
             });
             if (userTagged.length) {
-                query.andWhere((clause) => {
-                    clause.where({
-                        id: In(userTagged.map(item => item.position))
-                    })
-                    clause.orWhere({
-                        isApprove: true
-                    })
+                query.andWhere(`
+                    (position.id in (:prm_ids) or
+                    (position.id not in (:prm_ids) and position.isApprove = 1))
+                `, {
+                    prm_ids: userTagged.map(item => item.position)
                 })
             } else {
                 query.andWhere({
@@ -103,6 +103,12 @@ export class PositionService {
             'position.userPositions',
             'userPositionCount'
         )
+        query.loadRelationCountAndMap(
+            'position.jobActivePositionCount',
+            'position.jobActivePositions',
+            'jobActivePositionCount'
+        )
+
 
         // fast fix mapping count
         // need update
@@ -116,6 +122,14 @@ export class PositionService {
                 .from(JobPositionEntity, 'jk')
                 .where('jk.positionId = position.id');
         }, 'jobPositionCount')
+        query.addSelect((qb) => {
+            return qb.select('COUNT(*)', 'jobActivePositionCount')
+                .from(JobPositionEntity, 'jk')
+                .innerJoin('jk.job', 'jobV3', `jobV3.status = :prm_status and jobV3.endDate >= :prm_date`)
+                .setParameter('prm_status', JobStatus.Publish)
+                .setParameter('prm_date', moment().startOf('date').toDate())
+                .where('jk.positionId = position.id');
+        }, 'jobActivePositionCount')
 
         // query data
         query.skip(dtoPage.skip);

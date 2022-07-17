@@ -24,7 +24,7 @@ export class JobTrendingComponent implements OnInit {
       value: 'jobApplyCount'
     },
     {
-      name: 'Yêu thích',
+      name: 'Quan tâm',
       value: 'jobSavedCount'
     },
   ]

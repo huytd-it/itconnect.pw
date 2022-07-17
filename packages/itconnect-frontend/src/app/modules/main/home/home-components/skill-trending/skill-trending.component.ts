@@ -10,7 +10,7 @@ import {Approve} from "../../../../../models/common";
 })
 export class SkillTrendingComponent implements OnInit {
   @Input() label: string = 'Top kỹ năng tuyển dụng';
-  @Input() order: keyof Skill = 'jobSkillCount';
+  @Input() order: keyof Skill = 'jobActiveSkillCount';
   data: SkillSearchInput;
 
   get type() {
@@ -29,7 +29,6 @@ export class SkillTrendingComponent implements OnInit {
     this.skillService.search({
       order_field: this.order,
       order: 'DESC',
-      approve: Approve.True
     }).pipe(this.skillService.mapData())
       .subscribe(data => {
         this.data = data;

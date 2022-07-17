@@ -9,7 +9,6 @@ import {
     Unique, OneToOne
 } from "typeorm";
 import {UserEntity} from "./user.entity";
-import {UserCertificateEntity} from "./userCertificate.entity";
 import {CertificateEntity} from "./certificate.entity";
 
 export const MAX_CERTIFICATE_CONTENT_LENGTH = 20000;

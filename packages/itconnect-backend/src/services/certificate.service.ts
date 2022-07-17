@@ -71,13 +71,19 @@ export class CertificateService {
                 loadRelationIds: true
             });
             if (userTagged.length) {
-                query.andWhere((clause) => {
-                    clause.where({
-                        id: In(userTagged.map(item => item.certificate))
-                    })
-                    clause.orWhere({
-                        isApprove: true
-                    })
+                // query.andWhere((clause) => {
+                //     clause.where({
+                //         id: In(userTagged.map(item => item.certificate))
+                //     })
+                //     clause.orWhere({
+                //         isApprove: true
+                //     })
+                // })
+                query.andWhere(`
+                    (certificate.id in (:prm_ids) or
+                    (certificate.id not in (:prm_ids) and certificate.isApprove = 1))
+                `, {
+                    prm_ids: userTagged.map(item => item.certificate)
                 })
             } else {
                 query.andWhere({

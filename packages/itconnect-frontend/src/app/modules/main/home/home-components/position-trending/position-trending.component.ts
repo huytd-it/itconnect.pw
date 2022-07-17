@@ -12,7 +12,7 @@ import {PositionService} from "../../../../../services/position.service";
 })
 export class PositionTrendingComponent implements OnInit {
   @Input() label: string = 'Top vị trí tuyển dụng';
-  @Input() order: keyof Position = 'jobPositionCount';
+  @Input() order: keyof Position = 'jobActivePositionCount';
   data: PositionSearchInput;
 
   get type() {
@@ -31,7 +31,6 @@ export class PositionTrendingComponent implements OnInit {
     this.positionService.search({
       order_field: this.order,
       order: 'DESC',
-      approve: Approve.True
     }).pipe(this.positionService.mapData())
       .subscribe(data => {
         this.data = data;

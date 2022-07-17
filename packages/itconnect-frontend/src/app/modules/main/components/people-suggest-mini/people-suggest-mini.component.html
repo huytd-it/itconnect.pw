@@ -9,12 +9,12 @@
   <div
     class="tw-text-center tw-text-[#ccc] tw-my-10 tw-mx-3 tw-cursor-pointer"
     [routerLink]="'../jobs/create'"
-    *ngIf="!data?.data"
+    *ngIf="!data?.data?.length"
   >
     Hãy đăng công việc mới để tìm các ứng viên tìm năng
   </div>
 
-  <ng-container *ngIf="data?.data">
+  <ng-container *ngIf="data?.data?.length">
     <div class="tw-mb-2" *ngFor="let item of data.data">
       <app-people-item-mini
         [user]="item.user"

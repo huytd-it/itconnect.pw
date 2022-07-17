@@ -1,0 +1,120 @@
+<div class="tw-p-5">
+  <div class="tw-flex tw-gap-3 tw-flex-wrap">
+    <mat-form-field appearance="outline" class="tw-w-full sm:tw-w-[300px]">
+      <mat-label>Tìm kiếm</mat-label>
+      <input matInput [(ngModel)]="search" (change)="onSearch()">
+      <mat-icon matPrefix>search</mat-icon>
+    </mat-form-field>
+    <ng-select
+      class="tw-w-full sm:tw-w-[150px]"
+      appearance="outline"
+      [bindLabel]="'name'"
+      [placeholder]="'Sắp xếp theo'"
+      [items]="orderField"
+      [clearable]="false"
+      [(ngModel)]="orderFieldSelected"
+      (change)="onSearch()"
+    ></ng-select>
+    <ng-select
+      class="tw-w-full sm:tw-w-[100px]"
+      appearance="outline"
+      [bindLabel]="'name'"
+      [placeholder]="'Thứ tự'"
+      [items]="order"
+      [clearable]="false"
+      [(ngModel)]="orderSelected"
+      (change)="onSearch()"
+    ></ng-select>
+  </div>
+
+  <div>
+    <ng-container *ngIf="data">
+      <div class="tw-p-3 tw-text-[11px] tw-text-right tw-shadow-sm tw-text-[#888]">
+        {{data.meta.itemCount}} ứng tuyển
+      </div>
+      <ng-container *ngIf="data">
+        <ng-container *ngFor="let item of data.data || []">
+          <app-people-item
+            [user]="item.user"
+            [applyTime]="item.createdAt"
+          >
+            <a afterName [routerLink]="'/u/jobs/manage/' + item.job.id + '/apply'" (click)="$event.stopPropagation()">
+              <span class="tw-text-[12px] tw-font-thin">từ </span>
+              <span class="tw-font-medium">{{item.job.name}}</span>
+            </a>
+            <div
+              class="tw-p-2 tw-mt-1 tw-border-orange-400 tw-text-orange-400 tw-text-[12px]"
+              *ngIf="item.status === JobApplyStatus.Denide"
+            >
+              Đã từ chối
+            </div>
+            <div
+              class="tw-p-2 tw-mt-1 tw-border-red-400 tw-text-red-400 tw-text-[12px]"
+              *ngIf="item.status === JobApplyStatus.RequestDenide"
+            >
+              Bị từ chối
+            </div>
+            <div
+              class="tw-p-2 tw-mt-1 tw-border-gray-400 tw-text-gray-400 tw-text-[12px]"
+              *ngIf="item.status === JobApplyStatus.RequestAccept"
+            >
+              Đã liên kết
+            </div>
+            <div
+              class="tw-p-2 tw-mt-1 tw-border-gray-400 tw-text-green-400 tw-text-[12px]"
+              *ngIf="item.status === JobApplyStatus.RequestJoin"
+            >
+              Đã mời liên kết
+            </div>
+            <div
+              class="tw-p-2 tw-mt-1 tw-border-gray-400 tw-text-green-400 tw-text-[12px]"
+              *ngIf="item.status === JobApplyStatus.RequestInterview"
+            >
+              Đã mời phỏng vấn
+            </div>
+            <div bottom class="tw-mt-2 tw-ml-[-20px]" *ngIf="item.status === JobApplyStatus.RequestInterview">
+              <button
+                mat-button
+                type="button"
+                (click)="onAcceptLink(item); $event.stopPropagation()"
+                [matTooltip]="'Mời liên kết'"
+              >
+                <mat-icon class="!tw-text-[20px] tw-text-green-500">connect_without_contact</mat-icon>
+              </button>
+            </div>
+            <div bottom class="tw-mt-2 tw-ml-[-20px]" *ngIf="item.status === JobApplyStatus.Waiting">
+              <button
+                mat-button
+                type="button"
+                (click)="onRequestInterview(item); $event.stopPropagation()"
+                [matTooltip]="'Mời phỏng vấn'"
+                class="!tw-w-auto !tw-p-0 !tw-min-w-auto"
+              >
+                <mat-icon class="!tw-text-[20px] tw-text-green-500">done</mat-icon>
+              </button>
+              <button
+                mat-button
+                type="button"
+                (click)="onDenide(item); $event.stopPropagation()"
+                [matTooltip]="'Từ chối tiếp nhận phỏng vấn'"
+                class="!tw-w-auto !tw-p-0 !tw-min-w-auto"
+              >
+                <mat-icon class="!tw-text-[20px] tw-text-red-500">close</mat-icon>
+              </button>
+            </div>
+
+          </app-people-item>
+        </ng-container>
+        <div class="tw-flex tw-justify-center tw-p-4">
+          <mat-paginator
+            [disabled]="appService.headLoading$ | async"
+            [length]="data.meta.itemCount"
+            [pageSize]="data.meta.take"
+            [pageSizeOptions]="[5, 10, 25]"
+            (page)="onChangePage($event)"
+          ></mat-paginator>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>

@@ -46,13 +46,13 @@ export class CvWorkExperiencePositionService {
 
         // check owner position
         if (dto.position) {
-            const positionGlobal = await this.positionService.isApprove(dto.position);
-            if (!positionGlobal) {
-                const positionOwner = await this.positionService.isOwner(dto.position);
-                if (!positionOwner) {
-                    throw new ForbiddenException();
-                }
-            }
+            // const positionGlobal = await this.positionService.isApprove(dto.position);
+            // if (!positionGlobal) {
+            //     const positionOwner = await this.positionService.isOwner(dto.position);
+            //     if (!positionOwner) {
+            //         throw new ForbiddenException();
+            //     }
+            // }
 
             data.position = { id: dto.position };
         }

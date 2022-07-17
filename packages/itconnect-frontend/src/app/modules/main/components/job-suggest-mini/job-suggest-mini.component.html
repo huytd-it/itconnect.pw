@@ -9,12 +9,12 @@
   <div
     class="tw-text-center tw-text-[#ccc] tw-my-10 tw-mx-3 tw-cursor-pointer"
     [routerLink]="'../me'"
-    *ngIf="!data?.data"
+    *ngIf="!data?.data?.length"
   >
     Hãy cập nhật CV của bạn để có các công ty có thể nhìn thấy
   </div>
 
-  <ng-container *ngIf="data?.data">
+  <ng-container *ngIf="data?.data?.length">
     <div class="tw-mb-2" *ngFor="let item of data.data">
       <app-job-item-min
         [link]="'../jobs/view/' + item.job.id"

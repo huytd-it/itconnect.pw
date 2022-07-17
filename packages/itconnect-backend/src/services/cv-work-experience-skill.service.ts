@@ -52,13 +52,13 @@ export class CvWorkExperienceSkillService {
 
         // check owner skill
         if (dto.skill) {
-            const skillGlobal = await this.skillService.isApprove(dto.skill);
-            if (!skillGlobal) {
-                const skillOwner = await this.skillService.isOwner(dto.skill);
-                if (!skillOwner) {
-                    throw new ForbiddenException();
-                }
-            }
+            // const skillGlobal = await this.skillService.isApprove(dto.skill);
+            // if (!skillGlobal) {
+            //     const skillOwner = await this.skillService.isOwner(dto.skill);
+            //     if (!skillOwner) {
+            //         throw new ForbiddenException();
+            //     }
+            // }
 
             data.skill = { id: dto.skill };
         }

@@ -16,6 +16,7 @@
       >
         {{user.userInfo.fullName}}
       </a>
+      <ng-content select="[afterName]"></ng-content>
       <div class="tw-text-[13px] tw-mt-1 tw-font-thin" *ngIf="!!user.userInfo.addressProvince">
         {{user.userInfo.addressStreet}}, {{user.userInfo.addressVillage.name}}, {{user.userInfo.addressDistrict.name}}, {{user.userInfo.addressProvince.name}}
       </div>

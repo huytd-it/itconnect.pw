@@ -36,8 +36,22 @@
       "
     >
       <ng-container *ngIf="data">
-        <div class="tw-p-3 tw-text-[11px] tw-text-right tw-shadow-sm tw-text-[#888]">
-          {{data.meta.itemCount}} việc làm thông qua tìm kiếm
+        <div class="tw-p-3 tw-flex tw-justify-between tw-shadow-sm tw-items-center tw-justify-between">
+          <span *ngIf="!filters.miniSearch"></span>
+          <span
+            *ngIf="!!filters.miniSearch"
+            class="tw-py-1 tw-px-2 tw-bg-sky-600 tw-text-white tw-rounded tw-text-[11px] tw-flex tw-items-center tw-justify-between tw-cursor-pointer"
+            [matTooltip]="'Xóa filter này'"
+            (click)="deleteMiniFilter()"
+          >
+            Đang tìm kiếm với {{filters.miniSearch.name}} '{{filters.miniSearch.value}}'
+            <div class="tw-ml-2 tw-rounded-full tw-bg-sky-700 tw-w-[18px] tw-h-[18px] tw-text-center tw-leading-[18px]">
+              x
+            </div>
+          </span>
+          <span class="tw-text-[11px] tw-text-[#888]">
+            {{data.meta.itemCount}} việc làm thông qua tìm kiếm
+          </span>
         </div>
         <ng-container *ngFor="let item of data.data || []">
           <app-job-item

@@ -12,6 +12,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {UtilsModule} from "../../../../utils/utils.module";
 import {MainComponentsModule} from "../../components/components.module";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import {MainComponentsModule} from "../../components/components.module";
         UtilsModule,
         CommonComponentsModule,
         MainComponentsModule,
+        MatTooltipModule,
     ]
 })
 export class PeopleModule { }

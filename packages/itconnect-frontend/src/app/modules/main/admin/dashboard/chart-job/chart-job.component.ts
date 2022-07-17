@@ -38,7 +38,7 @@ export class ChartJobComponent implements OnInit, OnChanges {
       stroke: '#3a8d37',
     },
     {
-      name: 'Lượt yêu thích',
+      name: 'Lượt quan tâm',
       field: 'countSaved',
       stroke: '#c94d8f',
     }

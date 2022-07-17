@@ -238,7 +238,7 @@ export class CreateComponent implements OnInit, OnChanges {
    */
   fetchDataPosition = (query: SearchPageOutput) => {
     const qr: PositionSearchOutput = query;
-    qr.approve = Approve.True;
+    // qr.approve = Approve.True;
     return this.positionService.search(qr);
   }
 
@@ -278,7 +278,7 @@ export class CreateComponent implements OnInit, OnChanges {
    */
   fetchDataSkill = (query: SearchPageOutput) => {
     const qr: SkillSearchOutput = query;
-    qr.approve = Approve.True;
+    // qr.approve = Approve.True;
     return this.skillService.search(qr);
   }
 
@@ -318,7 +318,7 @@ export class CreateComponent implements OnInit, OnChanges {
    */
   fetchDataCertificate = (query: SearchPageOutput) => {
     const qr: CertificateSearchOutput = query;
-    qr.approve = Approve.True;
+    // qr.approve = Approve.True;
     return this.certificateService.search(qr);
   }
 
@@ -358,7 +358,7 @@ export class CreateComponent implements OnInit, OnChanges {
    */
   fetchDataSchool = (query: SearchPageOutput) => {
     const qr: SchoolSearchOutput = query;
-    qr.approve = Approve.True;
+    // qr.approve = Approve.True;
     return this.schoolService.search(qr);
   }
 

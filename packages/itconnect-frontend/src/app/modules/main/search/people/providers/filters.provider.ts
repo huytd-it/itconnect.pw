@@ -3,7 +3,7 @@ import {CompanyTagService} from "../../../../../services/company-tag.service";
 import {AppService} from "../../../../../services/app.service";
 import {CreateTaggedOutput, OptionItem, SearchPageOutput, TaggedInput} from "../../../../../models/common";
 import {CompanyTag, CompanyTagSearchOutput} from "../../../../../models/company-tag.model";
-import {finalize} from "rxjs";
+import {finalize, map} from "rxjs";
 import {
   JobJobLevelCreateOrEdit,
   JobSchoolCreateOrEdit,
@@ -25,6 +25,7 @@ import {Address} from "../../../../../models/address.model";
 import {EasySelectCheckboxComponent} from "../../../../../components/easy-select-checkbox/easy-select-checkbox.component";
 import {JobTypeService} from "../../../../../services/job-type.service";
 import {PeopleSearchBodyOutput, PeopleSearchOutput} from "../../../../../models/people.model";
+import {Params} from "@angular/router";
 
 @Injectable()
 export class FiltersProvider {
@@ -97,6 +98,12 @@ export class FiltersProvider {
   ]
   orderFieldSelected: { value: string } = this.orderFields[0];
   orderSelected: { value: string } = this.orders[1];
+
+  miniSearch: {
+    name: string,
+    type: string,
+    value: string
+  } | undefined;
 
   constructor(
     private companyTagService: CompanyTagService,
@@ -325,5 +332,73 @@ export class FiltersProvider {
 
   onRemoveDataJobLevel = (item: JobJobLevelCreateOrEdit) => {
     this.jobLevel = this.jobLevel.filter(it => it.id != item.id);
+  }
+
+
+  searchMiniFilter(query: Params) {
+    const {
+      position,
+      skill
+    } = query;
+
+    if (position) {
+      this.miniSearch = {
+        name: 'vị trí',
+        type: 'position',
+        value: position
+      }
+      return this.fetchDataPosition({
+        search: position
+      }).pipe(map(data => {
+        const d = data?.data?.[0];
+        if (d) {
+          this.position.push({
+            id: d.id,
+            name: d.name,
+            levelMin: 1,
+            levelMax: 10
+          })
+        }
+      }));
+    }
+
+    if (skill) {
+      this.miniSearch = {
+        name: 'kỹ năng',
+        type: 'skill',
+        value: skill
+      }
+      return this.fetchDataSkill({
+        search: skill
+      }).pipe(map(data => {
+        const d = data?.data?.[0];
+        if (d) {
+          this.skill.push({
+            id: d.id,
+            name: d.name,
+            levelMin: 1,
+            levelMax: 10
+          })
+        }
+      }));
+    }
+
+    return null;
+  }
+
+  deleteMiniFilter() {
+    if (!this.miniSearch) {
+      return
+    }
+    switch (this.miniSearch.type) {
+      case 'skill':
+        this.skill = this.skill.filter(item => item.name != this.miniSearch?.value);
+        break;
+
+      case 'position':
+        this.position = this.position.filter(item => item.name != this.miniSearch?.value);
+        break;
+    }
+    this.miniSearch = undefined;
   }
 }

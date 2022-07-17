@@ -35,6 +35,7 @@ import {JobViewLogEntity} from "../entities/jobViewLog.entity";
 import {JobApplyEntity} from "../entities/jobApply.entity";
 import {JobSavedEntity} from "../entities/jobSaved.entity";
 import {JobApplyStatisticOption} from "../dtos/jobApply.dto";
+import {UserPositionEntity} from "../entities/userPosition.entity";
 
 @Injectable({ scope: Scope.REQUEST })
 export class JobService {

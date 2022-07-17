@@ -57,15 +57,15 @@ export class CvCertificateService {
             content: data.content,
         };
 
-        if (data.certificate) {
-            const tGlobal = await this.certificateService.isApprove(data.certificate);
-            if (!tGlobal) {
-                const tOwner = await this.certificateService.isOwner(data.certificate);
-                if (!tOwner) {
-                    throw new ForbiddenException();
-                }
-            }
-        }
+        // if (data.certificate) {
+        //     const tGlobal = await this.certificateService.isApprove(data.certificate);
+        //     if (!tGlobal) {
+        //         const tOwner = await this.certificateService.isOwner(data.certificate);
+        //         if (!tOwner) {
+        //             throw new ForbiddenException();
+        //         }
+        //     }
+        // }
 
         if (data.id) {
             const cv = await this.cvCertificateRepository.findOne({

@@ -106,6 +106,7 @@ export class Job extends BaseTable {
   jobApplySelf: number;
   jobSavedSelf: number;
   jobViewLogCount: number;
+  jobUniqueViewLogCount: number;
   pointPosition: number;
   pointSkill: number;
   pointCertificate: number;

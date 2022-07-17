@@ -24,7 +24,14 @@
       <span *ngIf="job.salaryMin">{{ job.salaryMin | currency: 'VND' }}<span class="tw-mx-1">-</span></span>
       <span *ngIf="job.salaryMax">{{ job.salaryMax | currency: 'VND' }}</span>
     </div>
-    <div class="tw-text-[12px] tw-mt-2 tw-font-thin">
+    <div class="tw-text-[12px] tw-mt-2 tw-font-thin tw-flex tw-items-center">
+      <ng-container *ngIf="hasViewCount">
+        <span class="tw-inline-block tw-flex tw-gap-1 tw-items-center" [matTooltip]="'Số lượt xem'">
+          <mat-icon class="!tw-text-textColor !tw-text-[12px] !tw-w-[unset] !tw-h-[unset]">visibility</mat-icon>
+          {{job.jobViewLogCount}}
+        </span>
+        <i class="tw-w-[4px] tw-h-[4px] tw-inline-block tw-bg-textColor tw-rounded-full tw-mx-1"></i>
+      </ng-container>
       <span>
         {{job.updatedAt | dateFromNow}}
       </span>

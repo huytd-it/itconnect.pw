@@ -83,6 +83,14 @@ const routes: Routes = [
         }
       },
       {
+        path: 'job-apply-company',
+        loadChildren: () => import('./job-apply-company/job-apply-company.module').then(m => m.JobApplyCompanyModule),
+        canActivate: [PermissionGuard],
+        data: {
+          permission: AppPermission.JOB_CE
+        }
+      },
+      {
         path: '**', component: RedirectComponent
       }
     ]

@@ -28,8 +28,22 @@
     <app-full-filter (onSearch)="onSearch(); expandFilter = false"></app-full-filter>
   </div>
   <div class="tw-mx-3 tw-border-t tw-w-full tw-max-w-[1000px]">
-    <div class="tw-p-3 tw-text-[11px] tw-text-[#888]" *ngIf="data">
-      {{data.meta.itemCount}} thành viên qua tìm kiếm
+    <div class="tw-p-3 tw-flex tw-justify-between tw-shadow-sm tw-items-center tw-justify-between" *ngIf="data">
+      <span *ngIf="!filters.miniSearch"></span>
+      <span
+        *ngIf="!!filters.miniSearch"
+        class="tw-py-1 tw-px-2 tw-bg-sky-600 tw-text-white tw-rounded tw-text-[11px] tw-flex tw-items-center tw-justify-between tw-cursor-pointer"
+        [matTooltip]="'Xóa filter này'"
+        (click)="deleteMiniFilter()"
+      >
+        Đang tìm kiếm với {{filters.miniSearch.name}} '{{filters.miniSearch.value}}'
+        <div class="tw-ml-2 tw-rounded-full tw-bg-sky-700 tw-w-[18px] tw-h-[18px] tw-text-center tw-leading-[18px]">
+          x
+        </div>
+      </span>
+      <span class="tw-text-[11px] tw-text-[#888]">
+        {{data.meta.itemCount}} thành viên qua tìm kiếm
+      </span>
     </div>
     <div
       #containerList

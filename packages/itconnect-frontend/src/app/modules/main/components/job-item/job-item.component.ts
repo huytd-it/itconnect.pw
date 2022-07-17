@@ -13,6 +13,10 @@ export class JobItemComponent implements OnInit {
   @Input() showButton: boolean;
   @Output() clickButton = new EventEmitter<Job>();
 
+  get hasViewCount() {
+    return typeof this.job.jobViewLogCount != 'undefined' && this.job.jobViewLogCount != null;
+  }
+
   constructor() { }
 
   ngOnInit(): void {

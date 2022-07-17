@@ -67,20 +67,26 @@
             class="tw-p-2 tw-mt-1 tw-border-red-400 tw-text-red-400 tw-text-[12px]"
             *ngIf="item.status === JobApplyStatus.RequestDenide"
           >
-            Từ chối
+            Từ chối liên kết
           </div>
           <div
             class="tw-p-2 tw-mt-1 tw-border-gray-400 tw-text-gray-400 tw-text-[12px]"
             *ngIf="item.status === JobApplyStatus.RequestAccept"
           >
-            Đã tham gia
+            Đã liên kết
+          </div>
+          <div
+            class="tw-p-2 tw-mt-1 tw-border-gray-400 tw-text-green-400 tw-text-[12px]"
+            *ngIf="item.status === JobApplyStatus.RequestInterview"
+          >
+            Được mời tham gia phỏng vấn
           </div>
           <div bottom class="tw-mt-2 tw-ml-[-20px]" *ngIf="item.status === JobApplyStatus.RequestJoin">
             <button
               mat-button
               type="button"
               (click)="onAccept(item); $event.stopPropagation()"
-              [matTooltip]="'Chấp nhận tham gia công ty'"
+              [matTooltip]="'Chấp nhận liên kết'"
             >
               <mat-icon class="!tw-text-[20px] tw-text-green-500">done</mat-icon>
             </button>
@@ -88,7 +94,7 @@
               mat-button
               type="button"
               (click)="onDenide(item); $event.stopPropagation()"
-              [matTooltip]="'Từ chối tham gia công ty'"
+              [matTooltip]="'Từ chối liên kết'"
               class="!tw-w-auto !tw-p-0 !tw-min-w-auto"
             >
               <mat-icon class="!tw-text-[20px] tw-text-red-500">close</mat-icon>

@@ -37,6 +37,10 @@ export class PositionSearchInputDto {
     )
     @Type(() => Number)
     approve: Approve = Approve.Both;
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    all: string;
 }
 
 export class PositionCreateDto {

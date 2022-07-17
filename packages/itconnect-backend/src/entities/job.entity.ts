@@ -90,6 +90,10 @@ export class JobEntity {
     jobViewLogs: JobViewLogEntity[];
     jobViewLogCount: number;
 
+    @OneToMany(type => JobViewLogEntity, db => db.job)
+    jobUniqueViewLogs: JobViewLogEntity[];
+    jobUniqueViewLogCount: number;
+
     @ManyToOne(type => JobTypeEntity)
     jobType: JobTypeEntity;
 

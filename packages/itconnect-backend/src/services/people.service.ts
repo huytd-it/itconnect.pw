@@ -1,11 +1,10 @@
-import {BadRequestException, ForbiddenException, Inject, Injectable, Logger, Request, Scope} from '@nestjs/common';
-import {DataSource, DeepPartial, In, LessThanOrEqual, Like, MoreThanOrEqual, Not, Repository} from "typeorm";
+import {Inject, Injectable, Request, Scope} from '@nestjs/common';
+import {DataSource, In, Like, MoreThanOrEqual, Not, Repository} from "typeorm";
 import {InjectRepository} from "@nestjs/typeorm";
 import {UserPositionEntity} from "../entities/userPosition.entity";
 import {UserSkillEntity} from "../entities/userSkill.entity";
 import {UserSchoolEntity} from "../entities/userSchool.entity";
 import {UserCertificateEntity} from "../entities/userCertificate.entity";
-import {Id, queryExists, queryExistsMulti} from "../utils/function";
 import {REQUEST} from "@nestjs/core";
 import {CompanyTagEntity} from "../entities/companyTag.entity";
 import {PageDto, PageMetaDto, PageOptionsDto} from "../dtos/page.dto";
@@ -17,12 +16,7 @@ import {UserEntity} from "../entities/user.entity";
 import {UserInfoEntity} from "../entities/userInfo.entity";
 import {PeopleSearchBodyInputDto, PeopleSearchQueryInputDto} from "../dtos/people.dto";
 import {CvWorkExperienceEntity} from "../entities/cvWorkExperience.entity";
-import {CvEducationService} from "./cv-education.service";
 import {CvEducationEntity} from "../entities/cvEducation.entity";
-import {JobSearchBodyInputDto, JobSearchQueryInputDto} from "../dtos/job.dto";
-import {DateUtils} from "typeorm/util/DateUtils";
-import * as moment from "moment";
-import {JobStatus} from "../entities/job.entity";
 import {AppRole} from "../polices/permission.enum";
 
 @Injectable({ scope: Scope.REQUEST })
@@ -78,7 +72,7 @@ export class PeopleService {
             return `(
                 \`${field}\`.\`name\` like :prm_name_${field}_${index} and
                 ${lv} <= :prm_max_${field}_${index} and
-                :prm_min_${field}_${index} <= ${lv}
+                :prm_min_${field}_${index} >= ${lv}
             )`
         }).join(' or ');
         const params = data.reduce((val, item, index) => {
@@ -95,7 +89,7 @@ export class PeopleService {
         const qr = this.userRepository.createQueryBuilder('user');
         qr.innerJoinAndSelect('user.userInfo', 'userInfo')
         qr.andWhere({
-            role: Not(AppRole.ban)
+            role: Not(In([AppRole.begin, AppRole.ban]))
         })
 
         // user job level, map id
@@ -144,6 +138,7 @@ export class PeopleService {
             const s = this.makeCondSearchOverlap('position', 'userPositions', body.position);
             qr.innerJoinAndSelect('user.userPositions',  'userPositions');
             qr.innerJoinAndSelect('userPositions.position', 'position', s.cond, s.params);
+            console.log(qr.getQuery())
         } else {
             qr.leftJoinAndSelect('user.userPositions',  'userPositions');
             qr.leftJoinAndSelect('userPositions.position', 'position');
@@ -202,11 +197,16 @@ export class PeopleService {
 
         // page
         if (query.search) {
-            qr.andWhere({
-                userInfo: {
-                    fullName: Like(`%${query.search}%`)
+            qr.andWhere([
+                {
+                    userInfo: {
+                        fullName: Like(`%${query.search}%`)
+                    }
+                },
+                {
+                    email: Like(`%${query.search}%`)
                 }
-            })
+            ])
         }
 
         if (page.order_field && page.order) {

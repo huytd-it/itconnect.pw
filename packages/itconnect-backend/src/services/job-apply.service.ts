@@ -105,7 +105,7 @@ export class JobApplyService {
         if (search.search) {
             let whereClause = '(job.name like :param_search)';
             if (this.user.role === AppRole.company) {
-                whereClause += ' or (user.fullName like :param_search)';
+                whereClause += ' or (userInfo.fullName like :param_search)';
             }
             qr.andWhere(`(${whereClause})`, {
                 'param_search': `%${search.search}%`

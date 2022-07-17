@@ -37,8 +37,12 @@ export class PositionEntity {
     userPositionCount: number;
 
     @OneToMany(type => JobPositionEntity, db => db.position)
-    jobPositions: UserPositionEntity[]
+    jobPositions: JobPositionEntity[]
     jobPositionCount: number;
+
+    @OneToMany(type => JobPositionEntity, db => db.position)
+    jobActivePositions: JobPositionEntity[]
+    jobActivePositionCount: number;
 
     @OneToMany(type => UserTaggedPositionEntity, db => db.position)
     userTaggedPositions: UserTaggedPositionEntity[]

@@ -50,10 +50,16 @@ export class JobsComponent implements OnInit {
         permission: AppPermission.JOB_APPLY
       },
       {
-        name: "Công việc yêu thích",
+        name: "Công việc quan tâm",
         class: 'folder_special',
         link: '/u/jobs/saved',
         permission: AppPermission.JOB_SAVED
+      },
+      {
+        name: "Cá nhân ứng tuyển",
+        class: 'medical_information',
+        link: '/u/jobs/job-apply-company',
+        permission: AppPermission.JOB_CE
       },
       {
         name: "Công việc đã đăng",

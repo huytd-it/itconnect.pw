@@ -5,6 +5,7 @@ import {User} from "./user.model";
 export enum JobApplyStatus {
   Waiting = 'waiting', // for user
   Denide = 'denide', // for company
+  RequestInterview = 'request_interview', // for company
   RequestJoin = 'request_join', // for company
   RequestDenide = 'request_denide', // for user
   RequestAccept = 'request_accept', // for user
