@@ -2,6 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {User, UserInfo} from "../../../../models/user.model";
 import {PeopleService} from "../../../../services/people.service";
 import {AppRole} from "../../../../models/permission.model";
+import {ScriptService} from "../../../../services/script.service";
+import {PdfService} from "../../../../services/pdf.service";
 
 @Component({
   selector: 'app-people-item',
@@ -21,13 +23,19 @@ export class PeopleItemComponent implements OnInit {
   };
 
   constructor(
-    private peopleService: PeopleService
-  ) { }
+    private peopleService: PeopleService,
+    private pdfService: PdfService
+  ) {
+  }
 
   ngOnInit(): void {
   }
 
   getYoe(item: UserInfo) {
     return this.peopleService.getYoe(item);
+  }
+
+  printPdf() {
+    this.pdfService.generatePdf(this.user);
   }
 }

@@ -40,5 +40,10 @@
       <ng-content select="[bottom]"></ng-content>
     </div>
     <ng-content></ng-content>
+    <div>
+      <button mat-button matTooltip="Xem PDF" (click)="printPdf(); $event.stopPropagation()">
+        <mat-icon>picture_as_pdf</mat-icon>
+      </button>
+    </div>
   </div>
 </div>
