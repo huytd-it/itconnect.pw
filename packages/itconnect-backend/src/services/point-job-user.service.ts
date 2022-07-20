@@ -131,7 +131,7 @@ export class PointJobUserService {
                 })
             }
             if (search.search) {
-                qr.andWhere(`user.fullName like :prm_search`, {
+                qr.andWhere(`userInfo.fullName like :prm_search`, {
                     prm_search: search.search
                 })
             }
