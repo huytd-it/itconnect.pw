@@ -7,7 +7,7 @@ import {MatButtonModule} from "@angular/material/button";
 import { PointCfItemComponent } from './point-cf-item/point-cf-item.component';
 import {CommonComponentsModule} from "../../../../components/common-components.module";
 import {MatIconModule} from "@angular/material/icon";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -15,13 +15,14 @@ import {ReactiveFormsModule} from "@angular/forms";
     ConfigCommonComponent,
     PointCfItemComponent
   ],
-  imports: [
-    CommonModule,
-    ConfigCommonRoutingModule,
-    MatButtonModule,
-    CommonComponentsModule,
-    MatIconModule,
-    ReactiveFormsModule
-  ]
+    imports: [
+        CommonModule,
+        ConfigCommonRoutingModule,
+        MatButtonModule,
+        CommonComponentsModule,
+        MatIconModule,
+        ReactiveFormsModule,
+        FormsModule
+    ]
 })
 export class ConfigCommonModule { }

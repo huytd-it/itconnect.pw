@@ -15,6 +15,7 @@ import {UserSkillEntity} from "../entities/userSkill.entity";
 import {JobPositionEntity} from "../entities/jobPosition.entity";
 import {JobStatus} from "../entities/job.entity";
 import * as moment from "moment";
+import {PointConfigService} from "./point-config.service";
 
 @Injectable({ scope: Scope.REQUEST })
 export class SkillService {
@@ -24,7 +25,8 @@ export class SkillService {
         private skillRepository: Repository<SkillEntity>,
         @InjectRepository(UserTaggedSkillEntity)
         private userTaggedSkillRepository: Repository<UserTaggedSkillEntity>,
-        @Inject(REQUEST) private request: Request
+        @Inject(REQUEST) private request: Request,
+        private pointConfigService: PointConfigService
     ) {
     }
 
@@ -61,9 +63,12 @@ export class SkillService {
         }
         query.where(whereClause);
 
+        const config = await this.pointConfigService.getConfig();
+        const allowAll = config.allow_tagged.point > 0;
+
         // owner tag
         const currentUser = this.request['user'] as UserEntity;
-        if (hasUserTagged(currentUser) && !whereClause.isApprove) {
+        if (hasUserTagged(currentUser) && !whereClause.isApprove && !allowAll) {
             const userTagged = await this.userTaggedSkillRepository.find({
                 where: {
                     user: {

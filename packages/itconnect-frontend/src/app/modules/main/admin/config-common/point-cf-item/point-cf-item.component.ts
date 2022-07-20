@@ -15,7 +15,7 @@ export class PointCfItemComponent implements OnInit, OnChanges {
   form: FormGroup
 
   get name() {
-    return PointConfigName[this.type]
+    return (<any>PointConfigName)[this.type]
   }
 
   constructor(
@@ -43,7 +43,7 @@ export class PointCfItemComponent implements OnInit, OnChanges {
   }
 
   private load() {
-    const cf = PointConfigKL[this.type];
+    const cf = (<any>PointConfigKL)[this.type];
     if (cf.p1) {
       this.form.controls['point'].enable();
     } else {

@@ -15,6 +15,7 @@ import {hasUserTagged} from "../polices/permission.enum";
 import {UserSchoolEntity} from "../entities/userSchool.entity";
 import {JobSchoolEntity} from "../entities/jobSchool.entity";
 import {CvEducationEntity} from "../entities/cvEducation.entity";
+import {PointConfigService} from "./point-config.service";
 
 @Injectable({ scope: Scope.REQUEST })
 export class SchoolService {
@@ -24,7 +25,8 @@ export class SchoolService {
         private schoolRepository: Repository<SchoolEntity>,
         @InjectRepository(UserTaggedSchoolEntity)
         private userTaggedSchoolRepository: Repository<UserTaggedSchoolEntity>,
-        @Inject(REQUEST) private request: Request
+        @Inject(REQUEST) private request: Request,
+        private pointConfigService: PointConfigService
     ) {
     }
 
@@ -61,9 +63,12 @@ export class SchoolService {
         }
         query.where(whereClause);
 
+        const config = await this.pointConfigService.getConfig();
+        const allowAll = config.allow_tagged.point > 0;
+
         // owner tag
         const currentUser = this.request['user'] as UserEntity;
-        if (hasUserTagged(currentUser) && !whereClause.isApprove) {
+        if (hasUserTagged(currentUser) && !whereClause.isApprove && !allowAll) {
             const userTagged = await this.userTaggedSchoolRepository.find({
                 where: {
                     user: {

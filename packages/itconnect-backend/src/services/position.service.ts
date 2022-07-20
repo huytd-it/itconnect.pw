@@ -14,6 +14,7 @@ import {UserPositionEntity} from "../entities/userPosition.entity";
 import {JobPositionEntity} from "../entities/jobPosition.entity";
 import {JobEntity, JobStatus} from "../entities/job.entity";
 import * as moment from "moment";
+import {PointConfigService} from "./point-config.service";
 
 @Injectable({ scope: Scope.REQUEST })
 export class PositionService {
@@ -23,7 +24,8 @@ export class PositionService {
         private positionRepository: Repository<PositionEntity>,
         @InjectRepository(UserTaggedPositionEntity)
         private userTaggedPositionRepository: Repository<UserTaggedPositionEntity>,
-        @Inject(REQUEST) private request: Request
+        @Inject(REQUEST) private request: Request,
+        private pointConfigService: PointConfigService
     ) {
     }
 
@@ -59,6 +61,11 @@ export class PositionService {
             whereClause.isApprove = dtoSearch.approve == Approve.True;
         }
         query.andWhere(whereClause);
+
+        const config = await this.pointConfigService.getConfig();
+        if (config.allow_tagged.point) {
+            dtoSearch.all = 'true'
+        }
 
         // owner tag
         const currentUser = this.request['user'] as UserEntity;

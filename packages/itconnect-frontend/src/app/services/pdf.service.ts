@@ -31,6 +31,7 @@ export class PdfService {
     const ui = user.userInfo;
     return {
       content: [
+        // header
         {
           table: {
             widths: ['*', 100],
@@ -126,6 +127,10 @@ export class PdfService {
         fontSize: 11,
       }
     }
+  }
+
+  getSkill(user: UserInfo) {
+    return null;
   }
 
   getStyles() {

@@ -61,8 +61,15 @@
       >
         <app-chart [jobId]="data.id"></app-chart>
       </app-easy-card>
+
+      <app-easy-card
+        class="tw-mt-10"
+        [label]="'Thông tin'"
+        [icon]="'info'"
+      >
+        <app-view [jobId]="data?.id || 0"></app-view>
+      </app-easy-card>
     </div>
-    <app-create [idShow]="data?.id || 0"></app-create>
   </mat-tab>
   <mat-tab label="Ứng viên"></mat-tab>
   <mat-tab label="Gợi ý"></mat-tab>

@@ -8,6 +8,28 @@
   </button>
 </div>
 
+<div class="tw-p-3 tw-border-b">
+  <button
+    [disabled]="appService.headLoading$ | async"
+    mat-stroked-button
+    (click)="saveAllowTagged()"
+  >
+    {{
+      allowTagged ? 'Đã công khai tất cả thẻ' : 'Các thẻ cần phê duyệt để hiển thị công khai'
+    }}
+  </button>
+</div>
+
+<div class="tw-p-3 tw-border-b tw-flex tw-gap-3 tw-items-center">
+  <mat-form-field appearance="outline" class="tw-w-full sm:tw-w-[300px]">
+    <mat-label>Giới hạn số lượng gợi ý: (0 - không giới hạn)</mat-label>
+    <input matInput appNumberOnly [min]="0" [(ngModel)]="limitSuggest">
+  </mat-form-field>
+  <button mat-stroked-button color="primary" class="!tw-h-[52px] !tw-mt-[-20px]"
+          [disabled]="appService.headLoading$ | async" (click)="saveLimitSuggest()">
+    <mat-icon>done</mat-icon>
+  </button>
+</div>
 
 <div class="tw-p-3">
   <app-easy-card [icon]="'settings'" [label]="'Cấu hình hệ số mapping'">

@@ -1,0 +1,114 @@
+<ng-container *ngIf="job">
+  <div class="tw-mb-4 tw-border-b tw-border-dashed tw-pb-2">
+    <div class="tw-font-medium">Vị trí</div>
+    <div class="tw-mt-2 tw-flex tw-items-center tw-gap-1">
+      <div class="tw-border tw-p-2 tw-inline-block">
+        {{job.jobPositions?.[0]?.position?.name}}
+      </div>
+      yêu cầu điểm <b>{{job.jobPositions?.[0]?.levelMin}}</b> đến <b>{{job.jobPositions?.[0]?.levelMax}}</b>
+    </div>
+    <div class="tw-mt-2 tw-text-[12px]">
+      (Hệ số <b>{{job.pointPosition}}</b>)
+    </div>
+  </div>
+  <div class="tw-mb-5 tw-border-b tw-border-dashed tw-pb-2" *ngIf="job.jobSkills?.length">
+    <div class="tw-font-medium">Kỹ năng</div>
+    <div class="tw-flex tw-gap-5 tw-flex-wrap">
+      <div class="tw-mt-2 tw-flex tw-items-center tw-gap-1" *ngFor="let jobSkill of job.jobSkills || []">
+        <div class="tw-border tw-p-2 tw-inline-block">
+          {{jobSkill?.skill?.name}}
+        </div>
+        yêu cầu điểm <b>{{jobSkill?.levelMin}}</b> đến <b>{{jobSkill?.levelMax}}</b>
+      </div>
+    </div>
+    <div class="tw-mt-2 tw-text-[12px]">
+      (Hệ số <b>{{job.pointSkill}}</b>)
+    </div>
+  </div>
+
+  <div class="tw-mb-5 tw-border-b tw-border-dashed tw-pb-2" *ngIf="job.jobCertificates?.length">
+    <div class="tw-font-medium">Văn bằng</div>
+    <div class="tw-flex tw-gap-5 tw-flex-wrap">
+      <div class="tw-mt-2 tw-flex tw-items-center tw-gap-1" *ngFor="let jobCertificate of job.jobCertificates || []">
+        <div class="tw-border tw-p-2 tw-inline-block">
+          {{jobCertificate?.certificate?.name}}
+        </div>
+        yêu cầu điểm <b>{{jobCertificate?.levelMin}}</b> đến <b>{{jobCertificate?.levelMax}}</b>
+      </div>
+    </div>
+    <div class="tw-mt-2 tw-text-[12px]">
+      (Hệ số <b>{{job.pointCertificate}}</b>)
+    </div>
+  </div>
+
+  <div class="tw-mb-5 tw-border-b tw-border-dashed tw-pb-2" *ngIf="job.jobSchools?.length">
+    <div class="tw-font-medium">Văn bằng</div>
+    <div class="tw-flex tw-gap-5 tw-flex-wrap">
+      <div class="tw-mt-2 tw-flex tw-items-center tw-gap-1" *ngFor="let jobSchool of job.jobSchools || []">
+        <div class="tw-border tw-p-2 tw-inline-block">
+          {{jobSchool?.school?.name}}
+        </div>
+      </div>
+    </div>
+    <div class="tw-mt-2 tw-text-[12px]">
+      (Hệ số <b>{{job.pointSchool}}</b>)
+    </div>
+  </div>
+
+  <div class="tw-mb-5 tw-border-b tw-border-dashed tw-pb-2" *ngIf="job.jobJobLevels?.length">
+    <div class="tw-font-medium">Trình độ công việc</div>
+    <div class="tw-flex tw-gap-5 tw-flex-wrap">
+      <div class="tw-mt-2 tw-flex tw-items-center tw-gap-1" *ngFor="let jobJobLevel of job.jobJobLevels || []">
+        <div class="tw-border tw-p-2 tw-inline-block">
+          {{jobJobLevel?.jobLevel?.name}}
+        </div>
+      </div>
+    </div>
+    <div class="tw-mt-2 tw-text-[12px]">
+      (Hệ số <b>{{job.pointLevelJob}}</b>)
+    </div>
+  </div>
+
+  <div class="tw-mb-5 tw-border-b tw-border-dashed tw-pb-2" *ngIf="job.jobWorkFrom?.length">
+    <div class="tw-font-medium">Hình thức làm việc</div>
+    <div class="tw-flex tw-gap-5 tw-flex-wrap">
+      <div class="tw-mt-2 tw-flex tw-items-center tw-gap-1" *ngFor="let jobWorkFrom of job.jobWorkFrom || []">
+        <div class="tw-border tw-p-2 tw-inline-block">
+          {{jobWorkFrom?.workFrom?.name}}
+        </div>
+      </div>
+    </div>
+    <div class="tw-mt-2 tw-text-[12px]">
+      (Hệ số <b>{{job.pointWorkFrom}}</b>)
+    </div>
+  </div>
+
+  <div class="tw-mb-5 tw-border-b tw-border-dashed tw-pb-2" *ngIf="job.jobType">
+    <div class="tw-font-medium">Loại công việc</div>
+    <div class="tw-mt-2 tw-flex tw-items-center tw-gap-1">
+      {{job.jobType.name}}
+    </div>
+    <div class="tw-mt-2 tw-text-[12px]">
+      (Hệ số <b>{{job.pointLevelType}}</b>)
+    </div>
+  </div>
+
+  <div class="tw-mb-5 tw-border-b tw-border-dashed tw-pb-2" *ngIf="job.descriptionContent">
+    <div class="tw-font-medium">Giới thiệu công việc</div>
+    <div class="tw-mt-2" [innerHTML]="job.descriptionContent | sanitizeHtml">
+    </div>
+  </div>
+
+  <div class="tw-mb-5 tw-border-b tw-border-dashed tw-pb-2" *ngIf="job.requirementContent">
+    <div class="tw-font-medium">Yêu cầu & kinh nghiệm</div>
+    <div class="tw-mt-2" [innerHTML]="job.requirementContent | sanitizeHtml">
+    </div>
+  </div>
+
+  <div class="tw-mb-5 tw-border-b tw-border-dashed tw-pb-2" *ngIf="job.reasonContent">
+    <div class="tw-font-medium">Lý do chọn</div>
+    <div class="tw-mt-2" [innerHTML]="job.reasonContent | sanitizeHtml">
+    </div>
+  </div>
+
+</ng-container>

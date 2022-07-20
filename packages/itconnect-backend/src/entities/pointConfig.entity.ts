@@ -9,6 +9,8 @@ export enum PointConfigType {
     JobLevel = 'jobLevel',
     JobType = 'jobType',
     Yoe = 'yoe',
+    AllowTagged = 'allow_tagged',
+    LimitSuggest = 'limit_suggest'
 }
 
 export const POINT_DEFAULT = 50;

@@ -108,7 +108,7 @@
       [disabled]="data.jobApplySelf > 0 || (appService.headLoading$ | async)"
       (click)="apply()"
     >
-      {{data.jobApplySelf > 0 ? 'Bạn đã ứng tuyển' : 'Ứng tuyển'}}
+      {{data.jobApplySelf > 0 ? 'Đã ứng tuyển' : 'Ứng tuyển'}}
     </button>
     <button
       *ngIf="AppPermission.JOB_SAVED | permission"
@@ -116,7 +116,7 @@
       class="!tw-ml-3"
       (click)="save()"
     >
-      {{ data.jobSavedSelf > 0 ? 'Hủy lưu' : 'Lưu' }}
+      {{ data.jobSavedSelf > 0 ? 'Đã lưu' : 'Lưu' }}
     </button>
   </div>
 

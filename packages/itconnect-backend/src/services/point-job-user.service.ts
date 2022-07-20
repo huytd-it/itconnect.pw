@@ -173,9 +173,9 @@ export class PointJobUserService {
             totalJob = await this.countJobCanMapping(queryRunner, user);
 
             // compute per page
+            let pointInserts: DeepPartial<PointJobUserEntity>[] = [];
             while (currentIndex < totalJob) {
                 let jobs = await this.getJobCanMapping(queryRunner, user, currentIndex, jobTake);
-                let pointInserts: DeepPartial<PointJobUserEntity>[] = [];
 
                 for (let job of jobs) {
                     // console.log(util.inspect(job, false, null, true /* enable colors */))
@@ -184,12 +184,19 @@ export class PointJobUserService {
                     pointInserts.push(point);
                 }
 
-                // insert
-                await this.upsertPoint(queryRunner, pointInserts);
-
                 // next page
                 currentIndex += jobTake;
             }
+
+            // insert
+            pointInserts = pointInserts.sort((a, b) => b.pointTotal - a.pointTotal);
+            if (this.pointConfig.limit_suggest.point > 0) {
+                logger.log(`limit suggest ${this.pointConfig.limit_suggest.point}`);
+                pointInserts = pointInserts.slice(0, this.pointConfig.limit_suggest.point);
+            }
+            pointInserts = pointInserts.filter(a => a.pointTotal > 0);
+            await this.upsertPoint(queryRunner, pointInserts);
+
             await queryRunner.commitTransaction();
         } catch (e) {
             console.log(e);
@@ -222,9 +229,9 @@ export class PointJobUserService {
             // console.log(totalUser);
 
             // compute per page
+            let pointInserts: DeepPartial<PointJobUserEntity>[] = [];
             while (currentIndex < totalUser) {
                 let users = await this.getUserCanMapping(queryRunner, job, currentIndex, userTake);
-                let pointInserts: DeepPartial<PointJobUserEntity>[] = [];
 
                 for (let user of users) {
                     // console.log(util.inspect(user, false, null, true /* enable colors */))
@@ -233,12 +240,18 @@ export class PointJobUserService {
                     pointInserts.push(point);
                 }
 
-                // insert
-                await this.upsertPoint(queryRunner, pointInserts);
-
                 // next page
                 currentIndex += userTake;
             }
+
+            // insert
+            pointInserts = pointInserts.sort((a, b) => b.pointTotal - a.pointTotal);
+            if (this.pointConfig.limit_suggest.point > 0) {
+                logger.log(`limit suggest ${this.pointConfig.limit_suggest.point}`);
+                pointInserts = pointInserts.slice(0, this.pointConfig.limit_suggest.point);
+            }
+            pointInserts = pointInserts.filter(a => a.pointTotal > 0);
+            await this.upsertPoint(queryRunner, pointInserts);
 
             // update status to publish
             await queryRunner.manager.update(JobEntity, { id: jobId }, {

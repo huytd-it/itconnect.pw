@@ -12,12 +12,14 @@ import {NgSelectModule} from "@ng-select/ng-select";
 import {FormsModule} from "@angular/forms";
 import {CommonComponentsModule} from "../../../../components/common-components.module";
 import {CreateModule} from "../create/create.module";
+import { ViewComponent } from './view/view.component';
 
 
 @NgModule({
     declarations: [
         ManageComponent,
-        ChartComponent
+        ChartComponent,
+        ViewComponent
     ],
     exports: [
         ChartComponent
