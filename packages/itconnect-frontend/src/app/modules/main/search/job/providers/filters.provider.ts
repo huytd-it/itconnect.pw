@@ -65,15 +65,15 @@ export class FiltersProvider {
       value: 'job.updatedAt'
     },
     {
-      name: 'Số người ứng tuyển',
+      name: 'Số người xem',
       value: 'jobViewLogCount'
     },
     {
-      name: 'Số người xem',
+      name: 'Số người ứng tuyển',
       value: 'jobApplyCount'
     },
     {
-      name: 'Số người lưu',
+      name: 'Số người quan tâm',
       value: 'jobSavedCount'
     },
     {
