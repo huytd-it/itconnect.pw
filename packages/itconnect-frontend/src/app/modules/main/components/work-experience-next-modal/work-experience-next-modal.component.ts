@@ -188,25 +188,25 @@ export class WorkExperienceNextModalComponent implements OnInit {
     data.status = this.isVerify ? CvWorkExperienceStatus.WaitVerify : CvWorkExperienceStatus.NotVerify;
 
     this.appService.setHeadLoading(true);
-    const res = this.cvWorkExperienceService.createOrEdit(data);
+    let r: any = this.cvWorkExperienceService.createOrEdit(data);
 
     if (this.skillItems?.length || this.positionItems?.length) {
-      res.pipe(
+      r = r.pipe(
         mergeMap(res =>
           forkJoin([
             ...this.skillItems.map(skill => {
-              return this.cvWorkExperienceSkillService.createOrEdit({ cvWorkExperience: res.id, skill: skill.id })
+              return this.cvWorkExperienceSkillService.createOrEdit({ cvWorkExperience: (<any>res).id, skill: skill.id })
             }),
             ...this.positionItems.map(position => {
-              return this.cvWorkExperiencePositionService.createOrEdit({ cvWorkExperience: res.id, position: position.id })
+              return this.cvWorkExperiencePositionService.createOrEdit({ cvWorkExperience: (<any>res).id, position: position.id })
             })
           ])
         )
       );
     }
 
-    res.pipe(finalize(() => this.appService.setHeadLoading(false)))
-      .subscribe(data => {
+    r.pipe(finalize(() => this.appService.setHeadLoading(false)))
+      .subscribe((data: any) => {
         this.onClose({ reload: true } as any);
       })
   }

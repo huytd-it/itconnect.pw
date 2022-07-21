@@ -18,6 +18,9 @@ import {MatButtonModule} from "@angular/material/button";
   declarations: [
     JobApplyCompanyComponent
   ],
+  exports: [
+    JobApplyCompanyComponent
+  ],
   imports: [
     CommonModule,
     JobApplyCompanyRoutingModule,

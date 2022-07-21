@@ -14,26 +14,28 @@ import {MatButtonModule} from "@angular/material/button";
 import {CommonComponentsModule} from "../../../../../components/common-components.module";
 import {MainComponentsModule} from "../../../components/components.module";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {JobApplyCompanyModule} from "../../job-apply-company/job-apply-company.module";
 
 
 @NgModule({
   declarations: [
     ApplyComponent
   ],
-    imports: [
-        CommonModule,
-        ApplyRoutingModule,
-        MatFormFieldModule,
-        MatInputModule,
-        NgSelectModule,
-        MatIconModule,
-        FormsModule,
-        MatPaginatorModule,
-        UtilsModule,
-        MatButtonModule,
-        CommonComponentsModule,
-        MainComponentsModule,
-        MatTooltipModule
-    ]
+  imports: [
+    CommonModule,
+    ApplyRoutingModule,
+    MatFormFieldModule,
+    MatInputModule,
+    NgSelectModule,
+    MatIconModule,
+    FormsModule,
+    MatPaginatorModule,
+    UtilsModule,
+    MatButtonModule,
+    CommonComponentsModule,
+    MainComponentsModule,
+    MatTooltipModule,
+    JobApplyCompanyModule
+  ]
 })
 export class ApplyModule { }

@@ -13,6 +13,7 @@ import {UtilsModule} from "../../../../utils/utils.module";
 import {MatButtonModule} from "@angular/material/button";
 import {MainComponentsModule} from "../../components/components.module";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {JobApplyCompanyModule} from "../job-apply-company/job-apply-company.module";
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
         UtilsModule,
         MatButtonModule,
         MainComponentsModule,
-        MatTooltipModule
+        MatTooltipModule,
+        JobApplyCompanyModule
     ]
 })
 export class JobApplyModule { }

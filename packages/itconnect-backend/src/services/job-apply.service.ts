@@ -100,6 +100,14 @@ export class JobApplyService {
             qr.andWhere({
                 job: Id(search.jobId)
             })
+        } else {
+            if (this.user.role === AppRole.company) {
+                qr.andWhere({
+                    job: {
+                        user: this.user.id
+                    }
+                })
+            }
         }
 
         if (search.search) {
