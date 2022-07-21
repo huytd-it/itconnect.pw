@@ -6,6 +6,7 @@ import {Options} from "@angular-slider/ngx-slider";
 import {UserCertificate} from "./../../../../../models/user-certificate.model";
 import {UserCertificateService} from "./../../../../../services/user-certifiacte.service";
 import {finalize} from "rxjs";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-certificate-item',
@@ -30,7 +31,8 @@ export class CertificateItemComponent implements OnInit, OnChanges {
 
   constructor(
     private appService: AppService,
-    private userCertificateService: UserCertificateService
+    private userCertificateService: UserCertificateService,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
@@ -45,7 +47,7 @@ export class CertificateItemComponent implements OnInit, OnChanges {
 
   load() {
     this.appService.setHeadLoading(true);
-    this.userCertificateService.getByCertificateId(this.data.certificate.id)
+    this.userCertificateService.getByCertificateUId(this.data.certificate.id, this.route.snapshot.params['id'])
       .pipe(finalize(() => this.appService.setHeadLoading(false)))
       .subscribe(data => {
         this.userCertificate = data;

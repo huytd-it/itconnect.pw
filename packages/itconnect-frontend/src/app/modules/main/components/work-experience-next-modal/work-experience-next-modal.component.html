@@ -99,7 +99,6 @@
     <button mat-button (click)="onClose()">Đóng</button>
     <button
       mat-stroked-button
-      cdkFocusInitial
       color="primary"
       [disabled]="form.invalid || (appService.headLoading$ | async) || !hasChange"
       (click)="onSubmit()"

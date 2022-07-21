@@ -188,8 +188,10 @@ export class WorkExperienceNextModalComponent implements OnInit {
     data.status = this.isVerify ? CvWorkExperienceStatus.WaitVerify : CvWorkExperienceStatus.NotVerify;
 
     this.appService.setHeadLoading(true);
-    this.cvWorkExperienceService.createOrEdit(data)
-      .pipe(
+    const res = this.cvWorkExperienceService.createOrEdit(data);
+
+    if (this.skillItems?.length || this.positionItems?.length) {
+      res.pipe(
         mergeMap(res =>
           forkJoin([
             ...this.skillItems.map(skill => {
@@ -200,8 +202,10 @@ export class WorkExperienceNextModalComponent implements OnInit {
             })
           ])
         )
-      )
-      .pipe(finalize(() => this.appService.setHeadLoading(false)))
+      );
+    }
+
+    res.pipe(finalize(() => this.appService.setHeadLoading(false)))
       .subscribe(data => {
         this.onClose({ reload: true } as any);
       })

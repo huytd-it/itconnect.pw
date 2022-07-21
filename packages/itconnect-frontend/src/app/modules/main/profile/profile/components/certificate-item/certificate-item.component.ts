@@ -40,7 +40,6 @@ export class CertificateItemComponent implements OnInit, OnChanges {
     this.userCertificateService.getByCertificateId(this.data.certificate.id)
       .pipe(finalize(() => this.appService.setHeadLoading(false)))
       .subscribe(data => {
-        console.log(data);
         this.userCertificate = data;
       })
   }

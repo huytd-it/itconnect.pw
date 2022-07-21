@@ -41,3 +41,11 @@ export class UserCertificateGetByCertIdParamDto {
     @ApiProperty()
     certificateId: number;
 }
+
+export class UserCertificateGetByCertUIdParamDto {
+    @ApiProperty()
+    certificateId: number;
+
+    @ApiProperty()
+    userId: number;
+}

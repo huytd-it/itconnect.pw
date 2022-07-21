@@ -40,4 +40,9 @@ export class UserCertificateService {
     return this.httpClient.get<UserCertificate>(uri, httpOptions);
   }
 
+  getByCertificateUId(id: number, userId: number) {
+    const uri = `user-certificate/getByCertificateUId/${id}/${userId}`;
+    return this.httpClient.get<UserCertificate>(uri, httpOptions);
+  }
+
 }

@@ -8,7 +8,7 @@ import {
     CreateOrEditUserCertificateDto,
     DeleteUserCertificateParamDto,
     UserCertificateDto,
-    UserCertificateGetByCertIdParamDto
+    UserCertificateGetByCertIdParamDto, UserCertificateGetByCertUIdParamDto
 } from "../../dtos/user-certificate.dto";
 import {AppPermission} from "../../polices/permission.enum";
 
@@ -33,6 +33,16 @@ export class UserCertificateController {
         @Param() dto: UserCertificateGetByCertIdParamDto
     ) {
         return this.userCertificateService.getByCertificateId(dto.certificateId);
+    }
+
+    @UseGuards(PermissionsGuard)
+    @RequirePermissions(AppPermission.USER_CERTIFICATE_GET_BY_CERT_ID)
+    @ApiOkResponse({ type: UserCertificateDto })
+    @Get('getByCertificateUId/:certificateId/:userId')
+    getByCertificateUId(
+        @Param() dto: UserCertificateGetByCertUIdParamDto
+    ) {
+        return this.userCertificateService.getByCertificateUId(dto.certificateId, dto.userId);
     }
 
     @UseGuards(PermissionsGuard)
