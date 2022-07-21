@@ -12,7 +12,8 @@ import {AppService} from "../../../../../services/app.service";
 export class PointCfItemComponent implements OnInit, OnChanges {
   @Input() type: PointConfigType;
   isWaiting: boolean;
-  form: FormGroup
+  form: FormGroup;
+  hide: boolean;
 
   get name() {
     return (<any>PointConfigName)[this.type]
@@ -44,6 +45,11 @@ export class PointCfItemComponent implements OnInit, OnChanges {
 
   private load() {
     const cf = (<any>PointConfigKL)[this.type];
+    if (!cf) {
+      this.hide = true;
+      return
+    }
+
     if (cf.p1) {
       this.form.controls['point'].enable();
     } else {
